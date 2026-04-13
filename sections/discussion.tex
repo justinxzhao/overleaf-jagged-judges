@@ -1,0 +1,52 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Failure Modes and Limitations}
+
+We identify five potential failure modes of this study and describe our mitigations.
+
+\begin{table}[h]
+\centering
+\caption{Failure modes, their severity, and mitigation strategies.}
+\label{tab:failure-modes}
+\begin{tabular}{@{}cp{3.5cm}p{4cm}cp{3.5cm}@{}}
+\toprule
+\textbf{\#} & \textbf{Failure Mode} & \textbf{Why It's Bad} & \textbf{Likelihood} & \textbf{Hedge} \\
+\midrule
+F1 & Wiggle is trivially low across the board & The framework is measuring a non-issue. & Low & Pilot on 50 items before full commitment. Reframe around what \emph{breaks} consistency. \\
+\addlinespace
+F2 & Degradation curves don't separate by difficulty & The calibration diagnostic story collapses. & Medium & Validate difficulty stratification early. Shift to model-level signatures. \\
+\addlinespace
+F3 & All models look the same & The framework doesn't discriminate between models. & Low--Med & Include models with known behavioral differences. Pivot to ``surprising convergence.'' \\
+\addlinespace
+F4 & Correct-vs-wrong label persistence curves are identical & Cannot disambiguate sycophancy from rational updating. & Medium & Still reportable for individual models. Failure is only total if \emph{all} models behave this way. \\
+\addlinespace
+F5 & Random seed injection degrades judge performance & The prompt-sensitivity condition is confounded. & Low & Measure accuracy impact before committing. Revert to temp=0 only if degradation exceeds 2\%. \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The paper's deepest risk is F2: the degradation curves are the centerpiece, and their value depends on difficulty separation. Everything else is recoverable through reframing. This is why Experiment~1 runs first---if we do not see meaningful variation there, we pivot early.
+
+\subsection{Experiments We Are Not Running}
+
+Several natural extensions were considered and deliberately excluded:
+
+\begin{itemize}
+    \item \textbf{Full 2D conviction landscape} (intensity $\times$ persistence grid): Too expensive---5 pressure levels $\times$ 20 persistence turns $\times$ 5 models $\times$ 500+ items. The 1D slices (Experiments~2 and~3) capture the key phenomena.
+    \item \textbf{Cross-domain generalization} (SimpleQA, GSM8K): Would dilute the safety focus. Discussed as future work in Section~\ref{sec:future_work} with testable predictions.
+    \item \textbf{Infrastructure decomposition} (temp=0 repeatability analysis): Already covered by the Thinking Machines blog. We include temp=0 runs as a baseline in Experiment~1.
+    \item \textbf{Linear probe / logprob confidence}: Requires model internals access unavailable for all models. Verbalized confidence is noisier but universally applicable.
+    \item \textbf{Evaluation awareness as primary contribution}: Moved to Experiment~5 as optional to avoid competing with the growing alignment-faking literature.
+\end{itemize}
+
+\subsection{Practical Recommendations}
+
+Based on our findings, we offer the following guidance for practitioners deploying LLM-as-judge systems:
+
+\begin{enumerate}
+    \item \textbf{Measure all three axes.} A judge that repeats itself reliably can still be easily persuaded; a judge that resists persuasion can still be sensitive to framing.
+    \item \textbf{Use degradation curves for calibration diagnostics.} The shape of the curve---not just the final accuracy---reveals whether the judge is sycophantic (steep everywhere), stubborn (flat everywhere), or well-calibrated (difficulty-dependent).
+    \item \textbf{Check directional asymmetry for safety gates.} A judge that is more easily persuaded toward permissiveness is a greater safety risk than one biased toward restriction.
+    \item \textbf{Use persistence analysis to distinguish sycophancy from rational updating.} The correct-vs-wrong-label comparison is the critical diagnostic.
+\end{enumerate}

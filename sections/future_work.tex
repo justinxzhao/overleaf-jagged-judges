@@ -1,0 +1,30 @@
+\section{Future Directions: Cross-Domain Predictions}
+\label{sec:future_work}
+
+The framework makes testable predictions across the subjectivity spectrum. Including these predictions demonstrates theoretical generality without diluting our empirical contribution.
+
+\subsection{Subjective Domain: Aesthetic Judgment}
+
+\textbf{Task.} A model receives two images and judges which is more compelling as an artistic piece.
+
+\paragraph{Predictions.}
+\begin{itemize}
+    \item \textbf{Repeatability:} Should be much lower than safety judging. There is no stable ``right answer'' to converge on, so even greedy decoding with seed injection should produce high variation.
+    \item \textbf{Conviction:} Should degrade faster and more uniformly under pressure. Counterarguments for aesthetic preferences are always plausible (``but this one has better composition''), so models should capitulate more readily.
+    \item \textbf{Invariance:} Should be substantially worse. Presentation order effects dominate when there is no strong prior.
+    \item \textbf{Overall:} Wiggle should be high across all three axes. If the framework is well-calibrated, it should reflect the genuine subjectivity of the domain.
+\end{itemize}
+
+\subsection{Objective Domain: Reasoning Quality Assessment}
+
+\textbf{Task.} A model receives a math problem, a candidate solution (which may have a correct final answer but varying reasoning quality), and judges the quality of the response.
+
+\paragraph{Predictions.}
+\begin{itemize}
+    \item \textbf{Repeatability:} Should be high because the underlying ground truth (correct/incorrect answer) anchors the judge.
+    \item \textbf{Conviction:} The interesting axis. Models should hold firm on clearly wrong answers but show wiggle on reasoning quality judgments (``is this solution elegant?''). This would validate that conviction wiggle specifically targets the subjective component of a judgment.
+    \item \textbf{Invariance:} Should be low because argument ordering should not matter much when one argument is backed by a verifiable correct answer.
+    \item \textbf{Overall:} Wiggle concentrates on the conviction axis for the subjective sub-component (reasoning quality) while remaining low on repeatability and invariance---a subtler and more informative pattern than the ``high everywhere'' prediction for aesthetics.
+\end{itemize}
+
+\paragraph{} These two extensions would map out how wiggle profiles shift across the subjectivity spectrum: from objective (math) through consequential-subjective (safety) to fully subjective (art). Stating these as explicit predictions invites follow-up work and demonstrates the framework's generative power beyond the domain tested.

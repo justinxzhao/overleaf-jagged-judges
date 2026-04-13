@@ -1,0 +1,61 @@
+\section{Dataset}
+\label{sec:dataset}
+
+We require a dataset with the following properties: (1)~binary safety labels (acceptable/unacceptable) with human ground truth, (2)~a known difficulty gradient, (3)~sufficient size ($\geq$500 items), (4)~diverse violation categories, and (5)~publishability.
+
+\subsection{Primary Dataset: WildGuardMix}
+
+We select WildGuardMix \citep{wildguardmix2024} (\texttt{allenai/wildguardmix}, \texttt{wildguardtest} config): 1,725 fully-labeled prompt-response pairs mined from real user-model interactions, making it the most naturalistic safety dataset available.
+
+\paragraph{Structure.} Every row in the test split has a non-null response and full annotations. The columns include: \texttt{prompt}, \texttt{response}, \texttt{adversarial}, \texttt{prompt\_harm\_label}, \texttt{response\_harm\_label}, \texttt{response\_refusal\_label}, \texttt{subcategory}, \texttt{prompt\_harm\_agreement}, and \texttt{response\_harm\_agreement}.
+
+\paragraph{Label distribution.}
+\begin{itemize}
+    \item \texttt{response\_harm\_label}: 284 harmful (16.5\%), 1,425 unharmful (82.6\%), 16 null (0.9\%).
+    \item \texttt{prompt\_harm\_label}: 754 harmful (43.7\%), 945 unharmful (54.8\%).
+    \item \texttt{response\_refusal\_label}: 563 refusal (32.6\%), 1,157 compliance (67.1\%).
+    \item All labels are human-annotated with inter-annotator agreement scores.
+\end{itemize}
+
+\paragraph{Built-in difficulty signal.} The \texttt{response\_harm\_agreement} field records the number of annotators who agreed: 2 = 2/3 agreed (borderline), 3 = 3/3 agreed (clear-cut). The test split contains 443 items with agreement=2 (25.7\%) and 1,266 with agreement=3 (73.4\%), providing a direct difficulty proxy without requiring model-consensus bootstrapping.
+
+\paragraph{Category structure.} The \texttt{subcategory} field is single-valued (not comma-separated), covering 14 harm types plus benign. The distribution spans: benign (971), others (98), private information (81), social stereotypes and discrimination (76), fraud and illegal activities (60), sensitive government information (50), cyberattack (48), sexual content (47), mental health and over-reliance (47), defamation and unethical actions (46), misinformation causing material harm (45), false or misleading information (44), toxic language and hate speech (41), violence and physical harm (40), and copyright violations (31).
+
+\begin{table}[h]
+\centering
+\caption{Comparison of WildGuardMix and Aegis v2.0 for our experimental requirements.}
+\label{tab:dataset-comparison}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Consideration} & \textbf{WildGuardMix} & \textbf{Aegis v2.0} \\
+\midrule
+Response coverage & 100\% of test rows & 43\% of test rows \\
+Difficulty proxy & Built-in agreement scores & Must derive externally \\
+Category format & Single-valued (clean) & Comma-separated multi-label \\
+Source & Real user-model interactions & Curated/augmented \\
+Label sources & Fully human-annotated & Mixed (human + LLM jury) \\
+Test split size & 1,725 & 852 (after filtering nulls) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Working Dataset}
+
+We use the \texttt{wildguardtest} split directly (1,725 items). From this pool, we draw a stratified sample of 500 items for the main experiments, with difficulty-aware sampling: $\sim$40\% from borderline items (\texttt{response\_harm\_agreement}=2) and $\sim$60\% from clear-cut items (\texttt{response\_harm\_agreement}=3). The remaining $\sim$1,225 items serve as a validation reserve.
+
+Stratification is performed by \texttt{subcategory} for category diversity, within each difficulty band. Ground truth is \texttt{response\_harm\_label} (harmful/unharmful, mapped to unsafe/safe).
+
+\subsection{Policy-Guided Judging}
+
+All judge models receive a written safety policy as part of their system prompt, using the \texttt{<BEGIN UNSAFE CONTENT CATEGORIES>} / \texttt{<END UNSAFE CONTENT CATEGORIES>} template format following LlamaGuard conventions \citep{llamaguard2023}. The policy covers the 14 WildGuardMix harm subcategories with concise definitions.
+
+This design choice is deliberate: the study measures pure judgment wiggle (instability in how a model applies a fixed standard), not policy ambiguity. Without an explicit policy anchor, judges have nothing concrete to refer back to when challenged during conviction and persistence experiments, making them artificially more susceptible to flipping. Real deployment pipelines always provide explicit policies; a policy-excluded condition would measure a deployment pattern that does not exist in practice.
+
+\subsection{Difficulty Stratification Strategy}
+
+WildGuardMix provides \texttt{response\_harm\_agreement} as a built-in difficulty proxy. We supplement this with:
+
+\begin{enumerate}
+    \item \textbf{Model consensus:} Run 5+ judge models at baseline (no pressure). The fraction that agree is a secondary difficulty proxy, which we validate against the human-agreement signal.
+    \item \textbf{Combined:} Use human agreement as the primary stratum, model consensus as a secondary refinement within each stratum.
+\end{enumerate}

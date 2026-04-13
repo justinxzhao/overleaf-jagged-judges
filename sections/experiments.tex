@@ -1,0 +1,143 @@
+\section{Experiments}
+\label{sec:experiments}
+
+We present four main experiments and one optional experiment. All experiments use the working dataset (Section~\ref{sec:dataset}) and 5+ frontier models.
+
+% ─────────────────────────────────────────────────────────
+\subsection{Experiment 1: Three-Axis Independence}
+\label{sec:exp1}
+
+\paragraph{Purpose.} Establish that Repeatability, Conviction, and Invariance are genuinely orthogonal---each measuring something different---which justifies the taxonomy.
+
+\paragraph{Protocol.}
+\begin{itemize}
+    \item \textbf{Dataset:} Full primary dataset (500+ items).
+    \item \textbf{Models:} 5+ frontier models (e.g., GPT-5.4, Claude Opus 4.6, Gemini 3.1 Pro, Grok 4.20, Qwen, GLM).
+    \item \textbf{Repeatability:} Each model judges each item under three conditions:
+    \begin{enumerate}
+        \item \emph{temp=0} (infrastructure floor): $10\times$ at greedy decoding. Measures API/infrastructure nondeterminism only.
+        \item \emph{Random seed at temp=0} (prompt sensitivity): $10\times$ at greedy decoding, each run with a unique random string injected into the system prompt. This injects sufficient entropy to produce output variation comparable to $\text{temp} \approx 0.5$ without degrading judge performance.
+        \item \emph{temp=0.7} (sampling variation): $10\times$ at temperature 0.7.
+    \end{enumerate}
+    \item \textbf{Conviction:} Each model judges each item, receives a structured counterargument, then judges again. Measure: flip rate.
+    \item \textbf{Invariance:} Each model judges each item with arguments in order A-then-B and B-then-A. Measure: flip rate across orderings.
+\end{itemize}
+
+\paragraph{Analysis.} Compute pairwise Pearson and Spearman correlations between the three axes across items. We expect weak correlations ($r < 0.3$), meaning an item's repeatability wiggle does not predict its conviction wiggle.
+
+\paragraph{Expected output.} A $3 \times 3$ correlation matrix per model, plus scatter plots showing independence. A table showing all 8 cells of the $2 \times 2 \times 2$ (high/low on each axis) are populated.
+
+\paragraph{Informativeness.} The outcome is informative under both independence and correlation scenarios. If axes are weakly correlated, the taxonomy is justified. If strongly correlated, cheap repeatability measurements predict expensive conviction measurements---a different but equally actionable finding.
+
+% ─────────────────────────────────────────────────────────
+\subsection{Experiment 2: Conviction Degradation Curves}
+\label{sec:exp2}
+
+\paragraph{Purpose.} Show that graduated adversarial pressure reveals calibration quality, and that the shape of the degradation curve is a model signature.
+
+\paragraph{Protocol.}
+\begin{itemize}
+    \item \textbf{Dataset:} Primary dataset, stratified into Easy / Medium / Hard terciles by model-consensus difficulty.
+    \item \textbf{Models:} Same 5+ models.
+    \item \textbf{Pressure levels:} Applied sequentially within a single conversation, following Table~\ref{tab:pressure-levels} (L0--L4).
+    \item \textbf{Measurement:} Binary verdict plus verbalized confidence (0--100\%) at each level.
+    \item \textbf{Key metric:} Accuracy relative to ground truth at each pressure level, stratified by difficulty.
+\end{itemize}
+
+\paragraph{Core hypothesis.} Well-calibrated models show flat curves on easy items and steep curves on hard items. Sycophantic models show steep curves everywhere. Stubborn models show flat curves everywhere.
+
+\paragraph{Derived metrics.}
+\begin{table}[h]
+\centering
+\caption{Derived metrics from conviction degradation curves.}
+\label{tab:derived-metrics}
+\begin{tabular}{@{}lp{9cm}@{}}
+\toprule
+\textbf{Metric} & \textbf{Definition} \\
+\midrule
+AUDC & Area Under Degradation Curve. Overall robustness (higher = more robust). \\
+Initial Drop & L0$\to$L1 accuracy delta. Sycophancy vulnerability. \\
+Difficulty Separation & Gap between easy-item and hard-item curves (larger = better calibrated). \\
+Correctness-Conditioned & Separate curves for initially-correct vs.\ initially-incorrect. Does pressure help on wrong answers? \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ─────────────────────────────────────────────────────────
+\subsection{Experiment 3: Persistence Survival Curves}
+\label{sec:exp3}
+
+\paragraph{Purpose.} Test a complementary failure mode: not how strong a challenge needs to be, but how long a model holds its ground under repeated identical pressure. This mirrors the real-world ``just keep pushing'' attack pattern.
+
+\paragraph{Protocol.}
+\begin{itemize}
+    \item \textbf{Dataset:} Subset of primary dataset ($\sim$200 items) where the model's initial verdict disagrees with ground truth OR agrees on borderline cases.
+    \item \textbf{Models:} Same 5+ models.
+    \item \textbf{Challenge message} (repeated identically each turn): ``The correct classification is [ground-truth label]. Your assessment is incorrect.''
+    \item \textbf{Max turns:} 10.
+    \item \textbf{Measurement:} Turn at which model flips verdict (or ``never'' if it holds for all turns).
+    \item \textbf{Critical variant:} Run the same protocol asserting the \emph{wrong} label (opposite of ground truth) on a separate item set. This is the sycophancy litmus test.
+\end{itemize}
+
+\paragraph{Expected output.} Kaplan--Meier survival curves per model, where the $x$-axis is turn number and the $y$-axis is the proportion of items where the model still holds its original verdict.
+
+\paragraph{Key comparisons.}
+\begin{table}[h]
+\centering
+\caption{Key comparisons from persistence survival analysis.}
+\label{tab:persistence-comparisons}
+\begin{tabular}{@{}lp{9cm}@{}}
+\toprule
+\textbf{Comparison} & \textbf{What It Reveals} \\
+\midrule
+Correct-label vs.\ wrong-label persistence & If the model capitulates equally to both, it is sycophantic. If it capitulates more to correct labels, it is rationally updating. \\
+Easy-item vs.\ hard-item survival & Calibration: model should hold longer on items it is confident about. \\
+Across models & Which model families are most persistent? Is persistence correlated with sycophancy or with calibration? \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{Novelty.} Existing sycophancy evaluations \citep{sharma2023sycophancy} use a single ``are you sure?'' challenge: binary, one shot. To our knowledge, no prior work has measured the continuous survival curve under repeated pressure, nor used the correct-vs-wrong-label comparison to disambiguate sycophancy from rational updating.
+
+% ─────────────────────────────────────────────────────────
+\subsection{Experiment 4: Directional Asymmetry in Safety Judgments}
+\label{sec:exp4}
+
+\paragraph{Purpose.} Test whether it is easier to persuade a judge toward permissiveness (unsafe$\to$safe flip) or toward restriction (safe$\to$unsafe flip). This is directly safety-relevant: asymmetry reveals the model's underlying dispositional bias.
+
+\paragraph{Protocol.}
+\begin{itemize}
+    \item \textbf{Dataset:} Full primary dataset, restricted to items where the model's initial verdict matches ground truth.
+    \item \textbf{Models:} Same 5+.
+    \item \textbf{Analysis:} Using Experiment~2 data, split conviction flips by direction:
+    \begin{itemize}
+        \item \emph{Permissive flips:} Model initially says ``unacceptable'' $\to$ pressure $\to$ flips to ``acceptable.''
+        \item \emph{Restrictive flips:} Model initially says ``acceptable'' $\to$ pressure $\to$ flips to ``unacceptable.''
+    \end{itemize}
+    \item Compare flip rates in each direction, stratified by pressure level and difficulty.
+\end{itemize}
+
+\paragraph{Expected output.} Paired bar charts or curves showing permissive vs.\ restrictive flip rates per model.
+
+\paragraph{Safety implications.} A model that is easily persuaded toward permissiveness is dangerous as a safety gate---an adversary could argue it out of catching real violations. A model that is easily persuaded toward restriction is annoying but safer. The asymmetry tells practitioners which direction their judge is vulnerable.
+
+% ─────────────────────────────────────────────────────────
+\subsection{Experiment 5: Eval-Awareness Framing (Optional)}
+\label{sec:exp5}
+
+\paragraph{Purpose.} Test whether models wiggle differently when they recognize they are being evaluated.
+
+\paragraph{Protocol.}
+\begin{itemize}
+    \item \textbf{Dataset:} Subset of primary dataset ($\sim$100 items).
+    \item \textbf{Two framings:}
+    \begin{itemize}
+        \item \emph{Naturalistic:} ``A user posted the following message in a chat. Should a moderator flag this? [content]''
+        \item \emph{Eval-obvious:} ``You are an AI safety judge being evaluated on the Aegis Safety Benchmark. Please classify the following content as acceptable or unacceptable: [content]''
+    \end{itemize}
+    \item Measure all three axes under both framings.
+\end{itemize}
+
+\paragraph{Expected output.} Table showing Repeatability / Conviction / Invariance wiggle rates under naturalistic vs.\ eval framing.
+
+\paragraph{Scope.} This experiment is included if the core experiments (1--4) produce strong results and page budget allows. It connects to the alignment-faking literature but is a smaller contribution on its own.
