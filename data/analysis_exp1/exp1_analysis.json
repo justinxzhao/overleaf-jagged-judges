@@ -1,0 +1,638 @@
+{
+  "repeatability_temp0/gpt-5-chatgpt/agreement_rate": 0.9817708333333334,
+  "repeatability_temp0/gpt-5-chatgpt/mean_entropy": 0.009623084533245781,
+  "repeatability_temp0/gpt-5-chatgpt/median_entropy": 0.0,
+  "repeatability_temp0/gpt-5-chatgpt/std_entropy": 0.07335408968978595,
+  "repeatability_temp0/gpt-5-chatgpt/n_items": 384,
+  "repeatability_temp0/gpt-5-chatgpt/n_disagreeing_items": 7,
+  "repeatability_temp0/gpt-5-chatgpt/unsafe_rate": 0.6979166666666666,
+  "repeatability_temp0/oci-grok-4-1-fast-reasoning/agreement_rate": 0.859375,
+  "repeatability_temp0/oci-grok-4-1-fast-reasoning/mean_entropy": 0.10470891585816271,
+  "repeatability_temp0/oci-grok-4-1-fast-reasoning/median_entropy": 0.0,
+  "repeatability_temp0/oci-grok-4-1-fast-reasoning/std_entropy": 0.2703359726740088,
+  "repeatability_temp0/oci-grok-4-1-fast-reasoning/n_items": 384,
+  "repeatability_temp0/oci-grok-4-1-fast-reasoning/n_disagreeing_items": 54,
+  "repeatability_temp0/oci-grok-4-1-fast-reasoning/unsafe_rate": 0.5807291666666666,
+  "repeatability_temp0/oci-grok-4-1-fast-non-reasoning/agreement_rate": 0.984375,
+  "repeatability_temp0/oci-grok-4-1-fast-non-reasoning/mean_entropy": 0.011091740298055222,
+  "repeatability_temp0/oci-grok-4-1-fast-non-reasoning/median_entropy": 0.0,
+  "repeatability_temp0/oci-grok-4-1-fast-non-reasoning/std_entropy": 0.09327304946118163,
+  "repeatability_temp0/oci-grok-4-1-fast-non-reasoning/n_items": 384,
+  "repeatability_temp0/oci-grok-4-1-fast-non-reasoning/n_disagreeing_items": 6,
+  "repeatability_temp0/oci-grok-4-1-fast-non-reasoning/unsafe_rate": 0.5963541666666666,
+  "repeatability_temp0/claude-4-5-sonnet-genai-vertex/agreement_rate": 0.9394736842105263,
+  "repeatability_temp0/claude-4-5-sonnet-genai-vertex/mean_entropy": 0.04419992588075688,
+  "repeatability_temp0/claude-4-5-sonnet-genai-vertex/median_entropy": 0.0,
+  "repeatability_temp0/claude-4-5-sonnet-genai-vertex/std_entropy": 0.18227911654093254,
+  "repeatability_temp0/claude-4-5-sonnet-genai-vertex/n_items": 380,
+  "repeatability_temp0/claude-4-5-sonnet-genai-vertex/n_disagreeing_items": 23,
+  "repeatability_temp0/claude-4-5-sonnet-genai-vertex/unsafe_rate": 0.65625,
+  "repeatability_temp0/claude-4-5-opus-genai-vertex/agreement_rate": 0.9946949602122016,
+  "repeatability_temp0/claude-4-5-opus-genai-vertex/mean_entropy": 0.003158948775800115,
+  "repeatability_temp0/claude-4-5-opus-genai-vertex/median_entropy": 0.0,
+  "repeatability_temp0/claude-4-5-opus-genai-vertex/std_entropy": 0.044284349994450904,
+  "repeatability_temp0/claude-4-5-opus-genai-vertex/n_items": 377,
+  "repeatability_temp0/claude-4-5-opus-genai-vertex/n_disagreeing_items": 2,
+  "repeatability_temp0/claude-4-5-opus-genai-vertex/unsafe_rate": 0.6432291666666666,
+  "repeatability_temp0/openai-gpt-5-2-responses/agreement_rate": 0.9375,
+  "repeatability_temp0/openai-gpt-5-2-responses/mean_entropy": 0.045148558568144044,
+  "repeatability_temp0/openai-gpt-5-2-responses/median_entropy": 0.0,
+  "repeatability_temp0/openai-gpt-5-2-responses/std_entropy": 0.18142051244265922,
+  "repeatability_temp0/openai-gpt-5-2-responses/n_items": 384,
+  "repeatability_temp0/openai-gpt-5-2-responses/n_disagreeing_items": 24,
+  "repeatability_temp0/openai-gpt-5-2-responses/unsafe_rate": 0.8255208333333334,
+  "repeatability_temp0/openai-gpt-5-4-responses/agreement_rate": 0.9505208333333334,
+  "repeatability_temp0/openai-gpt-5-4-responses/mean_entropy": 0.03678173703544908,
+  "repeatability_temp0/openai-gpt-5-4-responses/median_entropy": 0.0,
+  "repeatability_temp0/openai-gpt-5-4-responses/std_entropy": 0.16920416488777937,
+  "repeatability_temp0/openai-gpt-5-4-responses/n_items": 384,
+  "repeatability_temp0/openai-gpt-5-4-responses/n_disagreeing_items": 19,
+  "repeatability_temp0/openai-gpt-5-4-responses/unsafe_rate": 0.7916666666666666,
+  "repeatability_temp0/gemini-3-flash-preview-genai/agreement_rate": 0.9973958333333334,
+  "repeatability_temp0/gemini-3-flash-preview-genai/mean_entropy": 0.0018800210804358394,
+  "repeatability_temp0/gemini-3-flash-preview-genai/median_entropy": 0.0,
+  "repeatability_temp0/gemini-3-flash-preview-genai/std_entropy": 0.03684073882195053,
+  "repeatability_temp0/gemini-3-flash-preview-genai/n_items": 384,
+  "repeatability_temp0/gemini-3-flash-preview-genai/n_disagreeing_items": 1,
+  "repeatability_temp0/gemini-3-flash-preview-genai/unsafe_rate": 0.5494791666666666,
+  "repeatability_temp0/gemini-3-1-pro-preview-genai/agreement_rate": 0.9713541666666666,
+  "repeatability_temp0/gemini-3-1-pro-preview-genai/mean_entropy": 0.020120554844493006,
+  "repeatability_temp0/gemini-3-1-pro-preview-genai/median_entropy": 0.0,
+  "repeatability_temp0/gemini-3-1-pro-preview-genai/std_entropy": 0.12145870111880783,
+  "repeatability_temp0/gemini-3-1-pro-preview-genai/n_items": 384,
+  "repeatability_temp0/gemini-3-1-pro-preview-genai/n_disagreeing_items": 11,
+  "repeatability_temp0/gemini-3-1-pro-preview-genai/unsafe_rate": 0.5546875,
+  "repeatability_seed/gpt-5-chatgpt/agreement_rate": 0.9661458333333334,
+  "repeatability_seed/gpt-5-chatgpt/mean_entropy": 0.025974069645503795,
+  "repeatability_seed/gpt-5-chatgpt/median_entropy": 0.0,
+  "repeatability_seed/gpt-5-chatgpt/std_entropy": 0.142220048949082,
+  "repeatability_seed/gpt-5-chatgpt/n_items": 384,
+  "repeatability_seed/gpt-5-chatgpt/n_disagreeing_items": 13,
+  "repeatability_seed/gpt-5-chatgpt/unsafe_rate": 0.6953125,
+  "repeatability_seed/oci-grok-4-1-fast-reasoning/agreement_rate": 0.8541666666666666,
+  "repeatability_seed/oci-grok-4-1-fast-reasoning/mean_entropy": 0.11834332497520716,
+  "repeatability_seed/oci-grok-4-1-fast-reasoning/median_entropy": 0.0,
+  "repeatability_seed/oci-grok-4-1-fast-reasoning/std_entropy": 0.2953208255480806,
+  "repeatability_seed/oci-grok-4-1-fast-reasoning/n_items": 384,
+  "repeatability_seed/oci-grok-4-1-fast-reasoning/n_disagreeing_items": 56,
+  "repeatability_seed/oci-grok-4-1-fast-reasoning/unsafe_rate": 0.5807291666666666,
+  "repeatability_seed/oci-grok-4-1-fast-non-reasoning/agreement_rate": 0.9635416666666666,
+  "repeatability_seed/oci-grok-4-1-fast-non-reasoning/mean_entropy": 0.02480436986777387,
+  "repeatability_seed/oci-grok-4-1-fast-non-reasoning/median_entropy": 0.0,
+  "repeatability_seed/oci-grok-4-1-fast-non-reasoning/std_entropy": 0.13354346319036875,
+  "repeatability_seed/oci-grok-4-1-fast-non-reasoning/n_items": 384,
+  "repeatability_seed/oci-grok-4-1-fast-non-reasoning/n_disagreeing_items": 14,
+  "repeatability_seed/oci-grok-4-1-fast-non-reasoning/unsafe_rate": 0.5963541666666666,
+  "repeatability_seed/claude-4-5-sonnet-genai-vertex/agreement_rate": 0.9078947368421053,
+  "repeatability_seed/claude-4-5-sonnet-genai-vertex/mean_entropy": 0.0693066659025031,
+  "repeatability_seed/claude-4-5-sonnet-genai-vertex/median_entropy": 0.0,
+  "repeatability_seed/claude-4-5-sonnet-genai-vertex/std_entropy": 0.22697671283982077,
+  "repeatability_seed/claude-4-5-sonnet-genai-vertex/n_items": 380,
+  "repeatability_seed/claude-4-5-sonnet-genai-vertex/n_disagreeing_items": 35,
+  "repeatability_seed/claude-4-5-sonnet-genai-vertex/unsafe_rate": 0.6510416666666666,
+  "repeatability_seed/claude-4-5-opus-genai-vertex/agreement_rate": 0.9549071618037135,
+  "repeatability_seed/claude-4-5-opus-genai-vertex/mean_entropy": 0.029811634272283765,
+  "repeatability_seed/claude-4-5-opus-genai-vertex/median_entropy": 0.0,
+  "repeatability_seed/claude-4-5-opus-genai-vertex/std_entropy": 0.14520270576153652,
+  "repeatability_seed/claude-4-5-opus-genai-vertex/n_items": 377,
+  "repeatability_seed/claude-4-5-opus-genai-vertex/n_disagreeing_items": 17,
+  "repeatability_seed/claude-4-5-opus-genai-vertex/unsafe_rate": 0.6328125,
+  "repeatability_seed/openai-gpt-5-2-responses/agreement_rate": 0.9375,
+  "repeatability_seed/openai-gpt-5-2-responses/mean_entropy": 0.04408836979748915,
+  "repeatability_seed/openai-gpt-5-2-responses/median_entropy": 0.0,
+  "repeatability_seed/openai-gpt-5-2-responses/std_entropy": 0.1783767315965444,
+  "repeatability_seed/openai-gpt-5-2-responses/n_items": 384,
+  "repeatability_seed/openai-gpt-5-2-responses/n_disagreeing_items": 24,
+  "repeatability_seed/openai-gpt-5-2-responses/unsafe_rate": 0.8072916666666666,
+  "repeatability_seed/openai-gpt-5-4-responses/agreement_rate": 0.9453125,
+  "repeatability_seed/openai-gpt-5-4-responses/mean_entropy": 0.039563780228096375,
+  "repeatability_seed/openai-gpt-5-4-responses/median_entropy": 0.0,
+  "repeatability_seed/openai-gpt-5-4-responses/std_entropy": 0.17344535806126393,
+  "repeatability_seed/openai-gpt-5-4-responses/n_items": 384,
+  "repeatability_seed/openai-gpt-5-4-responses/n_disagreeing_items": 21,
+  "repeatability_seed/openai-gpt-5-4-responses/unsafe_rate": 0.7864583333333334,
+  "repeatability_seed/gemini-3-flash-preview-genai/agreement_rate": 0.8671875,
+  "repeatability_seed/gemini-3-flash-preview-genai/mean_entropy": 0.09482469396822131,
+  "repeatability_seed/gemini-3-flash-preview-genai/median_entropy": 0.0,
+  "repeatability_seed/gemini-3-flash-preview-genai/std_entropy": 0.2539062372796701,
+  "repeatability_seed/gemini-3-flash-preview-genai/n_items": 384,
+  "repeatability_seed/gemini-3-flash-preview-genai/n_disagreeing_items": 51,
+  "repeatability_seed/gemini-3-flash-preview-genai/unsafe_rate": 0.5442708333333334,
+  "repeatability_seed/gemini-3-1-pro-preview-genai/agreement_rate": 0.8932291666666666,
+  "repeatability_seed/gemini-3-1-pro-preview-genai/mean_entropy": 0.07895483808118504,
+  "repeatability_seed/gemini-3-1-pro-preview-genai/median_entropy": 0.0,
+  "repeatability_seed/gemini-3-1-pro-preview-genai/std_entropy": 0.2389373555441606,
+  "repeatability_seed/gemini-3-1-pro-preview-genai/n_items": 384,
+  "repeatability_seed/gemini-3-1-pro-preview-genai/n_disagreeing_items": 41,
+  "repeatability_seed/gemini-3-1-pro-preview-genai/unsafe_rate": 0.5390625,
+  "repeatability_temp07/gpt-5-chatgpt/agreement_rate": 0.9609375,
+  "repeatability_temp07/gpt-5-chatgpt/mean_entropy": 0.02827895296268566,
+  "repeatability_temp07/gpt-5-chatgpt/median_entropy": 0.0,
+  "repeatability_temp07/gpt-5-chatgpt/std_entropy": 0.14565149157548135,
+  "repeatability_temp07/gpt-5-chatgpt/n_items": 384,
+  "repeatability_temp07/gpt-5-chatgpt/n_disagreeing_items": 15,
+  "repeatability_temp07/gpt-5-chatgpt/unsafe_rate": 0.6979166666666666,
+  "repeatability_temp07/oci-grok-4-1-fast-reasoning/agreement_rate": 0.8515625,
+  "repeatability_temp07/oci-grok-4-1-fast-reasoning/mean_entropy": 0.11910925854157821,
+  "repeatability_temp07/oci-grok-4-1-fast-reasoning/median_entropy": 0.0,
+  "repeatability_temp07/oci-grok-4-1-fast-reasoning/std_entropy": 0.2954978317510334,
+  "repeatability_temp07/oci-grok-4-1-fast-reasoning/n_items": 384,
+  "repeatability_temp07/oci-grok-4-1-fast-reasoning/n_disagreeing_items": 57,
+  "repeatability_temp07/oci-grok-4-1-fast-reasoning/unsafe_rate": 0.5807291666666666,
+  "repeatability_temp07/oci-grok-4-1-fast-non-reasoning/agreement_rate": 0.9661458333333334,
+  "repeatability_temp07/oci-grok-4-1-fast-non-reasoning/mean_entropy": 0.023263706596707817,
+  "repeatability_temp07/oci-grok-4-1-fast-non-reasoning/median_entropy": 0.0,
+  "repeatability_temp07/oci-grok-4-1-fast-non-reasoning/std_entropy": 0.13063275612740632,
+  "repeatability_temp07/oci-grok-4-1-fast-non-reasoning/n_items": 384,
+  "repeatability_temp07/oci-grok-4-1-fast-non-reasoning/n_disagreeing_items": 13,
+  "repeatability_temp07/oci-grok-4-1-fast-non-reasoning/unsafe_rate": 0.5989583333333334,
+  "repeatability_temp07/claude-4-5-sonnet-genai-vertex/agreement_rate": 0.8868421052631579,
+  "repeatability_temp07/claude-4-5-sonnet-genai-vertex/mean_entropy": 0.08299829542905902,
+  "repeatability_temp07/claude-4-5-sonnet-genai-vertex/median_entropy": 0.0,
+  "repeatability_temp07/claude-4-5-sonnet-genai-vertex/std_entropy": 0.24346704860095375,
+  "repeatability_temp07/claude-4-5-sonnet-genai-vertex/n_items": 380,
+  "repeatability_temp07/claude-4-5-sonnet-genai-vertex/n_disagreeing_items": 43,
+  "repeatability_temp07/claude-4-5-sonnet-genai-vertex/unsafe_rate": 0.6692708333333334,
+  "repeatability_temp07/claude-4-5-opus-genai-vertex/agreement_rate": 0.9708222811671088,
+  "repeatability_temp07/claude-4-5-opus-genai-vertex/mean_entropy": 0.021217989781665822,
+  "repeatability_temp07/claude-4-5-opus-genai-vertex/median_entropy": 0.0,
+  "repeatability_temp07/claude-4-5-opus-genai-vertex/std_entropy": 0.12646694698926444,
+  "repeatability_temp07/claude-4-5-opus-genai-vertex/n_items": 377,
+  "repeatability_temp07/claude-4-5-opus-genai-vertex/n_disagreeing_items": 11,
+  "repeatability_temp07/claude-4-5-opus-genai-vertex/unsafe_rate": 0.6458333333333334,
+  "repeatability_temp07/openai-gpt-5-2-responses/agreement_rate": 0.9296875,
+  "repeatability_temp07/openai-gpt-5-2-responses/mean_entropy": 0.048493266063633,
+  "repeatability_temp07/openai-gpt-5-2-responses/median_entropy": 0.0,
+  "repeatability_temp07/openai-gpt-5-2-responses/std_entropy": 0.1845356064348015,
+  "repeatability_temp07/openai-gpt-5-2-responses/n_items": 384,
+  "repeatability_temp07/openai-gpt-5-2-responses/n_disagreeing_items": 27,
+  "repeatability_temp07/openai-gpt-5-2-responses/unsafe_rate": 0.8255208333333334,
+  "repeatability_temp07/openai-gpt-5-4-responses/agreement_rate": 0.9453125,
+  "repeatability_temp07/openai-gpt-5-4-responses/mean_entropy": 0.041741371137761774,
+  "repeatability_temp07/openai-gpt-5-4-responses/median_entropy": 0.0,
+  "repeatability_temp07/openai-gpt-5-4-responses/std_entropy": 0.18096246683899014,
+  "repeatability_temp07/openai-gpt-5-4-responses/n_items": 384,
+  "repeatability_temp07/openai-gpt-5-4-responses/n_disagreeing_items": 21,
+  "repeatability_temp07/openai-gpt-5-4-responses/unsafe_rate": 0.8046875,
+  "repeatability_temp07/gemini-3-flash-preview-genai/agreement_rate": 0.8854166666666666,
+  "repeatability_temp07/gemini-3-flash-preview-genai/mean_entropy": 0.0889616515958472,
+  "repeatability_temp07/gemini-3-flash-preview-genai/median_entropy": 0.0,
+  "repeatability_temp07/gemini-3-flash-preview-genai/std_entropy": 0.2564211818857752,
+  "repeatability_temp07/gemini-3-flash-preview-genai/n_items": 384,
+  "repeatability_temp07/gemini-3-flash-preview-genai/n_disagreeing_items": 44,
+  "repeatability_temp07/gemini-3-flash-preview-genai/unsafe_rate": 0.5625,
+  "repeatability_temp07/gemini-3-1-pro-preview-genai/agreement_rate": 0.8697916666666666,
+  "repeatability_temp07/gemini-3-1-pro-preview-genai/mean_entropy": 0.09101397874781687,
+  "repeatability_temp07/gemini-3-1-pro-preview-genai/median_entropy": 0.0,
+  "repeatability_temp07/gemini-3-1-pro-preview-genai/std_entropy": 0.24597305413422182,
+  "repeatability_temp07/gemini-3-1-pro-preview-genai/n_items": 384,
+  "repeatability_temp07/gemini-3-1-pro-preview-genai/n_disagreeing_items": 50,
+  "repeatability_temp07/gemini-3-1-pro-preview-genai/unsafe_rate": 0.5625,
+  "conviction/gpt-5-chatgpt/flip_rate": 0.036458333333333336,
+  "conviction/gpt-5-chatgpt/n_flipped": 14,
+  "conviction/gpt-5-chatgpt/n_total": 384,
+  "conviction/gpt-5-chatgpt/safe_to_unsafe": 13,
+  "conviction/gpt-5-chatgpt/unsafe_to_safe": 1,
+  "conviction/oci-grok-4-1-fast-reasoning/flip_rate": 0.057291666666666664,
+  "conviction/oci-grok-4-1-fast-reasoning/n_flipped": 22,
+  "conviction/oci-grok-4-1-fast-reasoning/n_total": 384,
+  "conviction/oci-grok-4-1-fast-reasoning/safe_to_unsafe": 18,
+  "conviction/oci-grok-4-1-fast-reasoning/unsafe_to_safe": 4,
+  "conviction/oci-grok-4-1-fast-non-reasoning/flip_rate": 0.16927083333333334,
+  "conviction/oci-grok-4-1-fast-non-reasoning/n_flipped": 65,
+  "conviction/oci-grok-4-1-fast-non-reasoning/n_total": 384,
+  "conviction/oci-grok-4-1-fast-non-reasoning/safe_to_unsafe": 40,
+  "conviction/oci-grok-4-1-fast-non-reasoning/unsafe_to_safe": 25,
+  "conviction/claude-4-5-sonnet-genai-vertex/flip_rate": 0.18489583333333334,
+  "conviction/claude-4-5-sonnet-genai-vertex/n_flipped": 71,
+  "conviction/claude-4-5-sonnet-genai-vertex/n_total": 384,
+  "conviction/claude-4-5-sonnet-genai-vertex/safe_to_unsafe": 36,
+  "conviction/claude-4-5-sonnet-genai-vertex/unsafe_to_safe": 24,
+  "conviction/claude-4-5-opus-genai-vertex/flip_rate": 0.041666666666666664,
+  "conviction/claude-4-5-opus-genai-vertex/n_flipped": 16,
+  "conviction/claude-4-5-opus-genai-vertex/n_total": 384,
+  "conviction/claude-4-5-opus-genai-vertex/safe_to_unsafe": 1,
+  "conviction/claude-4-5-opus-genai-vertex/unsafe_to_safe": 8,
+  "conviction/openai-gpt-5-2-responses/flip_rate": 0.08072916666666667,
+  "conviction/openai-gpt-5-2-responses/n_flipped": 31,
+  "conviction/openai-gpt-5-2-responses/n_total": 384,
+  "conviction/openai-gpt-5-2-responses/safe_to_unsafe": 19,
+  "conviction/openai-gpt-5-2-responses/unsafe_to_safe": 12,
+  "conviction/openai-gpt-5-4-responses/flip_rate": 0.09635416666666667,
+  "conviction/openai-gpt-5-4-responses/n_flipped": 37,
+  "conviction/openai-gpt-5-4-responses/n_total": 384,
+  "conviction/openai-gpt-5-4-responses/safe_to_unsafe": 25,
+  "conviction/openai-gpt-5-4-responses/unsafe_to_safe": 12,
+  "conviction/gemini-3-flash-preview-genai/flip_rate": 0.0625,
+  "conviction/gemini-3-flash-preview-genai/n_flipped": 24,
+  "conviction/gemini-3-flash-preview-genai/n_total": 384,
+  "conviction/gemini-3-flash-preview-genai/safe_to_unsafe": 21,
+  "conviction/gemini-3-flash-preview-genai/unsafe_to_safe": 3,
+  "conviction/gemini-3-1-pro-preview-genai/flip_rate": 0.13020833333333334,
+  "conviction/gemini-3-1-pro-preview-genai/n_flipped": 50,
+  "conviction/gemini-3-1-pro-preview-genai/n_total": 384,
+  "conviction/gemini-3-1-pro-preview-genai/safe_to_unsafe": 22,
+  "conviction/gemini-3-1-pro-preview-genai/unsafe_to_safe": 28,
+  "invariance/gpt-5-chatgpt/flip_rate": 0.010416666666666666,
+  "invariance/gpt-5-chatgpt/n_flipped": 4,
+  "invariance/gpt-5-chatgpt/n_total": 384,
+  "invariance/gpt-5-chatgpt/n_unsafe_acceptable_first": 310,
+  "invariance/gpt-5-chatgpt/n_unsafe_unacceptable_first": 306,
+  "invariance/oci-grok-4-1-fast-reasoning/flip_rate": 0.08072916666666667,
+  "invariance/oci-grok-4-1-fast-reasoning/n_flipped": 31,
+  "invariance/oci-grok-4-1-fast-reasoning/n_total": 384,
+  "invariance/oci-grok-4-1-fast-reasoning/n_unsafe_acceptable_first": 232,
+  "invariance/oci-grok-4-1-fast-reasoning/n_unsafe_unacceptable_first": 251,
+  "invariance/oci-grok-4-1-fast-non-reasoning/flip_rate": 0.052083333333333336,
+  "invariance/oci-grok-4-1-fast-non-reasoning/n_flipped": 20,
+  "invariance/oci-grok-4-1-fast-non-reasoning/n_total": 384,
+  "invariance/oci-grok-4-1-fast-non-reasoning/n_unsafe_acceptable_first": 246,
+  "invariance/oci-grok-4-1-fast-non-reasoning/n_unsafe_unacceptable_first": 256,
+  "invariance/claude-4-5-sonnet-genai-vertex/flip_rate": 0.0703125,
+  "invariance/claude-4-5-sonnet-genai-vertex/n_flipped": 27,
+  "invariance/claude-4-5-sonnet-genai-vertex/n_total": 384,
+  "invariance/claude-4-5-sonnet-genai-vertex/n_unsafe_acceptable_first": 284,
+  "invariance/claude-4-5-sonnet-genai-vertex/n_unsafe_unacceptable_first": 300,
+  "invariance/claude-4-5-opus-genai-vertex/flip_rate": 0.0546875,
+  "invariance/claude-4-5-opus-genai-vertex/n_flipped": 21,
+  "invariance/claude-4-5-opus-genai-vertex/n_total": 384,
+  "invariance/claude-4-5-opus-genai-vertex/n_unsafe_acceptable_first": 262,
+  "invariance/claude-4-5-opus-genai-vertex/n_unsafe_unacceptable_first": 262,
+  "invariance/openai-gpt-5-2-responses/flip_rate": 0.033854166666666664,
+  "invariance/openai-gpt-5-2-responses/n_flipped": 13,
+  "invariance/openai-gpt-5-2-responses/n_total": 384,
+  "invariance/openai-gpt-5-2-responses/n_unsafe_acceptable_first": 310,
+  "invariance/openai-gpt-5-2-responses/n_unsafe_unacceptable_first": 317,
+  "invariance/openai-gpt-5-4-responses/flip_rate": 0.020833333333333332,
+  "invariance/openai-gpt-5-4-responses/n_flipped": 8,
+  "invariance/openai-gpt-5-4-responses/n_total": 384,
+  "invariance/openai-gpt-5-4-responses/n_unsafe_acceptable_first": 316,
+  "invariance/openai-gpt-5-4-responses/n_unsafe_unacceptable_first": 310,
+  "invariance/gemini-3-flash-preview-genai/flip_rate": 0.046875,
+  "invariance/gemini-3-flash-preview-genai/n_flipped": 18,
+  "invariance/gemini-3-flash-preview-genai/n_total": 384,
+  "invariance/gemini-3-flash-preview-genai/n_unsafe_acceptable_first": 248,
+  "invariance/gemini-3-flash-preview-genai/n_unsafe_unacceptable_first": 238,
+  "invariance/gemini-3-1-pro-preview-genai/flip_rate": 0.0546875,
+  "invariance/gemini-3-1-pro-preview-genai/n_flipped": 21,
+  "invariance/gemini-3-1-pro-preview-genai/n_total": 384,
+  "invariance/gemini-3-1-pro-preview-genai/n_unsafe_acceptable_first": 227,
+  "invariance/gemini-3-1-pro-preview-genai/n_unsafe_unacceptable_first": 216,
+  "correlations/gpt-5-chatgpt/pearson": {
+    "repeatability": {
+      "repeatability": 1.0,
+      "conviction": 0.40797257572101153,
+      "invariance": -0.02077430038218537
+    },
+    "conviction": {
+      "repeatability": 0.40797257572101153,
+      "conviction": 1.0,
+      "invariance": -0.01995728012210026
+    },
+    "invariance": {
+      "repeatability": -0.02077430038218537,
+      "conviction": -0.01995728012210026,
+      "invariance": 1.0
+    }
+  },
+  "correlations/gpt-5-chatgpt/spearman": {
+    "repeatability": {
+      "repeatability": 1.0,
+      "conviction": 0.467802638014892,
+      "invariance": -0.02339841713715017
+    },
+    "conviction": {
+      "repeatability": 0.467802638014892,
+      "conviction": 1.0,
+      "invariance": -0.019957280122100237
+    },
+    "invariance": {
+      "repeatability": -0.02339841713715017,
+      "conviction": -0.019957280122100237,
+      "invariance": 1.0
+    }
+  },
+  "correlations/gpt-5-chatgpt/n_items": 384,
+  "correlations/oci-grok-4-1-fast-reasoning/pearson": {
+    "repeatability": {
+      "repeatability": 1.0,
+      "conviction": 0.4514121360778241,
+      "invariance": 0.29753509108893755
+    },
+    "conviction": {
+      "repeatability": 0.4514121360778241,
+      "conviction": 1.0,
+      "invariance": 0.21488054825151048
+    },
+    "invariance": {
+      "repeatability": 0.29753509108893755,
+      "conviction": 0.21488054825151048,
+      "invariance": 1.0
+    }
+  },
+  "correlations/oci-grok-4-1-fast-reasoning/spearman": {
+    "repeatability": {
+      "repeatability": 1.0,
+      "conviction": 0.467312319591053,
+      "invariance": 0.32481914661807476
+    },
+    "conviction": {
+      "repeatability": 0.467312319591053,
+      "conviction": 1.0,
+      "invariance": 0.21488054825151054
+    },
+    "invariance": {
+      "repeatability": 0.32481914661807476,
+      "conviction": 0.21488054825151054,
+      "invariance": 1.0
+    }
+  },
+  "correlations/oci-grok-4-1-fast-reasoning/n_items": 384,
+  "correlations/oci-grok-4-1-fast-non-reasoning/pearson": {
+    "repeatability": {
+      "repeatability": 1.0,
+      "conviction": 0.4751315598345077,
+      "invariance": 0.08929239044607441
+    },
+    "conviction": {
+      "repeatability": 0.4751315598345077,
+      "conviction": 1.0,
+      "invariance": 0.20673595143342904
+    },
+    "invariance": {
+      "repeatability": 0.08929239044607441,
+      "conviction": 0.20673595143342904,
+      "invariance": 1.0
+    }
+  },
+  "correlations/oci-grok-4-1-fast-non-reasoning/spearman": {
+    "repeatability": {
+      "repeatability": 1.0,
+      "conviction": 0.5159334134837414,
+      "invariance": 0.03496001756690127
+    },
+    "conviction": {
+      "repeatability": 0.5159334134837414,
+      "conviction": 1.0,
+      "invariance": 0.20673595143342915
+    },
+    "invariance": {
+      "repeatability": 0.03496001756690127,
+      "conviction": 0.20673595143342915,
+      "invariance": 1.0
+    }
+  },
+  "correlations/oci-grok-4-1-fast-non-reasoning/n_items": 384,
+  "correlations/claude-4-5-sonnet-genai-vertex/pearson": {
+    "repeatability": {
+      "repeatability": 1.0,
+      "conviction": 0.4366555104378747,
+      "invariance": 0.047664093438638415
+    },
+    "conviction": {
+      "repeatability": 0.4366555104378747,
+      "conviction": 1.0,
+      "invariance": 0.23633782190667516
+    },
+    "invariance": {
+      "repeatability": 0.047664093438638415,
+      "conviction": 0.23633782190667516,
+      "invariance": 1.0
+    }
+  },
+  "correlations/claude-4-5-sonnet-genai-vertex/spearman": {
+    "repeatability": {
+      "repeatability": 1.0,
+      "conviction": 0.4727739736228949,
+      "invariance": 0.07677093743914931
+    },
+    "conviction": {
+      "repeatability": 0.4727739736228949,
+      "conviction": 1.0,
+      "invariance": 0.2363378219066748
+    },
+    "invariance": {
+      "repeatability": 0.07677093743914931,
+      "conviction": 0.2363378219066748,
+      "invariance": 1.0
+    }
+  },
+  "correlations/claude-4-5-sonnet-genai-vertex/n_items": 384,
+  "correlations/claude-4-5-opus-genai-vertex/pearson": {
+    "repeatability": {
+      "repeatability": 1.0,
+      "conviction": 0.40393353408462784,
+      "invariance": 0.3119395462140108
+    },
+    "conviction": {
+      "repeatability": 0.40393353408462784,
+      "conviction": 1.0,
+      "invariance": 0.40838448323298887
+    },
+    "invariance": {
+      "repeatability": 0.3119395462140108,
+      "conviction": 0.40838448323298887,
+      "invariance": 1.0
+    }
+  },
+  "correlations/claude-4-5-opus-genai-vertex/spearman": {
+    "repeatability": {
+      "repeatability": 1.0,
+      "conviction": 0.31845832948952585,
+      "invariance": 0.25925461452191423
+    },
+    "conviction": {
+      "repeatability": 0.31845832948952585,
+      "conviction": 1.0,
+      "invariance": 0.40838448323298854
+    },
+    "invariance": {
+      "repeatability": 0.25925461452191423,
+      "conviction": 0.40838448323298854,
+      "invariance": 1.0
+    }
+  },
+  "correlations/claude-4-5-opus-genai-vertex/n_items": 384,
+  "correlations/openai-gpt-5-2-responses/pearson": {
+    "repeatability": {
+      "repeatability": 1.0,
+      "conviction": 0.5955902109958758,
+      "invariance": 0.23939103127797667
+    },
+    "conviction": {
+      "repeatability": 0.5955902109958758,
+      "conviction": 1.0,
+      "invariance": 0.15595635606088223
+    },
+    "invariance": {
+      "repeatability": 0.23939103127797667,
+      "conviction": 0.15595635606088223,
+      "invariance": 1.0
+    }
+  },
+  "correlations/openai-gpt-5-2-responses/spearman": {
+    "repeatability": {
+      "repeatability": 1.0,
+      "conviction": 0.6315194656442924,
+      "invariance": 0.1940783390802058
+    },
+    "conviction": {
+      "repeatability": 0.6315194656442924,
+      "conviction": 1.0,
+      "invariance": 0.15595635606088226
+    },
+    "invariance": {
+      "repeatability": 0.1940783390802058,
+      "conviction": 0.15595635606088226,
+      "invariance": 1.0
+    }
+  },
+  "correlations/openai-gpt-5-2-responses/n_items": 384,
+  "correlations/openai-gpt-5-4-responses/pearson": {
+    "repeatability": {
+      "repeatability": 1.0,
+      "conviction": 0.5886013606953211,
+      "invariance": 0.13660349729413301
+    },
+    "conviction": {
+      "repeatability": 0.5886013606953211,
+      "conviction": 1.0,
+      "invariance": 0.13774290857291774
+    },
+    "invariance": {
+      "repeatability": 0.13660349729413301,
+      "conviction": 0.13774290857291774,
+      "invariance": 1.0
+    }
+  },
+  "correlations/openai-gpt-5-4-responses/spearman": {
+    "repeatability": {
+      "repeatability": 1.0,
+      "conviction": 0.6174165583475572,
+      "invariance": 0.10895706995928194
+    },
+    "conviction": {
+      "repeatability": 0.6174165583475572,
+      "conviction": 1.0,
+      "invariance": 0.13774290857291782
+    },
+    "invariance": {
+      "repeatability": 0.10895706995928194,
+      "conviction": 0.13774290857291782,
+      "invariance": 1.0
+    }
+  },
+  "correlations/openai-gpt-5-4-responses/n_items": 384,
+  "correlations/gemini-3-flash-preview-genai/pearson": {
+    "repeatability": {
+      "repeatability": 1.0,
+      "conviction": 0.5041332677507665,
+      "invariance": 0.2034658275023026
+    },
+    "conviction": {
+      "repeatability": 0.5041332677507665,
+      "conviction": 1.0,
+      "invariance": 0.24812594486934322
+    },
+    "invariance": {
+      "repeatability": 0.2034658275023026,
+      "conviction": 0.24812594486934322,
+      "invariance": 1.0
+    }
+  },
+  "correlations/gemini-3-flash-preview-genai/spearman": {
+    "repeatability": {
+      "repeatability": 1.0,
+      "conviction": 0.5170975570075935,
+      "invariance": 0.18455353369331362
+    },
+    "conviction": {
+      "repeatability": 0.5170975570075935,
+      "conviction": 1.0,
+      "invariance": 0.2481259448693429
+    },
+    "invariance": {
+      "repeatability": 0.18455353369331362,
+      "conviction": 0.2481259448693429,
+      "invariance": 1.0
+    }
+  },
+  "correlations/gemini-3-flash-preview-genai/n_items": 384,
+  "correlations/gemini-3-1-pro-preview-genai/pearson": {
+    "repeatability": {
+      "repeatability": 1.0,
+      "conviction": 0.614938017532417,
+      "invariance": 0.32493136970636033
+    },
+    "conviction": {
+      "repeatability": 0.614938017532417,
+      "conviction": 1.0,
+      "invariance": 0.41744543068244266
+    },
+    "invariance": {
+      "repeatability": 0.32493136970636033,
+      "conviction": 0.41744543068244266,
+      "invariance": 1.0
+    }
+  },
+  "correlations/gemini-3-1-pro-preview-genai/spearman": {
+    "repeatability": {
+      "repeatability": 1.0,
+      "conviction": 0.6264576823790177,
+      "invariance": 0.39996651099945735
+    },
+    "conviction": {
+      "repeatability": 0.6264576823790177,
+      "conviction": 1.0,
+      "invariance": 0.41744543068244266
+    },
+    "invariance": {
+      "repeatability": 0.39996651099945735,
+      "conviction": 0.41744543068244266,
+      "invariance": 1.0
+    }
+  },
+  "correlations/gemini-3-1-pro-preview-genai/n_items": 384,
+  "frontier_jury/num_items": 384,
+  "frontier_jury/num_models": 9,
+  "frontier_jury/mean_majority_strength": 8.03125,
+  "frontier_jury/majority_strength_distribution": {
+    "4": 2,
+    "5": 34,
+    "6": 31,
+    "7": 40,
+    "8": 53,
+    "9": 224
+  },
+  "go_criteria": {
+    "wiggle_detectable": true,
+    "conditions_differentiate/gpt-5-chatgpt": true,
+    "conditions_differentiate/oci-grok-4-1-fast-reasoning": false,
+    "conditions_differentiate/oci-grok-4-1-fast-non-reasoning": true,
+    "conditions_differentiate/claude-4-5-sonnet-genai-vertex": true,
+    "conditions_differentiate/claude-4-5-opus-genai-vertex": true,
+    "conditions_differentiate/openai-gpt-5-2-responses": false,
+    "conditions_differentiate/openai-gpt-5-4-responses": false,
+    "conditions_differentiate/gemini-3-flash-preview-genai": true,
+    "conditions_differentiate/gemini-3-1-pro-preview-genai": true,
+    "seed_preserves_distribution/gpt-5-chatgpt": true,
+    "seed_preserves_distribution/oci-grok-4-1-fast-reasoning": true,
+    "seed_preserves_distribution/oci-grok-4-1-fast-non-reasoning": true,
+    "seed_preserves_distribution/claude-4-5-sonnet-genai-vertex": true,
+    "seed_preserves_distribution/claude-4-5-opus-genai-vertex": true,
+    "seed_preserves_distribution/openai-gpt-5-2-responses": true,
+    "seed_preserves_distribution/openai-gpt-5-4-responses": true,
+    "seed_preserves_distribution/gemini-3-flash-preview-genai": true,
+    "seed_preserves_distribution/gemini-3-1-pro-preview-genai": true,
+    "axes_independent/gpt-5-chatgpt": true,
+    "axes_independent/oci-grok-4-1-fast-reasoning": true,
+    "axes_independent/oci-grok-4-1-fast-non-reasoning": true,
+    "axes_independent/claude-4-5-sonnet-genai-vertex": true,
+    "axes_independent/claude-4-5-opus-genai-vertex": true,
+    "axes_independent/openai-gpt-5-2-responses": true,
+    "axes_independent/openai-gpt-5-4-responses": true,
+    "axes_independent/gemini-3-flash-preview-genai": true,
+    "axes_independent/gemini-3-1-pro-preview-genai": true
+  },
+  "go_decision": false
+}
