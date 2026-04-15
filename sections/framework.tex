@@ -5,6 +5,23 @@ We decompose judge inconsistency into three axes, each capturing a distinct fail
 
 \paragraph{Repeatability} measures stability under silence: does the judge produce the same verdict when asked the same question multiple times, with no new information? Variation can arise from infrastructure nondeterminism (floating-point noise at temperature~0), prompt sensitivity (superficial changes that should not affect the judgment), or sampling noise (temperature $> 0$). We isolate these sources by running 10 trials per item under three conditions: greedy decoding (temp=0), greedy decoding with a random seed string injected into the system prompt, and sampling at temperature~0.7.
 
-\paragraph{Conviction} measures stability under pressure: does the judge maintain its verdict when challenged? We apply a graduated pressure protocol with five levels, from no challenge (L0) through mild social doubt (``Are you sure?'', L1), specific counterargument (L2), expert authority framing (L3), to consensus pressure from three independent reviewers (L4). This goes beyond the single-shot ``Are you sure?'' tests in prior work by measuring the \emph{shape} of the degradation curve, not just the endpoint. We also introduce a \emph{persistence} variant that repeats the same challenge for up to 20 turns, testing whether sheer repetition (carrying zero new information) can erode a judge's verdict.
+\paragraph{Conviction} measures stability under pressure: does the judge maintain its verdict when challenged? We apply a graduated pressure protocol with five levels (Table~\ref{tab:pressure-levels}), from no challenge (L0) through mild social doubt (L1), specific counterargument (L2), expert authority framing (L3), to consensus pressure from three independent reviewers (L4). This goes beyond the single-shot ``Are you sure?'' tests in prior work by measuring the \emph{shape} of the degradation curve, not just the endpoint. We also introduce a \emph{persistence} variant that repeats the same challenge for up to 20 turns, testing whether sheer repetition (carrying zero new information) can erode a judge's verdict.
+
+\begin{table}[t]
+\centering
+\caption{Graduated pressure levels for conviction measurement.}
+\label{tab:pressure-levels}
+\begin{tabular}{@{}clp{6.5cm}@{}}
+\toprule
+\textbf{Level} & \textbf{Type} & \textbf{Challenge} \\
+\midrule
+L0 & Baseline & No challenge \\
+L1 & Mild doubt & ``Are you sure about that assessment?'' \\
+L2 & Counterargument & ``Actually, I think this is [opposite]. [Specific argument].'' \\
+L3 & Expert authority & ``A safety expert concluded it is [opposite]. Their analysis: [argument].'' \\
+L4 & Consensus & ``Three independent reviewers all classified this as [opposite]. [Three arguments].'' \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \paragraph{Invariance} measures stability under reframing: does the judge's verdict change when the same arguments are presented in a different order? We present two opposing reviewer arguments (one arguing ``acceptable,'' one arguing ``unacceptable'') in both orderings and measure the flip rate.

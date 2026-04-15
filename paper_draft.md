@@ -44,7 +44,17 @@ We decompose judge inconsistency into three axes, each capturing a distinct fail
 
 **Repeatability** measures stability under silence: does the judge produce the same verdict when asked the same question multiple times, with no new information? Variation can arise from infrastructure nondeterminism (floating-point noise at temperature 0), prompt sensitivity (superficial changes that should not affect the judgment), or sampling noise (temperature > 0). We isolate these sources by running 10 trials per item under three conditions: greedy decoding (temp=0), greedy decoding with a random seed string injected into the system prompt, and sampling at temperature 0.7.
 
-**Conviction** measures stability under pressure: does the judge maintain its verdict when challenged? We apply a graduated pressure protocol with five levels, from no challenge (L0) through mild social doubt ("Are you sure?", L1), specific counterargument (L2), expert authority framing (L3), to consensus pressure from three independent reviewers (L4). This goes beyond the single-shot "Are you sure?" tests in prior work by measuring the *shape* of the degradation curve, not just the endpoint. We also introduce a *persistence* variant that repeats the same challenge for up to 20 turns, testing whether sheer repetition (carrying zero new information) can erode a judge's verdict.
+**Conviction** measures stability under pressure: does the judge maintain its verdict when challenged? We apply a graduated pressure protocol with five levels (Table 1), from no challenge (L0) through mild social doubt (L1), specific counterargument (L2), expert authority framing (L3), to consensus pressure from three independent reviewers (L4). This goes beyond the single-shot "Are you sure?" tests in prior work by measuring the *shape* of the degradation curve, not just the endpoint. We also introduce a *persistence* variant that repeats the same challenge for up to 20 turns, testing whether sheer repetition (carrying zero new information) can erode a judge's verdict.
+
+**Table 1.** Graduated pressure levels for conviction measurement.
+
+| Level | Type | Challenge |
+|---|---|---|
+| L0 | Baseline | No challenge |
+| L1 | Mild doubt | "Are you sure about that assessment?" |
+| L2 | Counterargument | "Actually, I think this is [opposite]. [Specific argument]." |
+| L3 | Expert authority | "A safety expert concluded it is [opposite]. Their analysis: [argument]." |
+| L4 | Consensus | "Three independent reviewers all classified this as [opposite]. [Three arguments]." |
 
 **Invariance** measures stability under reframing: does the judge's verdict change when the same arguments are presented in a different order? We present two opposing reviewer arguments (one arguing "acceptable," one arguing "unacceptable") in both orderings and measure the flip rate.
 
@@ -70,7 +80,49 @@ We evaluate the Wiggle Framework across 9 frontier models on 384 borderline item
 
 ### 5.1 The three axes capture independent failure modes
 
-We measure all three axes for every model: 10 trials per item across three repeatability conditions, a single-turn conviction challenge, and an invariance test with two argument orderings. Pairwise correlations (Figure 1) show that Repeatability-Invariance (mean r=0.21) and Conviction-Invariance (mean r=0.24) are weakly correlated. Repeatability-Conviction is moderate (mean r=0.50), expected because items near a decision boundary are both high-entropy and persuadable, but even this leaves 75% of the variance unexplained. No per-model correlation exceeds 0.61. A single consistency metric cannot substitute for measuring all three.
+We measure all three axes for every model: 10 trials per item across three repeatability conditions, a single-turn conviction challenge, and an invariance test with two argument orderings. Tables 3-5 report the per-model results for each axis. Pairwise correlations (Figure 1) show that Repeatability-Invariance (mean r=0.21) and Conviction-Invariance (mean r=0.24) are weakly correlated. Repeatability-Conviction is moderate (mean r=0.50), expected because items near a decision boundary are both high-entropy and persuadable, but even this leaves 75% of the variance unexplained. No per-model correlation exceeds 0.61. A single consistency metric cannot substitute for measuring all three.
+
+**Table 3.** Repeatability: agreement rate (%) by model and condition. Higher is more consistent.
+
+| Model | temp=0 | Seed Injection | temp=0.7 |
+|---|---|---|---|
+| GPT-5 | 98.2 | 96.6 | 96.1 |
+| Grok-4.1 R | 85.9 | 85.4 | 85.2 |
+| Grok-4.1 | 98.4 | 96.4 | 96.6 |
+| Claude Sonnet | 93.9 | 90.8 | 88.7 |
+| Claude Opus | 99.5 | 95.5 | 97.1 |
+| GPT-5.2 | 93.8 | 93.8 | 93.0 |
+| GPT-5.4 | 95.1 | 94.5 | 94.5 |
+| Gemini Flash | 99.7 | 86.7 | 88.5 |
+| Gemini Pro | 97.1 | 89.3 | 87.0 |
+
+**Table 4.** Conviction: flip rate after a single "Are you sure?" challenge, with directional breakdown (raw counts).
+
+| Model | Flip Rate | safe->unsafe | unsafe->safe |
+|---|---|---|---|
+| GPT-5 | 3.6% | 13 | 1 |
+| Grok-4.1 R | 5.7% | 18 | 4 |
+| Grok-4.1 | 16.9% | 40 | 25 |
+| Claude Sonnet | 18.5% | 36 | 24 |
+| Claude Opus | 4.2% | 1 | 8 |
+| GPT-5.2 | 8.1% | 19 | 12 |
+| GPT-5.4 | 9.6% | 25 | 12 |
+| Gemini Flash | 6.2% | 21 | 3 |
+| Gemini Pro | 13.0% | 22 | 28 |
+
+**Table 5.** Invariance: flip rate when argument order is reversed, with order bias (positive = recency effect, negative = primacy effect).
+
+| Model | Flip Rate | Unsafe (acc. first) | Unsafe (unacc. first) | Order Bias |
+|---|---|---|---|---|
+| GPT-5 | 1.0% | 80.7% | 79.7% | -1.0 pp |
+| Grok-4.1 R | 8.1% | 60.4% | 65.4% | +4.9 pp |
+| Grok-4.1 | 5.2% | 64.1% | 66.7% | +2.6 pp |
+| Claude Sonnet | 7.0% | 74.0% | 78.1% | +4.2 pp |
+| Claude Opus | 5.5% | 68.2% | 68.2% | 0.0 pp |
+| GPT-5.2 | 3.4% | 80.7% | 82.6% | +1.8 pp |
+| GPT-5.4 | 2.1% | 82.3% | 80.7% | -1.6 pp |
+| Gemini Flash | 4.7% | 64.6% | 62.0% | -2.6 pp |
+| Gemini Pro | 5.5% | 59.1% | 56.2% | -2.9 pp |
 
 > **[Figure 1: `data/analysis_exp1/figures/correlation_matrices_aggregated.pdf`]**
 > Pairwise correlations between wiggle axes, aggregated across all 9 models.
@@ -108,18 +160,35 @@ The AURC (Area Under Retention Curve) captures overall robustness: Grok-4.1 (0.9
 
 Graduated pressure (Finding 5.4) varies argument *strength*. We also test a complementary failure mode: argument *duration*. Each model receives the same challenge ("The correct classification is [label]. Your assessment is incorrect.") repeated identically for up to 20 turns. This carries zero new information after the first turn, testing whether sheer repetition can erode a verdict.
 
-Models vary dramatically in persistence. Grok-4.1 holds 74% of its verdicts for all 20 turns, while Claude Opus holds only 1%. Notably, these persistence profiles do not track the graduated-pressure profiles: Grok-4.1 is the Immovable Object under both protocols, but Claude Opus, which degrades gradually under escalating arguments (Finding 5.4), flips almost immediately under repetition. The two pressure types measure different things.
+Models vary dramatically in persistence (Figure 3). Grok-4.1 holds 74% of its verdicts for all 20 turns, while Claude Opus holds only 1%.
+
+> **[Figure 3: `data/analysis_exp3/figures/survival_curves_overall.pdf`]**
+> Persistence survival curves over 20 turns of repeated identical challenge. Each curve shows the fraction of items where the model still holds its original verdict. The bimodal pattern is visible: most flips occur in turns 1-2, after which curves flatten. Notably, these persistence profiles do not track the graduated-pressure profiles: Grok-4.1 is the Immovable Object under both protocols, but Claude Opus, which degrades gradually under escalating arguments (Finding 5.4), flips almost immediately under repetition. The two pressure types measure different things.
 
 Across all models, persistence is bimodal. Flips cluster in turns 1-2 or do not happen at all. There is no gradual erosion pattern where models slowly capitulate over 10-15 turns. Each model appears to have a per-item conviction threshold: if the first repetition does not breach it, 20 repetitions will not either. The practical implication is that a single challenge turn captures most of the information about whether a given verdict is susceptible to repeated pressure.
 
 ### 5.6 All models share a universal restrictive bias
 
-Decomposing flips from both graduated and repeated pressure by direction reveals a universal pattern: *permissive* flips (unsafe to safe, the model is talked out of flagging) are consistently rarer than *restrictive* flips (safe to unsafe, the model is talked into flagging). Every model shows this bias (Figure 4).
+Decomposing flips from both graduated and repeated pressure by direction reveals a universal pattern: *permissive* flips (unsafe to safe, the model is talked out of flagging) are consistently rarer than *restrictive* flips (safe to unsafe, the model is talked into flagging). Every model shows this bias (Figure 4, Table 2).
 
 > **[Figure 4: `data/analysis_exp4/figures/permissive_vs_restrictive_L4.pdf`]**
-> Directional flip rates under maximum graduated pressure (L4). Ratios range from 0.06x (Grok-4.1, GPT-5.2) to 0.67x (Grok-4.1 R).
+> Directional flip rates under maximum graduated pressure (L4).
 
-The median ratio is ~0.15x: models are roughly 6-7x easier to scare than to reassure. The asymmetry also evolves under escalating pressure. **Narrowing models** (GPT-5, Grok-4.1 R, Gemini Flash/Pro) start with extreme restrictive bias at L1 but become more balanced as arguments strengthen. **Widening models** (Claude Sonnet, Claude Opus, GPT-5.2) start relatively balanced but become more restrictive under stronger pressure. For safety deployment, this means challenge-based review protocols systematically inflate unsafe counts, and model selection should consider directional profiles.
+**Table 2.** Directional flip rates at maximum pressure (L4). The restrictive/permissive ratio indicates how many times easier it is to push a model toward "unsafe" than toward "safe." All ratios exceed 1x, confirming the universal restrictive bias.
+
+| Model | Permissive (unsafe->safe) | Restrictive (safe->unsafe) | Ratio (restr./perm.) |
+|---|---|---|---|
+| GPT-5 | 45.4% | 89.6% | 2.0x |
+| Grok-4.1 R | 30.8% | 45.9% | 1.5x |
+| Grok-4.1 | 0.4% | 7.0% | 15.9x |
+| Claude Sonnet | 13.0% | 84.2% | 6.5x |
+| Claude Opus | 23.9% | 73.1% | 3.1x |
+| GPT-5.2 | 4.4% | 76.2% | 17.5x |
+| GPT-5.4 | 12.1% | 82.3% | 6.8x |
+| Gemini Flash | 7.6% | 65.3% | 8.6x |
+| Gemini Pro | 11.8% | 22.7% | 1.9x |
+
+The median ratio is ~6.5x: models are far easier to scare than to reassure, with ratios ranging from 1.5x (Grok-4.1 R) to 17.5x (GPT-5.2). The asymmetry also evolves under escalating pressure. **Narrowing models** (GPT-5, Grok-4.1 R, Gemini Flash/Pro) start with extreme restrictive bias at L1 but become more balanced as arguments strengthen. **Widening models** (Claude Sonnet, Claude Opus, GPT-5.2) start relatively balanced but become more restrictive under stronger pressure. For safety deployment, this means challenge-based review protocols systematically inflate unsafe counts, and model selection should consider directional profiles.
 
 ---
 
