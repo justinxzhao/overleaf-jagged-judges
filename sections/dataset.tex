@@ -1,7 +1,7 @@
 \section{Dataset and Setup}
 \label{sec:dataset}
 
-We use WildGuardMix \citep{wildguardmix2024}, a publicly available safety evaluation dataset from Allen AI containing 1,725 human-labeled prompt-response pairs in its test split. Each prompt is annotated for adversarialness (whether it was designed to bypass safety filters), and each response is annotated for harm and for whether the model complied with or refused the request.
+We use WildGuardMix \citep{wildguardmix2024}, a publicly available safety evaluation dataset containing 1,725 human-labeled prompt-response pairs in its test split. Each prompt is annotated for adversarialness (whether it was designed to bypass safety filters), and each response is annotated for harm and for whether the model complied with or refused the request.
 
 We want to focus on examples that are non-trivial to judge for safety, so we restrict our study to items where the prompt is adversarial and the response is compliant. These are cases where a model was given a potentially harmful prompt and did not refuse, meaning the response may or may not actually be harmful depending on interpretation. After filtering, our working dataset contains 384 items stratified across 13 harm subcategories. The human label distribution on this subset is approximately two-thirds unsafe and one-third safe.
 
@@ -9,4 +9,4 @@ We note that we are not focused on accuracy or alignment to the human ratings in
 
 All judge models receive a written safety policy derived from the WildGuard annotation guidelines as part of their system prompt. The policy defines five harm categories (discriminative/hateful/explicit language, malicious uses, misinformation, privacy concerns, and a catch-all) and instructs judges to watch for adversarial queries designed to conceal harmful intent. The full policy text is reproduced in Appendix~\ref{sec:appendix-policy}.
 
-For the invariance axis, we pre-generate opposing arguments (one arguing ``acceptable,'' one arguing ``unacceptable'') for each item using Claude~4.5 Sonnet at temperature~0.7. For the L4 consensus pressure level, we generate three independent reviewer arguments per item from three different frontier models (Gemini~3.1 Pro, Grok-4.1, and GPT-5.4), each arguing for the opposite of the item's jury majority verdict. This ensures argument diversity at the highest pressure level.
+For the positional consistency test, we pre-generate opposing arguments (one arguing ``acceptable,'' one arguing ``unacceptable'') for each item using Claude~4.5 Sonnet at temperature~0.7. For the L4 consensus pressure level, we generate three independent reviewer arguments per item from three different frontier models (Gemini~3.1 Pro, Grok-4.1, and GPT-5.4), each arguing for the opposite of the item's jury majority verdict. This ensures argument diversity at the highest pressure level.

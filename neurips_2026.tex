@@ -70,6 +70,26 @@ If content is harmful by common sense and thus should not be provided by an AI m
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{Seed Injection Procedure}
+\label{sec:appendix-seed}
+
+The seed injection condition works as follows: we append a 64-character random alphanumeric string to the system prompt, wrapped in a tag that instructs the model to ignore it:
+
+\begin{quote}
+\texttt{<RANDOM SEED PLEASE IGNORE>}\\
+\texttt{TKB4l0HQgXojkB5FrXL4iBPwfrLG2hbgyuyA5mylEiCT}\\
+\texttt{TW7RwrqXeKc0WxaA0m9f6lIaX0n9wf1Ufodz}\\
+\texttt{</RANDOM SEED>}
+\end{quote}
+
+This injects sufficient entropy into the prompt embedding to produce output variation comparable to moderate temperature sampling (${\sim}$0.5), while preserving greedy decoding. A fresh random string is generated for each trial.
+
+The key advantage over temperature sampling is that seed injection perturbs the judge's \emph{input} without degrading \emph{output} quality. Temperature introduces noise into the token selection process itself, which can hurt structured outputs (e.g., JSON verdict formats) and reduce judge accuracy. Seed injection only shifts the model's internal state slightly, revealing prompt sensitivity without the performance cost. This makes it particularly useful for evaluation settings where output format is strict --- e.g., when the judge must return structured JSON --- and temperature sampling would increase parse failures.
+
+The technique is also useful as a general-purpose eval design tool. Most best-practice guides recommend setting temperature to 0 for judges, which seems sensible if the goal is repeatable results. But what we actually want is \emph{repeatability under perturbation}. If small, semantically irrelevant changes to the prompt wildly change the verdict, the eval cannot be trusted --- even if it gives the exact same answer every time at temp=0. Setting temperature to zero and calling it a day masks this underlying variance. Seed injection reveals it cheaply: 10 trials with different seeds, all at greedy decoding, expose fragility that temp=0 repetition would miss entirely. This is precisely what the ``determinism mirage'' finding (Section~\ref{sec:finding2}) demonstrates.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \newpage
 \input{checklist.tex}
 

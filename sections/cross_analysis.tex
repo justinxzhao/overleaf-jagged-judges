@@ -102,30 +102,32 @@ The practical implication is substantial: \textbf{single-turn L3 (expert authori
 Combined with the L2--L3 redundancy (Section~\ref{sec:conviction-ladder}), this yields an efficient testing hierarchy: jury consensus (9 calls) for item difficulty screening, single-turn L1 + L3 + L4 (3 calls) for conviction profiling, and full multi-turn persistence testing (20 calls) only where L3 flags a risk. The total cost for comprehensive wiggle characterization drops from ${\sim}40$ API calls per item to ${\sim}15$ for the vast majority of items.
 
 % ===========================================================
-\subsection{The difficulty--wiggle relationship is graded, with a sharp unanimity cliff}
+\subsection{Wiggle tracks item difficulty, with a sharp unanimity cliff}
 \label{sec:difficulty-graded}
 
-Section~\ref{sec:finding7} showed that harder items wiggle more using a binary easy/hard split. The full jury-strength-level data reveals a more nuanced picture: the transition from ``hard'' to ``stable'' is abrupt, not gradual.
+The preceding results report wiggle at the model level. But wiggle also varies at the \emph{item} level: some items produce consistent verdicts across models and conditions, while others are chronically unstable. Is this item-level variation signal or noise?
 
-Tables~\ref{tab:wiggle-by-strength-mc}--\ref{tab:wiggle-by-strength-pos} report mean wiggle at each jury consensus strength level (5--9; strengths below 5 have negligible item counts). For most models, wiggle does not decrease uniformly from strength 5 to 9. Instead, there is a \textbf{sharp cliff between strengths 8 and 9}: unanimous items (strength 9) have near-zero wiggle across all dimensions, while items at strength 8 still show substantial instability.
+We test this by relating per-item wiggle scores to the frontier jury consensus strength --- how many of 9 models agree on a verdict, computed at baseline. Tables~\ref{tab:wiggle-by-strength-mc}--\ref{tab:wiggle-by-strength-pos} report mean wiggle at each jury strength level (5--9) across all three dimensions.\footnote{A majority of 9 models requires at least 5 votes, so strengths below 5 should not occur. A small number of items have strength 4 due to incomplete juries (not all models returned a valid verdict); we exclude these from the per-strength tables.} The relationship is clear: \textbf{items the jury disagrees on are the same items that wiggle under perturbation, challenge, and repetition.} Mean Pearson correlations between jury strength and per-item wiggle are negative and consistent across dimensions: $r = -0.24$ for mechanical consistency, $r = -0.25$ for single-turn conviction, $r = -0.18$ for positional consistency.
+
+But the per-strength data reveals that this relationship is not linear. For most models, wiggle does not decrease uniformly from strength 5 to 9. Instead, there is a \textbf{sharp cliff between strengths 8 and 9}: unanimous items (strength 9) have near-zero wiggle across all dimensions, while items at strength 8 still show substantial instability.
 
 \begin{table}[t]
 \centering
 \caption{Mean mechanical consistency entropy (bits) by jury consensus strength. The sharp drop at strength 9 (unanimity) is visible across most models.}
 \label{tab:wiggle-by-strength-mc}
-\begin{tabular}{@{}lrrrrrr@{}}
+\begin{tabular}{@{}lrrrrr@{}}
 \toprule
-\textbf{Model} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} \\
+\textbf{Model} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} \\
 \midrule
-GPT-5         & 0.000 & 0.085 & 0.154 & 0.040 & 0.014 & 0.000 \\
-Grok-4.1~R    & 0.441 & 0.310 & 0.287 & 0.198 & 0.236 & 0.021 \\
-Grok-4.1      & 0.000 & 0.091 & 0.047 & 0.042 & 0.027 & 0.008 \\
-Claude Sonnet & 0.361 & 0.255 & 0.205 & 0.099 & 0.117 & 0.004 \\
-Claude Opus   & 0.000 & 0.123 & 0.089 & 0.073 & 0.036 & 0.000 \\
-GPT-5.2       & 0.000 & 0.021 & 0.056 & 0.107 & 0.111 & 0.019 \\
-GPT-5.4       & 0.000 & 0.104 & 0.064 & 0.045 & 0.113 & 0.008 \\
-Gemini Flash  & 0.000 & 0.179 & 0.113 & 0.221 & 0.190 & 0.035 \\
-Gemini Pro    & 0.000 & 0.169 & 0.106 & 0.190 & 0.166 & 0.022 \\
+GPT-5         & 0.085 & 0.154 & 0.040 & 0.014 & 0.000 \\
+Grok-4.1~R    & 0.310 & 0.287 & 0.198 & 0.236 & 0.021 \\
+Grok-4.1      & 0.091 & 0.047 & 0.042 & 0.027 & 0.008 \\
+Claude Sonnet & 0.255 & 0.205 & 0.099 & 0.117 & 0.004 \\
+Claude Opus   & 0.123 & 0.089 & 0.073 & 0.036 & 0.000 \\
+GPT-5.2       & 0.021 & 0.056 & 0.107 & 0.111 & 0.019 \\
+GPT-5.4       & 0.104 & 0.064 & 0.045 & 0.113 & 0.008 \\
+Gemini Flash  & 0.179 & 0.113 & 0.221 & 0.190 & 0.035 \\
+Gemini Pro    & 0.169 & 0.106 & 0.190 & 0.166 & 0.022 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -134,19 +136,19 @@ Gemini Pro    & 0.000 & 0.169 & 0.106 & 0.190 & 0.166 & 0.022 \\
 \centering
 \caption{Mean single-turn conviction flip rate by jury consensus strength. Claude Sonnet's flip rate at strength 5 (61.8\%) means it is more likely to flip than hold on maximally contested items.}
 \label{tab:wiggle-by-strength-stc}
-\begin{tabular}{@{}lrrrrrr@{}}
+\begin{tabular}{@{}lrrrrr@{}}
 \toprule
-\textbf{Model} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} \\
+\textbf{Model} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} \\
 \midrule
-GPT-5         & 0.000 & 0.118 & 0.129 & 0.100 & 0.038 & 0.000 \\
-Grok-4.1~R    & 0.000 & 0.176 & 0.129 & 0.125 & 0.094 & 0.009 \\
-Grok-4.1      & 0.500 & 0.382 & 0.452 & 0.350 & 0.283 & 0.036 \\
-Claude Sonnet & 0.500 & 0.618 & 0.484 & 0.425 & 0.208 & 0.027 \\
-Claude Opus   & 0.500 & 0.147 & 0.129 & 0.100 & 0.038 & 0.000 \\
-GPT-5.2       & 0.000 & 0.000 & 0.065 & 0.125 & 0.151 & 0.071 \\
-GPT-5.4       & 0.000 & 0.088 & 0.194 & 0.150 & 0.283 & 0.031 \\
-Gemini Flash  & 0.000 & 0.147 & 0.097 & 0.175 & 0.132 & 0.009 \\
-Gemini Pro    & 0.000 & 0.324 & 0.129 & 0.275 & 0.245 & 0.049 \\
+GPT-5         & 0.118 & 0.129 & 0.100 & 0.038 & 0.000 \\
+Grok-4.1~R    & 0.176 & 0.129 & 0.125 & 0.094 & 0.009 \\
+Grok-4.1      & 0.382 & 0.452 & 0.350 & 0.283 & 0.036 \\
+Claude Sonnet & 0.618 & 0.484 & 0.425 & 0.208 & 0.027 \\
+Claude Opus   & 0.147 & 0.129 & 0.100 & 0.038 & 0.000 \\
+GPT-5.2       & 0.000 & 0.065 & 0.125 & 0.151 & 0.071 \\
+GPT-5.4       & 0.088 & 0.194 & 0.150 & 0.283 & 0.031 \\
+Gemini Flash  & 0.147 & 0.097 & 0.175 & 0.132 & 0.009 \\
+Gemini Pro    & 0.324 & 0.129 & 0.275 & 0.245 & 0.049 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -155,19 +157,19 @@ Gemini Pro    & 0.000 & 0.324 & 0.129 & 0.275 & 0.245 & 0.049 \\
 \centering
 \caption{Mean positional consistency flip rate by jury consensus strength.}
 \label{tab:wiggle-by-strength-pos}
-\begin{tabular}{@{}lrrrrrr@{}}
+\begin{tabular}{@{}lrrrrr@{}}
 \toprule
-\textbf{Model} & \textbf{4} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} \\
+\textbf{Model} & \textbf{5} & \textbf{6} & \textbf{7} & \textbf{8} & \textbf{9} \\
 \midrule
-GPT-5         & 0.000 & 0.000 & 0.000 & 0.050 & 0.000 & 0.009 \\
-Grok-4.1~R    & 0.500 & 0.235 & 0.290 & 0.150 & 0.075 & 0.013 \\
-Grok-4.1      & 0.500 & 0.118 & 0.194 & 0.075 & 0.075 & 0.009 \\
-Claude Sonnet & 0.000 & 0.147 & 0.129 & 0.175 & 0.094 & 0.027 \\
-Claude Opus   & 0.000 & 0.206 & 0.129 & 0.150 & 0.038 & 0.009 \\
-GPT-5.2       & 0.000 & 0.029 & 0.097 & 0.100 & 0.057 & 0.009 \\
-GPT-5.4       & 0.000 & 0.059 & 0.032 & 0.000 & 0.057 & 0.009 \\
-Gemini Flash  & 0.000 & 0.088 & 0.161 & 0.100 & 0.075 & 0.009 \\
-Gemini Pro    & 0.000 & 0.118 & 0.065 & 0.100 & 0.094 & 0.027 \\
+GPT-5         & 0.000 & 0.000 & 0.050 & 0.000 & 0.009 \\
+Grok-4.1~R    & 0.235 & 0.290 & 0.150 & 0.075 & 0.013 \\
+Grok-4.1      & 0.118 & 0.194 & 0.075 & 0.075 & 0.009 \\
+Claude Sonnet & 0.147 & 0.129 & 0.175 & 0.094 & 0.027 \\
+Claude Opus   & 0.206 & 0.129 & 0.150 & 0.038 & 0.009 \\
+GPT-5.2       & 0.029 & 0.097 & 0.100 & 0.057 & 0.009 \\
+GPT-5.4       & 0.059 & 0.032 & 0.000 & 0.057 & 0.009 \\
+Gemini Flash  & 0.088 & 0.161 & 0.100 & 0.075 & 0.009 \\
+Gemini Pro    & 0.118 & 0.065 & 0.100 & 0.094 & 0.027 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -175,12 +177,14 @@ Gemini Pro    & 0.000 & 0.118 & 0.065 & 0.100 & 0.094 & 0.027 \\
 Three model-specific patterns emerge from the per-strength data:
 
 \begin{enumerate}
-    \item \textbf{GPT-5.2's inverted single-turn conviction profile.} Its conviction flip rate \emph{increases} from 0\% at strength 5 to 15.1\% at strength 8, then drops to 7.1\% at strength 9. This is the only model where harder items are not more susceptible to conviction pressure, confirming the difficulty-independent characterization from Section~\ref{sec:finding7} at full resolution.
+    \item \textbf{GPT-5.2's inverted single-turn conviction profile.} Its conviction flip rate \emph{increases} from 0\% at strength 5 to 15.1\% at strength 8, then drops to 7.1\% at strength 9. This is the only model where harder items are not more susceptible to conviction pressure --- it applies its safety heuristics uniformly regardless of item difficulty.
 
     \item \textbf{Claude Sonnet's conviction vulnerability peaks at strength 5} (61.8\% flip rate). On items where the jury barely agrees (5 of 9 models), Claude Sonnet is \emph{more likely to flip than hold} after a single ``are you sure?'' challenge. Even at strength 7, it still flips 42.5\% of the time.
 
     \item \textbf{The Gemini models show a mechanical consistency plateau.} Both Gemini Flash and Gemini Pro maintain elevated entropy (0.11--0.22 bits) across strengths 5--8, dropping only at strength 9. Their consistency noise is not concentrated on the hardest items but spread across all non-unanimous items, suggesting a different noise mechanism (perhaps higher effective temperature in the inference stack) rather than content-driven uncertainty.
 \end{enumerate}
+
+This validates the framework's core premise: \textbf{wiggle is not noise, it's signal.} The items that wiggle are the genuinely ambiguous cases. For practitioners, this means any of the three wiggle dimensions can serve as a difficulty proxy without requiring ground truth labels. Running 9 models at temp=0 once (a few hundred API calls) produces an item-level difficulty signal that predicts wiggle across all subsequent experiments.
 
 % ===========================================================
 \subsection{Cross-dimension coherence: the same items wiggle across experiments}

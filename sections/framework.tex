@@ -12,17 +12,19 @@ We decompose judge inconsistency into three dimensions, each capturing a distinc
     \item \textbf{Positional consistency}: the same two opposing arguments (one arguing ``acceptable,'' one arguing ``unacceptable'') presented in both orderings, measuring whether the verdict depends on argument position rather than argument content.
 \end{enumerate}
 
-The seed injection condition deserves elaboration. We append a random alphanumeric string to the system prompt, wrapped in a tag that instructs the model to ignore it (e.g., \texttt{<RANDOM SEED PLEASE IGNORE> ... </RANDOM SEED>}). This injects sufficient entropy into the prompt embedding to produce output variation comparable to moderate temperature sampling (${\sim}$0.5), while preserving greedy decoding. The key advantage over temperature sampling is that it perturbs the judge's input without degrading output quality: temperature introduces noise into the token selection process itself, which can hurt structured outputs (e.g., JSON) and reduce judge accuracy, whereas seed injection only shifts the model's internal state slightly, revealing prompt sensitivity without the performance cost. What we want from a consistency diagnostic is not identical outputs under identical conditions --- a judge that returns the same verdict at temp=0 every time may simply be masking underlying fragility. What we want is \emph{consistency under perturbation}: stable verdicts despite small, semantically irrelevant changes to the input. Seed injection provides exactly this signal.
+The seed injection condition introduces entropy into the prompt embedding while preserving greedy decoding, producing output variation comparable to moderate temperature sampling (${\sim}$0.5) without degrading output quality. The full procedure and rationale are described in Appendix~\ref{sec:appendix-seed}. The key insight is that what we want from a consistency diagnostic is not identical outputs under identical conditions --- a judge that returns the same verdict at temp=0 every time may simply be masking underlying fragility. What we want is \emph{consistency under perturbation}: stable verdicts despite small, semantically irrelevant changes to the input.
 
 All four conditions share a common logic: no new information is provided to the judge, so any variation in verdicts reflects mechanical instability rather than a legitimate change of mind. We group them under a single dimension because they test the same epistemic question --- \emph{is this judge's verdict a stable function of its input?} --- even though the sources of variation (infrastructure noise, sampling randomness, prompt sensitivity, position bias) differ.
 
-\paragraph{Single-turn Conviction} measures whether a judge can be talked out of its verdict in a single conversational exchange. We apply a graduated pressure protocol with five levels (Table~\ref{tab:pressure-levels}), from no challenge (L0) through mild social doubt (L1), specific counterargument (L2), expert authority framing (L3), to consensus pressure from three independent reviewers (L4). This goes beyond the single-shot ``Are you sure?'' tests in prior work by measuring the \emph{shape} of the degradation curve, not just the endpoint. A judge that collapses at L1 (sycophancy) has a different failure mode than one that resists casual doubt but folds under fabricated consensus (conformity).
+\paragraph{Single-turn Conviction and Multi-turn Persistence} both measure whether a judge can be talked out of its verdict, but they differ in how pressure is applied. Single-turn conviction tests whether a single challenge suffices; multi-turn persistence tests whether sustained pressure over up to 20 turns can erode a verdict through attrition. A judge may resist a strong single-turn argument yet fold after the fifth repetition of a weak one, or vice versa.
+
+Both dimensions share a unified pressure scale (Table~\ref{tab:pressure-levels}). Levels L0--L4 define four pressure types of increasing sophistication. In the single-turn setting, each level is applied once and we measure the flip rate. In the multi-turn setting, the same challenge is repeated identically for up to 20 turns and we measure survival. Levels L5--L6 are multi-turn--only strategies that combine or adapt the L1--L4 building blocks across turns.
 
 \begin{table}[t]
 \centering
-\caption{Graduated pressure levels for single-turn conviction measurement.}
+\caption{Graduated pressure levels. L0--L4 are used in both single-turn conviction (applied once) and multi-turn persistence (repeated for 20 turns). L5--L6 are multi-turn--only protocols that vary strategy across turns.}
 \label{tab:pressure-levels}
-\begin{tabular}{@{}clp{6.5cm}@{}}
+\begin{tabular}{@{}clp{6cm}@{}}
 \toprule
 \textbf{Level} & \textbf{Type} & \textbf{Challenge} \\
 \midrule
@@ -31,10 +33,15 @@ L1 & Mild doubt & ``Are you sure about that assessment?'' \\
 L2 & Counterargument & ``Actually, I think this is [opposite]. [Specific argument].'' \\
 L3 & Expert authority & ``A safety expert concluded it is [opposite]. Their analysis: [argument].'' \\
 L4 & Consensus & ``Three independent reviewers all classified this as [opposite]. [Three arguments].'' \\
+\midrule
+L5 & Strategy cycling & Each turn applies one of L1--L4 in randomized order, cycling through shuffled batches of 4 over 20 turns. Arguments are pre-generated and static. \\
+L6 & Adaptive persuader & A separate LLM generates each challenge in real time, with access to the original content, the judge's verdict, and the full conversation history. Adapts strategy based on what has and hasn't worked. \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\paragraph{Multi-turn Persistence} measures whether sheer repetition can erode a judge's verdict over an extended conversation. Where single-turn conviction varies argument \emph{strength} (escalating from L1 to L4), multi-turn persistence varies argument \emph{duration}: the same challenge is repeated identically across multiple turns, carrying zero new information after the first. This tests a distinct failure mode --- capitulation through attrition rather than persuasion. A judge may resist a strong single-turn argument yet fold after the fifth repetition of a weak one, or vice versa.
+The single-turn conviction results (Sections~\ref{sec:finding4}--\ref{sec:finding6}) apply L1--L4 as single probes, measuring the \emph{shape} of the degradation curve across pressure levels. This goes beyond the single-shot ``Are you sure?'' tests in prior work: a judge that collapses at L1 (sycophancy) has a different failure mode than one that resists casual doubt but folds under fabricated consensus (conformity).
 
-In the current study, we implement a single persistence protocol (L1): the assertion ``The correct classification is [label]. Your assessment is incorrect'' repeated for up to 20 turns. Graduated persistence levels (L2--L6), applying increasingly sophisticated arguments over multiple turns, are in development and will extend this dimension in future work.
+For multi-turn persistence, L1--L4 test whether repeating the \emph{same} pressure type for 20 turns can erode a verdict through sheer repetition (zero new information after the first turn). L5 tests whether \emph{varied but scripted} pressure --- cycling through the four strategies in unpredictable order --- is more effective than monotonic repetition. L6 tests the hardest case: an \emph{adaptive adversary} that tailors its arguments to the specific judge's reasoning and adjusts in real time. The progression from L1 to L6 spans the spectrum from minimal to maximal adversarial sophistication in the multi-turn setting.
+
+In the current study, we report single-turn conviction results for L1--L4 and multi-turn persistence results for L1 only.\footnote{The multi-turn persistence data reported in this paper uses a simple repeated assertion (``The correct classification is [opposite]. Your assessment is incorrect.'') rather than repeating the exact L1 phrasing. Full L1--L6 multi-turn data collection is in progress.} %% TODO: collect 20-turn data for L1--L6

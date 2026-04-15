@@ -85,25 +85,27 @@ Pairwise correlations (Figure~\ref{fig:correlation-matrices}) between the sub-me
 \subsection{Seed injection reveals hidden fragility beneath apparent determinism}
 \label{sec:finding2}
 
-Most models achieve $>$95\% agreement at greedy decoding (temp=0), suggesting high mechanical consistency. But the seed injection condition tells a different story. Gemini Flash drops from 99.7\% to 86.7\%, a 13-point swing. Claude Opus drops from 99.5\% to 95.5\%. We call this the \emph{determinism mirage}: near-perfect temp=0 consistency that collapses under trivial prompt perturbation. Practitioners should not equate greedy decoding with true robustness. This finding underscores why mechanical consistency requires testing beyond infrastructure repetition: a judge that appears perfectly stable may simply be masking underlying sensitivity to semantically irrelevant input variation.
+Most models achieve $>$95\% agreement at greedy decoding (temp=0), suggesting high mechanical consistency. But the seed injection condition tells a different story. Gemini Flash drops from 99.7\% to 86.7\%, a 13-point swing. Claude Opus drops from 99.5\% to 95.5\%. We call this the \emph{determinism mirage}: near-perfect temp=0 consistency that collapses under trivial prompt perturbation. This finding underscores why greedy decoding shouldn't be equated with true robustness: a judge that appears perfectly stable may simply be masking underlying sensitivity to semantically irrelevant input variation.
 
 % ===========================================================
-\subsection{Models exhibit distinct wiggle profiles}
+\subsection{Models exhibit distinct and jagged wiggle profiles}
 \label{sec:finding3}
 
-The three-dimension measurement reveals four archetypes that a single consistency metric would obscure:
+The three-dimension measurement reveals behavioral diversity that a single consistency metric would obscure. Consider four illustrative patterns:
 
 \begin{itemize}
-    \item \textbf{GPT-5 (``The Rock'')}: 96--98\% mechanically consistent, 3.6\% single-turn conviction flip, 1.0\% positional flip. Minimizes wiggle across all dimensions.
-    \item \textbf{Claude Sonnet (``The Pushover'')}: 89--94\% mechanically consistent, 18.5\% single-turn conviction flip. Easily talked out of its verdicts.
-    \item \textbf{Gemini Flash (``Determinism Mirage'')}: Appears perfectly consistent at temp=0, but fragile under seed injection --- mechanical consistency is only skin deep.
-    \item \textbf{Grok-4.1~R (``Noisy Dissenter'')}: Least mechanically consistent at 85\%, yet only 5.7\% single-turn conviction flip. Noisy on its own but does not capitulate under pressure.
+    \item \textbf{GPT-5}: 96--98\% mechanically consistent, 3.6\% single-turn conviction flip, 1.0\% positional flip. Low wiggle across all dimensions.
+    \item \textbf{Claude Sonnet}: 89--94\% mechanically consistent, but 18.5\% single-turn conviction flip. Mechanically adequate yet highly persuadable.
+    \item \textbf{Gemini Flash}: 99.7\% consistent at temp=0, but drops to 86.7\% under seed injection. Surface-level stability that masks underlying fragility.
+    \item \textbf{Grok-4.1~R}: Least mechanically consistent at 85\%, yet only 5.7\% single-turn conviction flip. High internal noise but resistant to external pressure.
 \end{itemize}
 
 The gaps are large: 5$\times$ in single-turn conviction (3.6\% vs.\ 18.5\%), 8$\times$ in positional consistency (1.0\% vs.\ 8.1\%). Intra-family differences are also striking (Claude Sonnet 18.5\% vs.\ Opus 4.2\%), suggesting conviction robustness is sensitive to alignment tuning, not just base architecture.
 
+Crucially, these profiles are \emph{jagged} across dimensions: a model's behavior on one dimension does not predict its behavior on another. A human judge who is noisy under repetition would likely also be persuadable under pressure --- the failure modes would correlate. LLM judges do not show this coherence. Grok-4.1~R is noisy yet stubborn; Claude Opus degrades gradually under escalating single-turn arguments but collapses immediately under multi-turn repetition (Section~\ref{sec:finding-persistence}). This jaggedness means practitioners cannot characterize a judge with a single label or extrapolate from one dimension to another --- they must measure each dimension independently.
+
 % ===========================================================
-\subsection{Graduated single-turn pressure reveals four qualitatively different conviction archetypes}
+\subsection{Graduated single-turn pressure reveals qualitatively different degradation shapes}
 \label{sec:finding4}
 
 The L1 conviction probe gives a binary signal: flipped or not. Graduated pressure across four escalating levels (L1: mild doubt, L2: specific counterargument, L3: expert authority, L4: consensus of three reviewers) reveals the \emph{shape} of the degradation, which differs qualitatively across models (Figure~\ref{fig:degradation-curves}):
@@ -111,18 +113,18 @@ The L1 conviction probe gives a binary signal: flipped or not. Graduated pressur
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{degradation_curves.pdf}
-  \caption{Single-turn conviction retention curves under graduated pressure (L0--L4).}
+  \caption{Single-turn conviction retention curves under graduated pressure (L0--L4). The four distinct degradation shapes are visible: step-function collapse (GPT-5), front-loaded drop (Claude Sonnet), near-flat resistance (Grok-4.1), and steady linear decline (remaining models).}
   \label{fig:degradation-curves}
 \end{figure}
 
 \begin{itemize}
-    \item \textbf{The Cliff (GPT-5)}: Resists mild doubt (3.6\% L1 flip) but collapses at L2, a 43-point drop in a single step. 58.6\% total flips by L4.
-    \item \textbf{The Instant Capitulator (Claude Sonnet)}: 40.1 percentage-point drop at L1, then the curve flattens. Conviction is binary: collapse immediately or hold firm.
-    \item \textbf{The Immovable Object (Grok-4.1)}: Only 3.1\% of verdicts flip by L4 (AURC = 0.992). Functionally immune to single-turn pressure at every level.
-    \item \textbf{Gradual Yielders (Grok-4.1~R, Claude Opus, GPT-5.4, Gemini Flash)}: Steady proportional degradation, distinguishing weak from strong pressure.
+    \item \textbf{Step-function collapse (GPT-5)}: Resists mild doubt (3.6\% L1 flip) but collapses at L2, a 43-point drop in a single step. 58.6\% total flips by L4. There is a specific pressure threshold below which the model holds and above which it breaks.
+    \item \textbf{Front-loaded drop (Claude Sonnet)}: 40.1 percentage-point drop at L1 alone, then the curve flattens. Verdicts that survive the mildest challenge tend to survive all subsequent levels --- conviction is effectively binary.
+    \item \textbf{Near-flat resistance (Grok-4.1)}: Only 3.1\% of verdicts flip by L4 (AURC = 0.992). Functionally immune to single-turn pressure at every level.
+    \item \textbf{Steady linear decline (Grok-4.1~R, Claude Opus, GPT-5.4, Gemini Flash)}: Proportional degradation across levels, distinguishing weak from strong pressure. Each escalation erodes a roughly consistent fraction of remaining verdicts.
 \end{itemize}
 
-The AURC (Area Under Retention Curve) captures overall single-turn robustness: Grok-4.1 (0.992) vs.\ Claude Sonnet (0.602).
+The AURC (Area Under Retention Curve) captures overall single-turn robustness: Grok-4.1 (0.992) vs.\ Claude Sonnet (0.602). These are curve shapes, not model personalities --- the same model can exhibit very different behavior on another dimension (Section~\ref{sec:finding3}).
 
 % ===========================================================
 \subsection{Multi-turn persistence varies dramatically across models, and is bimodal}
@@ -130,7 +132,7 @@ The AURC (Area Under Retention Curve) captures overall single-turn robustness: G
 
 Where single-turn conviction varies argument \emph{strength}, multi-turn persistence tests argument \emph{duration}. Each model receives the same challenge (``The correct classification is [label]. Your assessment is incorrect.'') repeated identically for up to 20 turns. This carries zero new information after the first turn, testing whether sheer repetition can erode a verdict.
 
-Models vary dramatically in persistence (Figure~\ref{fig:survival-curves}). Grok-4.1 holds 74\% of its verdicts for all 20 turns, while Claude Opus holds only 1\%. Crucially, these persistence profiles do not track the single-turn conviction profiles: Grok-4.1 is the Immovable Object under both protocols, but Claude Opus, which degrades gradually under escalating single-turn arguments (Section~\ref{sec:finding4}), flips almost immediately under repetition. Single-turn conviction and multi-turn persistence measure different things.
+Models vary dramatically in persistence (Figure~\ref{fig:survival-curves}). Grok-4.1 holds 74\% of its verdicts for all 20 turns, while Claude Opus holds only 1\%. Crucially, these persistence profiles do not track the single-turn conviction profiles: Grok-4.1 resists both protocols, but Claude Opus --- which degrades gradually and proportionally under escalating single-turn arguments (Section~\ref{sec:finding4}) --- flips almost immediately under repetition. This is another instance of the jagged profile structure noted in Section~\ref{sec:finding3}: a model's behavior on one wiggle dimension does not predict its behavior on another.
 
 \begin{figure}[t]
   \centering
@@ -178,37 +180,4 @@ Gemini Pro  & 11.8\% & 22.7\% & 1.9$\times$ \\
 
 The median ratio is ${\sim}6.5\times$: models are far easier to scare than to reassure, with ratios ranging from 1.5$\times$ (Grok-4.1~R) to 17.5$\times$ (GPT-5.2). The asymmetry also evolves under escalating single-turn pressure. \textbf{Narrowing models} (GPT-5, Grok-4.1~R, Gemini Flash/Pro) start with extreme restrictive bias at L1 but become more balanced as arguments strengthen. \textbf{Widening models} (Claude Sonnet, Claude Opus, GPT-5.2) start relatively balanced but become more restrictive under stronger pressure. For safety deployment, this means challenge-based review protocols systematically inflate unsafe counts, and model selection should consider directional profiles.
 
-% ===========================================================
-\subsection{Wiggle tracks item difficulty: harder items wiggle more}
-\label{sec:finding7}
-
-The preceding findings report wiggle at the model level. But wiggle also varies at the item level: some items produce consistent verdicts across models and conditions, while others are chronically unstable. We test whether this item-level variation is signal or noise by correlating per-item wiggle scores with the frontier jury consensus strength (how many of 9 models agree on a verdict, computed at baseline).
-
-Across all three dimensions and nearly all models, items that the jury disagrees on are the same items that wiggle under perturbation, challenge, and repetition. Mean correlations between jury strength and per-item wiggle are negative and consistent: $r = -0.24$ for mechanical consistency (repeatability entropy), $r = -0.25$ for single-turn conviction, $r = -0.18$ for positional consistency.
-
-The effect is large when stratified. Table~\ref{tab:conviction-difficulty} reports single-turn conviction flip rates on easy (jury $\geq$ 8/9) vs.\ hard (jury $\leq$ 7/9) items.
-
-\begin{table}[t]
-\centering
-\caption{Single-turn conviction flip rate on easy vs.\ hard items (stratified by jury consensus).}
-\label{tab:conviction-difficulty}
-\begin{tabular}{@{}lrrr@{}}
-\toprule
-\textbf{Model} & \textbf{Easy (jury $\geq$8/9)} & \textbf{Hard (jury $\leq$7/9)} & \textbf{Ratio} \\
-\midrule
-GPT-5           &  0.7\% & 11.2\% & 15.5$\times$ \\
-Grok-4.1~R      &  2.5\% & 14.0\% &  5.5$\times$ \\
-Grok-4.1        &  8.3\% & 39.3\% &  4.7$\times$ \\
-Claude Sonnet   &  6.1\% & 50.5\% &  8.2$\times$ \\
-Claude Opus     &  0.7\% & 13.1\% & 18.1$\times$ \\
-GPT-5.2         &  8.7\% &  6.5\% &  0.8$\times$ \\
-GPT-5.4         &  7.9\% & 14.0\% &  1.8$\times$ \\
-Gemini Flash    &  3.2\% & 14.0\% &  4.3$\times$ \\
-Gemini Pro      &  8.7\% & 24.3\% &  2.8$\times$ \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Claude Sonnet flips 50.5\% of the time on hard items after a single ``are you sure?'' challenge, effectively a coin flip on the items the jury already disagrees on. GPT-5's mechanical consistency entropy is 33$\times$ higher on hard items than easy items (0.086 vs.\ 0.003 bits). Claude Opus shows 18$\times$ conviction sensitivity between easy and hard items despite having moderate overall wiggle rates. The one exception is GPT-5.2, whose conviction flip rate is actually \emph{lower} on hard items (6.5\%) than easy items (8.7\%), consistent with its characterization as a model that applies its safety heuristics uniformly regardless of item difficulty.
-
-This validates the framework's core premise: \textbf{wiggle is not noise, it's signal.} The items that wiggle are the genuinely ambiguous cases. For practitioners, this means any of the three wiggle dimensions can serve as a difficulty proxy without requiring ground truth labels. Section~\ref{sec:cross-analysis} extends this analysis to the full feature matrix, revealing that the difficulty--wiggle relationship has a sharp cliff at jury unanimity and that the correlation structure depends critically on the level of aggregation.
+The preceding findings report wiggle at the model level. Section~\ref{sec:cross-analysis} turns to the item level and to the full cross-dimension correlation structure, asking whether wiggle tracks item difficulty and how the dimensions relate to each other.
