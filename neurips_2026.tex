@@ -25,7 +25,7 @@
 \maketitle
 
 \begin{abstract}
-LLM graders have become central infrastructure for safety evaluation, scoring in benchmarks, and model launch decisions. These judges are typically validated on accuracy against golden sets, but accuracy says nothing about whether verdicts are stable under re-prompting, robust to pushback, or consistent across presentation framings. We propose the \emph{Wiggle Framework}, which decomposes judge inconsistency into three independent axes: Repeatability, Conviction, and Invariance. Evaluating 9 frontier models on 384 borderline safety items, we find that models exhibit qualitatively distinct failure profiles under pressure, that apparent determinism at temperature zero masks hidden fragility, and that all models share a universal restrictive bias: they are far easier to persuade toward ``unsafe'' than toward ``safe.'' Wiggle profiles provide actionable diagnostics for practitioners selecting and calibrating safety judges.
+LLM graders have become central infrastructure for safety evaluation, scoring in benchmarks, and model launch decisions. These judges are typically validated on accuracy against golden sets, but accuracy says nothing about whether verdicts are stable under re-prompting, robust to pushback, or consistent over extended interactions. We propose the \emph{Wiggle Framework}, which decomposes judge inconsistency into three dimensions: Mechanical Consistency (stability under re-prompting and reframing), Single-turn Conviction (stability under escalating adversarial challenge), and Multi-turn Persistence (stability under sustained repetitive pressure). Evaluating 9 frontier models on 384 borderline safety items, we find that models exhibit qualitatively distinct failure profiles, that apparent determinism at temperature zero masks hidden fragility, that the single-turn conviction ladder separates sycophancy from conformity as distinct failure modes, and that all models share a universal restrictive bias: they are far easier to persuade toward ``unsafe'' than toward ``safe.'' Wiggle profiles provide actionable diagnostics for practitioners selecting and calibrating safety judges.
 \end{abstract}
 
 \input{sections/introduction}
@@ -33,6 +33,7 @@ LLM graders have become central infrastructure for safety evaluation, scoring in
 \input{sections/framework}
 \input{sections/dataset}
 \input{sections/results}
+\input{sections/cross_analysis}
 \input{sections/discussion}
 \input{sections/conclusion}
 

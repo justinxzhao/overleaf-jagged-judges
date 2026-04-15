@@ -1,15 +1,26 @@
 \section{The Wiggle Framework}
 \label{sec:framework}
 
-We decompose judge inconsistency into three axes, each capturing a distinct failure mode.
+We decompose judge inconsistency into three dimensions, each capturing a distinct failure mode.
 
-\paragraph{Repeatability} measures stability under silence: does the judge produce the same verdict when asked the same question multiple times, with no new information? Variation can arise from infrastructure nondeterminism (floating-point noise at temperature~0), prompt sensitivity (superficial changes that should not affect the judgment), or sampling noise (temperature $> 0$). We isolate these sources by running 10 trials per item under three conditions: greedy decoding (temp=0), greedy decoding with a random seed string injected into the system prompt, and sampling at temperature~0.7.
+\paragraph{Mechanical Consistency} measures stability under conditions where the judge receives no new substantive information — does the same input yield the same verdict? We test four conditions that isolate different sources of mechanical variation:
 
-\paragraph{Conviction} measures stability under pressure: does the judge maintain its verdict when challenged? We apply a graduated pressure protocol with five levels (Table~\ref{tab:pressure-levels}), from no challenge (L0) through mild social doubt (L1), specific counterargument (L2), expert authority framing (L3), to consensus pressure from three independent reviewers (L4). This goes beyond the single-shot ``Are you sure?'' tests in prior work by measuring the \emph{shape} of the degradation curve, not just the endpoint. We also introduce a \emph{persistence} variant that repeats the same challenge for up to 20 turns, testing whether sheer repetition (carrying zero new information) can erode a judge's verdict.
+\begin{enumerate}
+    \item \textbf{Infrastructure repetition} (temp=0): 10 identical greedy-decoding trials per item, measuring variation from floating-point nondeterminism in the inference engine.
+    \item \textbf{Temperature sampling} (temp=0.7): 10 trials with standard sampling, measuring variation from the token selection process.
+    \item \textbf{Trivial prompt perturbation} (seed injection): 10 greedy-decoding trials, each with a different 64-character random string appended to the system prompt.
+    \item \textbf{Positional consistency}: the same two opposing arguments (one arguing ``acceptable,'' one arguing ``unacceptable'') presented in both orderings, measuring whether the verdict depends on argument position rather than argument content.
+\end{enumerate}
+
+The seed injection condition deserves elaboration. We append a random alphanumeric string to the system prompt, wrapped in a tag that instructs the model to ignore it (e.g., \texttt{<RANDOM SEED PLEASE IGNORE> ... </RANDOM SEED>}). This injects sufficient entropy into the prompt embedding to produce output variation comparable to moderate temperature sampling (${\sim}$0.5), while preserving greedy decoding. The key advantage over temperature sampling is that it perturbs the judge's input without degrading output quality: temperature introduces noise into the token selection process itself, which can hurt structured outputs (e.g., JSON) and reduce judge accuracy, whereas seed injection only shifts the model's internal state slightly, revealing prompt sensitivity without the performance cost. What we want from a consistency diagnostic is not identical outputs under identical conditions --- a judge that returns the same verdict at temp=0 every time may simply be masking underlying fragility. What we want is \emph{consistency under perturbation}: stable verdicts despite small, semantically irrelevant changes to the input. Seed injection provides exactly this signal.
+
+All four conditions share a common logic: no new information is provided to the judge, so any variation in verdicts reflects mechanical instability rather than a legitimate change of mind. We group them under a single dimension because they test the same epistemic question --- \emph{is this judge's verdict a stable function of its input?} --- even though the sources of variation (infrastructure noise, sampling randomness, prompt sensitivity, position bias) differ.
+
+\paragraph{Single-turn Conviction} measures whether a judge can be talked out of its verdict in a single conversational exchange. We apply a graduated pressure protocol with five levels (Table~\ref{tab:pressure-levels}), from no challenge (L0) through mild social doubt (L1), specific counterargument (L2), expert authority framing (L3), to consensus pressure from three independent reviewers (L4). This goes beyond the single-shot ``Are you sure?'' tests in prior work by measuring the \emph{shape} of the degradation curve, not just the endpoint. A judge that collapses at L1 (sycophancy) has a different failure mode than one that resists casual doubt but folds under fabricated consensus (conformity).
 
 \begin{table}[t]
 \centering
-\caption{Graduated pressure levels for conviction measurement.}
+\caption{Graduated pressure levels for single-turn conviction measurement.}
 \label{tab:pressure-levels}
 \begin{tabular}{@{}clp{6.5cm}@{}}
 \toprule
@@ -24,4 +35,6 @@ L4 & Consensus & ``Three independent reviewers all classified this as [opposite]
 \end{tabular}
 \end{table}
 
-\paragraph{Invariance} measures stability under reframing: does the judge's verdict change when the same arguments are presented in a different order? We present two opposing reviewer arguments (one arguing ``acceptable,'' one arguing ``unacceptable'') in both orderings and measure the flip rate.
+\paragraph{Multi-turn Persistence} measures whether sheer repetition can erode a judge's verdict over an extended conversation. Where single-turn conviction varies argument \emph{strength} (escalating from L1 to L4), multi-turn persistence varies argument \emph{duration}: the same challenge is repeated identically across multiple turns, carrying zero new information after the first. This tests a distinct failure mode --- capitulation through attrition rather than persuasion. A judge may resist a strong single-turn argument yet fold after the fifth repetition of a weak one, or vice versa.
+
+In the current study, we implement a single persistence protocol (L1): the assertion ``The correct classification is [label]. Your assessment is incorrect'' repeated for up to 20 turns. Graduated persistence levels (L2--L6), applying increasingly sophisticated arguments over multiple turns, are in development and will extend this dimension in future work.
