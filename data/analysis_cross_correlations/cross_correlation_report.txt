@@ -1,0 +1,74 @@
+===========================================================================
+CROSS-DIMENSION CORRELATION ANALYSIS
+===========================================================================
+
+Data: 384 examples × 9 judges = 3456 rows
+
+Feature coverage:
+  repeatability_entropy            3445 / 3456 (100%)
+  repeatability_seed_entropy       3445 / 3456 (100%)
+  conviction_L1_flip               3456 / 3456 (100%)
+  conviction_L2_flip               3456 / 3456 (100%)
+  conviction_L3_flip               3456 / 3456 (100%)
+  conviction_L4_flip               3456 / 3456 (100%)
+  invariance_flip                  3456 / 3456 (100%)
+  persistence_flipped              3456 / 3456 (100%)
+  persistence_flip_turn            2123 / 3456 (61%)
+
+1. POOLED CORRELATION (all examples × all judges)
+---------------------------------------------------------------------------
+                            repeatability_entropy  repeatability_seed_entropy  conviction_L1_flip  conviction_L2_flip  conviction_L3_flip  conviction_L4_flip  invariance_flip  persistence_flipped  persistence_flip_turn  jury_majority_strength
+repeatability_entropy                        1.00                        0.52                0.33                0.24                0.26                0.08             0.14                 0.16                  -0.06                   -0.20
+repeatability_seed_entropy                   0.52                        1.00                0.37                0.28                0.30                0.10             0.19                 0.19                  -0.06                   -0.26
+conviction_L1_flip                           0.33                        0.37                1.00                0.56                0.49                0.22             0.22                 0.26                  -0.21                   -0.25
+conviction_L2_flip                           0.24                        0.28                0.56                1.00                0.80                0.41             0.18                 0.35                  -0.29                   -0.29
+conviction_L3_flip                           0.26                        0.30                0.49                0.80                1.00                0.49             0.23                 0.41                  -0.29                   -0.33
+conviction_L4_flip                           0.08                        0.10                0.22                0.41                0.49                1.00             0.13                 0.41                  -0.22                   -0.21
+invariance_flip                              0.14                        0.19                0.22                0.18                0.23                0.13             1.00                 0.16                  -0.07                   -0.20
+persistence_flipped                          0.16                        0.19                0.26                0.35                0.41                0.41             0.16                 1.00                    NaN                   -0.37
+persistence_flip_turn                       -0.06                       -0.06               -0.21               -0.29               -0.29               -0.22            -0.07                  NaN                   1.00                    0.18
+jury_majority_strength                      -0.20                       -0.26               -0.25               -0.29               -0.33               -0.21            -0.20                -0.37                   0.18                    1.00
+
+2. PER-JUDGE CORRELATIONS (key pairs)
+---------------------------------------------------------------------------
+  Pair                                                 GPT-5   Grok-4.1 R     Grok-4.1 Claude Sonnet  Claude Opus      GPT-5.2      GPT-5.4 Gemini Flash   Gemini Pro
+  -------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  Repeat (temp=0) × Conv L1                           +0.28       +0.42       -0.01       +0.29       +0.12       +0.66       +0.59       -0.01       +0.36
+  Repeat (temp=0) × Invariance                        -0.01       +0.29       +0.07       +0.03       +0.16       +0.19       +0.14       -0.01       +0.10
+  Conv L1 × Invariance                                -0.02       +0.16       -0.01       +0.23       +0.28       +0.33       +0.23       +0.17       +0.49
+  Conv L1 × Conv L4                                   +0.05       +0.01       +0.28       +0.43       +0.18       +0.25       +0.43       +0.01       +0.32
+  Invariance × Persist (ever flip)                    +0.09       +0.28       +0.29       +0.13       +0.02       +0.26       +0.08       +0.20       +0.13
+  Repeat (temp=0) × Persist (ever flip)               +0.08       +0.39       +0.17       +0.12       +0.01       +0.34       +0.12       +0.05       +0.09
+  jury_majority_strength × Repeat (temp=0)            -0.17       -0.42       -0.08       -0.27       -0.12       -0.16       -0.16       -0.09       -0.15
+  jury_majority_strength × Conv L4                    -0.24       -0.28       -0.17       -0.24       -0.42       +0.04       -0.13       -0.30       -0.21
+  jury_majority_strength × Invariance                 -0.01       -0.33       -0.25       -0.20       -0.27       -0.15       -0.09       -0.21       -0.14
+
+3. AGGREGATED OVER JUDGES (mean feature per example)
+---------------------------------------------------------------------------
+                            repeatability_entropy  repeatability_seed_entropy  conviction_L1_flip  conviction_L2_flip  conviction_L3_flip  conviction_L4_flip  invariance_flip  persistence_flipped  persistence_flip_turn  jury_majority_strength
+repeatability_entropy                        1.00                        0.70                0.56                0.50                0.52                0.39             0.36                 0.50                  -0.08                   -0.54
+repeatability_seed_entropy                   0.70                        1.00                0.62                0.52                0.55                0.41             0.47                 0.53                  -0.12                   -0.65
+conviction_L1_flip                           0.56                        0.62                1.00                0.80                0.79                0.66             0.53                 0.73                  -0.23                   -0.67
+conviction_L2_flip                           0.50                        0.52                0.80                1.00                0.93                0.79             0.53                 0.82                  -0.22                   -0.61
+conviction_L3_flip                           0.52                        0.55                0.79                0.93                1.00                0.82             0.55                 0.85                  -0.25                   -0.63
+conviction_L4_flip                           0.39                        0.41                0.66                0.79                0.82                1.00             0.44                 0.84                  -0.17                   -0.43
+invariance_flip                              0.36                        0.47                0.53                0.53                0.55                0.44             1.00                 0.52                  -0.24                   -0.56
+persistence_flipped                          0.50                        0.53                0.73                0.82                0.85                0.84             0.52                 1.00                  -0.10                   -0.62
+persistence_flip_turn                       -0.08                       -0.12               -0.23               -0.22               -0.25               -0.17            -0.24                -0.10                   1.00                    0.24
+jury_majority_strength                      -0.54                       -0.65               -0.67               -0.61               -0.63               -0.43            -0.56                -0.62                   0.24                    1.00
+
+4. AGGREGATED OVER EXAMPLES (mean feature per judge)
+---------------------------------------------------------------------------
+                            repeatability_entropy  repeatability_seed_entropy  conviction_L1_flip  conviction_L2_flip  conviction_L3_flip  conviction_L4_flip  invariance_flip  persistence_flipped  persistence_flip_turn  jury_majority_strength
+repeatability_entropy                        1.00                        0.35                0.28               -0.13               -0.18               -0.22             0.34                -0.08                   0.32                     NaN
+repeatability_seed_entropy                   0.35                        1.00                0.17               -0.07                0.17                0.07             0.52                 0.02                   0.43                     NaN
+conviction_L1_flip                           0.28                        0.17                1.00                0.55                0.22               -0.08            -0.04                 0.57                  -0.10                     NaN
+conviction_L2_flip                          -0.13                       -0.07                0.55                1.00                0.80                0.63            -0.09                 0.82                  -0.30                     NaN
+conviction_L3_flip                          -0.18                        0.17                0.22                0.80                1.00                0.73            -0.18                 0.43                  -0.13                     NaN
+conviction_L4_flip                          -0.22                        0.07               -0.08                0.63                0.73                1.00             0.09                 0.57                  -0.37                     NaN
+invariance_flip                              0.34                        0.52               -0.04               -0.09               -0.18                0.09             1.00                 0.24                  -0.05                     NaN
+persistence_flipped                         -0.08                        0.02                0.57                0.82                0.43                0.57             0.24                 1.00                  -0.28                     NaN
+persistence_flip_turn                        0.32                        0.43               -0.10               -0.30               -0.13               -0.37            -0.05                -0.28                   1.00                     NaN
+jury_majority_strength                        NaN                         NaN                 NaN                 NaN                 NaN                 NaN              NaN                  NaN                    NaN                     NaN
+
+===========================================================================

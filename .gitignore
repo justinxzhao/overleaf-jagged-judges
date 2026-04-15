@@ -6,3 +6,5 @@
 *.out
 *.synctex.gz
 *.pdf
+!data/**/*.pdf
+.DS_Store
