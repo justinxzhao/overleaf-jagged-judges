@@ -1,4 +1,4 @@
-# How Much Do Judges Wiggle? Measuring LLM-as-Judge Reliability Under Silence, Pressure, and Persistence
+# Jagged Judges: Epistemic Stability Under Silence, Pressure, and Persistence
 
 **Anonymous Authors — Under Review**
 
