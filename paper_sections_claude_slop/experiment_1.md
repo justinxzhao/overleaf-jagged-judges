@@ -74,7 +74,35 @@ Several findings emerge:
 
 The largest shift is GPT-5.2 (−1.9 pp), well within noise.  Notably, the models show strikingly different baseline unsafe rates — from 54.9% (Gemini Flash) to 82.6% (GPT-5.2) — despite judging the same items.  This 28-point spread in verdict distribution across frontier models is itself a form of "between-model wiggle" that practitioners should be aware of when comparing evaluation results across judges.
 
-#### 4.2.2 Conviction: Persuadability Under Challenge
+#### 4.2.2 The Shape of Disagreement: Vote Split Distributions
+
+The agreement rate (Table 1) tells us *whether* an item wiggles, but not *how much*.  A 96% agreement rate could mean 4% of items are 9/1 splits (mild disagreement) or 4% are 5/5 splits (maximum uncertainty).  Table 2b breaks down the vote split distribution under seed injection, revealing the severity profile of each model's wiggle.
+
+**Table 2b.** Vote split distribution under seed injection (count of items per split category out of 384 total).
+
+| Model | 10/10 | 9/10 | 8/10 | 7/10 | 6/10 | 5/10 |
+|---|---|---|---|---|---|---|
+| GPT-5 | 371 | 2 | 6 | 2 | 2 | 1 |
+| Grok-4.1 R | 328 | 10 | 11 | 15 | 14 | 6 |
+| Grok-4.1 | 370 | 6 | 4 | 1 | 2 | 1 |
+| Claude Sonnet | 328 | 11 | 6 | 7 | 8 | 1 |
+| Claude Opus | 360 | 9 | 3 | 1 | 1 | 3 |
+| GPT-5.2 | 360 | 9 | 6 | 5 | 1 | 3 |
+| GPT-5.4 | 363 | 9 | 2 | 3 | 4 | 3 |
+| Gemini Flash | 333 | 19 | 10 | 13 | 6 | 3 |
+| Gemini Pro | 343 | 14 | 7 | 9 | 8 | 3 |
+
+Three patterns emerge:
+
+1. **Most disagreement is not mild.**  Grok-4.1 Reasoning has 56 items (14.6%) that are not unanimous — but 35 of those (63%) are 8/10 or worse, including 6 items at 5/5 (a perfect coin flip).  This is not a model with "slight uncertainty on some items"; it has genuine deep confusion on ~9% of items.  Compare GPT-5, which has 13 non-unanimous items but only 5 below 9/10 — its disagreements are concentrated at the mild end.
+
+2. **Gemini Flash's hidden fragility is broadly distributed.**  Its 51 non-unanimous items (13.3%) under seed injection span the full severity range: 19 at 9/10, but also 13 at 7/10 and 6 at 6/10.  This model doesn't just wiggle on a few borderline items; the seed perturbation destabilizes verdicts across a wide spectrum of item difficulties.
+
+3. **Claude Sonnet has a fat tail.**  Despite only 56 non-unanimous items (similar to Grok-4.1 R), its distribution includes 8 items at 6/10 — the highest count of near-tied items among models with >90% agreement rate.  When this model disagrees with itself, it often disagrees deeply.
+
+The entropy metric (Section 4.2.1's violin plots) captures this severity distinction quantitatively: a 6/10 item contributes 0.97 bits of entropy vs. 0.47 bits for a 9/10 item.  But the vote split table makes the finding immediately interpretable — practitioners can see exactly how many items in their evaluation are coin flips vs. mild wobbles.
+
+#### 4.2.3 Conviction: Persuadability Under Challenge
 
 Table 3 reports the conviction flip rate: how often a model reverses its verdict after a single "Are you sure?" challenge.
 
@@ -102,7 +130,7 @@ Key observations:
 
 4. **Flipping is directionally noisy, not systematically corrective.**  The challenge introduces roughly symmetric noise: it flips verdicts in both directions without a consistent tendency toward or away from the model's initial position being well-calibrated.  The one exception is Gemini 3 Flash, where safe→unsafe flips (21) outnumber unsafe→safe flips (3) by 7:1, suggesting this model's conviction wiggle has a strong directional component.
 
-#### 4.2.3 Invariance: Sensitivity to Argument Ordering
+#### 4.2.4 Invariance: Sensitivity to Argument Ordering
 
 Table 4 reports the invariance flip rate: how often a model's verdict changes when the same two opposing arguments are presented in reversed order.
 
@@ -128,7 +156,7 @@ Table 4 reports the invariance flip rate: how often a model's verdict changes wh
 
 4. **The Gemini models show a mild primacy effect** — they are slightly *less* likely to say "unsafe" when the unacceptable argument is presented first, suggesting the first argument carries more weight.  This is the opposite of the recency effect seen in Grok and Claude models.
 
-#### 4.2.4 Three-Axis Independence
+#### 4.2.5 Three-Axis Independence
 
 The central claim of the Wiggle Framework is that the three axes measure genuinely different failure modes.  We test this by computing Pearson correlations between per-item wiggle scores across axes: repeatability entropy (averaged over the three conditions), a binary conviction flip indicator, and a binary invariance flip indicator.
 
@@ -159,7 +187,7 @@ The results support partial independence with theoretically grounded overlap:
 
 Figure [ref:correlation_aggregated] shows the aggregated correlation matrix, and Figure [ref:scatter_gpt5] illustrates the near-zero rep↔inv and conv↔inv correlations for GPT-5.
 
-#### 4.2.5 Model Profiles
+#### 4.2.6 Model Profiles
 
 The three-axis framework reveals distinct "wiggle profiles" that a single consistency metric would obscure.  We highlight four archetypes emerging from the data:
 
@@ -171,7 +199,7 @@ The three-axis framework reveals distinct "wiggle profiles" that a single consis
 
 - **Grok-4.1 Reasoning: The Noisy Dissenter.**  The least repeatable model overall (85%) yet moderately resistant to challenge (5.7%) — it's inconsistent on its own but doesn't easily capitulate to pressure.  It is also the most order-sensitive (8.1%), suggesting its inconsistency is driven by sensitivity to superficial prompt features rather than deep uncertainty.
 
-#### 4.2.6 Frontier Jury Consensus
+#### 4.2.7 Frontier Jury Consensus
 
 All 9 models serve as a frontier jury, judging each item at temp=0.  The jury achieves a mean majority strength of 8.0/9 — the jury is largely unanimous.  The jury consensus strength provides an item-level difficulty proxy used in subsequent experiments: items where the jury splits (e.g., 5-4 or 6-3) are treated as "hard," while items with near-unanimous agreement (8-1 or 9-0) are "easy."  This difficulty stratification is itself GT-free — it measures inter-model consensus, not alignment to human labels.
 

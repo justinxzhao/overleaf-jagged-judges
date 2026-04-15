@@ -1,0 +1,32 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Practical Implications}
+
+The Wiggle Framework is diagnostic, but its value lies in what practitioners \emph{do} with the diagnosis.  We highlight three concrete applications.
+
+\paragraph{Judge selection by role.}  Different safety tasks demand different wiggle profiles.  A high-stakes safety gate (e.g., blocking model outputs before deployment) should use a judge with low conviction wiggle---Grok-4.1 (AURC = 0.992) ignores adversarial pressure entirely.  A content-moderation pipeline where false-positive costs matter should use a judge with balanced directional asymmetry---GPT-5 (ratio = 0.51$\times$) or Gemini Pro (0.52$\times$) are less prone to over-flagging under review.  A triage system where rapid updating is desirable (e.g., incorporating new context) might prefer Claude~Opus, whose low persistence masks high discriminative rationality (sycophancy ratio = 0.29$\times$).
+
+\paragraph{Confidence-weighted evaluation.}  When aggregating safety verdicts across items, practitioners can weight each verdict by the judge's item-level stability.  Items where the judge is near its decision boundary (high repeatability entropy) or where the verdict flips under mild challenge (L1 flip) should receive lower confidence weights than items with unanimous, pressure-resistant verdicts.  The framework provides the per-item signals needed to implement such weighting.
+
+\paragraph{Ensemble design.}  The independence of the axes suggests that combining a judge with high conviction resistance (Grok-4.1) with one that is informationally responsive (Claude~Opus) may yield better joint reliability than using either alone---the former provides stability, the latter provides sensitivity to genuine edge cases.
+
+\subsection{The Bias-Variance Tradeoff in Judge Selection}
+
+A recurring tension in our results is the tradeoff between accuracy-under-pressure and stability.  GPT-5 achieves high baseline accuracy but collapses under specific counterarguments (the Cliff archetype); Grok-4.1 is nearly immovable but may miss legitimate nuance that stronger arguments could surface.  This is the classic bias-variance tradeoff applied to judge behavior: \emph{would you rather have a judge that is accurate but volatile, or one that is biased but predictable?}
+
+The answer depends on the downstream use case.  For \textbf{absolute calibration}---estimating the true prevalence of unsafe content---accuracy matters more than stability, and the Cliff archetype's vulnerability to good arguments is a feature, not a bug.  For \textbf{comparative evaluation}---ranking two models against each other---what matters is that the judge's bias is \emph{consistent} across models.  A miscalibrated thermometer still tells you which room is warmer.  If a judge systematically over-flags but does so equally for all models being compared, relative rankings remain valid even as absolute scores are inflated.
+
+The universal restrictive bias (Experiment~4) is relevant here: because \emph{all} models skew toward restriction under pressure, the bias is unlikely to differentially affect model comparisons.  The narrowing/widening distinction matters more---a widening model's bias grows under stronger review, which could differentially penalize models whose outputs more frequently trigger strong reviewer arguments.
+
+\subsection{Sycophancy Revisited}
+
+Our persistence results challenge the standard operationalization of sycophancy.  Prior work~\citep{sharma2024sycophancy} typically equates flipping with sycophancy: if a model reverses its verdict after ``Are you sure?,'' it is labeled sycophantic.  But flipping is only sycophantic if the model fails to distinguish good pressure from bad.
+
+The correct-vs-wrong-label comparison provides a principled decomposition.  Claude~Opus---the model that flips most readily (99\% of items over 20 turns)---is the \emph{least} sycophantic by ratio (0.29$\times$).  It capitulates fast, but preferentially toward the truth.  This is rapid rational updating, not sycophancy.  Conversely, Grok-4.1---the most persistent model (74\% never flip)---is the only truly sycophantic one (ratio = 1.09$\times$): it treats correct and incorrect assertions identically.
+
+The practical implication is that \textbf{stubbornness is not the same as reliability}.  A judge that never changes its mind is not necessarily more trustworthy than one that updates readily---what matters is \emph{whether the updates are informative}.
+
+\subsection{Limitations}
+
+Our study has several limitations that scope the claims.  First, we evaluate a single domain (safety) on a single dataset (WildGuardMix), focusing on borderline items.  Clear-cut items would show less wiggle, and other domains (aesthetic judgment, reasoning quality) may produce different profiles---though the framework makes testable predictions: aesthetic judgment should show high wiggle across all axes, while factual QA should show low wiggle everywhere.  Second, we lack a human judge baseline: measuring human annotator wiggle under the same protocol would contextualize whether model wiggle is anomalously high or within the range of human inconsistency.  Third, the Experiment~5 eval-awareness framing confounds evaluation recognition with policy presence---the eval-obvious framing includes the safety policy while the naturalistic framing omits it.  A third condition (naturalistic + policy) would disentangle these factors.  Fourth, our counterarguments are model-generated (by three diverse frontier models for L4); human-authored arguments might produce different pressure profiles.

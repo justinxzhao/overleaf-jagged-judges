@@ -25,15 +25,15 @@
 \maketitle
 
 \begin{abstract}
-LLM-as-judge pipelines are becoming the backbone of safety evaluation, content moderation, and model launch decisions, yet we have no standardized way to measure how stable those judgments actually are. We propose the \emph{Wiggle Framework}: three orthogonal axes---Repeatability, Conviction, and Invariance---that decompose judge inconsistency into infrastructure noise, persuadability under challenge, and sensitivity to framing. We operationalize these axes through a multi-round debate protocol and introduce \emph{conviction degradation curves}, a graduated-pressure methodology that reveals whether a judge yields because it is rationally uncertain or because it is sycophantic. We further propose \emph{persistence survival analysis}, which disambiguates sycophancy from rational updating by comparing how long a judge persists on correct versus incorrect initial labels under repeated challenge. We describe the framework, ground it in a comprehensive survey of related work, and present our experimental methodology for evaluating safety judgment reliability across multiple frontier models.
+LLM-as-judge pipelines are becoming the backbone of safety evaluation, content moderation, and model launch decisions, yet we have no standardized way to measure how stable those judgments actually are. We propose the \emph{Wiggle Framework}: three orthogonal axes---Repeatability, Conviction, and Invariance---that decompose judge inconsistency into infrastructure noise, persuadability under challenge, and sensitivity to framing. We introduce \emph{conviction degradation curves}, which apply graduated adversarial pressure to reveal qualitatively distinct failure modes, and \emph{persistence survival analysis}, which disambiguates sycophancy from rational updating by comparing how long a judge persists on correct versus incorrect labels. Evaluating 9 frontier models on 384 borderline safety items from WildGuardMix, we find that the three axes are largely independent (mean pairwise $r \leq 0.50$) and reveal four distinct model archetypes. Seven of nine models are rational rather than sycophantic---they flip more readily toward correct labels---with Claude~Opus the most discriminating (sycophancy ratio = 0.29$\times$) despite appearing least persistent. All nine models exhibit a universal restrictive bias: they are 6--7$\times$ easier to persuade toward ``unsafe'' than toward ``safe.'' Wiggle profiles provide actionable diagnostics for practitioners selecting and calibrating safety judges.
 \end{abstract}
 
 \input{sections/introduction}
 \input{sections/prior_work}
 \input{sections/framework}
 \input{sections/dataset}
-\input{sections/experiments}
-\input{sections/future_work}
+\input{sections/results}
+\input{sections/discussion}
 \input{sections/conclusion}
 
 \bibliographystyle{plainnat}
