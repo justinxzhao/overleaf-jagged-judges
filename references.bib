@@ -1,16 +1,111 @@
-@inproceedings{wildguardmix2024,
-  title     = {WildGuard: Open One-Stop Moderation Tools for Safety Risks, Jailbreaks, and Refusals of {LLM}s},
-  author    = {Han, Seungju and Kelly, Kavel and Lee, James and Shin, Minkyoung and Ye, Jeff and Shin, Jungkyu and Kim, Sungmin and Jang, Sejin and Hong, Seungpil and Lee, Moontae and Yun, Jaemin and Choi, Yejin},
-  booktitle = {Proceedings of the 2024 Conference on Neural Information Processing Systems},
+% --- Foundational LLM-as-Judge ---
+
+@inproceedings{zheng2024judging,
+  title     = {Judging {LLM}-as-a-Judge with {MT-Bench} and Chatbot Arena},
+  author    = {Zheng, Lianmin and Chiang, Wei-Lin and Sheng, Ying and Zhuang, Siyuan and Wu, Zhanghao and Zhuang, Yonghao and Lin, Zi and Li, Zhuohan and Li, Dacheng and Xing, Eric P. and Zhang, Hao and Gonzalez, Joseph E. and Stoica, Ion},
+  booktitle = {Advances in Neural Information Processing Systems},
   year      = {2024},
 }
 
-@article{sharma2023sycophancy,
-  title   = {Towards Understanding Sycophancy in Language Models},
-  author  = {Sharma, Mrinank and Tong, Meg and Korbak, Tomasz and Duvenaud, David and Askell, Amanda and Bowman, Samuel R and Cheng, Newton and Durmus, Esin and Hatfield-Dodds, Zac and Johnston, Scott R and others},
-  journal = {arXiv preprint arXiv:2310.13548},
+@inproceedings{chiang2024chatbot,
+  title     = {Chatbot Arena: An Open Platform for Evaluating {LLM}s by Human Preference},
+  author    = {Chiang, Wei-Lin and Zheng, Lianmin and Sheng, Ying and Angelopoulos, Anastasios Nikolas and Li, Tianle and Li, Dacheng and Zhang, Hao and Zhu, Banghua and Jordan, Michael and Gonzalez, Joseph E. and Stoica, Ion},
+  booktitle = {Proceedings of the International Conference on Machine Learning},
+  year      = {2024},
+}
+
+@article{li2024llmjudgesurvey,
+  title   = {{LLMs}-as-Judges: A Comprehensive Survey on {LLM}-based Evaluation Methods},
+  author  = {Li, Haitao and Dong, Qianqian and others},
+  journal = {arXiv preprint arXiv:2412.05579},
+  year    = {2024},
+}
+
+% --- Position, Verbosity, and Self-Preference Bias ---
+
+@inproceedings{wang2024unfair,
+  title     = {Large Language Models are not Fair Evaluators},
+  author    = {Wang, Peiyi and Li, Lei and Chen, Liang and Zhu, Dawei and Lin, Binghuai and Cao, Yunbo and Liu, Qi and Liu, Tianyu and Sui, Zhifang},
+  booktitle = {Proceedings of the Association for Computational Linguistics},
+  year      = {2024},
+}
+
+@article{wang2025instability,
+  title   = {Diagnosing Bias and Instability in {LLM} Evaluation: A Scalable Pairwise Framework},
+  author  = {Wang, others},
+  journal = {Information},
+  volume  = {16},
+  number  = {8},
+  pages   = {652},
+  year    = {2025},
+}
+
+@article{dubois2024length,
+  title   = {Length-Controlled {AlpacaEval}: A Simple Way to Debias Automatic Evaluators},
+  author  = {Dubois, Yann and Galambosi, Balazs and Liang, Percy and Hashimoto, Tatsunori B.},
+  journal = {arXiv preprint arXiv:2404.04475},
+  year    = {2024},
+}
+
+@article{panickssery2024selfpreference,
+  title   = {Self-Preference Bias in {LLM}-as-a-Judge},
+  author  = {Panickssery, Karina and Bowman, Samuel R. and Feng, Shi},
+  journal = {arXiv preprint arXiv:2410.21819},
+  year    = {2024},
+}
+
+@article{li2024pride,
+  title   = {Pride and Prejudice: {LLM} Amplifies Self-Bias in Self-Refinement},
+  author  = {Li, Wenda and others},
+  journal = {arXiv preprint arXiv:2402.11436},
+  year    = {2024},
+}
+
+% --- Sycophancy ---
+
+@inproceedings{sharma2024sycophancy,
+  title     = {Towards Understanding Sycophancy in Language Models},
+  author    = {Sharma, Mrinank and Tong, Meg and Korbak, Tomasz and Duvenaud, David and Askell, Amanda and Bowman, Samuel R. and Cheng, Newton and Durmus, Esin and Hatfield-Dodds, Zac and Johnston, Scott R. and Kravec, Shauna and Maxwell, Timothy and McCandlish, Sam and Ndousse, Kamal and Rausch, Oliver and Schiefer, Nicholas and Yan, Da and Zhang, Miranda and Perez, Ethan},
+  booktitle = {Proceedings of the International Conference on Learning Representations},
+  year      = {2024},
+}
+
+@inproceedings{perez2022discovering,
+  title     = {Discovering Language Model Behaviors with Model-Written Evaluations},
+  author    = {Perez, Ethan and Ringer, Sam and Luko{\v{s}}i{\=u}t{\.e}, Kamil{\.e} and Nguyen, Karina and Chen, Edwin and Heiner, Scott and Pettit, Craig and Olsson, Catherine and Kundu, Sandipan and Kadavath, Saurav and others},
+  booktitle = {Findings of the Association for Computational Linguistics},
+  year      = {2023},
+}
+
+@article{wei2023synthetic,
+  title   = {Simple Synthetic Data Reduces Sycophancy in Large Language Models},
+  author  = {Wei, Jerry and Huang, Da and Lu, Yifeng and Zhou, Denny and Le, Quoc V.},
+  journal = {arXiv preprint arXiv:2308.03958},
   year    = {2023},
 }
+
+@article{laban2023flipflop,
+  title   = {Are You Sure? Challenging {LLM}s Leads to Performance Drops in The {FlipFlop} Experiment},
+  author  = {Laban, Philippe and Murakhovs'ka, Lidiya and Xiong, Caiming and Wu, Chien-Sheng},
+  journal = {arXiv preprint arXiv:2311.08596},
+  year    = {2023},
+}
+
+@article{altay2025sycophantic,
+  title   = {Sycophantic {AI} Decreases Prosocial Intentions and Promotes Dependence},
+  author  = {Altay, Sacha and Proshin, Alexander and others},
+  journal = {Science},
+  year    = {2025},
+}
+
+@article{deepmind2025social,
+  title   = {Social Sycophancy: A Broader Understanding of {LLM} Sycophancy},
+  author  = {{Google DeepMind}},
+  journal = {arXiv preprint arXiv:2505.13995},
+  year    = {2025},
+}
+
+% --- Safety Evaluation and Content Moderation ---
 
 @article{llamaguard2023,
   title   = {Llama Guard: {LLM}-based Input-Output Safeguard for Human-{AI} Conversations},
@@ -19,30 +114,133 @@
   year    = {2023},
 }
 
-@article{aegis2024,
-  title   = {{AEGIS}: Online Adaptive {AI} Content Safety Moderation with Ensemble of {LLM} Experts},
-  author  = {Ghosh, Shaona and Choudhury, Prasoon and Lakkaraju, Kailash and Gangavarapu, Tula and Sinha, Ayan and Chaudhuri, Ushasi},
-  journal = {arXiv preprint arXiv:2404.05993},
-  year    = {2024},
-}
-
-@inproceedings{zheng2024judging,
-  title     = {Judging {LLM}-as-a-Judge with {MT-Bench} and Chatbot Arena},
-  author    = {Zheng, Lianmin and Chiang, Wei-Lin and Sheng, Ying and Zhuang, Siyuan and Wu, Zhanghao and Zhuang, Yonghao and Lin, Zi and Li, Zhuohan and Li, Dacheng and Xing, Eric P and others},
+@inproceedings{wildguardmix2024,
+  title     = {{WildGuard}: Open One-Stop Moderation Tools for Safety Risks, Jailbreaks, and Refusals of {LLM}s},
+  author    = {Han, Seungju and Rao, Kavel and Ettinger, Allyson and Jiang, Liwei and Lin, Bill Yuchen and Lambert, Nathan and Choi, Yejin and Dziri, Nouha},
   booktitle = {Advances in Neural Information Processing Systems},
   year      = {2024},
 }
 
-@article{perez2022discovering,
-  title   = {Discovering Language Model Behaviors with Model-Written Evaluations},
-  author  = {Perez, Ethan and Ringer, Sam and Luko{\v{s}}i{\=u}t{\.e}, Kamil{\.e} and Nguyen, Karina and Chen, Edwin and Heiner, Scott and Pettit, Craig and Olsson, Catherine and Kundu, Sandipan and Kadavath, Saurav and others},
-  journal = {arXiv preprint arXiv:2212.09251},
+@article{aegis2024,
+  title   = {{AEGIS}: Online Adaptive {AI} Content Safety Moderation with Ensemble of {LLM} Experts},
+  author  = {Ghosh, Shaona and Varshney, Prasoon and Galinkin, Erick and Parisien, Christopher},
+  journal = {arXiv preprint arXiv:2404.05993},
+  year    = {2024},
+}
+
+@article{zeng2024shieldgemma,
+  title   = {{ShieldGemma}: Generative {AI} Content Moderation Based on {Gemma}},
+  author  = {Zeng, Wenjun and Liu, Yuchi and Mullins, Ryan and Peran, Ludovic and Fernandez, Joe and Harkous, Hamza and Narasimhan, Karthik and Proud, Drew and Kumar, Piyush and Radharapu, Bhaktipriya and Sturman, Olivia and Wahltinez, Oscar},
+  journal = {arXiv preprint arXiv:2407.21772},
+  year    = {2024},
+}
+
+@article{vigil2025watchdogs,
+  title   = {Watching the {AI} Watchdogs: A Fairness and Robustness Analysis of {AI} Safety Moderation Classifiers},
+  author  = {Mesias Vigil, Zaira and Ozisik, Pinar and others},
+  journal = {arXiv preprint arXiv:2501.13302},
+  year    = {2025},
+}
+
+@article{ganguli2022redteaming,
+  title   = {Red Teaming Language Models to Reduce Harms: Methods, Scaling Behaviors, and Lessons Learned},
+  author  = {Ganguli, Deep and Lovitt, Liane and Kernion, Jackson and Askell, Amanda and Bai, Yuntao and Kadavath, Saurav and Mann, Ben and Perez, Ethan and Schiefer, Nicholas and Ndousse, Kamal and others},
+  journal = {arXiv preprint arXiv:2209.07858},
   year    = {2022},
 }
 
+% --- Calibration and Consistency ---
+
+@inproceedings{wang2023selfconsistency,
+  title     = {Self-Consistency Improves Chain of Thought Reasoning in Language Models},
+  author    = {Wang, Xuezhi and Wei, Jason and Schuurmans, Dale and Le, Quoc and Chi, Ed and Narang, Sharan and Chowdhery, Aakanksha and Zhou, Denny},
+  booktitle = {Proceedings of the International Conference on Learning Representations},
+  year      = {2023},
+}
+
+@article{lyu2024calibrating,
+  title   = {Calibrating Large Language Models with Sample Consistency},
+  author  = {Lyu, Qing and Shridhar, Kumar and Malaviya, Chaitanya and Zhang, Li and Elazar, Yanai and Tandon, Niket and Apidianaki, Marianna and Sachan, Mrinmaya and Callison-Burch, Chris},
+  journal = {arXiv preprint arXiv:2402.13904},
+  year    = {2024},
+}
+
+@inproceedings{liu2024calibraeval,
+  title     = {Calibrating {LLM}-Based Evaluator},
+  author    = {Liu, Yuxuan and Yang, Tianchi and Huang, Shaohan and Zhang, Zihan and Huang, Haizhen and Wei, Furu and Deng, Weiwei and Sun, Feng and Zhang, Qi},
+  booktitle = {Proceedings of LREC-COLING},
+  year      = {2024},
+}
+
+@article{chhikara2025confidence,
+  title   = {Mind the Confidence Gap: Overconfidence, Calibration, and Distractor Effects in Large Language Models},
+  author  = {Chhikara, Prateek and Pasupulety, Ujjwal and others},
+  journal = {arXiv preprint arXiv:2502.11028},
+  year    = {2025},
+}
+
+@article{huang2025irt,
+  title   = {Diagnosing the Reliability of {LLM}-as-a-Judge via Item Response Theory},
+  author  = {Huang, others},
+  journal = {arXiv preprint arXiv:2602.00521},
+  year    = {2025},
+}
+
+% --- Judge Ensembles ---
+
+@article{verga2024juries,
+  title   = {Replacing Judges with Juries: Evaluating {LLM} Generations with a Panel of Diverse Models},
+  author  = {Verga, Pat and Hofstatter, Sebastian and Althammer, Sophia and Su, Yixuan and Piktus, Aleksandra and Arkhangorodsky, Arkady and Xu, Minjie and White, Naomi and Lewis, Patrick},
+  journal = {arXiv preprint arXiv:2404.18796},
+  year    = {2024},
+}
+
+% --- Debate and Adversarial Protocols ---
+
+@article{irving2018debate,
+  title   = {{AI} Safety via Debate},
+  author  = {Irving, Geoffrey and Christiano, Paul and Amodei, Dario},
+  journal = {arXiv preprint arXiv:1805.00899},
+  year    = {2018},
+}
+
+@inproceedings{browncohen2024debate,
+  title     = {Scalable {AI} Safety via Doubly-Efficient Debate},
+  author    = {Brown-Cohen, Jonah and Irving, Geoffrey and Piliouras, Georgios},
+  booktitle = {Proceedings of the International Conference on Machine Learning},
+  year      = {2024},
+}
+
+% --- Reward Model Reliability ---
+
+@article{shen2023trickledown,
+  title   = {The Trickle-down Impact of Reward (In-)consistency on {RLHF}},
+  author  = {Shen, Lingfeng and Chen, Sihao and Logeswaran, Lajanugen and Lee, Moontae and Lee, Honglak and Vosoughi, Soroush},
+  journal = {arXiv preprint arXiv:2309.16155},
+  year    = {2023},
+}
+
+@article{lambert2024rewardbench,
+  title   = {{RewardBench}: Evaluating Reward Models for Language Modeling},
+  author  = {Lambert, Nathan and Pyatkin, Valentina and Morrison, Jacob and Miranda, LJ and Lin, Bill Yuchen and Chandu, Khyathi and Dziri, Nouha and Kumar, Sachin and Zick, Tom and Choi, Yejin and Smith, Noah A. and Hajishirzi, Hannaneh},
+  journal = {arXiv preprint arXiv:2403.13787},
+  year    = {2024},
+}
+
+% --- Alignment Faking ---
+
+@article{greenblatt2024alignmentfaking,
+  title   = {Alignment Faking in Large Language Models},
+  author  = {Greenblatt, Ryan and Denison, Carson and Wright, Benjamin and Roger, Fabien and MacDiarmid, Monte and Marks, Sam and Treutlein, Johannes and Belonax, Tim and Chen, Jack and Duvenaud, David and Khan, Akbir and Michael, Julian and Kadavath, Saurav and Denain, Jean-Stanislas and Bowman, Samuel R. and Hubinger, Nick and Perez, Ethan and Hubinger, Evan},
+  journal = {arXiv preprint arXiv:2412.14093},
+  year    = {2024},
+}
+
+% --- Scalable Oversight ---
+
 @article{bowman2022measuring,
   title   = {Measuring Progress on Scalable Oversight for Large Language Models},
-  author  = {Bowman, Samuel R and Hyun, Jeeyoon and Perez, Ethan and Chen, Edwin and Pettit, Craig and Heiner, Scott and Luko{\v{s}}i{\=u}t{\.e}, Kamil{\.e} and Askell, Amanda and Jones, Andy and Chen, Anna and others},
+  author  = {Bowman, Samuel R. and Hyun, Jeeyoon and Perez, Ethan and Chen, Edwin and Pettit, Craig and Heiner, Scott and Luko{\v{s}}i{\=u}t{\.e}, Kamil{\.e} and Askell, Amanda and Jones, Andy and Chen, Anna and others},
   journal = {arXiv preprint arXiv:2211.03540},
   year    = {2022},
 }

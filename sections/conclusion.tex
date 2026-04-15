@@ -1,8 +1,8 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-We introduced the Wiggle Framework, a three-axis diagnostic for measuring LLM-as-judge reliability: Repeatability (stability under silence), Conviction (stability under pressure), and Invariance (stability under framing changes). Applied to safety judgment tasks across multiple frontier models, we demonstrated that these axes capture genuinely independent failure modes, that conviction degradation curves serve as calibration diagnostics, and that persistence survival analysis disambiguates sycophancy from rational updating.
+We have presented the Wiggle Framework, a three-axis diagnostic for measuring LLM-as-judge reliability: Repeatability (stability under silence), Conviction (stability under pressure), and Invariance (stability under framing changes). The framework is grounded in a comprehensive survey of known failure modes in LLM evaluation---position bias, sycophancy, calibration drift, and alignment faking---and unifies them under a single diagnostic taxonomy.
 
-The framework equips practitioners with actionable tools: degradation curves reveal whether a judge is sycophantic, stubborn, or well-calibrated; directional asymmetry analysis identifies which direction a safety gate is vulnerable; and the correct-vs-wrong-label persistence comparison provides a principled sycophancy litmus test.
+We introduced two novel methodological contributions: conviction degradation curves, which apply graduated adversarial pressure to reveal whether a judge is sycophantic, stubborn, or well-calibrated; and persistence survival analysis, which uses the correct-vs-wrong-label comparison to provide a principled sycophancy litmus test. Together with directional asymmetry analysis, these tools equip practitioners with actionable diagnostics for any LLM-as-judge deployment.
 
 As LLM-as-judge systems become load-bearing infrastructure for safety evaluation, content moderation, and model launch decisions, the question is no longer \emph{how accurate is this judge?} but \emph{how much does this judge wiggle, and in what ways?}
