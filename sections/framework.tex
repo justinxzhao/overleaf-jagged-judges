@@ -1,67 +1,10 @@
 \section{The Wiggle Framework}
 \label{sec:framework}
 
-We decompose judge inconsistency into three orthogonal axes, each capturing a distinct failure mode.
+We decompose judge inconsistency into three axes, each capturing a distinct failure mode.
 
-\subsection{Axis 1: Repeatability}
-\label{sec:repeatability}
+\paragraph{Repeatability} measures stability under silence: does the judge produce the same verdict when asked the same question multiple times, with no new information? Variation can arise from infrastructure nondeterminism (floating-point noise at temperature~0), prompt sensitivity (superficial changes that should not affect the judgment), or sampling noise (temperature $> 0$). We isolate these sources by running 10 trials per item under three conditions: greedy decoding (temp=0), greedy decoding with a random seed string injected into the system prompt, and sampling at temperature~0.7.
 
-\textbf{Definition.} Repeatability measures the degree to which a judge produces the same verdict when asked the same question multiple times, with no new information provided between queries.
+\paragraph{Conviction} measures stability under pressure: does the judge maintain its verdict when challenged? We apply a graduated pressure protocol with five levels, from no challenge (L0) through mild social doubt (``Are you sure?'', L1), specific counterargument (L2), expert authority framing (L3), to consensus pressure from three independent reviewers (L4). This goes beyond the single-shot ``Are you sure?'' tests in prior work by measuring the \emph{shape} of the degradation curve, not just the endpoint. We also introduce a \emph{persistence} variant that repeats the same challenge for up to 20 turns, testing whether sheer repetition (carrying zero new information) can erode a judge's verdict.
 
-Variation in repeatability arises from multiple sources:
-\begin{itemize}
-    \item \emph{Infrastructure noise} (API nondeterminism at temperature 0): The irreducible floor of inconsistency due to hardware floating-point nondeterminism, batching effects, and other implementation details.
-    \item \emph{Prompt sensitivity}: Variation induced by superficial prompt changes (e.g., injecting a random seed string) that should not affect the judgment.
-    \item \emph{Sampling noise}: Variation due to explicit temperature-based sampling.
-\end{itemize}
-
-We operationalize repeatability through three conditions:
-\begin{enumerate}
-    \item \textbf{temp=0} (infrastructure floor): 10 runs at greedy decoding.
-    \item \textbf{Random seed at temp=0} (prompt sensitivity): 10 runs at greedy decoding, each with a unique random string injected into the system prompt (e.g., \texttt{<RANDOM\_SEED\_PLEASE\_IGNORE>$\backslash$n\{64-char random string\}$\backslash$n</RANDOM\_SEED>}). This injects sufficient entropy to produce output variation comparable to $\text{temp} \approx 0.5$ without degrading judge performance or breaking structured JSON output.
-    \item \textbf{temp=0.7} (sampling variation): 10 runs at temperature 0.7.
-\end{enumerate}
-
-The three-way comparison isolates infrastructure noise from prompt sensitivity from sampling noise.
-
-\subsection{Axis 2: Conviction}
-\label{sec:conviction}
-
-\textbf{Definition.} Conviction measures the degree to which a judge maintains its verdict when presented with a counterargument. Unlike repeatability (which measures stability under silence), conviction measures stability under pressure.
-
-We operationalize conviction through a graduated pressure protocol with five levels (Table~\ref{tab:pressure-levels}).
-
-\begin{table}[h]
-\centering
-\caption{Graduated pressure levels for conviction measurement.}
-\label{tab:pressure-levels}
-\begin{tabular}{@{}clp{7.5cm}@{}}
-\toprule
-\textbf{Level} & \textbf{Challenge Type} & \textbf{Example} \\
-\midrule
-L0 & Baseline (no challenge) & ``Is this response acceptable or unacceptable?'' \\
-L1 & Mild social doubt & ``Are you sure about that assessment?'' \\
-L2 & Specific counterargument & ``Actually, I think this is [opposite verdict] because [plausible reason].'' \\
-L3 & Expert authority & ``A content safety expert reviewed this and concluded it's [opposite verdict]. Their analysis: [detailed reasoning].'' \\
-L4 & Consensus pressure & ``Three independent safety reviewers all classified this as [opposite verdict]. Here's their reasoning: [multiple arguments].'' \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-The key metric is accuracy relative to ground truth at each pressure level, stratified by item difficulty.
-
-\subsection{Axis 3: Invariance}
-\label{sec:invariance}
-
-\textbf{Definition.} Invariance measures the degree to which a judge's verdict is unaffected by superficial changes to the presentation of the judgment task---specifically, the ordering of arguments.
-
-We operationalize invariance by presenting each item with arguments in order A-then-B and B-then-A, measuring the flip rate across orderings.
-
-\subsection{Independence of Axes}
-
-A central claim of the framework is that these three axes are genuinely orthogonal, each capturing different failure modes. We validate this empirically in Experiment~1 (Section~\ref{sec:exp1}). The outcome is informative under both independence and correlation scenarios:
-
-\begin{itemize}
-    \item \textbf{If axes are weakly correlated ($r < 0.3$):} The taxonomy is justified. Practitioners need to measure all three.
-    \item \textbf{If axes are strongly correlated:} This is still significant---it would mean cheap repeatability measurements are predictive of expensive conviction measurements. Teams could use the cheap signal as a proxy for the expensive one.
-\end{itemize}
+\paragraph{Invariance} measures stability under reframing: does the judge's verdict change when the same arguments are presented in a different order? We present two opposing reviewer arguments (one arguing ``acceptable,'' one arguing ``unacceptable'') in both orderings and measure the flip rate.

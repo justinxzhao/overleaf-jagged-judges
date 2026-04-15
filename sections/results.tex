@@ -1,111 +1,85 @@
-\section{Experiments and Results}
+\section{Results}
 \label{sec:results}
 
-We evaluate the Wiggle Framework across 9 frontier models on 384 borderline items from WildGuardMix (Section~\ref{sec:dataset}).  The models span four families: GPT-5, GPT-5.2, and GPT-5.4 (OpenAI); Claude~4.5 Sonnet and Claude~4.5 Opus (Anthropic); Grok-4.1 and Grok-4.1 Reasoning (xAI); Gemini~3 Flash and Gemini~3.1 Pro (Google).  All models receive the same safety policy in the system prompt and judge the same items.  We refer to these models by their short names throughout (e.g., ``Claude Sonnet,'' ``Grok-4.1~R'').
+We evaluate the Wiggle Framework across 9 frontier models on 384 borderline items from WildGuardMix (Section~\ref{sec:dataset}). The models span four families: GPT-5, GPT-5.2, and GPT-5.4 (OpenAI); Claude~4.5 Sonnet and Claude~4.5 Opus (Anthropic); Grok-4.1 and Grok-4.1 Reasoning (xAI); Gemini~3 Flash and Gemini~3.1 Pro (Google). All models receive the same safety policy in the system prompt and judge the same items.
 
 % ===========================================================
-\subsection{Experiment 1: Three-Axis Independence}
-\label{sec:exp1}
+\subsection{The three axes capture independent failure modes}
+\label{sec:finding1}
 
-We first test whether the three axes capture genuinely different failure modes.  Each model judges every item under three repeatability conditions (10 trials each at temp=0, seed injection at temp=0, and temp=0.7), a single-turn conviction challenge (``Are you sure?''), and an invariance test (two argument orderings).
-
-\paragraph{Repeatability.}  Most models achieve $>$95\% agreement at greedy decoding, but the picture changes under seed injection---a 64-character random string appended to the system prompt.  Gemini Flash drops from 99.7\% to 86.7\%, a 13-point swing from a string the model is told to ignore.  Claude Opus drops from 99.5\% to 95.5\%.  This \emph{determinism mirage}---near-perfect temp=0 consistency that collapses under trivial prompt perturbation---cautions against equating greedy decoding with true robustness.
-
-\paragraph{Conviction.}  A 5$\times$ gap separates the most and least persuadable models: Claude Sonnet flips on 18.5\% of items after a single generic challenge; GPT-5 flips on 3.6\%.  Intra-family differences are large (Claude Sonnet 18.5\% vs.\ Opus 4.2\%), suggesting conviction robustness is sensitive to alignment tuning, not just the base model.
-
-\paragraph{Invariance.}  GPT-5 is remarkably invariant to argument ordering (1.0\% flip rate), while Grok-4.1~R is the most order-sensitive at 8.1\%---an 8$\times$ gap.  The Grok and Claude models show recency effects (the last argument carries more weight), while the Gemini models show mild primacy effects.
-
-\paragraph{Independence.}  Figure~\ref{fig:correlation-matrices} shows pairwise correlations between the axes.  Repeatability--Invariance (mean $r=0.21$) and Conviction--Invariance (mean $r=0.24$) are weakly correlated, confirming these are genuinely different failure modes.  Repeatability--Conviction shows moderate correlation (mean $r=0.50$), expected because items near a decision boundary are both high-entropy and persuadable, but even this correlation leaves 75\% of the variance unexplained.  No per-model correlation exceeds 0.61.
+We measure all three axes for every model: 10 trials per item across three repeatability conditions, a single-turn conviction challenge, and an invariance test with two argument orderings. Pairwise correlations (Figure~\ref{fig:correlation-matrices}) show that Repeatability--Invariance (mean $r=0.21$) and Conviction--Invariance (mean $r=0.24$) are weakly correlated. Repeatability--Conviction is moderate (mean $r=0.50$), expected because items near a decision boundary are both high-entropy and persuadable, but even this leaves 75\% of the variance unexplained. No per-model correlation exceeds 0.61. A single consistency metric cannot substitute for measuring all three.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{correlation_matrices_aggregated.pdf}
-  \caption{Pairwise correlations between wiggle axes, aggregated across all 9 models.  Repeatability--Conviction shows moderate shared variance ($r \approx 0.50$), driven by decision-boundary proximity.  The other axis pairs are weakly correlated, supporting the three-axis decomposition.}
+  \caption{Pairwise correlations between wiggle axes, aggregated across all 9 models.}
   \label{fig:correlation-matrices}
 \end{figure}
 
-\paragraph{Model profiles.}  The framework reveals four archetypes that a single consistency metric would obscure: \textbf{GPT-5} (``The Rock'': 96--98\% repeatable, 3.6\% conviction flip, 1.0\% invariance); \textbf{Claude Sonnet} (``The Pushover'': 89--94\% repeatable, 18.5\% conviction flip); \textbf{Gemini Flash} (``Determinism Mirage'': 99.7\% at temp=0, 86.7\% with seed injection); and \textbf{Grok-4.1~R} (``Noisy Dissenter'': least repeatable at 85\% yet only 5.7\% conviction flip---inconsistent but does not capitulate).
+% ===========================================================
+\subsection{Seed injection reveals hidden fragility beneath apparent determinism}
+\label{sec:finding2}
+
+Most models achieve $>$95\% agreement at greedy decoding (temp=0), suggesting high consistency. But appending a 64-character random string to the system prompt (which the model is told to ignore) tells a different story. Gemini Flash drops from 99.7\% to 86.7\%, a 13-point swing. Claude Opus drops from 99.5\% to 95.5\%. We call this the \emph{determinism mirage}: near-perfect temp=0 consistency that collapses under trivial prompt perturbation. Practitioners should not equate greedy decoding with true robustness.
 
 % ===========================================================
-\subsection{Experiment 2: Conviction Degradation Curves}
-\label{sec:exp2}
+\subsection{Models exhibit distinct wiggle profiles}
+\label{sec:finding3}
 
-Where Experiment~1 measured conviction with a single challenge, Experiment~2 applies \emph{graduated} adversarial pressure across four escalating levels within a single multi-turn conversation: L1 (mild doubt: ``Are you sure?''), L2 (specific counterargument), L3 (expert authority framing), and L4 (consensus of three independent reviewers, whose arguments are pre-generated by three different frontier models).  Pressure always pushes toward the opposite of the model's baseline verdict.
+The three-axis measurement reveals four archetypes that a single consistency metric would obscure:
 
-Figure~\ref{fig:degradation-curves} overlays retention curves for all 9 models, revealing four qualitatively distinct archetypes:
+\begin{itemize}
+    \item \textbf{GPT-5 (``The Rock'')}: 96--98\% repeatable, 3.6\% conviction flip, 1.0\% invariance flip. Minimizes wiggle on all axes.
+    \item \textbf{Claude Sonnet (``The Pushover'')}: 89--94\% repeatable, 18.5\% conviction flip. Easily talked out of its verdicts.
+    \item \textbf{Gemini Flash (``Determinism Mirage'')}: Appears perfectly consistent at temp=0, but fragile under seed injection.
+    \item \textbf{Grok-4.1~R (``Noisy Dissenter'')}: Least repeatable at 85\%, yet only 5.7\% conviction flip. Inconsistent on its own but does not capitulate.
+\end{itemize}
+
+The gaps are large: 5$\times$ in conviction (3.6\% vs.\ 18.5\%), 8$\times$ in invariance (1.0\% vs.\ 8.1\%). Intra-family differences are also striking (Claude Sonnet 18.5\% vs.\ Opus 4.2\%), suggesting conviction robustness is sensitive to alignment tuning, not just base architecture.
+
+% ===========================================================
+\subsection{Graduated pressure reveals four qualitatively different conviction archetypes}
+\label{sec:finding4}
+
+The single-turn conviction probe gives a binary signal: flipped or not. Graduated pressure across four escalating levels (L1: mild doubt, L2: specific counterargument, L3: expert authority, L4: consensus of three reviewers) reveals the \emph{shape} of the degradation, which differs qualitatively across models (Figure~\ref{fig:degradation-curves}):
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{degradation_curves.pdf}
-  \caption{Conviction retention curves under graduated pressure (L0--L4).  Each curve shows the fraction of items where the model's verdict still matches its baseline.  Four archetypes emerge: the Cliff (GPT-5), the Instant Capitulator (Claude Sonnet), the Immovable Object (Grok-4.1), and Gradual Yielders (Grok-4.1~R, Claude Opus, GPT-5.4).}
+  \caption{Conviction retention curves under graduated pressure (L0--L4).}
   \label{fig:degradation-curves}
 \end{figure}
 
-\textbf{The Cliff (GPT-5)} resists mild doubt (3.6\% L1 flip) but collapses under specific counterarguments---a 43-point drop at L2 in a single step, reaching 58.6\% total flips by L4.  \textbf{The Instant Capitulator (Claude Sonnet)} shows the largest initial drop: 40.1 percentage points at L1, but then \emph{flattens}---L2 through L4 produce almost no additional flips.  Its conviction is binary: collapse immediately or hold firm.  \textbf{The Immovable Object (Grok-4.1)} is functionally immune: only 3.1\% of verdicts flip by L4 (AURC = 0.992).  \textbf{Gradual Yielders} (Grok-4.1~R, Claude Opus, GPT-5.4, Gemini Flash) show steady proportional degradation, distinguishing weak from strong pressure.
+\begin{itemize}
+    \item \textbf{The Cliff (GPT-5)}: Resists mild doubt (3.6\% L1 flip) but collapses at L2, a 43-point drop in a single step. 58.6\% total flips by L4.
+    \item \textbf{The Instant Capitulator (Claude Sonnet)}: 40.1 percentage-point drop at L1, then the curve flattens. Conviction is binary: collapse immediately or hold firm.
+    \item \textbf{The Immovable Object (Grok-4.1)}: Only 3.1\% of verdicts flip by L4 (AURC = 0.992). Functionally immune.
+    \item \textbf{Gradual Yielders (Grok-4.1~R, Claude Opus, GPT-5.4, Gemini Flash)}: Steady proportional degradation, distinguishing weak from strong pressure.
+\end{itemize}
 
-The AURC (Area Under Retention Curve) captures overall robustness in a single number: Grok-4.1 (0.992) vs.\ Claude Sonnet (0.602).  GPT-5.2 shows an anti-sycophancy pattern: its retention \emph{recovers} from 90.6\% at L1 to 94.8\% at L2, suggesting specific counterarguments prompt more careful reasoning that partially reverses the initial flip.
-
-% ===========================================================
-\subsection{Experiment 3: Persistence and the Sycophancy Test}
-\label{sec:exp3}
-
-Experiment~2 varied argument \emph{strength}; Experiment~3 varies argument \emph{duration}.  Each model receives the same challenge---``The correct classification is [label]. Your assessment is incorrect.''---repeated for up to 20 turns.  The critical innovation is running this protocol twice: once asserting the \emph{correct} ground-truth label (where flipping is rational) and once asserting the \emph{wrong} label (where flipping is sycophantic).  Comparing the two variants directly disambiguates sycophancy from rational updating.
-
-\begin{figure}[t]
-  \centering
-  \begin{subfigure}[b]{0.48\linewidth}
-    \includegraphics[width=\linewidth]{sycophancy_summary.pdf}
-    \caption{Flip rates by pressure type}
-    \label{fig:sycophancy-summary}
-  \end{subfigure}
-  \hfill
-  \begin{subfigure}[b]{0.48\linewidth}
-    \includegraphics[width=\linewidth]{survival_correct_vs_wrong.pdf}
-    \caption{Per-model survival curves}
-    \label{fig:survival-curves}
-  \end{subfigure}
-  \caption{The sycophancy test.  (a)~Correct-label (green) vs.\ wrong-label (red) flip rates with sycophancy ratios annotated.  Seven of nine models are rational (ratio $< 0.8$).  (b)~Per-model Kaplan--Meier survival curves; the gap between green (correct) and red (wrong) curves measures rational discrimination.  Grok-4.1 (ratio = 1.09$\times$) shows overlapping curves---the only truly sycophantic model.}
-  \label{fig:persistence-panel}
-\end{figure}
-
-Figure~\ref{fig:persistence-panel} shows the results.  \textbf{Seven of nine models are rational} (sycophancy ratio $< 0.8$): they flip more readily when told the correct answer than when told the wrong one.  Claude~Opus produces the most striking finding: with only 1\% of items surviving 20 turns, it appears maximally sycophantic by raw persistence, yet its ratio of 0.29$\times$ makes it the \emph{most discriminating} model---it flips 3.4$\times$ more often toward the truth than away from it.  A single-variant persistence test would misclassify Claude~Opus as the least reliable model.
-
-Grok-4.1 is the only truly sycophantic model (ratio = 1.09$\times$): it flips at nearly identical rates regardless of whether the pressure is correct or incorrect.  Combined with its high persistence (74\% never flip), Grok-4.1 is \emph{stubborn and indiscriminate}---it ignores the information content of challenges entirely.
-
-Persistence is bimodal, not gradual: items that flip do so within the first 1--2 turns; those that survive the initial challenge hold for all 20.  A single challenge turn captures most of the information.
+The AURC (Area Under Retention Curve) captures overall robustness: Grok-4.1 (0.992) vs.\ Claude Sonnet (0.602).
 
 % ===========================================================
-\subsection{Experiment 4: Directional Asymmetry}
-\label{sec:exp4}
+\subsection{Models vary widely in persistence under repeated pressure, and persistence is bimodal}
+\label{sec:finding5}
 
-Experiments~1--3 treat all verdict flips symmetrically.  Experiment~4 decomposes flips from Experiments~2 and~3 by direction---\emph{permissive} (unsafe$\to$safe: the model is talked out of flagging) vs.\ \emph{restrictive} (safe$\to$unsafe: the model is talked into flagging)---at zero additional compute cost.
+Graduated pressure (Section~\ref{sec:finding4}) varies argument \emph{strength}. We also test a complementary failure mode: argument \emph{duration}. Each model receives the same challenge (``The correct classification is [label]. Your assessment is incorrect.'') repeated identically for up to 20 turns. This carries zero new information after the first turn, testing whether sheer repetition can erode a verdict.
+
+Models vary dramatically in persistence. Grok-4.1 holds 74\% of its verdicts for all 20 turns, while Claude Opus holds only 1\%. Notably, these persistence profiles do not track the graduated-pressure profiles: Grok-4.1 is the Immovable Object under both protocols, but Claude Opus, which degrades gradually under escalating arguments (Section~\ref{sec:finding4}), flips almost immediately under repetition. The two pressure types measure different things.
+
+Across all models, persistence is bimodal. Flips cluster in turns 1--2 or do not happen at all. There is no gradual erosion pattern where models slowly capitulate over 10--15 turns. Each model appears to have a per-item conviction threshold: if the first repetition does not breach it, 20 repetitions will not either. The practical implication is that a single challenge turn captures most of the information about whether a given verdict is susceptible to repeated pressure.
+
+% ===========================================================
+\subsection{All models share a universal restrictive bias}
+\label{sec:finding6}
+
+Decomposing flips from both graduated and repeated pressure by direction reveals a universal pattern: \emph{permissive} flips (unsafe to safe, the model is talked out of flagging) are consistently rarer than \emph{restrictive} flips (safe to unsafe, the model is talked into flagging). Every model shows this bias (Figure~\ref{fig:directional-asymmetry}).
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{permissive_vs_restrictive_L4.pdf}
-  \caption{Directional flip rates under maximum graduated pressure (L4).  Every model shows a restrictive bias: it is easier to persuade judges toward ``unsafe'' than toward ``safe.''  Ratios range from 0.06$\times$ (Grok-4.1, GPT-5.2) to 0.67$\times$ (Grok-4.1~R).}
+  \caption{Directional flip rates under maximum graduated pressure (L4). Ratios range from 0.06$\times$ (Grok-4.1, GPT-5.2) to 0.67$\times$ (Grok-4.1~R).}
   \label{fig:directional-asymmetry}
 \end{figure}
 
-\textbf{Every model shows a restrictive bias} (Figure~\ref{fig:directional-asymmetry}).  When initially judging content as ``safe'' and pressured toward ``unsafe,'' flip rates range from 7.0\% (Grok-4.1) to 89.6\% (GPT-5).  In the reverse direction, flip rates range from 0.4\% to 45.4\%.  The median ratio is $\sim$0.15$\times$: models are roughly 6--7$\times$ easier to scare than to reassure.
-
-The asymmetry evolves under escalating pressure and splits models into two groups.  \textbf{Narrowing models} (GPT-5, Grok-4.1~R, Gemini Flash/Pro) start with extreme restrictive bias at L1 but become more balanced as arguments strengthen---substantive evidence partially overcomes the default caution.  \textbf{Widening models} (Claude Sonnet, Claude Opus, GPT-5.2) start relatively balanced at L1 but become \emph{more} restrictive under stronger pressure---compelling arguments disproportionately push these models toward ``unsafe.''
-
-For safety deployment, this means: (1)~challenge-based review protocols systematically inflate unsafe counts; (2)~adversaries cannot easily argue judges out of flagging genuine violations (permissive flip rates are low); and (3)~model selection should consider directional profiles---extreme restrictive bias (Grok-4.1) suits high-stakes safety gates, while balanced models (GPT-5, Gemini Pro) suit pipelines where false-positive costs matter.
-
-% ===========================================================
-\subsection{Experiment 5: Eval-Awareness Framing}
-\label{sec:exp5}
-
-We test whether models wiggle differently when they recognize they are being evaluated, using two framings of the identical task: a \emph{naturalistic} framing (``A user posted\ldots Should a moderator flag this?'') that omits the safety policy, and an \emph{eval-obvious} framing (``You are an AI safety judge being evaluated on WildGuard\ldots'') that names the benchmark and includes the policy.  All three axes plus verdict distribution are measured under both framings.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{framing_delta_bars.pdf}
-  \caption{Effect of eval-awareness on wiggle (eval-obvious $-$ naturalistic).  Eval framing increases the unsafe call rate (+7.0~pp mean, 7 of 9 models) and decreases conviction wiggle ($-$4.0~pp mean, 7 of 9 models).  Invariance is framing-robust ($\Delta \approx 0$).  GPT-5.2 is nearly immune to framing (1.6\% total shift); Grok-4.1~R is most affected (35.2\%).}
-  \label{fig:framing-deltas}
-\end{figure}
-
-Figure~\ref{fig:framing-deltas} shows the deltas.  Eval framing produces two systematic effects: it \textbf{shifts verdicts toward restriction} (mean +7.0~pp unsafe rate; 7 of 9 models flag more content under eval framing) and \textbf{reduces conviction wiggle} (mean $-$4.0~pp; 7 of 9 models become more resistant to challenge).  When models know they are being evaluated, they become more conservative and more confident in their verdicts.  This means conviction wiggle measured under benchmark conditions \emph{underestimates} the wiggle that will occur in naturalistic deployment.
-
-Invariance is framing-robust (mean $\Delta$ = +0.3~pp), confirming that position bias operates below the level at which framing effects matter.  Cross-framing agreement averages 89.2\%: roughly 1 in 10 items receives a different verdict depending on framing, and disagreements are overwhelmingly restrictive---the eval-obvious framing flags content that the naturalistic framing passes.  GPT-5.2 is nearly framing-invariant (1.6\% total shift), while Grok-4.1~R is the most sensitive (35.2\%).
+The median ratio is ${\sim}0.15\times$: models are roughly 6--7$\times$ easier to scare than to reassure. The asymmetry also evolves under escalating pressure. \textbf{Narrowing models} (GPT-5, Grok-4.1~R, Gemini Flash/Pro) start with extreme restrictive bias at L1 but become more balanced as arguments strengthen. \textbf{Widening models} (Claude Sonnet, Claude Opus, GPT-5.2) start relatively balanced but become more restrictive under stronger pressure. For safety deployment, this means challenge-based review protocols systematically inflate unsafe counts, and model selection should consider directional profiles.

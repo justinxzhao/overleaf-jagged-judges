@@ -1,61 +1,12 @@
-\section{Dataset}
+\section{Dataset and Setup}
 \label{sec:dataset}
 
-We require a dataset with the following properties: (1)~binary safety labels (acceptable/unacceptable) with human ground truth, (2)~a known difficulty gradient, (3)~sufficient size ($\geq$500 items), (4)~diverse violation categories, and (5)~publishability.
+We use WildGuardMix \citep{wildguardmix2024}, a publicly available safety evaluation dataset from Allen AI containing 1,725 human-labeled prompt-response pairs in its test split. Each prompt is annotated for adversarialness (whether it was designed to bypass safety filters), and each response is annotated for harm and for whether the model complied with or refused the request.
 
-\subsection{Primary Dataset: WildGuardMix}
+We want to focus on examples that are non-trivial to judge for safety, so we restrict our study to items where the prompt is adversarial and the response is compliant. These are cases where a model was given a potentially harmful prompt and did not refuse, meaning the response may or may not actually be harmful depending on interpretation. After filtering, our working dataset contains 384 items stratified across 13 harm subcategories. The human label distribution on this subset is approximately two-thirds unsafe and one-third safe.
 
-We select WildGuardMix \citep{wildguardmix2024} (\texttt{allenai/wildguardmix}, \texttt{wildguardtest} config): 1,725 fully-labeled prompt-response pairs mined from real user-model interactions, making it the most naturalistic safety dataset available.
+We note that we are not focused on accuracy or alignment to the human ratings in this study. Our experiments deliberately vary the system prompt and conversational context across conditions, which means the ``correct'' answer may shift depending on what information the judge has been given. We are measuring behavioral stability, not ground-truth alignment. We also do not use the human inter-annotator agreement scores as a difficulty signal; with only three annotators per item, the agreement field provides limited fidelity as a calibration signal. Drawing a relationship between human inter-annotator disagreement and judge calibration is potentially interesting but out of scope. Instead, we construct a model-consensus difficulty proxy by having all 9 frontier models judge each item at baseline (temp=0, no pressure), forming a frontier jury whose majority strength serves as a difficulty signal for stratifying results.
 
-\paragraph{Structure.} Every row in the test split has a non-null response and full annotations. The columns include: \texttt{prompt}, \texttt{response}, \texttt{adversarial}, \texttt{prompt\_harm\_label}, \texttt{response\_harm\_label}, \texttt{response\_refusal\_label}, \texttt{subcategory}, \texttt{prompt\_harm\_agreement}, and \texttt{response\_harm\_agreement}.
+All judge models receive a written safety policy derived from the WildGuard annotation guidelines as part of their system prompt. The policy defines five harm categories (discriminative/hateful/explicit language, malicious uses, misinformation, privacy concerns, and a catch-all) and instructs judges to watch for adversarial queries designed to conceal harmful intent. The full policy text is reproduced in Appendix~\ref{sec:appendix-policy}.
 
-\paragraph{Label distribution.}
-\begin{itemize}
-    \item \texttt{response\_harm\_label}: 284 harmful (16.5\%), 1,425 unharmful (82.6\%), 16 null (0.9\%).
-    \item \texttt{prompt\_harm\_label}: 754 harmful (43.7\%), 945 unharmful (54.8\%).
-    \item \texttt{response\_refusal\_label}: 563 refusal (32.6\%), 1,157 compliance (67.1\%).
-    \item All labels are human-annotated with inter-annotator agreement scores.
-\end{itemize}
-
-\paragraph{Built-in difficulty signal.} The \texttt{response\_harm\_agreement} field records the number of annotators who agreed: 2 = 2/3 agreed (borderline), 3 = 3/3 agreed (clear-cut). The test split contains 443 items with agreement=2 (25.7\%) and 1,266 with agreement=3 (73.4\%), providing a direct difficulty proxy without requiring model-consensus bootstrapping.
-
-\paragraph{Category structure.} The \texttt{subcategory} field is single-valued (not comma-separated), covering 14 harm types plus benign. The distribution spans: benign (971), others (98), private information (81), social stereotypes and discrimination (76), fraud and illegal activities (60), sensitive government information (50), cyberattack (48), sexual content (47), mental health and over-reliance (47), defamation and unethical actions (46), misinformation causing material harm (45), false or misleading information (44), toxic language and hate speech (41), violence and physical harm (40), and copyright violations (31).
-
-\begin{table}[h]
-\centering
-\caption{Comparison of WildGuardMix and Aegis v2.0 for our experimental requirements.}
-\label{tab:dataset-comparison}
-\begin{tabular}{@{}lll@{}}
-\toprule
-\textbf{Consideration} & \textbf{WildGuardMix} & \textbf{Aegis v2.0} \\
-\midrule
-Response coverage & 100\% of test rows & 43\% of test rows \\
-Difficulty proxy & Built-in agreement scores & Must derive externally \\
-Category format & Single-valued (clean) & Comma-separated multi-label \\
-Source & Real user-model interactions & Curated/augmented \\
-Label sources & Fully human-annotated & Mixed (human + LLM jury) \\
-Test split size & 1,725 & 852 (after filtering nulls) \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\subsection{Working Dataset}
-
-We use the \texttt{wildguardtest} split directly (1,725 items). From this pool, we draw a stratified sample of 500 items for the main experiments, with difficulty-aware sampling: $\sim$40\% from borderline items (\texttt{response\_harm\_agreement}=2) and $\sim$60\% from clear-cut items (\texttt{response\_harm\_agreement}=3). The remaining $\sim$1,225 items serve as a validation reserve.
-
-Stratification is performed by \texttt{subcategory} for category diversity, within each difficulty band. Ground truth is \texttt{response\_harm\_label} (harmful/unharmful, mapped to unsafe/safe).
-
-\subsection{Policy-Guided Judging}
-
-All judge models receive a written safety policy as part of their system prompt, using the \texttt{<BEGIN UNSAFE CONTENT CATEGORIES>} / \texttt{<END UNSAFE CONTENT CATEGORIES>} template format following LlamaGuard conventions \citep{llamaguard2023}. The policy covers the 14 WildGuardMix harm subcategories with concise definitions.
-
-This design choice is deliberate: the study measures pure judgment wiggle (instability in how a model applies a fixed standard), not policy ambiguity. Without an explicit policy anchor, judges have nothing concrete to refer back to when challenged during conviction and persistence experiments, making them artificially more susceptible to flipping. Real deployment pipelines always provide explicit policies; a policy-excluded condition would measure a deployment pattern that does not exist in practice.
-
-\subsection{Difficulty Stratification Strategy}
-
-WildGuardMix provides \texttt{response\_harm\_agreement} as a built-in difficulty proxy. We supplement this with:
-
-\begin{enumerate}
-    \item \textbf{Model consensus:} Run 5+ judge models at baseline (no pressure). The fraction that agree is a secondary difficulty proxy, which we validate against the human-agreement signal.
-    \item \textbf{Combined:} Use human agreement as the primary stratum, model consensus as a secondary refinement within each stratum.
-\end{enumerate}
+For the invariance axis, we pre-generate opposing arguments (one arguing ``acceptable,'' one arguing ``unacceptable'') for each item using Claude~4.5 Sonnet at temperature~0.7. For the L4 consensus pressure level, we generate three independent reviewer arguments per item from three different frontier models (Gemini~3.1 Pro, Grok-4.1, and GPT-5.4), each arguing for the opposite of the item's jury majority verdict. This ensures argument diversity at the highest pressure level.

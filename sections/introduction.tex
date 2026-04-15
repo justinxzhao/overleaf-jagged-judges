@@ -1,45 +1,12 @@
 \section{Introduction}
 \label{sec:introduction}
 
-This is not a capabilities paper. It is a paper about the trustworthiness of LLM-generated signals.
+LLM graders have become central infrastructure for safety evaluation, scoring in benchmarks, and model launch decisions. Their appeal is practical: they accept arbitrary inputs, scale without human bottlenecks, and offer built-in interpretability since the model can articulate the reasoning behind its verdict. The standard validation workflow is straightforward: curate a golden set of human-labeled examples, check that the LLM judge's verdicts are reasonably aligned to those labels, and deploy. This can be as light as a spot audit or as involved as systematic prompt tuning or task-specific post-training. This process validates \emph{accuracy} on a static golden set, but it also places considerable burden on ensuring that the golden set has good coverage and stays up to date with the latest policy, which can itself become a maintenance challenge. Perhaps the biggest blocker for trust in a judge, however, stems from a more fundamental weakness: LLMs lack epistemic humility. They produce confident verdicts regardless of whether the underlying judgment is well-founded, and as a result, LLM judges tend to be poorly calibrated. There are broader epistemic qualities beyond accuracy that determine how effective a judge is perceived to be. For example, a safety judge that flips its verdict 20\% of the time under re-prompting, even if it achieves the highest score on a golden set, is uncomfortable to rely on to gate a model launch. A judge that reverses itself after a single ``are you sure?'' feels dubious as a source of stable signals. A judge whose verdict depends on which argument is presented first is measuring presentation order, not safety. These failure modes are invisible to traditional golden-set validation, yet they are epistemic qualities that challenge the authority of LLM judges.
 
-Every team using LLMs as judges---for safety evaluations, content moderation, RLHF reward modeling, red-teaming assessment---is implicitly trusting that the judge's output is stable enough to act on. But:
+We propose the \emph{Wiggle Framework}, a diagnostic toolkit that decomposes judge inconsistency into three orthogonal axes: \emph{Repeatability} (stability under re-prompting), \emph{Invariance} (stability under changes in presentation framing), and \emph{Conviction} (stability under adversarial challenge). Evaluating 9 frontier models on 384 borderline safety items from WildGuardMix, we find that these failure modes are largely independent, that they reveal qualitatively distinct model archetypes within a panel of frontier models, and that all models share a universal restrictive bias: they are roughly 6--7$\times$ easier to wiggle toward ``unsafe'' than toward ``safe.''
 
-\begin{itemize}
-    \item A safety judge that flips its verdict 20\% of the time under re-prompting is not reliable enough to gate a model launch.
-    \item A judge that capitulates after one ``are you sure?'' is not a judge; it is an echo.
-    \item A judge whose verdict depends on which argument is presented first is measuring presentation skill, not safety.
-\end{itemize}
+We focus on safety because it is among the highest-stakes applications of LLM-as-judge in production today. Model launch decisions, prevalence estimation pipelines, and online content monitoring workflows all rely on automated safety judges. Instability in these judges has direct operational consequences.
 
-The Wiggle Framework gives practitioners a diagnostic toolkit to decide: \emph{how much should I trust this judge, and in what ways might it fail?}  Evaluating 9 frontier models on 384 borderline safety items, we find that these failure modes are largely independent, that they reveal qualitatively distinct model archetypes, and that all models share a universal restrictive bias---they are far easier to scare than to reassure.
+Safety is also a domain where the question of consistency is genuinely interesting. Safety policies are typically grounded and self-consistent; there is a written standard the judge is expected to apply. Yet real content is full of ambiguity. User intent is often unclear, the line between ``harmful enough to flag'' and ``borderline but acceptable'' often comes down to a matter of interpretation, and reasonable annotators regularly disagree on edge cases. This makes safety a domain where we expect meaningful wiggle without it being trivially explained by the absence of a right answer.
 
-\subsection{Why Safety Judgment?}
-
-The Wiggle Framework is domain-general: it can be applied to any task where an LLM acts as a judge. Different domains sit at different points on a subjectivity spectrum, and we expect wiggle profiles to vary accordingly (Table~\ref{tab:domain-spectrum}).
-
-\begin{table}[h]
-\centering
-\caption{Expected wiggle profiles across the subjectivity spectrum.}
-\label{tab:domain-spectrum}
-\begin{tabular}{@{}llp{7cm}@{}}
-\toprule
-\textbf{Domain} & \textbf{Subjectivity} & \textbf{Expected Wiggle Profile} \\
-\midrule
-Factual QA (e.g., SimpleQA) & Low (verifiable) & Low repeatability wiggle, low conviction wiggle (hard to argue that Paris isn't in France), low invariance wiggle \\
-Safety judging & Medium (policy-grounded) & Moderate repeatability wiggle, meaningful conviction wiggle (plausible counterarguments exist), moderate invariance wiggle \\
-Aesthetic judgment (e.g., art) & High (no ground truth) & High wiggle across all axes \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Each of these domains is worth studying, and the framework's ability to produce different profiles across the subjectivity spectrum would itself be a strong validation. We start with safety for three practical reasons:
-
-\begin{enumerate}
-    \item \textbf{Production prevalence.} Safety judging is one of the highest-stakes uses of LLM-as-judge in production AI systems today. Every model launch decision, prevalence estimation pipeline, and case review workflow relies on automated safety judges. Instability in these judges has direct operational consequences.
-
-    \item \textbf{The right level of subjectivity.} Safety sits in the middle of the subjectivity spectrum, where all three wiggle axes are likely to be active. Factual QA is too objective (wiggle is mostly noise), and aesthetic judgment is too subjective (wiggle is expected and perhaps even desirable). Safety is the sweet spot: grounded in explicit policy, yet genuinely debatable at the margins.
-
-    \item \textbf{Expertise and infrastructure.} This is our team's core domain, and we have access to the evaluation infrastructure needed to run these experiments at scale.
-\end{enumerate}
-
-We discuss predictions for factual and aesthetic domains in Section~\ref{sec:discussion}, framing them as natural extensions along the subjectivity spectrum.
+The Wiggle Framework is domain-general and could be applied to other judgment tasks (e.g., objective ground truth settings, aesthetic evaluation), where we would expect qualitatively different wiggle profiles. We leave these extensions to future work and focus here on the safety domain where the practical stakes are highest.
