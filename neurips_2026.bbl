@@ -1,4 +1,4 @@
-\begin{thebibliography}{34}
+\begin{thebibliography}{37}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -114,6 +114,21 @@ Ethan Perez, Sam Ringer, Kamil{\.e} Luko{\v{s}}i{\=u}t{\.e}, Karina Nguyen, Edwi
 Akbir Radhakrishnan et~al.
 \newblock Debating with more persuasive {LLM}s leads to more truthful answers.
 \newblock \emph{arXiv preprint arXiv:2305.04714}, 2023.
+
+\bibitem[Radharapu et~al.(2025{\natexlab{a}})Radharapu, Revel, Ung, Ruder, and Williams]{radharapu2025arbiters}
+Bhaktipriya Radharapu, Manon Revel, Megan Ung, Sebastian Ruder, and Adina Williams.
+\newblock Arbiters of ambivalence: Challenges of using {LLM}s in no-consensus tasks.
+\newblock In \emph{Findings of the Association for Computational Linguistics: ACL 2025}, 2025{\natexlab{a}}.
+
+\bibitem[Radharapu et~al.(2025{\natexlab{b}})Radharapu, Saxena, Li, Whitehouse, Williams, and Cancedda]{radharapu2025calibrating}
+Bhaktipriya Radharapu, Eshika Saxena, Kenneth Li, Chenxi Whitehouse, Adina Williams, and Nicola Cancedda.
+\newblock Calibrating {LLM} judges: Linear probes for fast and reliable uncertainty estimation.
+\newblock \emph{arXiv preprint arXiv:2512.22245}, 2025{\natexlab{b}}.
+
+\bibitem[Romanou et~al.(2026)Romanou, Ibrahim, Ross, Shaib, Oktar, Bell, Ovalle, Dodge, Bosselut, Sinha, and Williams]{romanou2026brittlebench}
+Angelika Romanou, Mark Ibrahim, Candace Ross, Chantal Shaib, Kerem Oktar, Samuel~J. Bell, Anaelia Ovalle, Jesse Dodge, Antoine Bosselut, Koustuv Sinha, and Adina Williams.
+\newblock Brittlebench: Quantifying {LLM} robustness via prompt sensitivity.
+\newblock \emph{arXiv preprint arXiv:2603.13285}, 2026.
 
 \bibitem[Sharma et~al.(2024)Sharma, Tong, Korbak, Duvenaud, Askell, Bowman, Cheng, Durmus, Hatfield-Dodds, Johnston, Kravec, Maxwell, McCandlish, Ndousse, Rausch, Schiefer, Yan, Zhang, and Perez]{sharma2024sycophancy}
 Mrinank Sharma, Meg Tong, Tomasz Korbak, David Duvenaud, Amanda Askell, Samuel~R. Bowman, Newton Cheng, Esin Durmus, Zac Hatfield-Dodds, Scott~R. Johnston, Shauna Kravec, Timothy Maxwell, Sam McCandlish, Kamal Ndousse, Oliver Rausch, Nicholas Schiefer, Da~Yan, Miranda Zhang, and Ethan Perez.
