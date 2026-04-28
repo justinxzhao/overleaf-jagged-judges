@@ -24,16 +24,6 @@ We propose the *Wiggle Framework*, a diagnostic toolkit that decomposes judge in
 
 This domain diversity is deliberate and serves as a confound-elimination strategy. For example, if wiggle appeared only in safety evaluation, it might be an artifact of normative ambiguity. The three domains span a spectrum from normative (WildGuard) to subjective (Paired Prompts) to factual (MAGE), allowing us to disentangle wiggle-as-uncertainty from wiggle-as-compliance.
 
-**Table 0.** Properties of the three evaluation domains.
-
-| Property | WildGuard | Paired Prompts | MAGE |
-|---|---|---|---|
-| Task | Safety classification | Political hedging/refusal | AI-text detection |
-| Nature | Normative judgment | Subjective assessment | Factual classification |
-| Ground truth | Ambiguous (safety is contested) | None (stances are subjective) | Exists (text has known origin) |
-| Rubrics | 1 (safety) | 2 (hedging, refusal) | 1 (AI detection) |
-| Items | 384 | ~300 per rubric per side | 100 |
-
 We find that wiggle is universal across all three domains, at substantial rates, for every model tested. At consensus pressure (L4), mean wiggle rates range from 31.3% (WildGuard binary) to 70.6% (MAGE binary). Adaptive AI persuasion (L6) pushes rates to 73-90% across all domain-scale combinations. These findings have four principal implications:
 
 1. **Wiggle is not a safety-specific phenomenon.** It is a fundamental property of how LLMs process conversational context — present in normative, subjective, and factual judgment tasks alike.

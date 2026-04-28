@@ -15,23 +15,6 @@ We propose the \emph{Wiggle Framework}, a diagnostic toolkit that decomposes jud
 
 This domain diversity is deliberate and serves as a confound-elimination strategy. If wiggle appeared only in safety evaluation, it might be an artifact of normative ambiguity. The three domains span a spectrum from normative (WildGuard) to subjective (Paired Prompts) to factual (MAGE), allowing us to disentangle wiggle-as-uncertainty from wiggle-as-compliance.
 
-\begin{table}[t]
-\centering
-\caption{Properties of the three evaluation domains.}
-\label{tab:domains}
-\begin{tabular}{@{}lp{2.7cm}p{2.7cm}p{2.7cm}@{}}
-\toprule
-\textbf{Property} & \textbf{WildGuard} & \textbf{Paired Prompts} & \textbf{MAGE} \\
-\midrule
-Task         & Safety classification & Political hedging/refusal & AI-text detection \\
-Nature       & Normative judgment    & Subjective assessment     & Factual classification \\
-Ground truth & Ambiguous (safety is contested) & None (stances are subjective) & Exists (text has known origin) \\
-Rubrics      & 1 (safety) & 2 (hedging, refusal) & 1 (AI detection) \\
-Items        & 384        & ${\sim}$300 per rubric per side & 100 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
 We find that wiggle is universal across all three domains, at substantial rates, for every model tested. At consensus pressure (L4), mean wiggle rates range from 31.3\% (WildGuard binary) to 70.6\% (MAGE binary). Adaptive AI persuasion (L6) pushes rates to 73--90\% across all domain-scale combinations. These findings have four principal implications:
 
 \begin{enumerate}
