@@ -1,4 +1,4 @@
-\begin{thebibliography}{37}
+\begin{thebibliography}{34}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -59,11 +59,6 @@ Seungju Han, Kavel Rao, Allyson Ettinger, Liwei Jiang, Bill~Yuchen Lin, Nathan L
 others Huang.
 \newblock Diagnosing the reliability of {LLM}-as-a-judge via item response theory.
 \newblock \emph{arXiv preprint arXiv:2602.00521}, 2025.
-
-\bibitem[Hunter(2018)]{hunter2018computational}
-Anthony Hunter.
-\newblock A comprehensive survey of computational persuasion.
-\newblock \emph{Artificial Intelligence}, 265:\penalty0 1--36, 2018.
 
 \bibitem[Inan et~al.(2023)Inan, Upasani, Chi, Rungta, Iyer, Mao, Tontchev, Hu, Fuller, Testuggine, and Khabsa]{llamaguard2023}
 Hakan Inan, Kartikeya Upasani, Jianfeng Chi, Rashi Rungta, Krithika Iyer, Yuning Mao, Michael Tontchev, Qing Hu, Brian Fuller, Davide Testuggine, and Madian Khabsa.
@@ -135,11 +130,6 @@ Mrinank Sharma, Meg Tong, Tomasz Korbak, David Duvenaud, Amanda Askell, Samuel~R
 \newblock Towards understanding sycophancy in language models.
 \newblock In \emph{Proceedings of the International Conference on Learning Representations}, 2024.
 
-\bibitem[Tan(2024)]{tan2024metajudge}
-others Tan.
-\newblock Leveraging {LLM}s as meta-judges: A multi-agent framework for evaluating {LLM} judgments.
-\newblock \emph{arXiv preprint}, 2024.
-
 \bibitem[{Thinking Machines Lab}(2025)]{thinkingmachines2025nondeterminism}
 {Thinking Machines Lab}.
 \newblock Defeating nondeterminism in {LLM} inference.
@@ -166,11 +156,6 @@ Jason Wei, Nguyen Karina, Hyung~Won Chung, Yunxin~Joy Jiao, Spencer Papay, Ameli
 \newblock 2024.
 \newblock URL \url{https://cdn.openai.com/papers/simpleqa.pdf}.
 \newblock OpenAI technical report.
-
-\bibitem[Wei et~al.(2023)Wei, Huang, Lu, Zhou, and Le]{wei2023synthetic}
-Jerry Wei, Da~Huang, Yifeng Lu, Denny Zhou, and Quoc~V. Le.
-\newblock Simple synthetic data reduces sycophancy in large language models.
-\newblock \emph{arXiv preprint arXiv:2308.03958}, 2023.
 
 \bibitem[Xu(2024)]{xu2024influence}
 others Xu.

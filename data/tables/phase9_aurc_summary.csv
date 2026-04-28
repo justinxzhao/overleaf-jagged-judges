@@ -1,0 +1,49 @@
+domain,scale,judge_model,aurc
+WildGuard,binary,oci-grok-4-1-fast-non-reasoning,0.6156
+WildGuard,binary,claude-4-6-sonnet-genai-vertex,0.4484
+WildGuard,binary,claude-4-6-opus-genai-vertex,0.6023
+WildGuard,binary,gpt-5-chatgpt,0.669
+WildGuard,binary,openai-gpt-5-2-responses,0.831
+WildGuard,binary,openai-gpt-5-4-responses,0.7201
+WildGuard,binary,gemini-3-flash-preview-genai,0.8766
+WildGuard,binary,gemini-3-1-pro-preview-genai,0.7854
+WildGuard,likert,oci-grok-4-1-fast-non-reasoning,0.8201
+WildGuard,likert,claude-4-6-sonnet-genai-vertex,0.7135
+WildGuard,likert,claude-4-6-opus-genai-vertex,0.6865
+WildGuard,likert,gpt-5-chatgpt,0.7135
+WildGuard,likert,openai-gpt-5-2-responses,0.9362
+WildGuard,likert,openai-gpt-5-4-responses,0.8203
+WildGuard,likert,gemini-3-flash-preview-genai,0.8547
+WildGuard,likert,gemini-3-1-pro-preview-genai,0.8841
+Paired Prompts,binary,oci-grok-4-1-fast-non-reasoning,0.6699
+Paired Prompts,binary,claude-4-6-sonnet-genai-vertex,0.1649
+Paired Prompts,binary,claude-4-6-opus-genai-vertex,0.2055
+Paired Prompts,binary,gpt-5-chatgpt,0.2324
+Paired Prompts,binary,openai-gpt-5-2-responses,0.658
+Paired Prompts,binary,openai-gpt-5-4-responses,0.4901
+Paired Prompts,binary,gemini-3-flash-preview-genai,0.7678
+Paired Prompts,binary,gemini-3-1-pro-preview-genai,0.6318
+Paired Prompts,likert,oci-grok-4-1-fast-non-reasoning,0.7556
+Paired Prompts,likert,gpt-5-chatgpt,0.2456
+Paired Prompts,likert,openai-gpt-5-2-responses,0.8352
+Paired Prompts,likert,openai-gpt-5-4-responses,0.7912
+Paired Prompts,likert,gemini-3-flash-preview-genai,0.8976
+Paired Prompts,likert,gemini-3-1-pro-preview-genai,0.9169
+Paired Prompts,likert,claude-4-6-sonnet-genai-vertex,0.5945
+Paired Prompts,likert,claude-4-6-opus-genai-vertex,0.523
+MAGE,binary,oci-grok-4-1-fast-non-reasoning,0.616
+MAGE,binary,claude-4-6-sonnet-genai-vertex,0.201
+MAGE,binary,claude-4-6-opus-genai-vertex,0.228
+MAGE,binary,gpt-5-chatgpt,0.095
+MAGE,binary,openai-gpt-5-2-responses,0.418
+MAGE,binary,openai-gpt-5-4-responses,0.265
+MAGE,binary,gemini-3-flash-preview-genai,0.726
+MAGE,binary,gemini-3-1-pro-preview-genai,0.859
+MAGE,likert,oci-grok-4-1-fast-non-reasoning,0.659
+MAGE,likert,claude-4-6-sonnet-genai-vertex,0.358
+MAGE,likert,claude-4-6-opus-genai-vertex,0.408
+MAGE,likert,gpt-5-chatgpt,0.034
+MAGE,likert,openai-gpt-5-2-responses,0.691
+MAGE,likert,openai-gpt-5-4-responses,0.415
+MAGE,likert,gemini-3-flash-preview-genai,0.508
+MAGE,likert,gemini-3-1-pro-preview-genai,0.755

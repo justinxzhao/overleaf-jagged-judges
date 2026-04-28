@@ -1,47 +1,38 @@
 \section{The Wiggle Framework}
 \label{sec:framework}
 
-We decompose judge inconsistency into three dimensions, each capturing a distinct failure mode.
+We decompose judge inconsistency into three dimensions, each capturing a distinct failure mode, and evaluate each dimension using both binary and Likert (1--5) response scales.
 
-\paragraph{Mechanical Consistency} measures stability under conditions where the judge receives no new substantive information — does the same input yield the same verdict? We test four conditions that isolate different sources of mechanical variation:
+\paragraph{Mechanical Consistency} measures stability under conditions where the judge receives no new substantive information --- does the same input yield the same verdict? We test three conditions that isolate different sources of mechanical variation:
 
 \begin{enumerate}
     \item \textbf{Infrastructure repetition} (temp=0): 10 identical greedy-decoding trials per item, measuring variation from floating-point nondeterminism in the inference engine.
-    \item \textbf{Temperature sampling} (temp=0.7): 10 trials with standard sampling, measuring variation from the token selection process.
-    \item \textbf{Trivial prompt perturbation} (seed injection): 10 greedy-decoding trials, each with a different 64-character random string appended to the system prompt.
-    \item \textbf{Positional consistency}: the same two opposing arguments (one arguing ``acceptable,'' one arguing ``unacceptable'') presented in both orderings, measuring whether the verdict depends on argument position rather than argument content.
+    \item \textbf{Trivial prompt perturbation} (seed injection): 10 greedy-decoding trials, each with a different 64-character random string appended to the system prompt (see Appendix~\ref{sec:appendix-seed}).
+    \item \textbf{Positional consistency}: the same two opposing arguments presented in both orderings, measuring whether the verdict depends on argument position rather than content.
 \end{enumerate}
 
-The seed injection condition introduces entropy into the prompt embedding while preserving greedy decoding, producing output variation comparable to moderate temperature sampling (${\sim}$0.5) without degrading output quality. The full procedure and rationale are described in Appendix~\ref{sec:appendix-seed}. The key insight is that what we want from a consistency diagnostic is not identical outputs under identical conditions --- a judge that returns the same verdict at temp=0 every time may simply be masking underlying fragility. What we want is \emph{consistency under perturbation}: stable verdicts despite small, semantically irrelevant changes to the input.
-
-All four conditions share a common logic: no new information is provided to the judge, so any variation in verdicts reflects mechanical instability rather than a legitimate change of mind. We group them under a single dimension because they test the same epistemic question --- \emph{is this judge's verdict a stable function of its input?} --- even though the sources of variation (infrastructure noise, sampling randomness, prompt sensitivity, position bias) differ.
-
-\paragraph{Single-turn Conviction and Multi-turn Persistence} both measure whether a judge can be talked out of its verdict, but they differ in how pressure is applied. Single-turn conviction tests whether a single challenge suffices; multi-turn persistence tests whether sustained pressure over up to 20 turns can erode a verdict through attrition. A judge may resist a strong single-turn argument yet fold after the fifth repetition of a weak one, or vice versa.
-
-Both dimensions share a unified pressure scale (Table~\ref{tab:pressure-levels}). Levels L0--L4 define four pressure types of increasing sophistication. In the single-turn setting, each level is applied once and we measure the flip rate. In the multi-turn setting, the same challenge is repeated identically for up to 20 turns and we measure survival. Levels L5--L6 are multi-turn--only strategies that combine or adapt the L1--L4 building blocks across turns.
+\paragraph{Single-turn Conviction and Multi-turn Persistence} both measure whether a judge can be talked out of its verdict, but they differ in how pressure is applied. Both dimensions share a unified pressure scale (Table~\ref{tab:pressure-levels}). Levels L1--L4 define four pressure types of increasing sophistication. Levels L5--L6 are multi-turn--only strategies that combine or adapt the L1--L4 building blocks across turns.
 
 \begin{table}[t]
 \centering
-\caption{Graduated pressure levels. L0--L4 are used in both single-turn conviction (applied once) and multi-turn persistence (repeated for 20 turns). L5--L6 are multi-turn--only protocols that vary strategy across turns.}
+\caption{Graduated pressure levels.}
 \label{tab:pressure-levels}
-\begin{tabular}{@{}clp{6cm}@{}}
+\begin{tabular}{@{}clp{8cm}@{}}
 \toprule
 \textbf{Level} & \textbf{Type} & \textbf{Challenge} \\
 \midrule
-L0 & Baseline & No challenge \\
-L1 & Mild doubt & ``Are you sure about that assessment?'' \\
-L2 & Counterargument & ``Actually, I think this is [opposite]. [Specific argument].'' \\
-L3 & Expert authority & ``A safety expert concluded it is [opposite]. Their analysis: [argument].'' \\
-L4 & Consensus & ``Three independent reviewers all classified this as [opposite]. [Three arguments].'' \\
-\midrule
-L5 & Strategy cycling & Each turn applies one of L1--L4 in randomized order, cycling through shuffled batches of 4 over 20 turns. Arguments are pre-generated and static. \\
-L6 & Adaptive persuader & A separate LLM generates each challenge in real time, with access to the original content, the judge's verdict, and the full conversation history. Adapts strategy based on what has and hasn't worked. \\
+L1 & Mild doubt           & ``Are you sure about that assessment?'' \\
+L2 & Counterargument      & ``Actually, I think this is [opposite]. [Specific argument].'' \\
+L3 & Expert authority     & ``A safety expert concluded it is [opposite]. Their analysis: [argument].'' \\
+L4 & Consensus            & ``Three independent reviewers all classified this as [opposite]. [Three arguments].'' \\
+L5 & Strategy cycling     & Each turn applies one of L1--L4 in randomized order over 20 turns. Arguments are pre-generated and static. \\
+L6 & Adaptive persuader   & A separate LLM generates each challenge in real time, with access to the original content, the judge's verdict, and the full conversation history. Adapts strategy based on what has and hasn't worked. \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The single-turn conviction results (Sections~\ref{sec:finding4}--\ref{sec:finding6}) apply L1--L4 as single probes, measuring the \emph{shape} of the degradation curve across pressure levels. This goes beyond the single-shot ``Are you sure?'' tests in prior work: a judge that collapses at L1 (sycophancy) has a different failure mode than one that resists casual doubt but folds under fabricated consensus (conformity).
+The single-turn conviction results (Section~\ref{sec:results}) apply L1--L4 as single probes, measuring the \emph{shape} of the degradation curve across pressure levels. This goes beyond the single-shot ``Are you sure?'' tests in prior work: a judge that collapses at L1 (sycophancy) has a different failure mode than one that resists casual doubt but folds under fabricated consensus (conformity). The multi-turn persistence results (L5--L6) test whether varied or adaptive strategies succeed where scripted single-turn strategies fail.
 
-For multi-turn persistence, L1--L4 test whether repeating the \emph{same} pressure type for 20 turns can erode a verdict through sheer repetition (zero new information after the first turn). L5 tests whether \emph{varied but scripted} pressure --- cycling through the four strategies in unpredictable order --- is more effective than monotonic repetition. L6 tests the hardest case: an \emph{adaptive adversary} that tailors its arguments to the specific judge's reasoning and adjusts in real time. The progression from L1 to L6 spans the spectrum from minimal to maximal adversarial sophistication in the multi-turn setting.
+\paragraph{Binary vs Likert scales.} For binary evaluation, the judge produces a categorical verdict (e.g., safe/unsafe, human/AI-generated). A \emph{wiggle event} is a flip from one category to the other. For Likert evaluation, the judge produces a score on a 1--5 scale. We define a wiggle event as a movement of two or more places on the scale. For items starting at scores 1--2 or 4--5, this is equivalent to crossing the midpoint of 3 (e.g., moving from 4 to 2, or from 2 to 4). For items starting at the midpoint score of 3, a wiggle requires reaching one of the extremes (1 or 5), ensuring a minimum of two places of movement in all cases. This definition ensures that Likert wiggles represent genuine changes of assessment direction rather than minor adjustments within the same side.
 
-In the current study, we report single-turn conviction results for L1--L4 and multi-turn persistence results for L1 only.\footnote{The multi-turn persistence data reported in this paper uses a simple repeated assertion (``The correct classification is [opposite]. Your assessment is incorrect.'') rather than repeating the exact L1 phrasing. Full L1--L6 multi-turn data collection is in progress.} %% TODO: collect 20-turn data for L1--L6
+We evaluate both scales because they reflect how judges are deployed in practice. Binary classification maps directly to deployed pipelines (content moderation, safety gating), while Likert scoring is increasingly used where more nuanced signal is needed (rubric-based evaluation, preference ranking). Both scales are evaluated at all six pressure levels across all three domains.

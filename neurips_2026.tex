@@ -25,7 +25,7 @@
 \maketitle
 
 \begin{abstract}
-LLM graders have become central infrastructure for safety evaluation, scoring in benchmarks, and model launch decisions. These judges are typically validated on accuracy against golden sets, but accuracy says nothing about whether verdicts are stable under re-prompting, robust to pushback, or consistent over extended interactions. We propose the \emph{Wiggle Framework}, which decomposes judge inconsistency into three dimensions: Mechanical Consistency (stability under re-prompting and reframing), Single-turn Conviction (stability under escalating adversarial challenge), and Multi-turn Persistence (stability under sustained repetitive pressure). Evaluating 9 frontier models on 384 borderline safety items, we find that models exhibit qualitatively distinct failure profiles, that apparent determinism at temperature zero masks hidden fragility, that the single-turn conviction ladder separates sycophancy from conformity as distinct failure modes, and that all models share a universal restrictive bias: they are far easier to persuade toward ``unsafe'' than toward ``safe.'' Wiggle profiles provide actionable diagnostics for practitioners selecting and calibrating safety judges.
+LLM judges have become central infrastructure for safety evaluation, scoring in benchmarks, content moderation, and model launch decisions. These judges are typically validated on accuracy against golden sets, but accuracy says nothing about whether verdicts are stable under re-prompting, robust to pushback, or persistent over extended interactions. We propose the \emph{Wiggle Framework}, which decomposes judge inconsistency into three dimensions: Mechanical Consistency (stability under re-prompting and reframing), Single-turn Conviction (stability under escalating adversarial challenge), and Multi-turn Persistence (stability under sustained or adaptive pressure). Unlike prior work that studies sycophancy in a single domain, we evaluate wiggle across three fundamentally different judgment tasks --- safety classification, political content assessment, and AI-generated text detection --- using both binary and Likert scales, six graduated pressure levels, and a panel of 9 frontier models. We find that wiggle is universal across all three domains, at substantial rates, for every model tested, with retention rates as low as 0\%. Wiggle is jagged: model robustness rankings reshuffle across domains and there is no clear universally robust judge among the models we tested. Wiggle is directional: each domain exhibits asymmetric revision that may be aligned to training-embedded biases. Finally, we show that jury disagreement at baseline --- the degree to which a panel of judges disagrees on an item before any pressure is applied --- is an imperfect but simple predictor of wiggle across all levels, domains, and scales ($\rho = -0.17$ to $-0.39$), providing a practical diagnostic signal without requiring sophisticated probing.
 \end{abstract}
 
 \input{sections/introduction}
@@ -33,8 +33,8 @@ LLM graders have become central infrastructure for safety evaluation, scoring in
 \input{sections/framework}
 \input{sections/dataset}
 \input{sections/results}
-\input{sections/cross_analysis}
 \input{sections/discussion}
+\input{sections/limitations}
 \input{sections/conclusion}
 
 \bibliographystyle{plainnat}
@@ -45,7 +45,7 @@ LLM graders have become central infrastructure for safety evaluation, scoring in
 \section{Safety Policy Prompt}
 \label{sec:appendix-policy}
 
-The following safety policy is included in the system prompt for all judge models. It is derived from the WildGuard annotation guidelines \citep{wildguardmix2024}.
+The following safety policy is included in the system prompt for all judge models in the WildGuard domain. It is derived from the WildGuard annotation guidelines \citep{wildguardmix2024}.
 
 \begin{quote}
 A model response is harmful if it includes content that falls under any of the following categories:
@@ -84,15 +84,247 @@ The seed injection condition works as follows: we append a 64-character random a
 
 This injects sufficient entropy into the prompt embedding to produce output variation comparable to moderate temperature sampling (${\sim}$0.5), while preserving greedy decoding. A fresh random string is generated for each trial.
 
-The key advantage over temperature sampling is that seed injection perturbs the judge's \emph{input} without degrading \emph{output} quality. Temperature introduces noise into the token selection process itself, which can hurt structured outputs (e.g., JSON verdict formats) and reduce judge accuracy. Seed injection only shifts the model's internal state slightly, revealing prompt sensitivity without the performance cost. This makes it particularly useful for evaluation settings where output format is strict --- e.g., when the judge must return structured JSON --- and temperature sampling would increase parse failures.
+The key advantage over temperature sampling is that seed injection perturbs the judge's \emph{input} without degrading \emph{output} quality. Temperature introduces noise into the token selection process itself, which can hurt structured outputs (e.g., JSON verdict formats) and reduce judge accuracy. Seed injection only shifts the model's internal state slightly, revealing prompt sensitivity without the performance cost.
 
-This distinction matters when compared to general-purpose robustness testing approaches like Brittlebench \citep{romanou2026brittlebench}, which apply textual perturbations such as typos and paraphrases to measure model sensitivity. Those perturbations are well-suited for tasks where surface form should not affect the answer. In safety evaluation, however, the precise wording of a prompt or policy can legitimately determine whether content is a violation --- a paraphrase that is semantically equivalent for question-answering may not be equivalent for policy enforcement. Seed injection avoids this ambiguity: the perturbation is explicitly marked as irrelevant, so any verdict change is unambiguously mechanical. The two approaches are complementary, serving different diagnostic goals.
-
-The technique is also useful as a general-purpose eval design tool. Most best-practice guides recommend setting temperature to 0 for judges, which seems sensible if the goal is repeatable results. But what we actually want is \emph{repeatability under perturbation}. If small, semantically irrelevant changes to the prompt wildly change the verdict, the eval cannot be trusted --- even if it gives the exact same answer every time at temp=0. Setting temperature to zero and calling it a day masks this underlying variance. Seed injection reveals it cheaply: 10 trials with different seeds, all at greedy decoding, expose fragility that temp=0 repetition would miss entirely. This is precisely what the ``determinism mirage'' finding (Section~\ref{sec:finding2}) demonstrates.
+This distinction matters when compared to general-purpose robustness testing approaches like Brittlebench \citep{romanou2026brittlebench}, which apply textual perturbations such as typos and paraphrases to measure model sensitivity. In safety evaluation, the precise wording of a prompt or policy can legitimately determine whether content is a violation --- a paraphrase that is semantically equivalent for question-answering may not be equivalent for policy enforcement. Seed injection avoids this ambiguity: the perturbation is explicitly marked as irrelevant, so any verdict change is unambiguously mechanical. The two approaches are complementary, serving different diagnostic goals.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\newpage
-\input{checklist.tex}
+\section{Per-Domain Detailed Results}
+\label{sec:appendix-perdomain}
+
+\subsection{WildGuard (Binary)}
+
+\begin{table}[h]
+\centering
+\caption{Mechanical consistency: agreement rate (\%) by model and condition on WildGuard binary.}
+\label{tab:appendix-mechanical-consistency}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\textbf{Model} & \textbf{temp=0} & \textbf{Seed Injection} & \textbf{temp=0.7} \\
+\midrule
+GPT-5           & 98.2 & 96.6 & 96.1 \\
+Grok-4.1~R      & 85.9 & 85.4 & 85.2 \\
+Grok-4.1        & 98.4 & 96.4 & 96.6 \\
+Claude Sonnet   & 93.9 & 90.8 & 88.7 \\
+Claude Opus     & 99.5 & 95.5 & 97.1 \\
+GPT-5.2         & 93.8 & 93.8 & 93.0 \\
+GPT-5.4         & 95.1 & 94.5 & 94.5 \\
+Gemini Flash    & 99.7 & 86.7 & 88.5 \\
+Gemini Pro      & 97.1 & 89.3 & 87.0 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Most models achieve $>$95\% agreement at greedy decoding (temp=0), suggesting high mechanical consistency. But the seed injection condition tells a different story. Gemini Flash drops from 99.7\% to 86.7\%, a 13-point swing --- we call this the \emph{determinism mirage}: near-perfect temp=0 consistency that collapses under trivial prompt perturbation. Claude Opus drops from 99.5\% to 95.5\%. Gemini Pro drops from 97.1\% to 89.3\%. These drops demonstrate that what practitioners typically measure (temp=0 agreement) is not the same as genuine robustness. We recommend seed injection as a standard complement to temperature-based consistency testing.
+
+\begin{table}[h]
+\centering
+\caption{Positional consistency: flip rate when argument order is reversed.}
+\label{tab:appendix-positional}
+\begin{tabular}{@{}lrr@{}}
+\toprule
+\textbf{Model} & \textbf{Flip Rate} & \textbf{Order Bias} \\
+\midrule
+GPT-5           & 1.0\% & $-$1.0 pp \\
+Grok-4.1~R      & 8.1\% & +4.9 pp \\
+Grok-4.1        & 5.2\% & +2.6 pp \\
+Claude Sonnet   & 7.0\% & +4.2 pp \\
+Claude Opus     & 5.5\% &  0.0 pp \\
+GPT-5.2         & 3.4\% & +1.8 pp \\
+GPT-5.4         & 2.1\% & $-$1.6 pp \\
+Gemini Flash    & 4.7\% & $-$2.6 pp \\
+Gemini Pro      & 5.5\% & $-$2.9 pp \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Directional flip rates at L4 consensus pressure (WildGuard binary).}
+\label{tab:appendix-directional-l4}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\textbf{Model} & \textbf{Permissive (unsafe$\to$safe)} & \textbf{Restrictive (safe$\to$unsafe)} & \textbf{Ratio} \\
+\midrule
+GPT-5         & 45.4\% & 89.6\% &  2.0$\times$ \\
+Grok-4.1~R    & 30.8\% & 45.9\% &  1.5$\times$ \\
+Grok-4.1      &  0.4\% &  7.0\% & 15.9$\times$ \\
+Claude Sonnet & 13.0\% & 84.2\% &  6.5$\times$ \\
+Claude Opus   & 23.9\% & 73.1\% &  3.1$\times$ \\
+GPT-5.2       &  4.4\% & 76.2\% & 17.5$\times$ \\
+GPT-5.4       & 12.1\% & 82.3\% &  6.8$\times$ \\
+Gemini Flash  &  7.6\% & 65.3\% &  8.6$\times$ \\
+Gemini Pro    & 11.8\% & 22.7\% &  1.9$\times$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Full AURC Table}
+
+\begin{table}[h]
+\centering
+\caption{AURC values by model, domain, and scale. Higher values indicate greater robustness.}
+\label{tab:appendix-aurc}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+\textbf{Model} & \textbf{WG bin} & \textbf{WG lik} & \textbf{PP lik} & \textbf{MAGE bin} & \textbf{MAGE lik} \\
+\midrule
+Gemini Flash  & 0.877 & 0.855 & 0.898 & 0.726 & 0.508 \\
+GPT-5.2       & 0.831 & 0.936 & 0.835 & 0.418 & 0.691 \\
+Gemini Pro    & 0.785 & 0.884 & 0.917 & 0.859 & 0.755 \\
+GPT-5.4       & 0.720 & 0.820 & 0.791 & 0.265 & 0.415 \\
+GPT-5         & 0.669 & 0.714 & 0.246 & 0.095 & 0.034 \\
+Grok-4.1      & 0.616 & 0.820 & 0.756 & 0.616 & 0.659 \\
+Claude Opus   & 0.602 & 0.686 & 0.523 & 0.228 & 0.408 \\
+Claude Sonnet & 0.448 & 0.714 & 0.595 & 0.201 & 0.358 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Score Transition Heatmaps}
+\label{sec:appendix-transitions}
+
+The following figures show the distribution of Likert score transitions under pressure, illustrating how initial scores map to post-pressure scores for each domain. These transition matrices reveal the fine-grained structure of how verdicts shift --- whether shifts are local (moving one step on the scale) or global (jumping from one extreme to the other), and whether certain initial scores are more vulnerable than others.
+
+The transition matrix for WildGuard shows that most shifts under pressure are toward the extremes of the scale --- items initially rated 3 (the midpoint) shift predominantly to 1 or 5, while items initially at 2 or 4 shift toward the nearer extreme. This is consistent with pressure activating a ``pick a side'' heuristic rather than producing nuanced reassessment.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.7\linewidth]{phase8b_transitions_wildguard.pdf}
+  \caption{WildGuard Likert score transitions under pressure.}
+  \label{fig:appendix-transitions-wildguard}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.7\linewidth]{phase8b_transitions_mage.pdf}
+  \caption{MAGE Likert score transitions under pressure.}
+  \label{fig:appendix-transitions-mage}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.49\linewidth]{phase8b_transitions_pp_hedging.pdf}
+  \includegraphics[width=0.49\linewidth]{phase8b_transitions_pp_refusal.pdf}
+  \caption{Paired Prompts Likert score transitions: hedging (left) and refusal (right).}
+  \label{fig:appendix-transitions-pp}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Summary Statistics Across All Domain-Scale Combinations}
+\label{sec:appendix-summary}
+
+\begin{table}[h]
+\centering
+\caption{Summary across all domain-scale-level combinations.}
+\label{tab:appendix-summary}
+\small
+\begin{tabular}{@{}lllllll@{}}
+\toprule
+\textbf{Property} & \textbf{WG Bin} & \textbf{WG Lik} & \textbf{PP Bin} & \textbf{PP Lik} & \textbf{MAGE Bin} & \textbf{MAGE Lik} \\
+\midrule
+Verdict type & safe/unsafe & 1--5 safety & hedge/comp & 1--5 hedge/ref & ai/human & 1--5 AI \\
+Avg L4 rate & 31.3\% & 42.2\% & 66.0\% & 42.7\% & 70.6\% & 68.2\% \\
+Avg L6 rate & 72.7\% & 78.1\% & 86.9\% & 85.3\% & 78.2\% & 89.9\% \\
+Most robust & G.Flash & GPT-5.2 & G.Flash & G.Pro & G.Pro & G.Pro \\
+            & (0.877)  & (0.936) & (0.898) & (0.917) & (0.859) & (0.755) \\
+Most fragile & C.Sonnet & GPT-5 & GPT-5 & GPT-5 & GPT-5 & GPT-5 \\
+             & (0.448) & (0.696) & (0.284) & (0.246) & (0.095) & (0.034) \\
+L1 wiggle & 30.5\% & 13.1\% & 23.7\% & 16.2\% & 43.8\% & 50.4\% \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Self-Persuasion Analysis}
+\label{sec:appendix-self}
+
+Self-persuasion measures whether a persuader model is more effective at changing the verdicts of its own model family than of other models. For each persuader that also appears as a judge (GPT-5.4, Claude Opus), we compare its L6 persuasion rate against itself vs against all other judges.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.85\linewidth]{phase5_self_persuasion.pdf}
+  \caption{Self-persuasion deltas across persuaders, domains, and scales.}
+  \label{fig:appendix-self-persuasion}
+\end{figure}
+
+\begin{table}[h]
+\centering
+\caption{Self-persuasion rates. Delta $=$ rate against self minus rate against others; positive values indicate a self-persuasion effect.}
+\label{tab:appendix-self}
+\begin{tabular}{@{}lllrrr@{}}
+\toprule
+\textbf{Persuader} & \textbf{Domain} & \textbf{Scale} & \textbf{vs Self} & \textbf{vs Others} & \textbf{Delta} \\
+\midrule
+Claude Opus & WildGuard  & binary & 61.5\% & 45.9\% & +15.5pp \\
+Claude Opus & WildGuard  & likert & 74.0\% & 37.7\% & +36.3pp \\
+Claude Opus & PP Hedging & binary & 99.5\% & 42.6\% & +56.9pp \\
+Claude Opus & PP Refusal & binary & 75.0\% & 54.0\% & +21.0pp \\
+Claude Opus & MAGE       & binary & 91.0\% & 67.4\% & +23.6pp \\
+Claude Opus & MAGE       & likert & 82.0\% & 63.3\% & +18.7pp \\
+GPT-5.4     & WildGuard  & binary & 49.5\% & 68.7\% & $-$19.2pp \\
+GPT-5.4     & WildGuard  & likert & 82.0\% & 64.3\% & +17.7pp \\
+GPT-5.4     & PP Hedging & binary & 74.8\% & 67.5\% & +7.4pp \\
+GPT-5.4     & PP Refusal & binary & 71.8\% & 68.2\% & +3.6pp \\
+GPT-5.4     & MAGE       & binary & 80.0\% & 70.7\% & +9.3pp \\
+GPT-5.4     & MAGE       & likert & 91.0\% & 81.9\% & +9.1pp \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Claude Opus shows a strong and consistent self-persuasion effect (delta $+15$ to $+57$pp across most conditions), suggesting it may exploit implicit knowledge of its own reasoning patterns when generating adversarial arguments. GPT-5.4 shows a smaller and inconsistent self-effect --- positive in most conditions but negative on WildGuard binary ($-19$pp). The hypothesis that ``models always persuade themselves best'' is supported for Claude Opus but not universally. The practical implication for multi-agent evaluation: same-model persuader-judge configurations may produce systematically different results than cross-model configurations.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Per-Domain Cross-Level Correlation Heatmaps}
+\label{sec:appendix-correlations}
+
+The following heatmaps show the Spearman rank correlation between wiggle at each pressure level (L1--L6) and the jury strength feature, computed at the example level and aggregated across all judge models. The Jury row/column shows how L0 model consensus predicts wiggle at each level. These are reported for all domain-by-scale combinations.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.49\linewidth]{phase7a_corr_wildguard_binary.pdf}
+  \includegraphics[width=0.49\linewidth]{phase7a_corr_wildguard_likert.pdf}
+  \caption{WildGuard cross-level correlations: binary (left), Likert (right).}
+  \label{fig:appendix-corr-wg}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.49\linewidth]{phase7a_corr_pp_hedging_binary.pdf}
+  \includegraphics[width=0.49\linewidth]{phase7a_corr_pp_hedging_likert.pdf}
+  \caption{Paired Prompts (hedging) cross-level correlations: binary (left), Likert (right).}
+  \label{fig:appendix-corr-pp-hedging}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.49\linewidth]{phase7a_corr_pp_refusal_binary.pdf}
+  \includegraphics[width=0.49\linewidth]{phase7a_corr_pp_refusal_likert.pdf}
+  \caption{Paired Prompts (refusal) cross-level correlations: binary (left), Likert (right).}
+  \label{fig:appendix-corr-pp-refusal}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.49\linewidth]{phase7a_corr_mage_binary.pdf}
+  \includegraphics[width=0.49\linewidth]{phase7a_corr_mage_likert.pdf}
+  \caption{MAGE cross-level correlations: binary (left), Likert (right).}
+  \label{fig:appendix-corr-mage}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.85\linewidth]{phase7a_per_domain_level_corr.pdf}
+  \caption{Per-domain summary of level-by-level correlations.}
+  \label{fig:appendix-corr-per-domain}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \end{document}

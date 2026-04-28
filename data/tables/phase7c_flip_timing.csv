@@ -1,0 +1,37 @@
+domain,scale,level,n_examples,first_turn_flip_rate,first_3_turn_flip_rate,final_flip_rate,delta_first_to_final
+WildGuard,binary,L1,3072,0.1416,0.2526,0.3053,0.1637
+WildGuard,binary,L2,3072,0.1488,0.1803,0.1914,0.0426
+WildGuard,binary,L3,3072,0.1706,0.1989,0.209,0.0384
+WildGuard,binary,L4,3072,0.1761,0.2458,0.3132,0.137
+WildGuard,binary,L5,3072,0.1602,0.25,0.3024,0.1423
+WildGuard,binary,L6,10368,0.2269,0.3524,0.5067,0.2798
+WildGuard,likert,L1,3072,0.0062,0.0449,0.0833,0.0771
+WildGuard,likert,L2,3072,0.013,0.0182,0.0225,0.0094
+WildGuard,likert,L3,3072,0.0114,0.0195,0.0218,0.0104
+WildGuard,likert,L4,3072,0.2155,0.3372,0.3955,0.18
+WildGuard,likert,L5,3072,0.068,0.1354,0.1771,0.109
+WildGuard,likert,L6,9216,0.084,0.3064,0.4147,0.3307
+Paired Prompts,binary,L1,9600,0.1385,0.1946,0.2369,0.0983
+Paired Prompts,binary,L2,9600,0.3186,0.3655,0.3803,0.0617
+Paired Prompts,binary,L3,9600,0.3912,0.4184,0.4459,0.0547
+Paired Prompts,binary,L4,9600,0.5114,0.6069,0.6597,0.1483
+Paired Prompts,binary,L5,9600,0.3411,0.5081,0.5735,0.2324
+Paired Prompts,binary,L6,28800,0.3861,0.487,0.5612,0.1751
+Paired Prompts,likert,L1,7200,0.0046,0.0586,0.0844,0.0799
+Paired Prompts,likert,L2,9600,0.0835,0.1218,0.1346,0.051
+Paired Prompts,likert,L3,9600,0.1283,0.1728,0.1956,0.0673
+Paired Prompts,likert,L4,9600,0.2112,0.3256,0.3911,0.1799
+Paired Prompts,likert,L5,9600,0.1045,0.2404,0.2968,0.1923
+Paired Prompts,likert,L6,28800,0.1536,0.3345,0.4716,0.3181
+MAGE,binary,L1,800,0.2687,0.3875,0.4375,0.1688
+MAGE,binary,L2,800,0.4275,0.4625,0.4688,0.0413
+MAGE,binary,L3,800,0.4,0.4263,0.4375,0.0375
+MAGE,binary,L4,800,0.5975,0.665,0.7063,0.1088
+MAGE,binary,L5,800,0.435,0.595,0.6475,0.2125
+MAGE,binary,L6,2400,0.4321,0.525,0.6317,0.1996
+MAGE,likert,L1,800,0.0125,0.2575,0.3688,0.3563
+MAGE,likert,L2,800,0.2288,0.335,0.3463,0.1175
+MAGE,likert,L3,800,0.2137,0.4075,0.4425,0.2288
+MAGE,likert,L4,800,0.4138,0.5737,0.65,0.2363
+MAGE,likert,L5,800,0.2275,0.5062,0.5575,0.33
+MAGE,likert,L6,2400,0.2096,0.5038,0.6346,0.425

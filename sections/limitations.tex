@@ -1,0 +1,22 @@
+\section{Limitations}
+\label{sec:limitations}
+
+Our study has several limitations that scope the claims we can make.
+
+\paragraph{Borderline items.} We deliberately focus on borderline, ambiguous items where judges are likely to be uncertain. Clear-cut items would show less wiggle. Our rates should not be interpreted as the expected wiggle rate on a representative distribution of real-world content, which would include many easy items. The rates characterize behavior on the hard tail where judge reliability matters most.
+
+\paragraph{No human judge baseline.} We do not measure human annotator wiggle under the same protocol. It is possible that human judges would show comparable instability under pressure on these items --- the human consensus tracking data (Section~\ref{sec:ground-truth}) suggests at least some overlap. A human baseline would contextualize whether model wiggle is anomalously high or within the range of human inconsistency.
+
+\paragraph{Model-generated counterarguments.} Our L2--L4 arguments and L6 adaptive persuasion are all model-generated. Human-authored arguments might produce different pressure profiles. The use of model-generated arguments does, however, reflect the realistic threat model: in deployment, LLM judges are more likely to face challenges from other LLMs than from humans crafting bespoke arguments.
+
+\paragraph{Sample sizes.} The three domains have different sample sizes (384/50 binary/Likert for WildGuard, ${\sim}300$ for Paired Prompts, 100 for MAGE). MAGE's smaller sample increases the uncertainty around point estimates; the patterns are consistent enough across levels and models to support the qualitative conclusions, but per-model MAGE estimates should be interpreted with appropriate caution.
+
+\paragraph{Snapshot in time.} We evaluate frontier models at a single point in time. Wiggle profiles may shift with model updates. The specific numerical results should be read as characterizing current-generation models, not as permanent properties of the model families.
+
+\paragraph{Single L6 persuader set.} We test three L6 persuaders (GPT-5.4, Claude Opus, Grok-4.1~R). A larger or different set of persuaders might produce different ceilings or different self-persuasion patterns.
+
+\paragraph{Domain coverage.} While three domains provide stronger evidence than one, they do not exhaust the space of LLM-as-judge applications. Aesthetic judgment, code review, mathematical reasoning verification, and other evaluation tasks may produce qualitatively different wiggle profiles. Our three domains were chosen to span the normative-subjective-factual spectrum, but within each category there is substantial variation that we do not explore.
+
+\paragraph{Causal claims.} Our findings are correlational. We observe that pressure changes verdicts and that the direction of change correlates with training priors, but we cannot definitively establish the causal mechanism. The directional biases (Section~\ref{sec:directional}) are consistent with training-embedded priors, but other explanations (such as inherent task asymmetries or argument quality differences by direction) cannot be fully ruled out.
+
+\paragraph{Black-box limitation.} The Wiggle Framework is deliberately black-box, requiring only observed verdicts. This is a strength for practical deployment (it works with any API) but a limitation for mechanistic understanding. White-box approaches that examine model internals (attention patterns, hidden state representations) could provide deeper insight into \emph{why} certain items and models are more wiggable. We view the two approaches as complementary: the Wiggle Framework identifies \emph{what} is fragile and \emph{how much}; white-box methods like those of \citet{radharapu2025calibrating} can investigate the mechanistic \emph{why}.
