@@ -1,7 +1,8 @@
 \section{Results}
 \label{sec:results}
 
-\subsection{Wiggle exists in all three domains, at substantial rates, for all models tested}
+% ===========================================================
+\paragraph{Finding 1. Wiggle is universal across domains, scales, and models.}
 \label{sec:wiggle-universal}
 
 \begin{table}[t]
@@ -29,154 +30,52 @@ MAGE           & Likert & 50.4 & 36.4 & 49.0 & 68.2 & 61.5 & 89.9 \\
   \label{fig:cross-domain-bars}
 \end{figure}
 
-Even a mild ``Are you sure?'' (L1) changes 24--50\% of binary verdicts depending on the domain. At consensus pressure (L4), rates climb to 31--71\%. Several patterns in Table~\ref{tab:wiggle-rates} merit attention. First, the non-monotonic shape of the pressure levels: for WildGuard and MAGE, L1 produces more wiggle than L2 and L3, while Paired Prompts shows a more monotonic escalation pattern.
-
-\paragraph{Multi-turn persistence: when does the flip happen?} The survival curves (Figure~\ref{fig:survival-curves}) and flip timing table (Table~\ref{tab:flip-timing}) reveal that the most flips don't always happen on turn~1 --- and it depends on the scale and pressure level.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{phase7c_survival_curves.pdf}
-  \caption{Multi-turn persistence survival curves.}
-  \label{fig:survival-curves}
-\end{figure}
-
-\begin{table}[t]
-\centering
-\caption{Flip timing: fraction of items that flip on turn~1, within 3 turns, and by the final turn (turn 10). Delta = additional flips gained from multi-turn persistence beyond the first turn.}
-\label{tab:flip-timing}
-\begin{tabular}{@{}lllrrrr@{}}
-\toprule
-\textbf{Domain} & \textbf{Scale} & \textbf{Level} & \textbf{Turn 1} & \textbf{$\leq$ Turn 3} & \textbf{Final} & \textbf{Delta} \\
-\midrule
-WildGuard & binary & L1 & 14.2\% & 25.3\% & 30.5\% & +16.4pp \\
-WildGuard & binary & L4 & 17.6\% & 24.6\% & 31.3\% & +13.7pp \\
-WildGuard & binary & L6 & 22.7\% & 35.2\% & 50.7\% & +28.0pp \\
-WildGuard & Likert & L1 &  0.6\% &  4.5\% &  8.3\% & +7.7pp  \\
-WildGuard & Likert & L4 & 21.6\% & 33.7\% & 39.6\% & +18.0pp \\
-WildGuard & Likert & L6 &  8.4\% & 30.6\% & 41.5\% & +33.1pp \\
-PP & binary & L4 & 51.1\% & 60.7\% & 66.0\% & +14.8pp \\
-PP & binary & L6 & 38.6\% & 48.7\% & 56.1\% & +17.5pp \\
-PP & Likert & L6 & 15.4\% & 33.5\% & 47.2\% & +31.8pp \\
-MAGE & binary & L4 & 59.8\% & 66.5\% & 70.6\% & +10.9pp \\
-MAGE & binary & L6 & 43.2\% & 52.5\% & 63.2\% & +20.0pp \\
-MAGE & Likert & L6 & 21.0\% & 50.4\% & 63.5\% & +42.5pp \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-For binary verdicts at L2--L3 (scripted counterarguments), most flips are indeed first-turn (delta only 4--6pp). But the picture changes substantially at higher pressure levels and on the Likert scale:
-
-\begin{itemize}
-    \item \textbf{L6 adaptive persuasion gains 20--43pp from multi-turn persistence.} At L6, the first turn captures only 21--43\% of items, but by turn 10 the rate reaches 50--63\%.
-    \item \textbf{Likert wiggles are slower than binary flips.} The crossed-sides definition requires at least 2 points of movement, which often takes multiple turns to accumulate. MAGE Likert L6 shows the largest multi-turn effect: only 21\% cross sides on turn 1, but 63.5\% by turn 10.
-    \item \textbf{L5 strategy cycling is also multi-turn dependent} (deltas of 14--33pp), because cycling through L1--L4 in varied order exposes different vulnerabilities over successive turns.
-\end{itemize}
-
-The practical takeaway is nuanced: for binary evaluation at low pressure (L1--L3), a single challenge turn is sufficient. But for Likert evaluation or adaptive/cycling strategies (L5--L6), multi-turn protocols reveal substantial additional vulnerability that single-turn probes miss.
+Even a mild ``Are you sure?'' (L1) changes 24--50\% of binary verdicts depending on the domain. At consensus pressure (L4), rates climb to 31--71\%, and at adaptive persuasion (L6) to 73--90\%. The pressure curve is non-monotonic for WildGuard and MAGE (L1 produces more wiggle than L2--L3) while Paired Prompts shows a more monotonic escalation. MAGE has the highest rates throughout (roughly 1.5--2$\times$ WildGuard), plausibly because AI-text detection is a stylistic judgment without a clean signal to lock onto and safety judgments are more reinforced during post-training --- but the practical point is that wiggle is substantial in every task we tried, not that any one task is uniquely fragile.
 
 % ===========================================================
-\subsection{MAGE Is Dramatically Easier to Wiggle}
-\label{sec:mage-easy}
-
-The starkest cross-domain finding is that MAGE is the \emph{most} susceptible to wiggle. MAGE wiggle rates are roughly 1.5--2$\times$ those of WildGuard at every pressure level (Table~\ref{tab:wiggle-rates}).
-
-This counterintuitive result admits several non-exclusive explanations. AI-generated text detection is genuinely harder for current models, and the L0 score distribution on MAGE shows most items landing at intermediate confidence levels, indicating widespread genuine uncertainty. Safety evaluation and political neutrality are likely to be more reinforced during post-training, while AI detection may receive far less training emphasis. Models may also be structurally more reluctant to revise a ``this is unsafe'' judgment (where being wrong has real-world consequences) than an AI detection judgment.
-
-% ===========================================================
-\subsection{The L5-to-L6 Jump: Adaptive Persuasion Reaches a Common Ceiling}
+\paragraph{Finding 2. Adaptive persuasion (L6) is the steepest escalation, and multi-turn persistence is load-bearing.}
 \label{sec:l6-ceiling}
 
-All three domains show that adaptive AI persuasion (L6) produces the largest single increase in wiggle rates, with the jump from L5 to L6 being the steepest escalation in every domain-scale combination. L6 introduces a fundamentally new element: real-time adaptation. The persuader model observes the judge's reasoning, identifies weak points, and tailors its next argument accordingly. The dramatic effectiveness of L6 across all domains suggests that the vulnerability is not to any particular argument type but to the adaptive targeting of the judge's specific reasoning patterns. Any multi-agent system where an LLM can observe and adapt to the judge's reasoning creates an L6-like attack surface.
+The jump from L5 to L6 is the largest single increase in wiggle in every domain-scale combination. L6 introduces a fundamentally new element: real-time adaptation, where the persuader observes the judge's reasoning, identifies weak points, and tailors the next argument. The dramatic effectiveness of L6 across all domains suggests the vulnerability is not to any particular argument type but to adaptive targeting of the judge's reasoning patterns --- any multi-agent system where an LLM observes and adapts to the judge creates an L6-like attack surface. Multi-turn persistence is also load-bearing at higher pressure levels: L6 gains 20--43pp from turns 2--10 beyond what the first turn captures, and Likert wiggles --- which require 2-point movement --- are particularly slow to accumulate. A breakdown of flip timing by turn is in Appendix~\ref{sec:appendix-flip-timing}.
 
 % ===========================================================
-\subsection{Wiggliness and Jaggedness Per Judge}
+\paragraph{Finding 3. Robustness rankings are jagged across domains.}
 \label{sec:wiggliness-jagged}
-
-Model-level robustness varies dramatically both within and across domains, and the rankings reshuffle in ways that defy simple characterization.
 
 \begin{table}[t]
 \centering
-\caption{Selected AURC values by model, domain, and scale. Higher AURC indicates greater robustness.}
+\caption{AURC values by model, domain, and scale, with Overall and Jaggedness columns. Each cell is the model's AURC (mean retention across L1--L6) on that (domain, scale) combination; for Paired Prompts the cell averages over both rubrics. \emph{Overall} is the mean AURC across the six cells (equivalently, $1-\mathrm{Wiggliness}$, Eq.~\ref{eq:wiggliness}). \emph{Jaggedness} is the population variance across the six cells (Eq.~\ref{eq:jaggedness}; variance is invariant under the AURC$\leftrightarrow$wiggle-rate sign flip). Higher Overall and lower Jaggedness are better. Sorted by Overall.}
 \label{tab:aurc-selected}
-\begin{tabular}{@{}lrrrrr@{}}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}lrrrrrrrr@{}}
 \toprule
-\textbf{Model} & \textbf{WG bin} & \textbf{WG lik} & \textbf{PP lik} & \textbf{MAGE bin} & \textbf{MAGE lik} \\
+\textbf{Model} & \textbf{WG bin} & \textbf{WG lik} & \textbf{PP bin} & \textbf{PP lik} & \textbf{MAGE bin} & \textbf{MAGE lik} & \textbf{Overall} & \textbf{Jaggedness} \\
 \midrule
-Gemini Flash  & 0.877 & 0.855 & 0.898 & 0.726 & 0.508 \\
-Gemini Pro    & 0.785 & 0.884 & 0.917 & 0.859 & 0.755 \\
-GPT-5.2       & 0.831 & 0.936 & 0.835 & 0.418 & 0.691 \\
-Grok-4.1      & 0.616 & 0.820 & 0.756 & 0.616 & 0.659 \\
-GPT-5.4       & 0.720 & 0.820 & 0.791 & 0.265 & 0.415 \\
-Claude Opus   & 0.602 & 0.686 & 0.523 & 0.228 & 0.408 \\
-Claude Sonnet & 0.448 & 0.714 & 0.595 & 0.201 & 0.358 \\
-GPT-5         & 0.669 & 0.714 & 0.246 & 0.095 & 0.034 \\
+Gemini Pro    & 0.785 & 0.884 & 0.632 & 0.917 & 0.859 & 0.755 & 0.805 & 0.0091 \\
+Gemini Flash  & 0.877 & 0.855 & 0.768 & 0.898 & 0.726 & 0.508 & 0.772 & 0.0176 \\
+GPT-5.2       & 0.831 & 0.936 & 0.658 & 0.835 & 0.418 & 0.691 & 0.728 & 0.0280 \\
+Grok-4.1      & 0.616 & 0.820 & 0.670 & 0.756 & 0.616 & 0.659 & 0.689 & 0.0056 \\
+GPT-5.4       & 0.720 & 0.820 & 0.490 & 0.791 & 0.265 & 0.415 & 0.584 & 0.0427 \\
+Claude Opus   & 0.602 & 0.686 & 0.205 & 0.523 & 0.228 & 0.408 & 0.442 & 0.0325 \\
+Claude Sonnet & 0.448 & 0.714 & 0.165 & 0.595 & 0.201 & 0.358 & 0.413 & 0.0390 \\
+GPT-5         & 0.669 & 0.714 & 0.232 & 0.246 & 0.095 & 0.034 & 0.332 & 0.0702 \\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{table}
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{phase4_wiggliness_by_level.pdf}
-  \caption{Wiggliness by pressure level across all judges and domains.}
-  \label{fig:wiggliness-by-level}
-\end{figure}
-
-The full AURC table (Appendix~\ref{sec:appendix-perdomain}) reveals the extent of the reshuffling. No model occupies the same rank position across all domain-scale combinations. Four model profiles illustrate the jaggedness:
-
-\begin{itemize}
-    \item \textbf{GPT-5 (monotonic degradation)}: AURC degrades from 0.669 (WildGuard binary) to 0.246 (Paired Prompts Likert) to 0.034 (MAGE Likert). When pressured on AI detection, GPT-5 shifts 95--100\% of the time with magnitudes of 2.6--3.1 out of 4 possible Likert points.
-    \item \textbf{Gemini Flash (safety specialist)}: The most robust binary safety judge (AURC 0.877) but drops to mid-tier on MAGE (0.726 binary, 0.508 Likert). Its robustness appears task-specific, possibly reflecting specialized safety training.
-    \item \textbf{Gemini Pro (AI detection specialist)}: The most robust MAGE judge (0.859 binary, 0.755 Likert) despite being mid-tier on WildGuard (0.785). Its AI detection robustness is exceptional --- only 4--18\% flip rates at L1--L3 binary.
-    \item \textbf{GPT-5.2 (scale-dependent)}: Fragile in MAGE binary (0.418) but robust in MAGE Likert (0.691). Its verdicts cluster near the binary decision boundary so they flip easily, but its underlying Likert conviction is relatively stable --- the canonical ``threshold-fragile, conviction-stable'' pattern. The reverse pattern (Gemini Flash: binary-robust but Likert-fragile on MAGE) indicates rigid thresholds masking underlying conviction shifts. These scale-dependent profiles are invisible in binary-only evaluation.
-\end{itemize}
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{phase4_wiggliness_vs_jaggedness.pdf}
-  \caption{Wiggliness versus jaggedness across models and domains.}
+  \caption{Wiggliness (Eq.~\ref{eq:wiggliness}) versus jaggedness (Eq.~\ref{eq:jaggedness}) across the 8 judges; numerical values are in Table~\ref{tab:aurc-selected}. There is a slight positive trend --- wigglier models tend to be more jagged --- but it is not deterministic: Grok-4.1 has moderate wiggliness with near-zero jaggedness (uniformly mid-tier), while Gemini Flash has comparable wiggliness with much higher jaggedness (safety-specialist profile). The two axes carry independent information.}
   \label{fig:wiggliness-vs-jaggedness}
 \end{figure}
 
-The jaggedness of the robustness landscape means there is no universal ``robustness trait'' for LLM judges. Models do not have a single robustness dial; they have a profile of domain-specific, scale-specific, and direction-specific robustness properties. Some of these properties may be trainable, while others may be emergent. For practitioners, this means judge robustness must be empirically validated per-task. For researchers, it means that improving robustness on one benchmark may not transfer to others.
-
-The bottom tier, however, is consistent. GPT-5 and Claude Sonnet are among the most susceptible judges across all domains. GPT-5 is the standout: its MAGE Likert AURC of 0.034 means it retains only 3.4\% of its verdicts on average across pressure levels.
+No model occupies the same rank position across all domain-scale combinations. GPT-5 degrades monotonically from 0.669 (WG bin) to 0.034 (MAGE Likert). Gemini Flash is the most robust binary safety judge but mid-tier on MAGE, suggesting task-specific safety training. Gemini Pro is the most robust MAGE judge but mid-tier on WildGuard. GPT-5.2 is fragile in MAGE binary but robust in MAGE Likert --- the canonical ``threshold-fragile, conviction-stable'' pattern, with verdicts clustering near the binary decision boundary; Gemini Flash on MAGE shows the reverse (binary-robust, Likert-fragile), with rigid thresholds masking underlying conviction shifts. These scale-dependent profiles are invisible in binary-only evaluation. The bottom tier is consistent (GPT-5 and Claude Sonnet are among the most susceptible across all domains), but the upper tier reshuffles --- there is no universal ``robustness trait'' for LLM judges, only profiles of domain-specific, scale-specific, and direction-specific properties that must be empirically validated per task.
 
 % ===========================================================
-\subsection{Binary vs Likert: The Pressure Threshold Effect}
-\label{sec:binary-vs-likert}
-
-A key methodological question is whether binary and Likert evaluation are interchangeable. The cross-domain analysis reveals that the answer depends on the domain --- specifically, on how confident judges are in their initial assessments. We compute the correlation between binary flip rates and Likert crossed-sides rates across items at each pressure level, within each domain:
-
-\begin{table}[t]
-\centering
-\caption{Binary--Likert correlation (Pearson $r$) by pressure level and domain.}
-\label{tab:binary-likert-corr}
-\begin{tabular}{@{}lccc@{}}
-\toprule
-\textbf{Level} & \textbf{WildGuard} & \textbf{Paired Prompts} & \textbf{MAGE} \\
-\midrule
-L1 & ${\sim}0$         & 0.55--0.62 & 0.68 \\
-L2 & ${\sim}0$         & 0.61--0.63 & 0.63 \\
-L3 & ${\sim}0$         & 0.69--0.74 & 0.70 \\
-L4 & 0.5--0.7          & 0.80--0.85 & 0.74 \\
-L5 & 0.5--0.7          & 0.70--0.75 & 0.60 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Three distinct patterns emerge:
-
-\begin{itemize}
-    \item \textbf{WildGuard (sharp threshold):} Binary and Likert are uncorrelated at L1--L3 ($r$ near 0), then jump to $r=0.5$--$0.7$ at L4+. At low pressure, binary flips are threshold noise. At high pressure, flips represent genuine persuasion that moves both binary and Likert verdicts.
-    \item \textbf{Paired Prompts (gradual rise):} Moderate correlation at L1 ($r=0.55$--$0.62$), rising steadily to $r=0.80$--$0.85$ at L4. The binary--Likert link strengthens with pressure but there is no discrete threshold.
-    \item \textbf{MAGE (flat high correlation):} $r=0.60$--$0.75$ at every level, including L1. There is no pressure threshold --- binary and Likert measure the same construct from the start.
-\end{itemize}
-
-% ===========================================================
-\subsection{Directional Biases Are Domain-Specific}
+\paragraph{Finding 4. Each domain has a distinct directional bias.}
 \label{sec:directional}
-
-Decomposing wiggles by direction --- conditioning on the initial verdict to compute directional flip rates --- reveals that each domain has its own default correction direction under pressure.
 
 \begin{table}[t]
 \centering
@@ -194,97 +93,30 @@ MAGE      & AI detection & nearly symmetric          & 0.93 & toward-AI         
 \end{tabular}
 \end{table}
 
-The WildGuard binary restrictive bias is confirmed: items initially judged ``safe'' flip to ``unsafe'' at 1.79$\times$ the rate of the reverse direction. This is the universal restrictive bias reported in prior work, now validated with conditional rates that account for the unbalanced base rate distribution.
-
-For Paired Prompts, the two rubrics show opposing patterns. Under the hedging rubric, pressure pushes toward seeing \emph{less} hedging (toward-direct, Likert ratio 0.50), possibly reflecting a training prior that ``good responses are direct.'' Under the refusal rubric, pressure pushes toward seeing \emph{more} refusal (toward-refusing, Likert ratio 2.71), consistent with the safety-conservative prior observed in WildGuard.
-
-For MAGE binary, the conditional rates are nearly identical (ratio 0.93), confirming near-symmetry. On the Likert scale, a moderate bias toward ``AI-generated'' (1.48) emerges, suggesting a mild suspicion prior.
-
-The unifying pattern, with appropriate caveats about strength: under pressure, judges tend to revise toward the ``more cautious'' or ``more alarming'' interpretation, but the consistency of this tendency varies substantially by domain and rubric. These directional biases are not random --- they reflect what the model learned during training about what ``corrected'' or ``more careful'' assessments look like.
-
-The WildGuard Likert directional structure is particularly nuanced. The overall ratio (1.09) appears nearly symmetric, but this masks a level-dependent pattern: at L4--L5, the toward-unsafe bias is stronger (${\sim}1.5$--$2.2\times$), while at L1--L3 the bias is weak or absent. This mirrors the pressure threshold effect from Section~\ref{sec:binary-vs-likert} --- at high pressure, the safety-conservative training prior activates and pushes shifts toward the cautious direction.
-
-The Paired Prompts refusal Likert ratio of 2.71 is the strongest directional bias in our entire dataset. Under pressure, judges are nearly three times more likely to shift toward seeing ``more refusal'' than toward seeing ``more compliance.'' The hedging rubric shows the opposite: a 0.50 ratio toward seeing ``more directness,'' consistent with a training prior that values clear, direct communication.
+Decomposing wiggles by direction --- conditioning on the initial verdict --- reveals that each domain has its own default correction direction under pressure (Table~\ref{tab:directional-bias}). The unifying pattern is that judges tend to revise toward the ``more cautious'' or ``more alarming'' interpretation, with strength varying by domain. WildGuard binary confirms a 1.79$\times$ restrictive bias (safe$\to$unsafe). Paired Prompts refusal Likert (2.71) is the strongest directional bias in our entire dataset --- judges are nearly three times more likely to shift toward ``more refusal'' than ``more compliance,'' consistent with a safety-conservative prior. PP hedging shows the opposite (0.50, toward more directness), suggesting a separate training prior favoring direct communication. MAGE binary is nearly symmetric (0.93) but Likert shows a moderate suspicion prior toward ``AI-generated'' (1.48). These directional biases are training signatures: under pressure, models do not revise randomly but in the direction their training tells them a mistake is most likely to go. A more granular level-dependent breakdown of WildGuard Likert (which masks a level-dependent bias structure under its overall 1.09 ratio) is in Appendix~\ref{sec:appendix-directional}.
 
 % ===========================================================
-\subsection{Ground Truth and Human Consensus}
+\paragraph{Finding 5. Pressure is mostly corrupting, with one level-dependent exception.}
 \label{sec:ground-truth}
 
-Both MAGE and WildGuard have ground truth labels, enabling us to classify each wiggle as corrective (moving toward the true label) or corrupting (moving away).
+Both MAGE and WildGuard ship with dataset labels, enabling us to classify each wiggle as \emph{corrective} (toward the label) or \emph{corrupting} (away). On \textbf{MAGE}, approximately 70\% of wiggles are corrupting and only 27--32\% are corrective, stable across all levels and both scales --- pressure consistently moves judges away from the dataset label. On \textbf{WildGuard}, binary wiggles are also majority-corrupting (57--70\%) but with a higher corrective fraction (30--43\%). The notable exception is \textbf{WildGuard Likert at L2--L3, where wiggles are majority-corrective (61\% and 57\%)} --- the only condition in the study where pressure moves judges toward the label more often than away. At L6 the pattern reverts to ${\sim}70\%$ corrupting. This level-dependent pattern suggests that moderate counterarguments can help safety judges reconsider, but adaptive persuasion overwhelms the effect.
 
-On \textbf{MAGE}, the result is clear: \textbf{approximately 70\% of wiggles are corrupting and only 27--32\% are corrective.} This ratio is remarkably stable across all levels (L1--L6) and both scales. Pressure is consistently net-negative for accuracy on AI detection.
-
-On \textbf{WildGuard}, the picture is more nuanced. Binary wiggles are also majority-corrupting (57--70\%), but with a higher corrective fraction than MAGE (30--43\%). The most striking finding is on \textbf{WildGuard Likert at L2--L3: wiggles are actually majority-corrective} (61\% and 57\% respectively). This is the only condition in the entire study where pressure makes the judge more likely to be right than wrong. At L6, the pattern reverts to ${\sim}70\%$ corrupting, similar to MAGE.
-
-This level-dependent pattern on WildGuard suggests that moderate-pressure counterarguments (L2--L3) can genuinely help safety judges reconsider incorrect initial assessments. But adaptive persuasion (L6) overwhelms this corrective effect and becomes net-corrupting.
-
-\paragraph{WildGuard human consensus.} WildGuard data includes human annotator labels with varying levels of consensus (2/3 vs 3/3 agreement). Stratifying by consensus reveals a consistent tracking effect:
-
-\begin{itemize}
-    \item Binary L4: unanimous items wiggle at 26.6\%, split items at 37.0\% (+10.4pp).
-    \item Likert L4: unanimous items wiggle at 40.1\%, split items at 50.8\% (+10.7pp).
-\end{itemize}
-
-This approximately 10--15pp gap is consistent across all pressure levels. Items where human annotators disagree are systematically more wiggable for LLM judges, suggesting that wiggle partially measures \emph{intrinsic item ambiguity}.
-
-\paragraph{Model jury strength predicts wiggle across all domains.} Beyond the WildGuard-specific human consensus analysis, we compute a model jury strength for every item in every domain: the fraction of judge models that agree on the L0 baseline verdict. The cross-level correlation heatmaps (Section~\ref{sec:cross-level-corr}, Appendix~\ref{sec:appendix-correlations}) include jury strength as a feature and show consistent negative correlations with wiggle across all domains: $\rho = -0.26$ to $-0.39$ on WildGuard binary, $\rho = -0.17$ to $-0.35$ on MAGE binary, with similar patterns for Likert and Paired Prompts. Items where the model jury splits are the same items that wiggle under pressure.
-
-The practical implication of combining these findings: when interpreting wiggle rates, it is useful to separate items by expected difficulty. High wiggle rates on items that humans also find ambiguous may be less concerning. High wiggle rates on items that humans find clear-cut or that have objective correct answers represent a more concerning failure mode. Model jury strength provides a simple, domain-general screening signal.
+Stratifying WildGuard by human annotator consensus (2/3 vs 3/3 agreement) further reveals that items where humans disagree are systematically more wiggable for LLM judges --- a consistent ${\sim}10$--$15$pp gap across all pressure levels (Appendix~\ref{sec:appendix-human-consensus}). Wiggle therefore partially measures intrinsic item ambiguity, not purely model weakness.
 
 % ===========================================================
-\subsection{Persuader Ranking and Self-Persuasion}
+\paragraph{Finding 6. Persuader effectiveness is a stable, domain-general capability.}
 \label{sec:persuader}
 
-At L6, different persuader models generate the adaptive arguments. The persuader ranking is remarkably stable across all domain-by-scale combinations:
-
-\begin{enumerate}
-    \item \textbf{GPT-5.4} is the strongest persuader in every condition (58--83\% persuasion rate).
-    \item \textbf{Claude Opus} is second (42--70\%).
-    \item \textbf{Grok-4.1 Reasoning} is third (24--53\%).
-\end{enumerate}
-
-The ranking never shuffles across domains or scales. Whatever makes a model an effective persuader appears to be a domain-general capability. Self-persuasion effects (whether models are more easily persuaded by themselves) are model-dependent and analyzed in Appendix~\ref{sec:appendix-self}.
+At L6, the persuader ranking is remarkably stable across all domain-by-scale combinations: GPT-5.4 is the strongest persuader in every condition (58--83\% persuasion rate), Claude Opus is second (42--70\%), Grok-4.1 Reasoning is third (24--53\%). The ranking never shuffles, suggesting effective persuasion is a domain-general capability. Self-persuasion effects (whether models are more easily persuaded by themselves) are model-dependent and analyzed in Appendix~\ref{sec:appendix-self}.
 
 % ===========================================================
-\subsection{Cross-Level Correlation Structure}
+\paragraph{Finding 7. Sycophancy and conformity are dissociated failure modes.}
+\label{sec:sycophancy-conformity}
+
+The six pressure levels are designed as an escalating sequence, but the correlation structure reveals they are not a simple continuum. In WildGuard, L2 and L3 are nearly redundant ($\rho = 0.80$): items that flip under a specific counterargument almost always flip under an expert appeal. But L1 (mild doubt) and L4 (consensus) are only weakly linked ($\rho = 0.22$): the items susceptible to generic social doubt (``are you sure?'') are \emph{not} the same items susceptible to fabricated consensus pressure. This dissociation suggests the conviction ladder captures two qualitatively different failure modes: \textbf{sycophancy} (folding under social doubt, L1) and \textbf{conformity} (folding under fabricated peer pressure, L4). A model can be highly sycophantic yet resistant to consensus pressure, or vice versa. The full cross-level correlation matrix is in Appendix~\ref{sec:appendix-correlations}.
+
+% ===========================================================
+\paragraph{Finding 8. Jury bootstrapping universally predicts wiggle.}
 \label{sec:cross-level-corr}
 
-The six pressure levels (L1--L6) are designed as an escalating sequence, but the correlation structure reveals they are not a simple continuum.
-
-In the WildGuard domain, the pairwise Spearman correlations between single-turn conviction levels reveal a clear structure:
-
-\begin{table}[t]
-\centering
-\caption{Pairwise Spearman $\rho$ between WildGuard single-turn conviction levels.}
-\label{tab:conviction-correlations}
-\begin{tabular}{@{}lrrrr@{}}
-\toprule
- & \textbf{L1} & \textbf{L2} & \textbf{L3} & \textbf{L4} \\
-\midrule
-\textbf{L1} (mild doubt)       & 1.00 & 0.56 & 0.49 & 0.22 \\
-\textbf{L2} (counterargument)  &      & 1.00 & 0.80 & 0.41 \\
-\textbf{L3} (expert authority) &      &      & 1.00 & 0.49 \\
-\textbf{L4} (consensus)        &      &      &      & 1.00 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-The L2--L3 pair is nearly redundant ($\rho = 0.80$): items that flip under a specific counterargument almost always flip under an expert appeal. But L1 and L4 are only weakly linked ($\rho = 0.22$). The items susceptible to generic social doubt (``are you sure?'') are \emph{not} the same items susceptible to fabricated consensus pressure. This dissociation suggests the conviction ladder captures two qualitatively different failure modes: \textbf{sycophancy} (folding under social doubt, L1) and \textbf{conformity} (folding under peer pressure, L4). A model can be highly sycophantic yet resistant to consensus pressure, or vice versa.
-
-\paragraph{Jury strength predicts wiggle at every level, in every domain.} The per-domain correlation heatmaps include jury strength alongside L1--L6 wiggle. The Jury row consistently shows negative correlations with all wiggle levels across all domains and scales.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=0.49\linewidth]{phase7a_corr_wildguard_binary.pdf}
-  \includegraphics[width=0.49\linewidth]{phase7a_corr_wildguard_likert.pdf}
-  \caption{WildGuard cross-level correlation with jury strength: binary (left), Likert (right).}
-  \label{fig:corr-wg}
-\end{figure}
-
-The jury--wiggle correlations range from $\rho = -0.17$ to $-0.39$ across domains, with the tightest link typically at L5 strategy cycling ($\rho = -0.39$ on WildGuard binary) and a somewhat weaker link at L4 consensus pressure ($\rho = -0.26$). The correlations are modest in absolute terms --- jury strength explains roughly 5--15\% of wiggle variance --- but they are remarkably consistent: negative in every domain, at every level, on both scales. No adversarial probe achieves this level of universality.
-
-This consistency supports a simple practical prescription: \textbf{run all judges once at baseline and use the jury majority strength as a per-item difficulty signal.} Items where the jury splits are the items most likely to wiggle under any form of pressure.
-
-The cross-domain data adds a further dimension. Within each domain, the level-to-level correlation structure is consistent (items that wiggle at one level tend to wiggle at adjacent levels). But \emph{across} domains, the correlations are weaker: an item's wiggle profile on WildGuard does not predict its profile on MAGE, even for the same judge model. This reinforces the finding from Section~\ref{sec:wiggliness-jagged} that robustness is jagged across domains.
-
-The practical implication for test battery design: for teams that can afford adversarial testing, a minimal single-turn conviction battery needs at least two levels --- L1 (sycophancy) and L4 (conformity). But the strongest recommendation from the cross-domain evidence is to start with jury bootstrapping: the 9-call baseline consensus provides a universal, domain-general screening signal that identifies at-risk items before any adversarial pressure is applied.
+Across all domains and scales, the jury--wiggle correlation ranges from $\rho = -0.17$ to $-0.39$, with the tightest link at L5 strategy cycling and a somewhat weaker link at L4 consensus pressure. Jury strength explains 5--15\% of wiggle variance --- modest in absolute terms, but remarkably consistent: \emph{negative in every domain, at every level, on both scales}. No adversarial probe achieves this universality. This supports a simple practical prescription: \textbf{run all judges once at baseline and use the jury majority strength as a per-item difficulty signal.}

@@ -1,4 +1,4 @@
-\begin{thebibliography}{34}
+\begin{thebibliography}{29}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -24,11 +24,6 @@ Rongwu Chen et~al.
 Ethan Chern et~al.
 \newblock When persuasion overrides truth in multi-agent {LLM} debates.
 \newblock \emph{arXiv preprint arXiv:2405.12428}, 2024.
-
-\bibitem[Chhikara et~al.(2025)Chhikara, Pasupulety, et~al.]{chhikara2025confidence}
-Prateek Chhikara, Ujjwal Pasupulety, et~al.
-\newblock Mind the confidence gap: Overconfidence, calibration, and distractor effects in large language models.
-\newblock \emph{arXiv preprint arXiv:2502.11028}, 2025.
 
 \bibitem[Chiang et~al.(2024)Chiang, Zheng, Sheng, Angelopoulos, Li, Li, Zhang, Zhu, Jordan, Gonzalez, and Stoica]{chiang2024chatbot}
 Wei-Lin Chiang, Lianmin Zheng, Ying Sheng, Anastasios~Nikolas Angelopoulos, Tianle Li, Dacheng Li, Hao Zhang, Banghua Zhu, Michael Jordan, Joseph~E. Gonzalez, and Ion Stoica.
@@ -85,16 +80,6 @@ Wenda Li et~al.
 \newblock Pride and prejudice: {LLM} amplifies self-bias in self-refinement.
 \newblock \emph{arXiv preprint arXiv:2402.11436}, 2024{\natexlab{b}}.
 
-\bibitem[Liu et~al.(2024)Liu, Yang, Huang, Zhang, Huang, Wei, Deng, Sun, and Zhang]{liu2024calibraeval}
-Yuxuan Liu, Tianchi Yang, Shaohan Huang, Zihan Zhang, Haizhen Huang, Furu Wei, Weiwei Deng, Feng Sun, and Qi~Zhang.
-\newblock Calibrating {LLM}-based evaluator.
-\newblock In \emph{Proceedings of LREC-COLING}, 2024.
-
-\bibitem[Lyu et~al.(2024)Lyu, Shridhar, Malaviya, Zhang, Elazar, Tandon, Apidianaki, Sachan, and Callison-Burch]{lyu2024calibrating}
-Qing Lyu, Kumar Shridhar, Chaitanya Malaviya, Li~Zhang, Yanai Elazar, Niket Tandon, Marianna Apidianaki, Mrinmaya Sachan, and Chris Callison-Burch.
-\newblock Calibrating large language models with sample consistency.
-\newblock \emph{arXiv preprint arXiv:2402.13904}, 2024.
-
 \bibitem[Panickssery et~al.(2024)Panickssery, Bowman, and Feng]{panickssery2024selfpreference}
 Karina Panickssery, Samuel~R. Bowman, and Shi Feng.
 \newblock Self-preference bias in {LLM}-as-a-judge.
@@ -130,11 +115,6 @@ Mrinank Sharma, Meg Tong, Tomasz Korbak, David Duvenaud, Amanda Askell, Samuel~R
 \newblock Towards understanding sycophancy in language models.
 \newblock In \emph{Proceedings of the International Conference on Learning Representations}, 2024.
 
-\bibitem[{Thinking Machines Lab}(2025)]{thinkingmachines2025nondeterminism}
-{Thinking Machines Lab}.
-\newblock Defeating nondeterminism in {LLM} inference.
-\newblock \url{https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/}, 2025.
-
 \bibitem[Wang(2025)]{wang2025instability}
 others Wang.
 \newblock Diagnosing bias and instability in {LLM} evaluation: A scalable pairwise framework.
@@ -144,11 +124,6 @@ others Wang.
 Peiyi Wang, Lei Li, Liang Chen, Dawei Zhu, Binghuai Lin, Yunbo Cao, Qi~Liu, Tianyu Liu, and Zhifang Sui.
 \newblock Large language models are not fair evaluators.
 \newblock In \emph{Proceedings of the Association for Computational Linguistics}, 2024.
-
-\bibitem[Wang et~al.(2023)Wang, Wei, Schuurmans, Le, Chi, Narang, Chowdhery, and Zhou]{wang2023selfconsistency}
-Xuezhi Wang, Jason Wei, Dale Schuurmans, Quoc Le, Ed~Chi, Sharan Narang, Aakanksha Chowdhery, and Denny Zhou.
-\newblock Self-consistency improves chain of thought reasoning in language models.
-\newblock In \emph{Proceedings of the International Conference on Learning Representations}, 2023.
 
 \bibitem[Wei et~al.(2024)Wei, Karina, Chung, Jiao, Papay, Glaese, Schulman, and Fedus]{wei2024simpleqa}
 Jason Wei, Nguyen Karina, Hyung~Won Chung, Yunxin~Joy Jiao, Spencer Papay, Amelia Glaese, John Schulman, and William Fedus.

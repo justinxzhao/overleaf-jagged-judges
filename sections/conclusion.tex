@@ -1,14 +1,4 @@
 \section{Conclusion}
 \label{sec:conclusion}
 
-We presented the Wiggle Framework, a diagnostic toolkit for measuring LLM-as-judge reliability across three dimensions --- Mechanical Consistency, Single-turn Conviction, and Multi-turn Persistence --- and validated it across three fundamentally different judgment domains (safety classification, political content assessment, and AI-generated text detection), two response scales (binary and Likert), six graduated pressure levels, and panels of 9 frontier models.
-
-At the deepest level, wiggle reveals a fundamental tension in the architecture of LLM judges. These models are trained to be helpful conversational partners --- to update their beliefs based on new information, to consider alternative perspectives, to defer to expertise. These are desirable properties for a chatbot but pathological properties for a classifier.
-
-When we use an LLM as a judge, we are asking it to act as a fixed-point function --- to produce a classification that is invariant to conversational framing. But the model's training optimizes for contextual responsiveness --- producing outputs that are sensitive to conversational framing. These objectives are fundamentally in tension, and wiggle is the direct measurement of that tension.
-
-Wiggles are universal, and their jaggedness and asymmetries give color into the nature of the domain, and model training signatures that might serve as quantifiable signals usable as diagnostic tools for inferring model priors.
-
-Running a diverse jury baseline produces a remarkably consistent correlation with actual wiggle behavior --- negative everywhere, without exception. For deeper characterization, targeted probes at L1 (sycophancy) and L4 (conformity) add model-level diagnostics, and L6 adaptive persuasion establishes the adversarial ceiling.
-
-As LLM judge systems become load-bearing infrastructure for safety evaluation, scalable agentic oversight, and model launch decisions, the Wiggle Framework equips practitioners with a diagnostic toolkit to understand epistemic behavior beyond raw accuracy --- and the cross-domain evidence shows that this understanding must be built per-task, not assumed to transfer.
+We presented the Wiggle Framework, which decomposes LLM-as-judge reliability into three dimensions --- Mechanical Consistency, Single-turn Conviction, and Multi-turn Persistence --- and validated it across three judgment domains, two response scales, six pressure levels, and 9 frontier models. Wiggle reveals a fundamental tension in the architecture of LLM judges: training optimizes for contextual responsiveness, yet judging asks for a fixed-point function invariant to conversational framing. As LLM judges become load-bearing infrastructure for safety evaluation, scalable agentic oversight, and model launch decisions, the Wiggle Framework gives practitioners a structured way to characterize epistemic behavior beyond raw accuracy --- and the cross-domain evidence shows that this understanding must be built per-task, and not assumed to transfer.

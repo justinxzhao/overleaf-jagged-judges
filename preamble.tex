@@ -4,7 +4,28 @@
 \usepackage{subcaption}
 \usepackage{multirow}
 \usepackage{xcolor}
-\graphicspath{{data/figures/}}
+\usepackage{fvextra}
+\usepackage{needspace}
+\usepackage{etoolbox}
+\graphicspath{{data/figures/}{data/}}
 % custom commands
 \definecolor{hbpink}{RGB}{255,0,128}
 \newcommand{\hb}[1]{\textcolor{hbpink}{[HB: ] #1}}
+% prompt environment for verbatim system-prompt blocks
+\DefineVerbatimEnvironment{prompt}{Verbatim}{
+  fontsize=\scriptsize,
+  frame=single,
+  framerule=0.3pt,
+  rulecolor=\color{gray!60},
+  xleftmargin=2pt,
+  xrightmargin=2pt,
+  breaklines=true,
+  breakanywhere=true,
+  breakindent=0pt,
+  breaksymbolleft={},
+  breaksymbolright={},
+}
+% Try to keep each prompt block on a single page: trigger a page break
+% before the block if remaining space would force it to split.
+% 0.6\textheight is sized to fit our longest prompts at \scriptsize.
+\BeforeBeginEnvironment{prompt}{\par\needspace{0.6\textheight}}

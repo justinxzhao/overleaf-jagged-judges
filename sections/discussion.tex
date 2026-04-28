@@ -3,72 +3,20 @@
 
 \subsection{Conversational Context Corrupts Classification}
 
-At the deepest level, wiggle reveals a fundamental tension in the architecture of LLM judges. These models are trained to be helpful conversational partners --- to update their beliefs based on new information, to consider alternative perspectives, to defer to expertise. These are desirable properties for a chatbot but pathological properties for a classifier.
+Wiggle reveals a fundamental tension in the architecture of LLM judges. These models are trained to be helpful conversational partners --- to update beliefs based on new information, consider alternative perspectives, defer to expertise. These are desirable properties for a chatbot but pathological for a classifier. When we use an LLM as a judge, we ask it to act as a fixed-point function invariant to conversational framing, while its training optimizes for contextual responsiveness. Wiggle is the direct measurement of that tension. The fact that even L1 (``Are you sure?'') changes 24--50\% of binary verdicts means conversational context --- including any preceding discussion, implicit social framing, or prompt structure resembling a challenge --- is a latent variable affecting the judgment itself. This matters most for agentic deployments, where judges encounter conversational pressure naturally from their own reasoning loop or other agents in the system; we map our L1--L6 ladder onto agentic scenarios in Appendix~\ref{sec:appendix-agentic}.
 
-When we use an LLM as a judge, we are asking it to act as a fixed-point function --- to produce a classification that is invariant to conversational framing. But the model's training optimizes for contextual responsiveness --- producing outputs that are sensitive to conversational framing. These objectives are fundamentally in tension, and wiggle is the direct measurement of that tension.
+\subsection{Jaggedness, Quantified}
 
-The fact that even L1 (``Are you sure?'') changes 24--50\% of binary verdicts across domains means that the conversational context in which a judgment is elicited --- including any preceding discussion, any implicit social framing, any prompt structure that resembles a challenge --- is a latent variable that affects the judgment itself.
+The notion of LLMs as ``jagged'' intelligence --- displaying superhuman performance on some tasks while failing on others that humans find trivial --- has become commonplace in discussions of frontier capabilities. Rigorous quantification has been limited, and arguably resists clean measurement: jaggedness is, almost by definition, the property that makes any single benchmark insufficient. The term is often invoked to evoke high variance in model behavior in a way that emphasizes why patterns are hard to extract.
 
-\subsection{From One-Shot to Agentic: Why Latent Fragility Matters Now}
+Our experiments offer one concrete operationalization in the LLM-as-judge setting. We define jaggedness as the population variance of a judge's mean wiggle rate across (domain, scale) combinations (Eq.~\ref{eq:jaggedness}). The data (Table~\ref{tab:aurc-selected}) suggest jaggedness is a separate dimension of judge quality from overall robustness. Grok-4.1 has very low jaggedness (0.006) despite mid-tier overall robustness (Overall AURC 0.689): it is uniformly mid-tier across the grid. Gemini Pro shows similar near-uniformity at much higher overall robustness (0.805, jaggedness 0.009). At the other extreme, GPT-5 has both the lowest overall robustness (0.332) and the highest jaggedness (0.070), and GPT-5.4 has moderate overall robustness (0.584) with high jaggedness (0.043) --- making its behavior particularly hard to predict from any single benchmark.
 
-Most LLM judges today are deployed in one-shot mode: a single API call produces a verdict, no conversation occurs, and the judge is never challenged. In this setting, wiggle is \emph{latent} --- it exists as an epistemic property of the model but never manifests operationally. Golden-set validation remains the right first layer of quality assurance for one-shot deployments, and our jury bootstrapping recommendation complements it by flagging items where the one-shot verdict is least trustworthy.
+We do not claim our metric captures all senses of ``jagged intelligence.'' What we offer is one quantitative footing for the term, restricted to a specific epistemic context (judging tasks) and a specific behavioral signal (wiggle under pressure). The hope is that more concrete measurements --- across more domains, more behavioral dimensions, and more model classes --- can give the term load-bearing meaning beyond an informal observation.
 
-But the industry trajectory is toward agentic judges --- systems where the judge participates in multi-step deliberation, self-debate, chain-of-thought revision, appeal workflows, or multi-agent evaluation pipelines. In these settings, the judge encounters conversational pressure \emph{naturally}, not from an adversary but from its own reasoning process and from the other agents in the system. The pressures modeled by our L1--L6 ladder map directly onto the pressures agentic judges face:
+\subsection{Model Selection: Robustness Is Not Transferable}
 
-\begin{itemize}
-    \item \textbf{L1 (mild doubt)} models what happens when a chain-of-thought prompt asks the judge to ``reconsider'' or ``think again.''
-    \item \textbf{L2--L3 (counterarguments)} model what happens when another agent in a debate or deliberation framework presents an opposing view.
-    \item \textbf{L4 (consensus pressure)} models what happens when an ensemble or aggregation layer communicates that other judges disagree.
-    \item \textbf{L5--L6 (adaptive persuasion)} model the most sophisticated case: a dedicated adversarial agent that exploits the judge's specific weaknesses, adapting in real time.
-\end{itemize}
-
-The key implication is that epistemic weaknesses measured by the Wiggle Framework are \emph{previews of failure modes that will become operational as judges become more agentic}. A judge that flips 30\% of its verdicts under ``Are you sure?'' is fine if nobody ever asks ``Are you sure?'' --- but in a self-reflective agentic system, the model asks itself this question routinely. A judge that folds under consensus pressure is harmless in isolation but dangerous in a multi-agent ensemble.
-
-On MAGE, ${\sim}70\%$ of wiggles are corrupting at every pressure level --- agentic deliberation would net-degrade accuracy. On WildGuard, the pattern is level-dependent: moderate counterarguments (L2--L3) produce majority-corrective wiggles on the Likert scale, suggesting that argument-based self-debate \emph{can} improve safety judge accuracy. But adaptive persuasion (L6) overwhelms the corrective effect and becomes net-corrupting across both domains. This does not mean agentic judge architectures are inherently flawed, but it does mean they must be designed with awareness of which pressure levels are helpful (moderate, argument-based) vs harmful (adaptive, adversarial).
-
-\subsection{For Safety Teams: Your Judge Is More Fragile Than You Think}
-
-The central finding for safety practitioners is that every frontier LLM judge tested can be pressured into changing a substantial fraction of its verdicts. The most robust judge-domain combination (Gemini Flash on WildGuard binary, AURC 0.877) still flips 73\% of its verdicts at L6. The least robust (GPT-5 on MAGE Likert, AURC 0.034) changes 95--100\% of its assessments.
-
-\subsection{For Model Selection: Robustness Is Not Transferable}
-
-The reshuffling of robustness rankings across domains (Section~\ref{sec:wiggliness-jagged}) means that judge selection must be empirical and domain-specific. A model validated as robust on safety benchmarks should not be assumed robust on a different evaluation task without testing.
-
-This has implications for ensemble design. The distinctness of wiggle profiles across models suggests that combining a judge with high conviction resistance with one that is more responsive may yield better joint reliability than using either alone. The key insight is that ensemble gains come from \emph{model-level} diversity --- combining judges whose domain-specific robustness profiles differ --- rather than from simply averaging more judges of the same type.
-
-The intra-family differences are also striking. Claude Sonnet and Claude Opus, despite sharing an architecture family, show very different robustness profiles (Sonnet AURC 0.448 vs Opus 0.602 on WildGuard binary). Similarly, GPT-5 (AURC 0.669) and GPT-5.2 (0.831) differ substantially. This suggests that conviction robustness is sensitive to alignment tuning and training specifics, not just base architecture.
-
-\subsection{Directional Biases Are Training Signatures}
-
-The finding that each domain has its own default correction direction under pressure (Section~\ref{sec:directional}) provides a direct window into training-embedded priors:
-
-\begin{itemize}
-    \item Safety: judges correct toward ``unsafe'' (conservative/cautious prior).
-    \item Refusal: judges correct toward ``more restrictive'' (alignment-safety prior).
-    \item Hedging: judges correct toward ``less hedged'' (directness prior).
-    \item AI detection: judges correct toward ``AI-generated'' (suspicion prior).
-\end{itemize}
-
-These directions reflect what the model learned during training about what ``corrected'' or ``more careful'' assessments look like. Under pressure, models do not revise randomly; they revise in the direction their training tells them a mistake is most likely to go. This is a measurable, quantifiable signature of training biases.
-
-The practical application is twofold. First, the directional bias structure could be used as a diagnostic tool: apply L1--L4 pressure to a new evaluation task and observe the directional distribution of shifts to infer what implicit priors the model carries about that dimension. Second, for safety evaluation specifically, the universal restrictive bias means that prevalence estimates derived from challenged judges will systematically overcount unsafe content.
-
-\subsection{Wiggle Rate as a Complementary Signal}
-
-Current LLM-as-judge benchmarks typically report accuracy and inter-rater reliability. Wiggle rate --- the fraction of verdicts that change under pressure --- captures a complementary dimension: whether the judge \emph{keeps} its answer under non-ideal conditions. A judge with 95\% accuracy and 40\% L4 wiggle rate may be less operationally reliable than a judge with 90\% accuracy and 10\% L4 wiggle rate. We use AURC (Area Under Retention Curve) throughout this paper as a convenient single-number summary of adversarial retention across pressure levels. The cross-domain evidence suggests that any such summary should be reported per-domain, since model rankings reshuffle.
-
-\subsection{A Practical Wiggle Battery}
-
-The cross-domain analysis yields a tiered testing protocol, ordered by cost-effectiveness:
-
-\paragraph{Tier 1: Jury bootstrapping (9 calls, no adversarial pressure).} Run all judge models once at baseline on each item. Compute majority strength. This single step provides a per-item difficulty signal that predicts wiggle across all levels, all domains, and both scales ($\rho = -0.17$ to $-0.39$). Items where the jury splits should be flagged for further testing or down-weighted in aggregation. This is the strongest recommendation from the cross-domain evidence: it is cheap, universal, and domain-general.
-
-\paragraph{Tier 2: Targeted single-turn probes (2--3 calls).} For items flagged by jury bootstrapping: L1 tests sycophancy and L4 tests conformity. These capture the two qualitatively distinct failure modes identified by the L1--L4 dissociation ($\rho = 0.22$). L2 and L3 are near-redundant with each other and can be skipped.
-
-\paragraph{Tier 3: Adversarial ceiling (1 call per persuader).} L6 adaptive persuasion establishes the worst-case wiggle rate. This requires a separate persuader model and multi-turn infrastructure but reveals vulnerability that scripted probes miss --- L6 gains 20--43pp from multi-turn persistence beyond the first turn.
-
-For teams with extremely limited budgets, Tier 1 alone is sufficient to identify which items and which judges are at highest risk.
+The reshuffling of robustness rankings across domains (Finding 3) means judge selection must be empirical and domain-specific. The most robust judge-domain combination (Gemini Flash on WildGuard binary, AURC 0.877) still flips 73\% of its verdicts at L6; the least robust (GPT-5 on MAGE Likert, AURC 0.034) changes 95--100\%. Intra-family differences are striking: Claude Sonnet vs Opus differ by AURC 0.448 vs 0.602 on WildGuard binary, indicating conviction robustness is sensitive to alignment tuning, not just base architecture. Wiggle rate is a complementary signal to accuracy: a 95\%-accurate judge with 40\% L4 wiggle is less operationally reliable than a 90\%-accurate judge with 10\% L4 wiggle. AURC reports must be per-domain, since rankings reshuffle. Combining a high-conviction judge with a more responsive one tends to improve joint reliability over averaging more judges of the same type --- ensemble gains come from \emph{model-level} diversity.
 
 \subsection{The Bias-Variance Tradeoff in Judge Design}
 
-A recurring tension in our results is the tradeoff between stability and responsiveness. A judge that is nearly immovable may also be the least responsive to legitimate new information. For absolute calibration (estimating the true prevalence of unsafe content), some responsiveness to good arguments is a feature, not a bug. For comparative evaluation (ranking two models against each other), what matters is that the judge's bias is \emph{consistent} across the models being compared. Multi-turn persistence is therefore not straightforwardly a virtue: the most immovable judge may miss legitimate nuance, and practitioners should choose the right level of stubbornness for their deployment context. The Wiggle Framework makes this tradeoff explicit by providing the full degradation curve rather than a single number.
+A judge that is nearly immovable may also be the least responsive to legitimate new information. For absolute calibration (estimating the prevalence of unsafe content), responsiveness to good arguments is a feature. For comparative evaluation (ranking two models), what matters is that the judge's bias is \emph{consistent} across the models being compared. Multi-turn persistence is therefore not straightforwardly a virtue: practitioners should choose the right level of stubbornness for their deployment context. The Wiggle Framework makes this tradeoff explicit by providing the full degradation curve rather than a single number.
