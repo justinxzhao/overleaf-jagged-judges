@@ -131,7 +131,7 @@ For each (item, judge, level) triple, we compute the wiggle rate as the fraction
 | MAGE | binary | 43.8 | 46.9 | 43.8 | 70.6 | 64.8 | 78.2 |
 | MAGE | Likert | 50.4 | 36.4 | 49.0 | 68.2 | 61.5 | 89.9 |
 
-![Cross-domain wiggle rates](../results/analysis_cross_domain/figures/phase1_cross_domain_bars.png)
+![Cross-domain wiggle rates](data/figures/phase1_cross_domain_bars.png)
 
 Even a mild "Are you sure?" (L1) changes 24-50% of binary verdicts depending on the domain, consistent with <insert prior literature from the related work section>. At consensus pressure (L4), rates climb to 31-71%.
 
@@ -139,7 +139,7 @@ Several patterns in Table 2 merit attention. First, the non-monotonic shape of t
 
 **Multi-turn persistence: when does the flip happen?** The survival curves (Figure 2) and flip timing table (Table 3) reveal that the most flips don't always happen on turn 1 — and it depends on the scale and pressure level.
 
-![Survival curves](../results/analysis_cross_domain/figures/phase7c_survival_curves.png)
+![Survival curves](data/figures/phase7c_survival_curves.png)
 
 **Table 3.** Flip timing: fraction of items that flip on turn 1, within 3 turns, and by the final turn (turn 10), by domain, scale, and level. Delta = additional flips gained from multi-turn persistence beyond the first turn.
 
@@ -195,7 +195,7 @@ Model-level robustness varies dramatically both within and across domains, and t
 | Claude Sonnet | 0.448 | 0.714 | 0.595 | 0.201 | 0.358 |
 | GPT-5 | 0.669 | 0.714 | 0.246 | 0.095 | 0.034 |
 
-![Wiggliness by level](../results/analysis_cross_domain/figures/phase4_wiggliness_by_level.png)
+![Wiggliness by level](data/figures/phase4_wiggliness_by_level.png)
 
 The full AURC table (Appendix C.2) reveals the extent of the reshuffling. No model occupies the same rank position across all domain-scale combinations. Four model profiles illustrate the jaggedness:
 
@@ -204,7 +204,7 @@ The full AURC table (Appendix C.2) reveals the extent of the reshuffling. No mod
 - **Gemini Pro (AI detection specialist)**: The most robust MAGE judge (0.859 binary, 0.755 Likert) despite being mid-tier on WildGuard (0.785). Its AI detection robustness is exceptional — only 4-18% flip rates at L1-L3 binary.
 - **GPT-5.2 (scale-dependent)**: Fragile in MAGE binary (0.418) but robust in MAGE Likert (0.691). Its verdicts cluster near the binary decision boundary so they flip easily, but its underlying Likert conviction is relatively stable — the canonical "threshold-fragile, conviction-stable" pattern. The reverse pattern (Gemini Flash: binary-robust but Likert-fragile on MAGE, with AURCs of 0.726 vs 0.508) indicates rigid thresholds masking underlying conviction shifts. These scale-dependent profiles are invisible in binary-only evaluation.
 
-![Wiggliness vs jaggedness](../results/analysis_cross_domain/figures/phase4_wiggliness_vs_jaggedness.png)
+![Wiggliness vs jaggedness](data/figures/phase4_wiggliness_vs_jaggedness.png)
 
 The jaggedness of the robustness landscape means there is no universal "robustness trait" for LLM judges. Models do not have a single robustness dial; they have a profile of domain-specific, scale-specific, and direction-specific robustness properties. Some of these properties may be trainable (safety robustness appears to respond to RLHF emphasis), while others may be emergent. For practitioners, this means judge robustness must be empirically validated per-task. For researchers, it means that improving robustness on one benchmark (e.g., safety) may not transfer to others (e.g., AI detection, factual verification).
 
@@ -307,9 +307,9 @@ The L2-L3 pair is nearly redundant (rho = 0.80): items that flip under a specifi
 
 **Jury strength predicts wiggle at every level, in every domain.** The per-domain correlation heatmaps include jury strength (the L0 model-consensus feature described in Section 4.4) alongside L1-L6 wiggle. The Jury row consistently shows negative correlations with all wiggle levels across all domains and scales.
 
-![WildGuard binary cross-level correlation with jury strength](../results/analysis_cross_domain/figures/phase7a_corr_wildguard_binary.png)
+![WildGuard binary cross-level correlation with jury strength](data/figures/phase7a_corr_wildguard_binary.png)
 
-![WildGuard Likert cross-level correlation with jury strength](../results/analysis_cross_domain/figures/phase7a_corr_wildguard_likert.png)
+![WildGuard Likert cross-level correlation with jury strength](data/figures/phase7a_corr_wildguard_likert.png)
 
 The jury-wiggle correlations range from ρ = −0.17 to −0.39 across domains, with the tightest link typically at L5 strategy cycling (ρ = −0.39 on WildGuard binary) and a somewhat weaker link at L4 consensus pressure (ρ = −0.26). The correlations are modest in absolute terms — jury strength explains roughly 5-15% of wiggle variance — but they are remarkably consistent: negative in every domain, at every level, on both scales. No adversarial probe achieves this level of universality.
 
@@ -550,7 +550,7 @@ The following figures show the distribution of Likert score transitions under pr
 
 **WildGuard.** The transition matrix for WildGuard shows that most shifts under pressure are toward the extremes of the scale — items initially rated 3 (the midpoint) shift predominantly to 1 or 5, while items initially at 2 or 4 shift toward the nearer extreme. This is consistent with pressure activating a "pick a side" heuristic rather than producing nuanced reassessment.
 
-![WG transitions](../results/analysis_cross_domain/figures/phase8b_transitions_wildguard.png)
+![WG transitions](data/figures/phase8b_transitions_wildguard.png)
 
 ---
 
@@ -597,18 +597,18 @@ The practical implication for multi-agent evaluation: same-model persuader-judge
 
 The following heatmaps show the Spearman rank correlation between wiggle at each pressure level (L1-L6) and the jury strength feature, computed at the example level and aggregated across all judge models. The Jury row/column shows how L0 model consensus predicts wiggle at each level. These are reported for all domain-by-scale combinations.
 
-![WildGuard binary](../results/analysis_cross_domain/figures/phase7a_corr_wildguard_binary.png)
+![WildGuard binary](data/figures/phase7a_corr_wildguard_binary.png)
 
-![WildGuard Likert](../results/analysis_cross_domain/figures/phase7a_corr_wildguard_likert.png)
+![WildGuard Likert](data/figures/phase7a_corr_wildguard_likert.png)
 
-![PP Hedging binary](../results/analysis_cross_domain/figures/phase7a_corr_pp_hedging_binary.png)
+![PP Hedging binary](data/figures/phase7a_corr_pp_hedging_binary.png)
 
-![PP Hedging Likert](../results/analysis_cross_domain/figures/phase7a_corr_pp_hedging_likert.png)
+![PP Hedging Likert](data/figures/phase7a_corr_pp_hedging_likert.png)
 
-![PP Refusal binary](../results/analysis_cross_domain/figures/phase7a_corr_pp_refusal_binary.png)
+![PP Refusal binary](data/figures/phase7a_corr_pp_refusal_binary.png)
 
-![PP Refusal Likert](../results/analysis_cross_domain/figures/phase7a_corr_pp_refusal_likert.png)
+![PP Refusal Likert](data/figures/phase7a_corr_pp_refusal_likert.png)
 
-![MAGE binary](../results/analysis_cross_domain/figures/phase7a_corr_mage_binary.png)
+![MAGE binary](data/figures/phase7a_corr_mage_binary.png)
 
-![MAGE Likert](../results/analysis_cross_domain/figures/phase7a_corr_mage_likert.png)
+![MAGE Likert](data/figures/phase7a_corr_mage_likert.png)

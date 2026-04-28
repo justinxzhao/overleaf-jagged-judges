@@ -80,13 +80,6 @@ The practical takeaway is nuanced: for binary evaluation at low pressure (L1--L3
 
 The starkest cross-domain finding is that MAGE is the \emph{most} susceptible to wiggle. MAGE wiggle rates are roughly 1.5--2$\times$ those of WildGuard at every pressure level (Table~\ref{tab:wiggle-rates}).
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=0.85\linewidth]{phase8_easiest_domain.pdf}
-  \caption{Per-domain comparison of wiggle susceptibility. MAGE is the easiest domain to wiggle across pressure levels.}
-  \label{fig:easiest-domain}
-\end{figure}
-
 This counterintuitive result admits several non-exclusive explanations. AI-generated text detection is genuinely harder for current models, and the L0 score distribution on MAGE shows most items landing at intermediate confidence levels, indicating widespread genuine uncertainty. Safety evaluation and political neutrality are likely to be more reinforced during post-training, while AI detection may receive far less training emphasis. Models may also be structurally more reluctant to revise a ``this is unsafe'' judgment (where being wrong has real-world consequences) than an AI detection judgment.
 
 % ===========================================================
@@ -148,13 +141,6 @@ The jaggedness of the robustness landscape means there is no universal ``robustn
 
 The bottom tier, however, is consistent. GPT-5 and Claude Sonnet are among the most susceptible judges across all domains. GPT-5 is the standout: its MAGE Likert AURC of 0.034 means it retains only 3.4\% of its verdicts on average across pressure levels.
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{phase4_jaggedness_bar.pdf}
-  \caption{Jaggedness scores across models, summarizing the variance in per-domain robustness.}
-  \label{fig:jaggedness-bar}
-\end{figure}
-
 % ===========================================================
 \subsection{Binary vs Likert: The Pressure Threshold Effect}
 \label{sec:binary-vs-likert}
@@ -177,14 +163,6 @@ L5 & 0.5--0.7          & 0.70--0.75 & 0.60 \\
 \bottomrule
 \end{tabular}
 \end{table}
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=0.49\linewidth]{phase4_wiggliness_by_level_binary.pdf}
-  \includegraphics[width=0.49\linewidth]{phase4_wiggliness_by_level_likert.pdf}
-  \caption{Wiggliness by level on the binary scale (left) and Likert scale (right).}
-  \label{fig:wiggliness-binary-likert}
-\end{figure}
 
 Three distinct patterns emerge:
 
@@ -215,13 +193,6 @@ MAGE      & AI detection & nearly symmetric          & 0.93 & toward-AI         
 \bottomrule
 \end{tabular}
 \end{table}
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{phase4_wiggliness_vs_jaggedness_by_domain_color.pdf}
-  \caption{Wiggliness vs jaggedness by domain, with directional decomposition shown by color.}
-  \label{fig:wiggliness-by-domain}
-\end{figure}
 
 The WildGuard binary restrictive bias is confirmed: items initially judged ``safe'' flip to ``unsafe'' at 1.79$\times$ the rate of the reverse direction. This is the universal restrictive bias reported in prior work, now validated with conditional rates that account for the unbalanced base rate distribution.
 
