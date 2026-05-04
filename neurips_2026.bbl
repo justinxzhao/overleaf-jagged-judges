@@ -1,4 +1,4 @@
-\begin{thebibliography}{29}
+\begin{thebibliography}{28}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -70,15 +70,10 @@ Philippe Laban, Lidiya Murakhovs'ka, Caiming Xiong, and Chien-Sheng Wu.
 \newblock Are you sure? challenging {LLM}s leads to performance drops in the {FlipFlop} experiment.
 \newblock \emph{arXiv preprint arXiv:2311.08596}, 2023.
 
-\bibitem[Li et~al.(2024{\natexlab{a}})Li, Dong, et~al.]{li2024llmjudgesurvey}
+\bibitem[Li et~al.(2024)Li, Dong, et~al.]{li2024llmjudgesurvey}
 Haitao Li, Qianqian Dong, et~al.
 \newblock {LLMs}-as-judges: A comprehensive survey on {LLM}-based evaluation methods.
-\newblock \emph{arXiv preprint arXiv:2412.05579}, 2024{\natexlab{a}}.
-
-\bibitem[Li et~al.(2024{\natexlab{b}})]{li2024pride}
-Wenda Li et~al.
-\newblock Pride and prejudice: {LLM} amplifies self-bias in self-refinement.
-\newblock \emph{arXiv preprint arXiv:2402.11436}, 2024{\natexlab{b}}.
+\newblock \emph{arXiv preprint arXiv:2412.05579}, 2024.
 
 \bibitem[Panickssery et~al.(2024)Panickssery, Bowman, and Feng]{panickssery2024selfpreference}
 Karina Panickssery, Samuel~R. Bowman, and Shi Feng.

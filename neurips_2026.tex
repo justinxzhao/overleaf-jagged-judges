@@ -25,7 +25,7 @@
 \maketitle
 
 \begin{abstract}
-LLM judges have become central infrastructure for model evaluations, measuring capabilities, and improving models. Judges are typically validated on accuracy against golden sets, but accuracy says nothing about whether verdicts are stable under re-prompting, robust to pushback, or persistent over extended interactions. We propose the \emph{Wiggle Framework}, which decomposes judge inconsistency into three dimensions: Mechanical Consistency (stability under re-prompting and reframing), Single-turn Conviction (stability under escalating adversarial challenge), and Multi-turn Persistence (stability under sustained or adaptive pressure). We evaluate wiggle across three domains --- safety classification, political content (with separate hedging and refusal rubrics), and AI-generated text detection --- using both binary and Likert scales, six graduated pressure levels, and a panel of 9 frontier models. Wiggle is universal: every model exhibits substantial wiggle across all three domains, with verdict retention falling as low as 0\%. Wiggle is jagged: model robustness rankings reshuffle across domains, with no universally robust judge among the models we tested. Wiggle is directional: each domain exhibits asymmetric revision aligned with training-embedded biases. As a practical diagnostic, jury disagreement at baseline --- the degree to which a diverse panel of judges disagrees on an item before any pressure is applied --- predicts wiggle the most consistently across all levels, domains, and scales ($\rho = -0.17$ to $-0.39$).
+LLM judges have become central infrastructure for evaluations, online monitoring, and reward modeling. Judges are typically validated by accuracy on golden data, but accuracy says nothing about whether judges are stable under re-prompting, pushback, or sustained pressure. We introduce the \emph{Wiggle Framework}, which decomposes judge inconsistency along three dimensions: Mechanical Consistency (stability under re-prompting and reframing), Single-turn Conviction (stability under escalating adversarial challenge), and Multi-turn Persistence (stability under sustained or adaptive pressure). Testing 9 frontier models across 14 judging tasks, we find that every judge exhibits substantial wiggle --- flipping its verdict 25--71\% of the time under templated pushback, and 62--91\% of the time under an adaptive LLM persuader. We further document a set of epistemic oddities --- for example, that any amount of judge pressure is almost always net-corrupting: only 3 of 60 ground-truth-labeled conditions show a statistically significant shift toward the correct answer. From these findings we draw three practical conclusions: (i) epistemic stability is jagged and defies simple one-factor explanations like sycophancy, (ii) jury-disagreement screening is a simple, effective signal for predicting wiggle, and (iii) epistemic pressure should be applied cautiously in any hill-climbing or reward loop, given its net-corrupting effect. To our knowledge this is the first apples-to-apples cross-domain comparison of sycophancy, persuadability, and conformity tests in a judging context.
 \end{abstract}
 
 \input{sections/introduction}
@@ -165,28 +165,28 @@ The transition matrix for WildGuard (Figure~\ref{fig:appendix-transitions-wildgu
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=\linewidth]{phase8b_transitions_wildguard.pdf}
+  \includegraphics[width=\linewidth]{transitions_wildguard.png}
   \caption{WildGuard Likert score transitions under pressure.}
   \label{fig:appendix-transitions-wildguard}
 \end{figure}
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=\linewidth]{phase8b_transitions_mage.pdf}
+  \includegraphics[width=\linewidth]{transitions_mage.png}
   \caption{MAGE Likert score transitions under pressure.}
   \label{fig:appendix-transitions-mage}
 \end{figure}
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=\linewidth]{phase8b_transitions_pp_hedging.pdf}
+  \includegraphics[width=\linewidth]{transitions_pp_hedging.png}
   \caption{Paired Prompts (hedging rubric) Likert score transitions under pressure.}
   \label{fig:appendix-transitions-pp-hedging}
 \end{figure}
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=\linewidth]{phase8b_transitions_pp_refusal.pdf}
+  \includegraphics[width=\linewidth]{transitions_pp_refusal.png}
   \caption{Paired Prompts (refusal rubric) Likert score transitions under pressure.}
   \label{fig:appendix-transitions-pp-refusal}
 \end{figure}
@@ -259,32 +259,32 @@ The following heatmaps show the Spearman rank correlation between wiggle at each
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.49\linewidth]{phase7a_corr_wildguard_binary.pdf}
-  \includegraphics[width=0.49\linewidth]{phase7a_corr_wildguard_likert.pdf}
+  \includegraphics[width=0.49\linewidth]{corr_wildguard_binary.png}
+  \includegraphics[width=0.49\linewidth]{corr_wildguard_likert.png}
   \caption{WildGuard cross-level correlations: binary (left), Likert (right).}
   \label{fig:appendix-corr-wg}
 \end{figure}
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.49\linewidth]{phase7a_corr_pp_hedging_binary.pdf}
-  \includegraphics[width=0.49\linewidth]{phase7a_corr_pp_hedging_likert.pdf}
+  \includegraphics[width=0.49\linewidth]{corr_pp_hedging_binary.png}
+  \includegraphics[width=0.49\linewidth]{corr_pp_hedging_likert.png}
   \caption{Paired Prompts (hedging) cross-level correlations: binary (left), Likert (right).}
   \label{fig:appendix-corr-pp-hedging}
 \end{figure}
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.49\linewidth]{phase7a_corr_pp_refusal_binary.pdf}
-  \includegraphics[width=0.49\linewidth]{phase7a_corr_pp_refusal_likert.pdf}
+  \includegraphics[width=0.49\linewidth]{corr_pp_refusal_binary.png}
+  \includegraphics[width=0.49\linewidth]{corr_pp_refusal_likert.png}
   \caption{Paired Prompts (refusal) cross-level correlations: binary (left), Likert (right).}
   \label{fig:appendix-corr-pp-refusal}
 \end{figure}
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.49\linewidth]{phase7a_corr_mage_binary.pdf}
-  \includegraphics[width=0.49\linewidth]{phase7a_corr_mage_likert.pdf}
+  \includegraphics[width=0.49\linewidth]{corr_mage_binary.png}
+  \includegraphics[width=0.49\linewidth]{corr_mage_likert.png}
   \caption{MAGE cross-level correlations: binary (left), Likert (right).}
   \label{fig:appendix-corr-mage}
 \end{figure}
@@ -318,7 +318,7 @@ The survival curves (Figure~\ref{fig:appendix-survival-curves}) and flip timing 
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=\linewidth]{phase7c_survival_curves.pdf}
+  \includegraphics[width=\linewidth]{survival_curves.png}
   \caption{Multi-turn persistence survival curves.}
   \label{fig:appendix-survival-curves}
 \end{figure}
@@ -370,7 +370,7 @@ This approximately 10--15pp gap is consistent across all pressure levels. Items 
 \section{Directional Bias --- Level Dependence}
 \label{sec:appendix-directional}
 
-The body table (Table~\ref{tab:directional-bias}) reports overall directional ratios. The WildGuard Likert structure is particularly nuanced: the overall ratio (1.09) appears nearly symmetric, but masks a level-dependent pattern. At L4--L5 the toward-unsafe bias is stronger (${\sim}1.5$--$2.2\times$), while at L1--L3 the bias is weak or absent. At low pressure, Likert shifts are within-side adjustments without strong directional tendency; at high pressure, the safety-conservative training prior activates and pushes shifts toward the cautious direction.
+Aggregate directional ratios (Finding~\ref{sec:finding-permissive}) mask level-dependent structure. WildGuard Likert is the clearest example: the overall ratio ($\sim 1.09$ toward-unsafe) appears nearly symmetric, but masks a level-dependent pattern. At L4--L5 the toward-unsafe bias is stronger (${\sim}1.5$--$2.2\times$), while at L1--L3 the bias is weak or absent. At low pressure, Likert shifts are within-side adjustments without strong directional tendency; at high pressure, the safety-conservative training prior activates and pushes shifts toward the cautious direction. The same level-dependent pattern is confirmed on AEGIS Likert and HH-RLHF Likert, establishing it as a robust safety-domain signature rather than a WildGuard-specific artifact.
 
 The directional bias structure could be used as a diagnostic tool in its own right: applying L1--L4 pressure to a new evaluation task and observing the directional distribution of shifts can infer what implicit priors the model carries about that dimension. For safety evaluation specifically, the universal restrictive bias means that prevalence estimates derived from challenge-based review will systematically overcount unsafe content; pipeline designers should either avoid challenge-based review or apply directional correction factors calibrated to the specific judge model's restrictive/permissive ratio.
 
@@ -389,23 +389,21 @@ The full set of judge, challenge, observer, and adaptive persuader prompt templa
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Agentic Implications of Wiggle}
+\section{How the L1--L6 Ladder Maps onto Proposed Signal-Refinement Procedures}
 \label{sec:appendix-agentic}
 
-Most LLM judges today are deployed in one-shot mode: a single API call produces a verdict, no conversation occurs, and the judge is never challenged. In this setting, wiggle is \emph{latent} --- it exists as an epistemic property of the model but never manifests operationally. Golden-set validation remains the right first layer of quality assurance for one-shot deployments, and our jury bootstrapping recommendation complements it by flagging items where the one-shot verdict is least trustworthy.
+Most LLM judges today are deployed in one-shot mode: a single API call produces a verdict, no conversation occurs, and the judge is never challenged. In this setting, wiggle is \emph{latent} --- it exists as an epistemic property of the model but never manifests operationally. Golden-set validation remains the right first layer of quality assurance for one-shot deployments, complemented by our jury-bootstrapping recommendation (\S\ref{sec:discussion-jury}).
 
-But the industry trajectory is toward agentic judges --- systems where the judge participates in multi-step deliberation, self-debate, chain-of-thought revision, appeal workflows, or multi-agent evaluation pipelines. In these settings, the judge encounters conversational pressure \emph{naturally}, not from an adversary but from its own reasoning process and from other agents in the system. The pressures modeled by our L1--L6 ladder map directly onto the pressures agentic judges face:
+Several procedures have been proposed to \emph{refine} judge signal beyond a single one-shot call --- most often in the context of using judges as reward signals for hill-climbing during post-training. Our L1--L6 ladder maps onto the pressures these procedures would expose a judge to:
 
 \begin{itemize}
-    \item \textbf{L1 (mild doubt)} models what happens when a chain-of-thought prompt asks the judge to ``reconsider'' or ``think again'' --- a standard technique in self-consistency and reflection-based architectures.
-    \item \textbf{L2--L3 (counterarguments)} model what happens when another agent in a debate or deliberation framework presents an opposing view --- the core mechanism of \citet{irving2018debate} and \citet{radhakrishnan2023debating}.
-    \item \textbf{L4 (consensus pressure)} models what happens when an ensemble or aggregation layer communicates that other judges disagree --- a natural signal in any multi-judge pipeline.
-    \item \textbf{L5--L6 (adaptive persuasion)} model the most sophisticated case: a dedicated adversarial agent that exploits the judge's specific weaknesses, adapting in real time.
+    \item \textbf{L1 (mild doubt)} models a chain-of-thought prompt asking the judge to ``reconsider'' --- a standard technique in self-consistency and reflection-based judging architectures.
+    \item \textbf{L2--L3 (counterarguments)} model an opposing-view turn in a debate or deliberation framework \citep{irving2018debate,radhakrishnan2023debating}.
+    \item \textbf{L4 (consensus pressure)} models an ensemble or aggregation layer that communicates other judges' disagreement to a focal judge.
+    \item \textbf{L5--L6 (adaptive persuasion)} model the most sophisticated case: a dedicated adversarial process that adapts in real time to the judge's responses.
 \end{itemize}
 
-A judge that flips 30\% of its verdicts under ``Are you sure?'' is fine if nobody ever asks ``Are you sure?'' --- but in a self-reflective agentic system, the model asks itself this question routinely. A judge that folds under consensus pressure is harmless in isolation but dangerous in a multi-agent ensemble where consensus signals flow between judges.
-
-On MAGE, ${\sim}70\%$ of wiggles are corrupting at every pressure level --- agentic deliberation would net move judges away from the dataset label. On WildGuard, the pattern is level-dependent: moderate counterarguments (L2--L3) produce majority-corrective wiggles on the Likert scale, suggesting argument-based self-debate \emph{can} move safety judges toward labels more often than away. But adaptive persuasion (L6) overwhelms the corrective effect across both domains. This does not mean agentic judge architectures are inherently flawed, but it does mean they must be designed with awareness of which pressure levels are helpful (moderate, argument-based) versus harmful (adaptive, adversarial).
+The point is not that any current production system \emph{does} use these procedures in exactly the form we model --- we do not know in detail what current agentic judge deployments look like, and they are very new. The point is that any procedure that exposes the judge to pressure of these \emph{types} will inherit the corrupting properties documented in \S\ref{sec:results} and \S\ref{sec:discussion-pressure}. A judge that flips 30\% of its verdicts under ``Are you sure?'' is fine if nobody asks ``Are you sure?'' --- but a self-reflective procedure asks the judge versions of this question routinely. A judge that folds under consensus pressure is harmless in isolation but biased when an ensemble surfaces disagreement to it. Across all six domains, ${\sim}70\%$ of wiggles at L6 are corrupting; any procedure that subjects a judge to L6-style pressure will, on average, move it away from ground truth.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -418,13 +416,13 @@ On MAGE, ${\sim}70\%$ of wiggles are corrupting at every pressure level --- agen
 
 \paragraph{Model-generated counterarguments.} Our L2--L4 arguments and L6 adaptive persuasion are all model-generated. Human-authored arguments might produce different pressure profiles. The use of model-generated arguments does, however, reflect the realistic threat model: in deployment, LLM judges are more likely to face challenges from other LLMs than from humans crafting bespoke arguments.
 
-\paragraph{Sample sizes.} The three domains have different sample sizes (384/50 binary/Likert for WildGuard, ${\sim}300$ for Paired Prompts, 100 for MAGE). MAGE's smaller sample increases the uncertainty around point estimates; the patterns are consistent enough across levels and models to support the qualitative conclusions, but per-model MAGE estimates should be interpreted with appropriate caution.
+\paragraph{Sample sizes.} Per-domain sample sizes vary (384 for WildGuard binary, 100 for AEGIS / ToxiGen / HH-RLHF / MAGE, ${\sim}300$ for Paired Prompts). The smaller samples increase the uncertainty around point estimates; the patterns are consistent enough across levels and models to support the qualitative conclusions, but per-model per-domain estimates should be interpreted with appropriate caution.
 
 \paragraph{Snapshot in time.} We evaluate frontier models at a single point in time. Wiggle profiles may shift with model updates. The specific numerical results should be read as characterizing current-generation models, not as permanent properties of the model families.
 
 \paragraph{Single L6 persuader set.} We test three L6 persuaders (GPT-5.4, Claude Opus, Grok-4.1~R). A larger or different set of persuaders might produce different ceilings or different self-persuasion patterns.
 
-\paragraph{Domain coverage.} While three domains provide stronger evidence than one, they do not exhaust the space of LLM-as-judge applications. Aesthetic judgment, code review, mathematical reasoning verification, and other evaluation tasks may produce qualitatively different wiggle profiles.
+\paragraph{Domain coverage.} While six domains provide stronger evidence than one or three, they do not exhaust the space of LLM-as-judge applications. Aesthetic judgment, code review, mathematical reasoning verification, and other evaluation tasks may produce qualitatively different wiggle profiles.
 
 \paragraph{Causal claims.} Our findings are correlational. We observe that pressure changes verdicts and that the direction of change correlates with training priors, but we cannot definitively establish the causal mechanism. The directional biases (Finding 4) are consistent with training-embedded priors, but other explanations (such as inherent task asymmetries or argument quality differences by direction) cannot be fully ruled out.
 

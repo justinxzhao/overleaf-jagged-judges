@@ -7,7 +7,18 @@
 \usepackage{fvextra}
 \usepackage{needspace}
 \usepackage{etoolbox}
-\graphicspath{{data/figures/}{data/}}
+\graphicspath{%
+  {data/figures/}%
+  {data/}%
+  {data/analysis_cross_domain/png/wiggle_rates/}%
+  {data/analysis_cross_domain/png/correlations/}%
+  {data/analysis_cross_domain/png/survival/}%
+  {data/analysis_cross_domain/png/ground_truth/}%
+  {data/analysis_cross_domain/png/persuader/}%
+  {data/analysis_cross_domain/png/mechanical/}%
+  {data/analysis_cross_domain/png/transitions/}%
+  {data/analysis_cross_domain/png/wiggliness/}%
+}
 % custom commands
 \definecolor{hbpink}{RGB}{255,0,128}
 \newcommand{\hb}[1]{\textcolor{hbpink}{[HB: ] #1}}

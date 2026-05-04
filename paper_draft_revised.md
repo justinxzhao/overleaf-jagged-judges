@@ -1,4 +1,4 @@
-# Jagged Judges: Epistemic Oddities Under Silence, Pressure, and Persistence
+# Jagged Judges: Epistemic Stability Under Silence, Pressure, and Persistence
 
 **Anonymous Authors — Under Review**
 
@@ -28,7 +28,7 @@ Wiggle is universal across all six domains, at substantial rates, for every mode
 
 - **The Wiggle Framework**, a three-dimension decomposition of judge inconsistency (Mechanical Consistency, Single-turn Conviction, Multi-turn Persistence). To our knowledge this is the first systematic proposal for measuring epistemic stability across multiple dimensions in the LLM-as-judge setting.
 - **Detailed epistemic oddities** patterns visible only because the same items, judges, and criteria were tested under all pressure types.
-- **Three practical takeaways with concrete actions.** (i) Resist simple narratives of "LLMs are inconsistent and sycophantic" — the structure is jagged. (ii) Jury disagreement at L0 baseline is a cheap reliability screen for golden-set labels (Spearman rho = -0.17 to -0.39, universal across all 12 cells). (iii) Epistemic pressure procedures are net-corrupting; **we recommend against using persuasion or debate to refine judge verdicts in hill-climbing settings**.
+- **Three practical takeaways** (i) Resist simple narratives of "LLMs are inconsistent and sycophantic" — the structure is jagged. (ii) Jury disagreement at L0 baseline is a cheap reliability screen for golden-set labels (Spearman rho = -0.17 to -0.39, universal across all 12 cells). (iii) Epistemic pressure procedures are net-corrupting; **we recommend against using persuasion or debate to refine judge verdicts in hill-climbing settings**.
 
 ---
 
@@ -301,7 +301,7 @@ The reason is that token probability, re-prompt stability, and sycophancy probin
 
 ## 7. Limitations
 
-We deliberately focus on borderline items where judges are likely to be uncertain, so wiggle rates characterize the hard tail rather than a representative content distribution. We do not measure a human-judge baseline under the same protocol, so we cannot say whether the rates we observe are anomalously high or comparable to human inconsistency under similar conditions. Our L2-L6 arguments are model-generated, which reflects the realistic threat model in deployments where judges face challenges from other LLMs but differs from human-authored arguments. **We do not measure judge accuracy under symmetric two-sided argument presentation** — our positional invariance test reports consistency under argument reordering, not accuracy gain — so our results do not directly speak to the symmetric debate setup of Radhakrishnan et al. (2023). We evaluate frontier models at a snapshot in time; wiggle profiles may shift with model updates. Our L6 persuader set is fixed (GPT-5.4, Claude Opus, Grok-4.1 Reasoning); a larger or different set might produce different ceilings. The full set of limitations — including domain coverage, sample-size caveats, causal-inference caveats, and the scope of black-box analysis — is in Appendix M.
+We deliberately focus on borderline items where judges are likely to be uncertain, so wiggle rates characterize the hard tail rather than a representative content distribution. We do not measure a human-judge baseline under the same protocol, so we cannot say whether the rates we observe are anomalously high or comparable to human inconsistency under similar conditions. Our L2-L6 arguments are model-generated, which reflects the realistic threat model in deployments where judges face challenges from other LLMs but differs from human-authored arguments. Our L6 persuader set is fixed (GPT-5.4, Claude Opus, Grok-4.1 Reasoning); a larger or different set might produce different ceilings. The full set of limitations — including domain coverage, sample-size caveats, causal-inference caveats, and the scope of black-box analysis — is in Appendix M.
 
 ---
 
