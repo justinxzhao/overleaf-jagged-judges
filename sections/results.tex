@@ -2,8 +2,7 @@
 \label{sec:results}
 
 % =============================================================
-\subsection{Finding 1: Mechanical Re-prompting Underestimates Judge Wiggle by an Order of Magnitude}
-\label{sec:finding-mechanical-gap}
+\paragraph{Finding 1: Mechanical Re-prompting Underestimates Judge Wiggle by an Order of Magnitude.}
 
 The mechanical tests in our framework (temperature-zero repeatability, seed-injection repeatability, position invariance) measure the \emph{floor} of judge instability --- what happens with no adversarial pressure at all, just re-asking the same question. The multi-turn experiments measure the \emph{ceiling} --- what happens under graduated adversarial pressure. Running the two on the same items, judges, and criteria reveals that the floor is low, the ceiling is high, and the two are not even monotonically related across models.
 
@@ -48,18 +47,17 @@ Grok-4.1 Reasoning & 5.4 & 11.8 & 11.7 \\
 
 \paragraph{The floor and ceiling are not monotonically related.} Grok-4.1 Reasoning has the \emph{highest} mechanical variation in our panel (12\% on seed and temp=0) yet is among the most \emph{resistant} to multi-turn pressure ($\sim 16\%$ average wiggle). Its reasoning traces are mechanically noisy but epistemically stubborn --- chain-of-thought sampling introduces variation without making the verdict persuadable. Claude Opus is the inverse: the \emph{lowest} mechanical variation (1--2\%) but moderate multi-turn wiggle ($\sim 39\%$ on some domains). A mechanically precise model is not necessarily an epistemically robust one.
 
-\paragraph{Binary is universally more mechanically unstable than Likert.} Every model, on every metric, shows higher mechanical variation on binary than on Likert (Figure~\ref{fig:mech-binary-vs-likert}), with gaps of $+1$pp to $+9$pp. Binary verdicts are fragile threshold events that can flip without any pressure at all; Likert scores require sustained movement to cross the midpoint. This foreshadows the binary-vs-Likert capture-timing pattern in Finding~\ref{sec:finding-binary-vs-likert-timing}.
+\paragraph{Binary is universally more mechanically unstable than Likert.} Every model, on every metric, shows higher mechanical variation on binary than on Likert (Figure~\ref{fig:mech-binary-vs-likert}), with gaps of $+1$pp to $+9$pp. Binary verdicts are fragile threshold events that can flip without any pressure at all; Likert scores require sustained movement to cross the midpoint. This foreshadows the binary-vs-Likert capture-timing pattern in Finding~9.
 
 This is the most direct response to the natural objection that one could simply re-run a judge several times and look at variance. Mechanical re-testing catches 1--14\% of items as unstable; the graduated pressure framework catches 10--91\%. The two methods measure fundamentally different quantities --- stochastic sampling noise versus susceptibility to contextual manipulation --- and the gap is the contribution.
 
 % =============================================================
-\subsection{Finding 2: Consensus Pressure Alone Outperforms Cycling Through Multiple Tactics}
-\label{sec:finding-l4-l5}
+\paragraph{Finding 2: Consensus Pressure Alone Outperforms Cycling Through Multiple Tactics.}
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=0.95\linewidth]{cross_domain_lines.png}
-  \caption{Mean wiggle rate by domain across the L1--L6 pressure ladder, averaged over 9 judges and both response scales. Across every domain except MAGE, L4 (consensus pressure alone) outperforms L5 (cycling through L1--L4 tactics): the gap is most visible on safety Likert (WildGuard, AEGIS, HH-RLHF). The figure also previews the domain-difficulty spectrum (ToxiGen $\to$ MAGE) and the L6 cliff that Finding~\ref{sec:finding-l6-cliff} unpacks.}
+  \caption{Mean wiggle rate by domain across the L1--L6 pressure ladder, averaged over 9 judges and both response scales. Across every domain except MAGE, L4 (consensus pressure alone) outperforms L5 (cycling through L1--L4 tactics): the gap is most visible on safety Likert (WildGuard, AEGIS, HH-RLHF). The figure also previews the domain-difficulty spectrum (ToxiGen $\to$ MAGE) and the L6 cliff that Finding~3 unpacks.}
   \label{fig:cross-domain-lines}
 \end{figure}
 
@@ -68,8 +66,7 @@ L5's strategy is to \emph{cycle} through L1--L4 tactics across the 10 challenge 
 \textbf{L4 (consensus pressure alone) consistently outperforms L5 (cycling through all tactics, including L4)} across all 12 conditions. The drop is largest on Likert safety domains: HH-RLHF Likert $-23.0$pp (39.1\% to 16.1\%), AEGIS Likert $-22.9$pp, WildGuard Likert $-18.4$pp. On binary scales the drop is smaller but still consistent (3--9pp). Opening with a strong social-proof claim (``three independent reviewers all disagree with your assessment'') is more persuasive than diluting that claim by cycling through weaker tactics first; the ``dilly-dallying'' of L5 appears to \emph{inoculate} the judge --- encountering mild challenges (L1, L2) before the strong one (L4) builds resistance. This is a finding about the psychology of LLM persuasion that prior single-tactic studies cannot detect, because they hold tactic constant. It has direct implications for both attack design (be focused, not varied) and defense design (exposure to mild challenges may build resistance to stronger ones).
 
 % =============================================================
-\subsection{Finding 3: Adaptive LLM Persuasion Breaks Every Judge and Every Majority-Vote Jury}
-\label{sec:finding-l6-cliff}
+\paragraph{Finding 3: Adaptive LLM Persuasion Breaks Every Judge and Every Majority-Vote Jury.}
 
 \begin{figure}[t]
   \centering
@@ -83,8 +80,7 @@ The jump from L5 (cycling through L1--L4) to L6 (adaptive persuader) is the most
 The cliff is matched by a corresponding collapse in jury defense. When we run 8 judges in parallel and take the majority vote, the jury is remarkably resilient to scripted pressure: jury accuracy loses at most $\sim 5$pp over 10 turns of L1--L5 challenges. At L6, however, the jury collapses by 25--55pp: WildGuard 80\% to 30\%, MAGE 83\% to 25\%, HH-RLHF 63\% to 38\% (per-domain accuracy-over-turns plots are in Appendix~\ref{sec:appendix-perdomain}). \textbf{Scripted challenges are survivable by majority voting; adaptive challenges are not.} This is a binary distinction that prior single-domain sycophancy or debate work cannot detect, because they do not vary pressure sophistication along a calibrated axis. It is also the empirical foundation for the L6-as-red-teamer recommendation in \S\ref{sec:discussion}: every frontier judge we tested is vulnerable to a single L6-style adversary, which makes L6 a working specification of an attack against any system that uses an LLM judge as a reward signal.
 
 % =============================================================
-\subsection{Finding 4: Flips Are Predominantly Permissive on Safety Domains}
-\label{sec:finding-permissive}
+\paragraph{Finding 4: Flips Are Predominantly Permissive on Safety Domains.}
 
 \begin{figure}[t]
   \centering
@@ -97,11 +93,10 @@ When a judge's verdict flips under pressure, which direction does it go? Aggrega
 
 Safety-trained models are trained to be cautious --- to flag content as potentially harmful. Our data shows that when these models' safety judgments are challenged, they predominantly \emph{retreat from} their cautious position. \textbf{Pressure pushes safety judges toward under-flagging, not over-flagging.} This is the opposite of what a naive ``safety training makes models overcautious'' narrative would predict, and it has direct implications for the reliability of LLM-based safety gates: every conversational turn between a judge and an adversary is, on average, eroding the judge's willingness to flag harm.
 
-This is one of two asymmetries we report: the \emph{absolute} direction of flips (permissive vs restrictive). The next finding reports the other (corrective vs corrupting). The two dimensions are not the same --- Finding~\ref{sec:finding-corrupting}'s WildGuard Likert L2--L3 corrective window is also predominantly permissive --- and \S\ref{sec:discussion} returns to this point as the structural framing of the paper.
+This is one of two asymmetries we report: the \emph{absolute} direction of flips (permissive vs restrictive). The next finding reports the other (corrective vs corrupting). The two dimensions are not the same --- Finding~5's WildGuard Likert L2--L3 corrective window is also predominantly permissive --- and \S\ref{sec:discussion} returns to this point as the structural framing of the paper.
 
 % =============================================================
-\subsection{Finding 5: Pressure Is Net-Corrupting at Every Level}
-\label{sec:finding-corrupting}
+\paragraph{Finding 5: Pressure Is Net-Corrupting at Every Level.}
 
 \begin{figure}[t]
   \centering
@@ -134,8 +129,7 @@ AEGIS Likert L2     &  42 &  86 & 48.8 & $-0.22$ & not significant \\
 This is a strong negative result for the asymmetric extension of the ``judges persuading each other yields more truthful answers'' hypothesis (cf.\ \citet{radhakrishnan2023debating}, who study symmetric two-sided debate; see \S\ref{sec:discussion}): across 60 experimental conditions, moderate counterarguments on WildGuard Likert are the \emph{only} robustly corrective intervention. \textbf{Even at L2--L3 --- the most favorable pressure regime --- 56 of 60 conditions show net corruption.} MAGE is uniformly corrupting at every level (corrective fraction 22--34\%); ToxiGen binary L6 is the single most corrupting condition in the study (4.5:1 corrupting). The practical implication is the opposite of the natural reading: do not use challenge-based review to \emph{correct} judge labels. Use jury disagreement at L0 baseline to \emph{flag} unreliable labels (\S\ref{sec:discussion}).
 
 % =============================================================
-\subsection{Finding 6: Sycophancy, Conformity, and Adversarial Pressure Affect Different Items}
-\label{sec:finding-dissociation}
+\paragraph{Finding 6: Sycophancy, Conformity, and Adversarial Pressure Affect Different Items.}
 
 \begin{figure}[t]
   \centering
@@ -149,8 +143,7 @@ The pressure ladder is designed as an escalating sequence, but the cross-level c
 This dissociation matters for two reasons. First, it tells us the pressure ladder captures at least three orthogonal failure modes --- \textbf{sycophancy} (L1-susceptible), \textbf{conformity} (L4-susceptible), and \textbf{adversarial vulnerability} (L6-susceptible) --- that require different mitigations. A judge can be highly sycophantic yet resistant to consensus pressure, or vice versa. Second, it is the load-bearing rebuttal to the natural objection that one could measure judge instability simply by resampling at temperature $> 0$: resampling probes a single dimension of variance, while the ladder probes at least three. Mechanical (temp=0) variance is 0.01--0.15 across our models; L4 wiggle rates are 25--71\% on the \emph{same} items. Resampling underestimates adversarial vulnerability by 1--2 orders of magnitude \emph{and} cannot distinguish which of the three failure modes is operative.
 
 % =============================================================
-\subsection{Finding 7: Models Aren't Their Own Best Persuaders}
-\label{sec:finding-self-persuasion}
+\paragraph{Finding 7: Models Aren't Their Own Best Persuaders.}
 
 \begin{figure}[t]
   \centering
@@ -181,19 +174,16 @@ Grok-4.1 Reasoning & \textbf{19\%} & 55\% & 36\% & Self $\ll$ Family, Family $>$
 \textbf{Grok-4.1 Reasoning is the finding within the finding.} It is the \emph{least} effective at wiggling itself (19\% --- the lowest self-persuasion rate in the matrix), but its non-reasoning sibling Grok-4.1 is \emph{more} persuadable by it (55\%) than non-family models (36\%). The reasoning model's step-by-step traces appear to create \emph{self-inoculation} --- the same epistemic structure that defends Grok-4.1 R against itself becomes a sharp weapon against the non-reasoning sibling that lacks that defense. Combined with the stable persuader ranking across domains (GPT-5.4 $>$ Claude Opus $>$ Grok-4.1 R as persuaders, regardless of judge model --- Appendix~\ref{sec:appendix-self}), this suggests effective adversarial persuasion is a domain-general capability whose internal structure is more characteristic of the \emph{individual model's training} than of its family.
 
 % =============================================================
-\subsection{Finding 8: Model Families Don't Predict Each Other}
-\label{sec:finding-family}
+\paragraph{Finding 8: Model Families Don't Predict Each Other.}
 
 If a model's epistemic stability were primarily a property of its training family, we would expect within-family pairs of judges to share their L1--L6 wiggle profiles closely. The model-vs-model Spearman correlation matrix (Appendix~\ref{sec:appendix-correlations}) tests this directly. Within-family correlations \emph{are} high for most providers (Grok 4.1 R / Grok 4.1 share $\rho = 0.89$; the GPT-5/5.2/5.4 family pairs share $\rho = 0.84$--$0.89$; Claude Sonnet / Claude Opus share $\rho = 0.80$) --- but cross-family correlations are often just as high. Grok 4.1 R correlates with GPT-5.2 at $\rho = 0.86$ and with Claude Opus at $\rho = 0.84$. \textbf{Gemini Flash and Gemini Pro share $\rho = 0.32$ --- the lowest pair in the entire matrix, lower than most cross-family pairs.} For most families, testing one sibling gives a reasonable read on the other; for Google's Gemini models, this transfer fails entirely.
 
 % =============================================================
-\subsection{Finding 9: Binary Captures Most Flips on Turn 1; Likert Accumulates Over Time}
-\label{sec:finding-binary-vs-likert-timing}
+\paragraph{Finding 9: Binary Captures Most Flips on Turn 1; Likert Accumulates Over Time.}
 
 A practical question: how many challenge turns do you actually need? The flip-timing data (Appendix~\ref{sec:appendix-flip-timing}) reveals a sharp divergence between binary and Likert scales. For binary L2--L3, a single challenge turn captures \textbf{81--83\% of all flips} that ever happen across 10 turns. A one-shot test is nearly as informative as the full multi-turn protocol. For Likert, the picture inverts: at L6, the first turn captures only \textbf{23\%} of eventual flips; at L1, only \textbf{5\%}. Binary verdicts are fragile \emph{immediately} --- if a challenge will flip them, it usually does so on the first attempt --- while Likert scores erode gradually until the score crosses the midpoint. The mechanisms differ: binary flips are threshold events; Likert flips are gradual drifts. For test-battery design: a single-turn challenge is a cost-effective screen for binary stability, but Likert stability requires multi-turn testing.
 
 % =============================================================
-\subsection{Finding 10: Within-Model Profile Shape Transfers Across Domains}
-\label{sec:finding-within-model}
+\paragraph{Finding 10: Within-Model Profile Shape Transfers Across Domains.}
 
-Despite the failure of family-level prediction (Finding~\ref{sec:finding-family}), a model's \emph{own} L1--L6 wiggle profile shape is a fingerprint that mostly survives a change of domain. For 7 of 9 models, the within-model domain-transfer Spearman correlation of the L1--L6 vector across domain pairs has a median of $\rho \geq 0.84$ (Grok-4.1 R is highest at $\rho = 0.97$; Gemini 3.1 Pro is lowest at $\rho = 0.63$ with a worst pair at $\rho = -0.09$). The implication is operational and reconciles with Table~\ref{tab:aurc-selected} (rankings reshuffle across domains): \textbf{the level-profile shape transfers across domains within a model, but absolute rates and ranks do not}. A pilot wiggle test on one domain reliably predicts which pressure types a model is vulnerable to (so you can target mitigations), but absolute deployment-relevant rates need to be measured per-domain. (Per-model domain profiles are in Appendix~\ref{sec:appendix-perdomain}.)
+Despite the failure of family-level prediction (Finding~8), a model's \emph{own} L1--L6 wiggle profile shape is a fingerprint that mostly survives a change of domain. For 7 of 9 models, the within-model domain-transfer Spearman correlation of the L1--L6 vector across domain pairs has a median of $\rho \geq 0.84$ (Grok-4.1 R is highest at $\rho = 0.97$; Gemini 3.1 Pro is lowest at $\rho = 0.63$ with a worst pair at $\rho = -0.09$). The implication is operational and reconciles with Table~\ref{tab:aurc-selected} (rankings reshuffle across domains): \textbf{the level-profile shape transfers across domains within a model, but absolute rates and ranks do not}. A pilot wiggle test on one domain reliably predicts which pressure types a model is vulnerable to (so you can target mitigations), but absolute deployment-relevant rates need to be measured per-domain. (Per-model domain profiles are in Appendix~\ref{sec:appendix-perdomain}.)
