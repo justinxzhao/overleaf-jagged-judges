@@ -1,0 +1,99 @@
+domain,scale,level,direction_a_label,direction_b_label,direction_a_flips,direction_a_total,direction_a_flip_rate,direction_b_flips,direction_b_total,direction_b_flip_rate,bias_ratio,dominant_direction,direction_a_count,direction_b_count,total_movements
+WildGuard,binary,L1,safe→unsafe,unsafe→safe,433.0,1034.0,0.4188,528.0,2409.0,0.2192,1.911,safe→unsafe,,,
+WildGuard,binary,L2,safe→unsafe,unsafe→safe,384.0,1054.0,0.3643,221.0,2389.0,0.0925,3.938,safe→unsafe,,,
+WildGuard,binary,L3,safe→unsafe,unsafe→safe,497.0,1054.0,0.4715,193.0,2389.0,0.0808,5.837,safe→unsafe,,,
+WildGuard,binary,L4,safe→unsafe,unsafe→safe,223.0,1054.0,0.2116,769.0,2389.0,0.3219,0.657,unsafe→safe,,,
+WildGuard,binary,L5,safe→unsafe,unsafe→safe,480.0,1054.0,0.4554,483.0,2389.0,0.2022,2.253,safe→unsafe,,,
+WildGuard,binary,L6,safe→unsafe,unsafe→safe,2072.0,3102.0,0.668,3149.0,7227.0,0.4357,1.533,safe→unsafe,,,
+WildGuard,binary,Overall,safe→unsafe,unsafe→safe,4089.0,8352.0,0.4896,5343.0,19192.0,0.2784,1.759,safe→unsafe,,,
+WildGuard,likert,L1,toward unsafe (↑),toward safe (↓),,,,,,,0.804,toward safe (↓),468.0,582.0,1050.0
+WildGuard,likert,L2,toward unsafe (↑),toward safe (↓),,,,,,,0.731,toward safe (↓),174.0,238.0,412.0
+WildGuard,likert,L3,toward unsafe (↑),toward safe (↓),,,,,,,0.562,toward safe (↓),155.0,276.0,431.0
+WildGuard,likert,L4,toward unsafe (↑),toward safe (↓),,,,,,,1.454,toward unsafe (↑),987.0,679.0,1666.0
+WildGuard,likert,L5,toward unsafe (↑),toward safe (↓),,,,,,,1.871,toward unsafe (↑),782.0,418.0,1200.0
+WildGuard,likert,L6,toward unsafe (↑),toward safe (↓),,,,,,,0.836,toward safe (↓),3123.0,3734.0,6857.0
+WildGuard,likert,Overall,toward unsafe (↑),toward safe (↓),,,,,,,0.96,toward safe (↓),5689.0,5927.0,11616.0
+PP Hedging,binary,L1,not_hedged→hedged,hedged→not_hedged,85.0,830.0,0.1024,22.0,70.0,0.3143,0.326,hedged→not_hedged,,,
+PP Hedging,binary,L2,not_hedged→hedged,hedged→not_hedged,235.0,830.0,0.2831,36.0,70.0,0.5143,0.551,hedged→not_hedged,,,
+PP Hedging,binary,L3,not_hedged→hedged,hedged→not_hedged,310.0,830.0,0.3735,42.0,70.0,0.6,0.622,hedged→not_hedged,,,
+PP Hedging,binary,L4,not_hedged→hedged,hedged→not_hedged,438.0,830.0,0.5277,48.0,70.0,0.6857,0.77,hedged→not_hedged,,,
+PP Hedging,binary,L5,not_hedged→hedged,hedged→not_hedged,393.0,830.0,0.4735,43.0,70.0,0.6143,0.771,hedged→not_hedged,,,
+PP Hedging,binary,L6,not_hedged→hedged,hedged→not_hedged,1134.0,2490.0,0.4554,121.0,210.0,0.5762,0.79,hedged→not_hedged,,,
+PP Hedging,binary,Overall,not_hedged→hedged,hedged→not_hedged,2595.0,6640.0,0.3908,312.0,560.0,0.5571,0.701,hedged→not_hedged,,,
+PP Refusal,binary,L1,compliant→non_compl.,non_compl.→compliant,184.0,835.0,0.2204,58.0,65.0,0.8923,0.247,non_compl.→compliant,,,
+PP Refusal,binary,L2,compliant→non_compl.,non_compl.→compliant,271.0,835.0,0.3246,53.0,65.0,0.8154,0.398,non_compl.→compliant,,,
+PP Refusal,binary,L3,compliant→non_compl.,non_compl.→compliant,314.0,835.0,0.376,52.0,65.0,0.8,0.47,non_compl.→compliant,,,
+PP Refusal,binary,L4,compliant→non_compl.,non_compl.→compliant,559.0,835.0,0.6695,64.0,65.0,0.9846,0.68,non_compl.→compliant,,,
+PP Refusal,binary,L5,compliant→non_compl.,non_compl.→compliant,448.0,835.0,0.5365,57.0,65.0,0.8769,0.612,non_compl.→compliant,,,
+PP Refusal,binary,L6,compliant→non_compl.,non_compl.→compliant,1343.0,2505.0,0.5361,158.0,195.0,0.8103,0.662,non_compl.→compliant,,,
+PP Refusal,binary,Overall,compliant→non_compl.,non_compl.→compliant,3119.0,6680.0,0.4669,442.0,520.0,0.85,0.549,non_compl.→compliant,,,
+PP Hedging,likert,L1,toward hedged (↑),toward direct (↓),,,,,,,0.34,toward direct (↓),127.0,373.0,500.0
+PP Hedging,likert,L2,toward hedged (↑),toward direct (↓),,,,,,,0.407,toward direct (↓),57.0,140.0,197.0
+PP Hedging,likert,L3,toward hedged (↑),toward direct (↓),,,,,,,0.378,toward direct (↓),73.0,193.0,266.0
+PP Hedging,likert,L4,toward hedged (↑),toward direct (↓),,,,,,,0.479,toward direct (↓),125.0,261.0,386.0
+PP Hedging,likert,L5,toward hedged (↑),toward direct (↓),,,,,,,0.337,toward direct (↓),113.0,335.0,448.0
+PP Hedging,likert,L6,toward hedged (↑),toward direct (↓),,,,,,,0.382,toward direct (↓),552.0,1446.0,1998.0
+PP Hedging,likert,Overall,toward hedged (↑),toward direct (↓),,,,,,,0.381,toward direct (↓),1047.0,2748.0,3795.0
+PP Refusal,likert,L1,toward refusing (↑),toward compliant (↓),,,,,,,1.75,toward refusing (↑),231.0,132.0,363.0
+PP Refusal,likert,L2,toward refusing (↑),toward compliant (↓),,,,,,,1.961,toward refusing (↑),200.0,102.0,302.0
+PP Refusal,likert,L3,toward refusing (↑),toward compliant (↓),,,,,,,2.042,toward refusing (↑),243.0,119.0,362.0
+PP Refusal,likert,L4,toward refusing (↑),toward compliant (↓),,,,,,,2.473,toward refusing (↑),361.0,146.0,507.0
+PP Refusal,likert,L5,toward refusing (↑),toward compliant (↓),,,,,,,2.216,toward refusing (↑),297.0,134.0,431.0
+PP Refusal,likert,L6,toward refusing (↑),toward compliant (↓),,,,,,,3.444,toward refusing (↑),1302.0,378.0,1680.0
+PP Refusal,likert,Overall,toward refusing (↑),toward compliant (↓),,,,,,,2.605,toward refusing (↑),2634.0,1011.0,3645.0
+MAGE,binary,L1,human→AI,AI→human,142.0,388.0,0.366,229.0,512.0,0.4473,0.818,AI→human,,,
+MAGE,binary,L2,human→AI,AI→human,143.0,388.0,0.3686,256.0,512.0,0.5,0.737,AI→human,,,
+MAGE,binary,L3,human→AI,AI→human,134.0,388.0,0.3454,239.0,512.0,0.4668,0.74,AI→human,,,
+MAGE,binary,L4,human→AI,AI→human,252.0,388.0,0.6495,384.0,512.0,0.75,0.866,AI→human,,,
+MAGE,binary,L5,human→AI,AI→human,218.0,388.0,0.5619,356.0,512.0,0.6953,0.808,AI→human,,,
+MAGE,binary,L6,human→AI,AI→human,664.0,1164.0,0.5704,1010.0,1536.0,0.6576,0.868,AI→human,,,
+MAGE,binary,Overall,human→AI,AI→human,1553.0,3104.0,0.5003,2474.0,4096.0,0.604,0.828,AI→human,,,
+MAGE,likert,L1,toward AI (↑),toward human (↓),,,,,,,1.806,toward AI (↑),363.0,201.0,564.0
+MAGE,likert,L2,toward AI (↑),toward human (↓),,,,,,,1.554,toward AI (↑),275.0,177.0,452.0
+MAGE,likert,L3,toward AI (↑),toward human (↓),,,,,,,1.513,toward AI (↑),339.0,224.0,563.0
+MAGE,likert,L4,toward AI (↑),toward human (↓),,,,,,,1.487,toward AI (↑),391.0,263.0,654.0
+MAGE,likert,L5,toward AI (↑),toward human (↓),,,,,,,1.48,toward AI (↑),370.0,250.0,620.0
+MAGE,likert,L6,toward AI (↑),toward human (↓),,,,,,,1.518,toward AI (↑),1339.0,882.0,2221.0
+MAGE,likert,Overall,toward AI (↑),toward human (↓),,,,,,,1.541,toward AI (↑),3077.0,1997.0,5074.0
+AEGIS,binary,L1,safe→unsafe,unsafe→safe,164.0,500.0,0.328,137.0,400.0,0.3425,0.958,unsafe→safe,,,
+AEGIS,binary,L2,safe→unsafe,unsafe→safe,128.0,500.0,0.256,58.0,400.0,0.145,1.766,safe→unsafe,,,
+AEGIS,binary,L3,safe→unsafe,unsafe→safe,154.0,500.0,0.308,37.0,400.0,0.0925,3.33,safe→unsafe,,,
+AEGIS,binary,L4,safe→unsafe,unsafe→safe,104.0,500.0,0.208,172.0,400.0,0.43,0.484,unsafe→safe,,,
+AEGIS,binary,L5,safe→unsafe,unsafe→safe,160.0,500.0,0.32,127.0,400.0,0.3175,1.008,safe→unsafe,,,
+AEGIS,binary,L6,safe→unsafe,unsafe→safe,875.0,1500.0,0.5833,705.0,1200.0,0.5875,0.993,unsafe→safe,,,
+AEGIS,binary,Overall,safe→unsafe,unsafe→safe,1585.0,4000.0,0.3962,1236.0,3200.0,0.3862,1.026,safe→unsafe,,,
+AEGIS,likert,L1,toward unsafe (↑),toward safe (↓),,,,,,,1.06,toward unsafe (↑),142.0,134.0,276.0
+AEGIS,likert,L2,toward unsafe (↑),toward safe (↓),,,,,,,0.344,toward safe (↓),22.0,64.0,86.0
+AEGIS,likert,L3,toward unsafe (↑),toward safe (↓),,,,,,,0.284,toward safe (↓),25.0,88.0,113.0
+AEGIS,likert,L4,toward unsafe (↑),toward safe (↓),,,,,,,3.114,toward unsafe (↑),383.0,123.0,506.0
+AEGIS,likert,L5,toward unsafe (↑),toward safe (↓),,,,,,,2.53,toward unsafe (↑),253.0,100.0,353.0
+AEGIS,likert,L6,toward unsafe (↑),toward safe (↓),,,,,,,2.152,toward unsafe (↑),1192.0,554.0,1746.0
+AEGIS,likert,Overall,toward unsafe (↑),toward safe (↓),,,,,,,1.897,toward unsafe (↑),2017.0,1063.0,3080.0
+ToxiGen,binary,L1,not toxic→toxic,toxic→not toxic,65.0,313.0,0.2077,104.0,587.0,0.1772,1.172,not toxic→toxic,,,
+ToxiGen,binary,L2,not toxic→toxic,toxic→not toxic,73.0,313.0,0.2332,57.0,587.0,0.0971,2.402,not toxic→toxic,,,
+ToxiGen,binary,L3,not toxic→toxic,toxic→not toxic,86.0,313.0,0.2748,64.0,587.0,0.109,2.52,not toxic→toxic,,,
+ToxiGen,binary,L4,not toxic→toxic,toxic→not toxic,134.0,313.0,0.4281,92.0,587.0,0.1567,2.732,not toxic→toxic,,,
+ToxiGen,binary,L5,not toxic→toxic,toxic→not toxic,100.0,313.0,0.3195,99.0,587.0,0.1687,1.894,not toxic→toxic,,,
+ToxiGen,binary,L6,not toxic→toxic,toxic→not toxic,520.0,939.0,0.5538,833.0,1761.0,0.473,1.171,not toxic→toxic,,,
+ToxiGen,binary,Overall,not toxic→toxic,toxic→not toxic,978.0,2504.0,0.3906,1249.0,4696.0,0.266,1.468,not toxic→toxic,,,
+ToxiGen,likert,L1,toward toxic (↑),toward not toxic (↓),,,,,,,1.143,toward toxic (↑),144.0,126.0,270.0
+ToxiGen,likert,L2,toward toxic (↑),toward not toxic (↓),,,,,,,1.4,toward toxic (↑),140.0,100.0,240.0
+ToxiGen,likert,L3,toward toxic (↑),toward not toxic (↓),,,,,,,1.946,toward toxic (↑),144.0,74.0,218.0
+ToxiGen,likert,L4,toward toxic (↑),toward not toxic (↓),,,,,,,6.667,toward toxic (↑),240.0,36.0,276.0
+ToxiGen,likert,L5,toward toxic (↑),toward not toxic (↓),,,,,,,2.781,toward toxic (↑),203.0,73.0,276.0
+ToxiGen,likert,L6,toward toxic (↑),toward not toxic (↓),,,,,,,1.041,toward toxic (↑),805.0,773.0,1578.0
+ToxiGen,likert,Overall,toward toxic (↑),toward not toxic (↓),,,,,,,1.418,toward toxic (↑),1676.0,1182.0,2858.0
+HH-RLHF,binary,L1,safe→unsafe,unsafe→safe,84.0,405.0,0.2074,91.0,495.0,0.1838,1.128,safe→unsafe,,,
+HH-RLHF,binary,L2,safe→unsafe,unsafe→safe,84.0,405.0,0.2074,41.0,495.0,0.0828,2.504,safe→unsafe,,,
+HH-RLHF,binary,L3,safe→unsafe,unsafe→safe,113.0,405.0,0.279,36.0,495.0,0.0727,3.836,safe→unsafe,,,
+HH-RLHF,binary,L4,safe→unsafe,unsafe→safe,250.0,405.0,0.6173,146.0,495.0,0.2949,2.093,safe→unsafe,,,
+HH-RLHF,binary,L5,safe→unsafe,unsafe→safe,147.0,405.0,0.363,74.0,495.0,0.1495,2.428,safe→unsafe,,,
+HH-RLHF,binary,L6,safe→unsafe,unsafe→safe,692.0,1215.0,0.5695,778.0,1485.0,0.5239,1.087,safe→unsafe,,,
+HH-RLHF,binary,Overall,safe→unsafe,unsafe→safe,1370.0,3240.0,0.4228,1166.0,3960.0,0.2944,1.436,safe→unsafe,,,
+HH-RLHF,likert,L1,toward unsafe (↑),toward safe (↓),,,,,,,0.512,toward safe (↓),103.0,201.0,304.0
+HH-RLHF,likert,L2,toward unsafe (↑),toward safe (↓),,,,,,,0.842,toward safe (↓),48.0,57.0,105.0
+HH-RLHF,likert,L3,toward unsafe (↑),toward safe (↓),,,,,,,0.615,toward safe (↓),48.0,78.0,126.0
+HH-RLHF,likert,L4,toward unsafe (↑),toward safe (↓),,,,,,,1.438,toward unsafe (↑),276.0,192.0,468.0
+HH-RLHF,likert,L5,toward unsafe (↑),toward safe (↓),,,,,,,1.504,toward unsafe (↑),185.0,123.0,308.0
+HH-RLHF,likert,L6,toward unsafe (↑),toward safe (↓),,,,,,,1.034,toward unsafe (↑),1109.0,1073.0,2182.0
+HH-RLHF,likert,Overall,toward unsafe (↑),toward safe (↓),,,,,,,1.026,toward unsafe (↑),1769.0,1724.0,3493.0

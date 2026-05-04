@@ -1,9 +1,0 @@
-domain,scale,GPT-5.4,Claude Opus,Grok-4.1 R
-WildGuard,binary,0.6655,0.4766,0.3779
-WildGuard,likert,0.6094,0.3965,0.2383
-PP Hedging,binary,0.684,0.4971,0.401
-PP Refusal,binary,0.6865,0.5663,0.5325
-PP Hedging,likert,0.6171,0.5106,0.3237
-PP Refusal,likert,0.5754,0.4442,0.3588
-MAGE,binary,0.7188,0.7037,0.4725
-MAGE,likert,0.83,0.6562,0.4175

@@ -1,0 +1,73 @@
+domain,scale,level,mean_wiggle_rate,std_wiggle_rate,min_wiggle_rate,max_wiggle_rate,n_models
+WildGuard,binary,L1,0.2804,0.2113,0.0807,0.7604,9
+WildGuard,binary,L2,0.1785,0.114,0.0599,0.3464,9
+WildGuard,binary,L3,0.2028,0.0966,0.0833,0.3776,9
+WildGuard,binary,L4,0.2902,0.2466,0.0677,0.7708,9
+WildGuard,binary,L5,0.2824,0.1509,0.099,0.5339,9
+WildGuard,binary,L6,0.697,0.2754,0.237,0.9896,9
+WildGuard,likert,L1,0.1189,0.1303,0.0104,0.401,9
+WildGuard,likert,L2,0.0339,0.032,0.0026,0.0938,9
+WildGuard,likert,L3,0.0391,0.0231,0.0078,0.0677,9
+WildGuard,likert,L4,0.3953,0.1594,0.1823,0.6536,9
+WildGuard,likert,L5,0.2106,0.1048,0.0755,0.3672,9
+WildGuard,likert,L6,0.7639,0.2632,0.3411,0.9922,9
+Paired Prompts,binary,L1,0.1939,0.1761,0.03,0.555,9
+Paired Prompts,binary,L2,0.3306,0.3155,0.025,0.865,9
+Paired Prompts,binary,L3,0.3989,0.3082,0.065,0.825,9
+Paired Prompts,binary,L4,0.6161,0.2158,0.375,0.92,9
+Paired Prompts,binary,L5,0.5228,0.2977,0.235,0.925,9
+Paired Prompts,binary,L6,0.7678,0.304,0.13,1.0,9
+Paired Prompts,likert,L1,0.2011,0.1786,0.035,0.57,9
+Paired Prompts,likert,L2,0.1694,0.2194,0.025,0.7,9
+Paired Prompts,likert,L3,0.2278,0.2505,0.055,0.855,9
+Paired Prompts,likert,L4,0.4089,0.2409,0.1,0.815,9
+Paired Prompts,likert,L5,0.3433,0.2559,0.085,0.905,9
+Paired Prompts,likert,L6,0.7822,0.3208,0.25,1.0,9
+MAGE,binary,L1,0.4122,0.293,0.04,0.84,9
+MAGE,binary,L2,0.4433,0.3096,0.13,0.84,9
+MAGE,binary,L3,0.4144,0.2955,0.02,0.96,9
+MAGE,binary,L4,0.7067,0.2688,0.13,0.99,9
+MAGE,binary,L5,0.6378,0.3168,0.11,0.99,9
+MAGE,binary,L6,0.7744,0.2407,0.36,1.0,9
+MAGE,likert,L1,0.4467,0.2451,0.12,0.83,9
+MAGE,likert,L2,0.3456,0.3029,0.04,1.0,9
+MAGE,likert,L3,0.4656,0.2989,0.15,1.0,9
+MAGE,likert,L4,0.6633,0.1914,0.35,0.97,9
+MAGE,likert,L5,0.5833,0.2672,0.14,1.0,9
+MAGE,likert,L6,0.9122,0.1384,0.61,1.0,9
+AEGIS,binary,L1,0.3344,0.2049,0.03,0.71,9
+AEGIS,binary,L2,0.2067,0.1527,0.03,0.46,9
+AEGIS,binary,L3,0.2122,0.1145,0.07,0.35,9
+AEGIS,binary,L4,0.3067,0.2714,0.07,0.85,9
+AEGIS,binary,L5,0.3189,0.1772,0.05,0.62,9
+AEGIS,binary,L6,0.7856,0.2423,0.34,1.0,9
+AEGIS,likert,L1,0.1356,0.1398,0.01,0.46,9
+AEGIS,likert,L2,0.0222,0.0303,0.0,0.09,9
+AEGIS,likert,L3,0.0456,0.0391,0.0,0.11,9
+AEGIS,likert,L4,0.4822,0.2331,0.18,0.85,9
+AEGIS,likert,L5,0.2533,0.1673,0.07,0.6,9
+AEGIS,likert,L6,0.7233,0.2227,0.42,0.99,9
+ToxiGen,binary,L1,0.1878,0.1038,0.02,0.32,9
+ToxiGen,binary,L2,0.1444,0.0754,0.05,0.27,9
+ToxiGen,binary,L3,0.1667,0.1026,0.07,0.33,9
+ToxiGen,binary,L4,0.2511,0.2419,0.05,0.84,9
+ToxiGen,binary,L5,0.2211,0.1217,0.09,0.47,9
+ToxiGen,binary,L6,0.6856,0.3022,0.18,1.0,9
+ToxiGen,likert,L1,0.1022,0.1073,0.0,0.26,9
+ToxiGen,likert,L2,0.1167,0.1022,0.0,0.26,9
+ToxiGen,likert,L3,0.1,0.1052,0.02,0.31,9
+ToxiGen,likert,L4,0.1933,0.0959,0.05,0.33,9
+ToxiGen,likert,L5,0.1589,0.1116,0.04,0.41,9
+ToxiGen,likert,L6,0.6244,0.1923,0.36,0.98,9
+HH-RLHF,binary,L1,0.1944,0.1376,0.02,0.49,9
+HH-RLHF,binary,L2,0.1389,0.1197,0.04,0.38,9
+HH-RLHF,binary,L3,0.1656,0.1057,0.06,0.43,9
+HH-RLHF,binary,L4,0.44,0.2314,0.19,0.9,9
+HH-RLHF,binary,L5,0.2456,0.1326,0.1,0.55,9
+HH-RLHF,binary,L6,0.7378,0.2539,0.27,1.0,9
+HH-RLHF,likert,L1,0.1156,0.1111,0.01,0.32,9
+HH-RLHF,likert,L2,0.0311,0.0553,0.0,0.17,9
+HH-RLHF,likert,L3,0.0667,0.1488,0.0,0.46,9
+HH-RLHF,likert,L4,0.3911,0.2715,0.1,0.93,9
+HH-RLHF,likert,L5,0.1611,0.1308,0.02,0.37,9
+HH-RLHF,likert,L6,0.8178,0.1883,0.47,1.0,9

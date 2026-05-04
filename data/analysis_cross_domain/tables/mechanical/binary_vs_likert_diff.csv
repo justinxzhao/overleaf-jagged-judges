@@ -1,0 +1,28 @@
+model,metric,binary_minus_likert
+Grok 4.1 R,Invariance Flip,0.03
+Grok 4.1 R,Seed Repeat (any vary),0.0272
+Grok 4.1 R,Temp0 Repeat (any vary),0.0434
+Grok 4.1,Invariance Flip,0.0101
+Grok 4.1,Seed Repeat (any vary),0.0302
+Grok 4.1,Temp0 Repeat (any vary),0.0287
+Claude 4.6 Sonnet,Invariance Flip,0.0503
+Claude 4.6 Sonnet,Seed Repeat (any vary),0.0858
+Claude 4.6 Sonnet,Temp0 Repeat (any vary),0.0266
+Claude 4.6 Opus,Invariance Flip,0.0258
+Claude 4.6 Opus,Seed Repeat (any vary),0.0339
+Claude 4.6 Opus,Temp0 Repeat (any vary),0.0193
+GPT-5,Invariance Flip,0.0401
+GPT-5,Seed Repeat (any vary),0.0717
+GPT-5,Temp0 Repeat (any vary),0.0444
+GPT-5.2,Invariance Flip,0.0215
+GPT-5.2,Seed Repeat (any vary),0.0086
+GPT-5.2,Temp0 Repeat (any vary),0.0076
+GPT-5.4,Invariance Flip,0.0215
+GPT-5.4,Seed Repeat (any vary),0.05
+GPT-5.4,Temp0 Repeat (any vary),0.0429
+Gemini 3 Flash,Invariance Flip,0.0213
+Gemini 3 Flash,Seed Repeat (any vary),0.0329
+Gemini 3 Flash,Temp0 Repeat (any vary),0.0
+Gemini 3.1 Pro,Invariance Flip,0.0258
+Gemini 3.1 Pro,Seed Repeat (any vary),0.0301
+Gemini 3.1 Pro,Temp0 Repeat (any vary),0.0186

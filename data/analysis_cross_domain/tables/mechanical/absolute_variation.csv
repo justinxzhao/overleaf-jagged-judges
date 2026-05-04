@@ -1,0 +1,55 @@
+model,metric,scale,value
+Grok 4.1 R,Invariance Flip,binary,0.0686
+Grok 4.1 R,Invariance Flip,likert,0.0386
+Grok 4.1 R,Seed Repeat (any vary),binary,0.1316
+Grok 4.1 R,Seed Repeat (any vary),likert,0.1044
+Grok 4.1 R,Temp0 Repeat (any vary),binary,0.1391
+Grok 4.1 R,Temp0 Repeat (any vary),likert,0.0958
+Grok 4.1,Invariance Flip,binary,0.0458
+Grok 4.1,Invariance Flip,likert,0.0357
+Grok 4.1,Seed Repeat (any vary),binary,0.0645
+Grok 4.1,Seed Repeat (any vary),likert,0.0343
+Grok 4.1,Temp0 Repeat (any vary),binary,0.0459
+Grok 4.1,Temp0 Repeat (any vary),likert,0.0171
+Claude 4.6 Sonnet,Invariance Flip,binary,0.0517
+Claude 4.6 Sonnet,Invariance Flip,likert,0.0014
+Claude 4.6 Sonnet,Seed Repeat (any vary),binary,0.1003
+Claude 4.6 Sonnet,Seed Repeat (any vary),likert,0.0145
+Claude 4.6 Sonnet,Temp0 Repeat (any vary),binary,0.0338
+Claude 4.6 Sonnet,Temp0 Repeat (any vary),likert,0.0073
+Claude 4.6 Opus,Invariance Flip,binary,0.0329
+Claude 4.6 Opus,Invariance Flip,likert,0.0071
+Claude 4.6 Opus,Seed Repeat (any vary),binary,0.041
+Claude 4.6 Opus,Seed Repeat (any vary),likert,0.0071
+Claude 4.6 Opus,Temp0 Repeat (any vary),binary,0.0207
+Claude 4.6 Opus,Temp0 Repeat (any vary),likert,0.0014
+GPT-5,Invariance Flip,binary,0.0529
+GPT-5,Invariance Flip,likert,0.0129
+GPT-5,Seed Repeat (any vary),binary,0.1017
+GPT-5,Seed Repeat (any vary),likert,0.03
+GPT-5,Temp0 Repeat (any vary),binary,0.0587
+GPT-5,Temp0 Repeat (any vary),likert,0.0143
+GPT-5.2,Invariance Flip,binary,0.04
+GPT-5.2,Invariance Flip,likert,0.0186
+GPT-5.2,Seed Repeat (any vary),binary,0.0744
+GPT-5.2,Seed Repeat (any vary),likert,0.0658
+GPT-5.2,Temp0 Repeat (any vary),binary,0.0676
+GPT-5.2,Temp0 Repeat (any vary),likert,0.06
+GPT-5.4,Invariance Flip,binary,0.03
+GPT-5.4,Invariance Flip,likert,0.0086
+GPT-5.4,Seed Repeat (any vary),binary,0.0658
+GPT-5.4,Seed Repeat (any vary),likert,0.0157
+GPT-5.4,Temp0 Repeat (any vary),binary,0.0586
+GPT-5.4,Temp0 Repeat (any vary),likert,0.0157
+Gemini 3 Flash,Invariance Flip,binary,0.0744
+Gemini 3 Flash,Invariance Flip,likert,0.0531
+Gemini 3 Flash,Seed Repeat (any vary),binary,0.1159
+Gemini 3 Flash,Seed Repeat (any vary),likert,0.083
+Gemini 3 Flash,Temp0 Repeat (any vary),binary,0.0
+Gemini 3 Flash,Temp0 Repeat (any vary),likert,0.0
+Gemini 3.1 Pro,Invariance Flip,binary,0.0558
+Gemini 3.1 Pro,Invariance Flip,likert,0.03
+Gemini 3.1 Pro,Seed Repeat (any vary),binary,0.103
+Gemini 3.1 Pro,Seed Repeat (any vary),likert,0.073
+Gemini 3.1 Pro,Temp0 Repeat (any vary),binary,0.0701
+Gemini 3.1 Pro,Temp0 Repeat (any vary),likert,0.0515

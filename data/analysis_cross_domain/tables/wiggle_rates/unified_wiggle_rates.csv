@@ -1,0 +1,649 @@
+level,judge_model,wiggle_rate,n_examples,domain,scale
+L1,oci-grok-4-1-fast-reasoning,0.080729,384,WildGuard,binary
+L1,oci-grok-4-1-fast-non-reasoning,0.302083,384,WildGuard,binary
+L1,claude-4-6-sonnet-genai-vertex,0.760417,384,WildGuard,binary
+L1,claude-4-6-opus-genai-vertex,0.3125,384,WildGuard,binary
+L1,gpt-5-chatgpt,0.117188,384,WildGuard,binary
+L1,openai-gpt-5-2-responses,0.117188,384,WildGuard,binary
+L1,openai-gpt-5-4-responses,0.283854,384,WildGuard,binary
+L1,gemini-3-flash-preview-genai,0.148438,384,WildGuard,binary
+L1,gemini-3-1-pro-preview-genai,0.401042,384,WildGuard,binary
+L2,oci-grok-4-1-fast-reasoning,0.075521,384,WildGuard,binary
+L2,oci-grok-4-1-fast-non-reasoning,0.09375,384,WildGuard,binary
+L2,claude-4-6-sonnet-genai-vertex,0.346354,384,WildGuard,binary
+L2,claude-4-6-opus-genai-vertex,0.322917,384,WildGuard,binary
+L2,gpt-5-chatgpt,0.278646,384,WildGuard,binary
+L2,openai-gpt-5-2-responses,0.059896,384,WildGuard,binary
+L2,openai-gpt-5-4-responses,0.21875,384,WildGuard,binary
+L2,gemini-3-flash-preview-genai,0.085938,384,WildGuard,binary
+L2,gemini-3-1-pro-preview-genai,0.125,384,WildGuard,binary
+L3,oci-grok-4-1-fast-reasoning,0.153646,384,WildGuard,binary
+L3,oci-grok-4-1-fast-non-reasoning,0.171875,384,WildGuard,binary
+L3,claude-4-6-sonnet-genai-vertex,0.377604,384,WildGuard,binary
+L3,claude-4-6-opus-genai-vertex,0.268229,384,WildGuard,binary
+L3,gpt-5-chatgpt,0.299479,384,WildGuard,binary
+L3,openai-gpt-5-2-responses,0.09375,384,WildGuard,binary
+L3,openai-gpt-5-4-responses,0.205729,384,WildGuard,binary
+L3,gemini-3-flash-preview-genai,0.171875,384,WildGuard,binary
+L3,gemini-3-1-pro-preview-genai,0.083333,384,WildGuard,binary
+L4,oci-grok-4-1-fast-reasoning,0.106771,384,WildGuard,binary
+L4,oci-grok-4-1-fast-non-reasoning,0.770833,384,WildGuard,binary
+L4,claude-4-6-sonnet-genai-vertex,0.627604,384,WildGuard,binary
+L4,claude-4-6-opus-genai-vertex,0.335938,384,WildGuard,binary
+L4,gpt-5-chatgpt,0.145833,384,WildGuard,binary
+L4,openai-gpt-5-2-responses,0.200521,384,WildGuard,binary
+L4,openai-gpt-5-4-responses,0.213542,384,WildGuard,binary
+L4,gemini-3-flash-preview-genai,0.067708,384,WildGuard,binary
+L4,gemini-3-1-pro-preview-genai,0.143229,384,WildGuard,binary
+L5,oci-grok-4-1-fast-reasoning,0.122396,384,WildGuard,binary
+L5,oci-grok-4-1-fast-non-reasoning,0.278646,384,WildGuard,binary
+L5,claude-4-6-sonnet-genai-vertex,0.533854,384,WildGuard,binary
+L5,claude-4-6-opus-genai-vertex,0.424479,384,WildGuard,binary
+L5,gpt-5-chatgpt,0.377604,384,WildGuard,binary
+L5,openai-gpt-5-2-responses,0.15625,384,WildGuard,binary
+L5,openai-gpt-5-4-responses,0.359375,384,WildGuard,binary
+L5,gemini-3-flash-preview-genai,0.098958,384,WildGuard,binary
+L5,gemini-3-1-pro-preview-genai,0.190104,384,WildGuard,binary
+L6,oci-grok-4-1-fast-reasoning,0.455729,384,WildGuard,binary
+L6,oci-grok-4-1-fast-non-reasoning,0.911458,384,WildGuard,binary
+L6,claude-4-6-sonnet-genai-vertex,0.984375,384,WildGuard,binary
+L6,claude-4-6-opus-genai-vertex,0.960938,384,WildGuard,binary
+L6,gpt-5-chatgpt,0.989583,384,WildGuard,binary
+L6,openai-gpt-5-2-responses,0.552083,384,WildGuard,binary
+L6,openai-gpt-5-4-responses,0.520833,384,WildGuard,binary
+L6,gemini-3-flash-preview-genai,0.236979,384,WildGuard,binary
+L6,gemini-3-1-pro-preview-genai,0.661458,384,WildGuard,binary
+L1,oci-grok-4-1-fast-reasoning,0.023438,384,WildGuard,likert
+L1,oci-grok-4-1-fast-non-reasoning,0.070312,384,WildGuard,likert
+L1,claude-4-6-sonnet-genai-vertex,0.401042,384,WildGuard,likert
+L1,claude-4-6-opus-genai-vertex,0.21875,384,WildGuard,likert
+L1,gpt-5-chatgpt,0.057292,384,WildGuard,likert
+L1,openai-gpt-5-2-responses,0.010417,384,WildGuard,likert
+L1,openai-gpt-5-4-responses,0.078125,384,WildGuard,likert
+L1,gemini-3-flash-preview-genai,0.013021,384,WildGuard,likert
+L1,gemini-3-1-pro-preview-genai,0.197917,384,WildGuard,likert
+L2,oci-grok-4-1-fast-reasoning,0.002604,384,WildGuard,likert
+L2,oci-grok-4-1-fast-non-reasoning,0.007812,384,WildGuard,likert
+L2,claude-4-6-sonnet-genai-vertex,0.057292,384,WildGuard,likert
+L2,claude-4-6-opus-genai-vertex,0.09375,384,WildGuard,likert
+L2,gpt-5-chatgpt,0.049479,384,WildGuard,likert
+L2,openai-gpt-5-2-responses,0.005208,384,WildGuard,likert
+L2,openai-gpt-5-4-responses,0.023438,384,WildGuard,likert
+L2,gemini-3-flash-preview-genai,0.007812,384,WildGuard,likert
+L2,gemini-3-1-pro-preview-genai,0.057292,384,WildGuard,likert
+L3,oci-grok-4-1-fast-reasoning,0.013021,384,WildGuard,likert
+L3,oci-grok-4-1-fast-non-reasoning,0.041667,384,WildGuard,likert
+L3,claude-4-6-sonnet-genai-vertex,0.046875,384,WildGuard,likert
+L3,claude-4-6-opus-genai-vertex,0.052083,384,WildGuard,likert
+L3,gpt-5-chatgpt,0.065104,384,WildGuard,likert
+L3,openai-gpt-5-2-responses,0.010417,384,WildGuard,likert
+L3,openai-gpt-5-4-responses,0.046875,384,WildGuard,likert
+L3,gemini-3-flash-preview-genai,0.007812,384,WildGuard,likert
+L3,gemini-3-1-pro-preview-genai,0.067708,384,WildGuard,likert
+L4,oci-grok-4-1-fast-reasoning,0.182292,384,WildGuard,likert
+L4,oci-grok-4-1-fast-non-reasoning,0.338542,384,WildGuard,likert
+L4,claude-4-6-sonnet-genai-vertex,0.53125,384,WildGuard,likert
+L4,claude-4-6-opus-genai-vertex,0.653646,384,WildGuard,likert
+L4,gpt-5-chatgpt,0.585938,384,WildGuard,likert
+L4,openai-gpt-5-2-responses,0.291667,384,WildGuard,likert
+L4,openai-gpt-5-4-responses,0.348958,384,WildGuard,likert
+L4,gemini-3-flash-preview-genai,0.369792,384,WildGuard,likert
+L4,gemini-3-1-pro-preview-genai,0.255208,384,WildGuard,likert
+L5,oci-grok-4-1-fast-reasoning,0.130208,384,WildGuard,likert
+L5,oci-grok-4-1-fast-non-reasoning,0.075521,384,WildGuard,likert
+L5,claude-4-6-sonnet-genai-vertex,0.260417,384,WildGuard,likert
+L5,claude-4-6-opus-genai-vertex,0.367188,384,WildGuard,likert
+L5,gpt-5-chatgpt,0.351562,384,WildGuard,likert
+L5,openai-gpt-5-2-responses,0.119792,384,WildGuard,likert
+L5,openai-gpt-5-4-responses,0.25,384,WildGuard,likert
+L5,gemini-3-flash-preview-genai,0.210938,384,WildGuard,likert
+L5,gemini-3-1-pro-preview-genai,0.130208,384,WildGuard,likert
+L6,oci-grok-4-1-fast-reasoning,0.625,384,WildGuard,likert
+L6,oci-grok-4-1-fast-non-reasoning,0.9375,384,WildGuard,likert
+L6,claude-4-6-sonnet-genai-vertex,0.903646,384,WildGuard,likert
+L6,claude-4-6-opus-genai-vertex,0.96875,384,WildGuard,likert
+L6,gpt-5-chatgpt,0.992188,384,WildGuard,likert
+L6,openai-gpt-5-2-responses,0.830729,384,WildGuard,likert
+L6,openai-gpt-5-4-responses,0.934896,384,WildGuard,likert
+L6,gemini-3-flash-preview-genai,0.341146,384,WildGuard,likert
+L6,gemini-3-1-pro-preview-genai,0.341146,384,WildGuard,likert
+L1,oci-grok-4-1-fast-reasoning,0.04,100,Paired Prompts,binary
+L1,oci-grok-4-1-fast-non-reasoning,0.045,100,Paired Prompts,binary
+L1,claude-4-6-sonnet-genai-vertex,0.555,100,Paired Prompts,binary
+L1,claude-4-6-opus-genai-vertex,0.365,100,Paired Prompts,binary
+L1,gpt-5-chatgpt,0.15,100,Paired Prompts,binary
+L1,openai-gpt-5-2-responses,0.125,100,Paired Prompts,binary
+L1,openai-gpt-5-4-responses,0.28,100,Paired Prompts,binary
+L1,gemini-3-flash-preview-genai,0.03,100,Paired Prompts,binary
+L1,gemini-3-1-pro-preview-genai,0.155,100,Paired Prompts,binary
+L2,oci-grok-4-1-fast-reasoning,0.065,100,Paired Prompts,binary
+L2,oci-grok-4-1-fast-non-reasoning,0.025,100,Paired Prompts,binary
+L2,claude-4-6-sonnet-genai-vertex,0.865,100,Paired Prompts,binary
+L2,claude-4-6-opus-genai-vertex,0.69,100,Paired Prompts,binary
+L2,gpt-5-chatgpt,0.58,100,Paired Prompts,binary
+L2,openai-gpt-5-2-responses,0.06,100,Paired Prompts,binary
+L2,openai-gpt-5-4-responses,0.335,100,Paired Prompts,binary
+L2,gemini-3-flash-preview-genai,0.045,100,Paired Prompts,binary
+L2,gemini-3-1-pro-preview-genai,0.31,100,Paired Prompts,binary
+L3,oci-grok-4-1-fast-reasoning,0.185,100,Paired Prompts,binary
+L3,oci-grok-4-1-fast-non-reasoning,0.065,100,Paired Prompts,binary
+L3,claude-4-6-sonnet-genai-vertex,0.825,100,Paired Prompts,binary
+L3,claude-4-6-opus-genai-vertex,0.8,100,Paired Prompts,binary
+L3,gpt-5-chatgpt,0.765,100,Paired Prompts,binary
+L3,openai-gpt-5-2-responses,0.19,100,Paired Prompts,binary
+L3,openai-gpt-5-4-responses,0.36,100,Paired Prompts,binary
+L3,gemini-3-flash-preview-genai,0.17,100,Paired Prompts,binary
+L3,gemini-3-1-pro-preview-genai,0.23,100,Paired Prompts,binary
+L4,oci-grok-4-1-fast-reasoning,0.415,100,Paired Prompts,binary
+L4,oci-grok-4-1-fast-non-reasoning,0.675,100,Paired Prompts,binary
+L4,claude-4-6-sonnet-genai-vertex,0.8,100,Paired Prompts,binary
+L4,claude-4-6-opus-genai-vertex,0.915,100,Paired Prompts,binary
+L4,gpt-5-chatgpt,0.92,100,Paired Prompts,binary
+L4,openai-gpt-5-2-responses,0.47,100,Paired Prompts,binary
+L4,openai-gpt-5-4-responses,0.47,100,Paired Prompts,binary
+L4,gemini-3-flash-preview-genai,0.505,100,Paired Prompts,binary
+L4,gemini-3-1-pro-preview-genai,0.375,100,Paired Prompts,binary
+L5,oci-grok-4-1-fast-reasoning,0.235,100,Paired Prompts,binary
+L5,oci-grok-4-1-fast-non-reasoning,0.275,100,Paired Prompts,binary
+L5,claude-4-6-sonnet-genai-vertex,0.88,100,Paired Prompts,binary
+L5,claude-4-6-opus-genai-vertex,0.875,100,Paired Prompts,binary
+L5,gpt-5-chatgpt,0.925,100,Paired Prompts,binary
+L5,openai-gpt-5-2-responses,0.46,100,Paired Prompts,binary
+L5,openai-gpt-5-4-responses,0.55,100,Paired Prompts,binary
+L5,gemini-3-flash-preview-genai,0.235,100,Paired Prompts,binary
+L5,gemini-3-1-pro-preview-genai,0.27,100,Paired Prompts,binary
+L6,oci-grok-4-1-fast-reasoning,0.49,100,Paired Prompts,binary
+L6,oci-grok-4-1-fast-non-reasoning,1.0,100,Paired Prompts,binary
+L6,claude-4-6-sonnet-genai-vertex,1.0,100,Paired Prompts,binary
+L6,claude-4-6-opus-genai-vertex,1.0,100,Paired Prompts,binary
+L6,gpt-5-chatgpt,1.0,100,Paired Prompts,binary
+L6,openai-gpt-5-2-responses,0.75,100,Paired Prompts,binary
+L6,openai-gpt-5-4-responses,0.91,100,Paired Prompts,binary
+L6,gemini-3-flash-preview-genai,0.13,100,Paired Prompts,binary
+L6,gemini-3-1-pro-preview-genai,0.63,100,Paired Prompts,binary
+L1,oci-grok-4-1-fast-reasoning,0.035,100,Paired Prompts,likert
+L1,oci-grok-4-1-fast-non-reasoning,0.085,100,Paired Prompts,likert
+L1,claude-4-6-sonnet-genai-vertex,0.57,100,Paired Prompts,likert
+L1,claude-4-6-opus-genai-vertex,0.245,100,Paired Prompts,likert
+L1,gpt-5-chatgpt,0.4,100,Paired Prompts,likert
+L1,openai-gpt-5-2-responses,0.05,100,Paired Prompts,likert
+L1,openai-gpt-5-4-responses,0.145,100,Paired Prompts,likert
+L1,gemini-3-flash-preview-genai,0.1,100,Paired Prompts,likert
+L1,gemini-3-1-pro-preview-genai,0.18,100,Paired Prompts,likert
+L2,oci-grok-4-1-fast-reasoning,0.025,100,Paired Prompts,likert
+L2,oci-grok-4-1-fast-non-reasoning,0.025,100,Paired Prompts,likert
+L2,claude-4-6-sonnet-genai-vertex,0.14,100,Paired Prompts,likert
+L2,claude-4-6-opus-genai-vertex,0.295,100,Paired Prompts,likert
+L2,gpt-5-chatgpt,0.7,100,Paired Prompts,likert
+L2,openai-gpt-5-2-responses,0.04,100,Paired Prompts,likert
+L2,openai-gpt-5-4-responses,0.195,100,Paired Prompts,likert
+L2,gemini-3-flash-preview-genai,0.04,100,Paired Prompts,likert
+L2,gemini-3-1-pro-preview-genai,0.065,100,Paired Prompts,likert
+L3,oci-grok-4-1-fast-reasoning,0.055,100,Paired Prompts,likert
+L3,oci-grok-4-1-fast-non-reasoning,0.17,100,Paired Prompts,likert
+L3,claude-4-6-sonnet-genai-vertex,0.125,100,Paired Prompts,likert
+L3,claude-4-6-opus-genai-vertex,0.335,100,Paired Prompts,likert
+L3,gpt-5-chatgpt,0.855,100,Paired Prompts,likert
+L3,openai-gpt-5-2-responses,0.08,100,Paired Prompts,likert
+L3,openai-gpt-5-4-responses,0.225,100,Paired Prompts,likert
+L3,gemini-3-flash-preview-genai,0.1,100,Paired Prompts,likert
+L3,gemini-3-1-pro-preview-genai,0.105,100,Paired Prompts,likert
+L4,oci-grok-4-1-fast-reasoning,0.1,100,Paired Prompts,likert
+L4,oci-grok-4-1-fast-non-reasoning,0.54,100,Paired Prompts,likert
+L4,claude-4-6-sonnet-genai-vertex,0.545,100,Paired Prompts,likert
+L4,claude-4-6-opus-genai-vertex,0.62,100,Paired Prompts,likert
+L4,gpt-5-chatgpt,0.815,100,Paired Prompts,likert
+L4,openai-gpt-5-2-responses,0.35,100,Paired Prompts,likert
+L4,openai-gpt-5-4-responses,0.38,100,Paired Prompts,likert
+L4,gemini-3-flash-preview-genai,0.155,100,Paired Prompts,likert
+L4,gemini-3-1-pro-preview-genai,0.175,100,Paired Prompts,likert
+L5,oci-grok-4-1-fast-reasoning,0.085,100,Paired Prompts,likert
+L5,oci-grok-4-1-fast-non-reasoning,0.25,100,Paired Prompts,likert
+L5,claude-4-6-sonnet-genai-vertex,0.455,100,Paired Prompts,likert
+L5,claude-4-6-opus-genai-vertex,0.45,100,Paired Prompts,likert
+L5,gpt-5-chatgpt,0.905,100,Paired Prompts,likert
+L5,openai-gpt-5-2-responses,0.33,100,Paired Prompts,likert
+L5,openai-gpt-5-4-responses,0.39,100,Paired Prompts,likert
+L5,gemini-3-flash-preview-genai,0.125,100,Paired Prompts,likert
+L5,gemini-3-1-pro-preview-genai,0.1,100,Paired Prompts,likert
+L6,oci-grok-4-1-fast-reasoning,0.63,100,Paired Prompts,likert
+L6,oci-grok-4-1-fast-non-reasoning,0.97,100,Paired Prompts,likert
+L6,claude-4-6-sonnet-genai-vertex,1.0,100,Paired Prompts,likert
+L6,claude-4-6-opus-genai-vertex,0.99,100,Paired Prompts,likert
+L6,gpt-5-chatgpt,1.0,100,Paired Prompts,likert
+L6,openai-gpt-5-2-responses,0.96,100,Paired Prompts,likert
+L6,openai-gpt-5-4-responses,0.98,100,Paired Prompts,likert
+L6,gemini-3-flash-preview-genai,0.26,100,Paired Prompts,likert
+L6,gemini-3-1-pro-preview-genai,0.25,100,Paired Prompts,likert
+L1,oci-grok-4-1-fast-reasoning,0.13,100,MAGE,binary
+L1,oci-grok-4-1-fast-non-reasoning,0.04,100,MAGE,binary
+L1,claude-4-6-sonnet-genai-vertex,0.84,100,MAGE,binary
+L1,claude-4-6-opus-genai-vertex,0.76,100,MAGE,binary
+L1,gpt-5-chatgpt,0.61,100,MAGE,binary
+L1,openai-gpt-5-2-responses,0.4,100,MAGE,binary
+L1,openai-gpt-5-4-responses,0.56,100,MAGE,binary
+L1,gemini-3-flash-preview-genai,0.17,100,MAGE,binary
+L1,gemini-3-1-pro-preview-genai,0.2,100,MAGE,binary
+L2,oci-grok-4-1-fast-reasoning,0.26,100,MAGE,binary
+L2,oci-grok-4-1-fast-non-reasoning,0.16,100,MAGE,binary
+L2,claude-4-6-sonnet-genai-vertex,0.66,100,MAGE,binary
+L2,claude-4-6-opus-genai-vertex,0.84,100,MAGE,binary
+L2,gpt-5-chatgpt,0.83,100,MAGE,binary
+L2,openai-gpt-5-2-responses,0.22,100,MAGE,binary
+L2,openai-gpt-5-4-responses,0.72,100,MAGE,binary
+L2,gemini-3-flash-preview-genai,0.17,100,MAGE,binary
+L2,gemini-3-1-pro-preview-genai,0.13,100,MAGE,binary
+L3,oci-grok-4-1-fast-reasoning,0.31,100,MAGE,binary
+L3,oci-grok-4-1-fast-non-reasoning,0.26,100,MAGE,binary
+L3,claude-4-6-sonnet-genai-vertex,0.72,100,MAGE,binary
+L3,claude-4-6-opus-genai-vertex,0.33,100,MAGE,binary
+L3,gpt-5-chatgpt,0.96,100,MAGE,binary
+L3,openai-gpt-5-2-responses,0.37,100,MAGE,binary
+L3,openai-gpt-5-4-responses,0.61,100,MAGE,binary
+L3,gemini-3-flash-preview-genai,0.15,100,MAGE,binary
+L3,gemini-3-1-pro-preview-genai,0.02,100,MAGE,binary
+L4,oci-grok-4-1-fast-reasoning,0.87,100,MAGE,binary
+L4,oci-grok-4-1-fast-non-reasoning,0.61,100,MAGE,binary
+L4,claude-4-6-sonnet-genai-vertex,0.87,100,MAGE,binary
+L4,claude-4-6-opus-genai-vertex,0.85,100,MAGE,binary
+L4,gpt-5-chatgpt,0.99,100,MAGE,binary
+L4,openai-gpt-5-2-responses,0.81,100,MAGE,binary
+L4,openai-gpt-5-4-responses,0.78,100,MAGE,binary
+L4,gemini-3-flash-preview-genai,0.45,100,MAGE,binary
+L4,gemini-3-1-pro-preview-genai,0.13,100,MAGE,binary
+L5,oci-grok-4-1-fast-reasoning,0.54,100,MAGE,binary
+L5,oci-grok-4-1-fast-non-reasoning,0.38,100,MAGE,binary
+L5,claude-4-6-sonnet-genai-vertex,0.88,100,MAGE,binary
+L5,claude-4-6-opus-genai-vertex,0.93,100,MAGE,binary
+L5,gpt-5-chatgpt,0.99,100,MAGE,binary
+L5,openai-gpt-5-2-responses,0.81,100,MAGE,binary
+L5,openai-gpt-5-4-responses,0.81,100,MAGE,binary
+L5,gemini-3-flash-preview-genai,0.29,100,MAGE,binary
+L5,gemini-3-1-pro-preview-genai,0.11,100,MAGE,binary
+L6,oci-grok-4-1-fast-reasoning,0.75,100,MAGE,binary
+L6,oci-grok-4-1-fast-non-reasoning,0.74,100,MAGE,binary
+L6,claude-4-6-sonnet-genai-vertex,1.0,100,MAGE,binary
+L6,claude-4-6-opus-genai-vertex,1.0,100,MAGE,binary
+L6,gpt-5-chatgpt,1.0,100,MAGE,binary
+L6,openai-gpt-5-2-responses,0.84,100,MAGE,binary
+L6,openai-gpt-5-4-responses,0.86,100,MAGE,binary
+L6,gemini-3-flash-preview-genai,0.36,100,MAGE,binary
+L6,gemini-3-1-pro-preview-genai,0.42,100,MAGE,binary
+L1,oci-grok-4-1-fast-reasoning,0.12,100,MAGE,likert
+L1,oci-grok-4-1-fast-non-reasoning,0.18,100,MAGE,likert
+L1,claude-4-6-sonnet-genai-vertex,0.72,100,MAGE,likert
+L1,claude-4-6-opus-genai-vertex,0.52,100,MAGE,likert
+L1,gpt-5-chatgpt,0.83,100,MAGE,likert
+L1,openai-gpt-5-2-responses,0.33,100,MAGE,likert
+L1,openai-gpt-5-4-responses,0.64,100,MAGE,likert
+L1,gemini-3-flash-preview-genai,0.37,100,MAGE,likert
+L1,gemini-3-1-pro-preview-genai,0.31,100,MAGE,likert
+L2,oci-grok-4-1-fast-reasoning,0.14,100,MAGE,likert
+L2,oci-grok-4-1-fast-non-reasoning,0.04,100,MAGE,likert
+L2,claude-4-6-sonnet-genai-vertex,0.34,100,MAGE,likert
+L2,claude-4-6-opus-genai-vertex,0.52,100,MAGE,likert
+L2,gpt-5-chatgpt,1.0,100,MAGE,likert
+L2,openai-gpt-5-2-responses,0.07,100,MAGE,likert
+L2,openai-gpt-5-4-responses,0.49,100,MAGE,likert
+L2,gemini-3-flash-preview-genai,0.37,100,MAGE,likert
+L2,gemini-3-1-pro-preview-genai,0.14,100,MAGE,likert
+L3,oci-grok-4-1-fast-reasoning,0.15,100,MAGE,likert
+L3,oci-grok-4-1-fast-non-reasoning,0.2,100,MAGE,likert
+L3,claude-4-6-sonnet-genai-vertex,0.69,100,MAGE,likert
+L3,claude-4-6-opus-genai-vertex,0.6,100,MAGE,likert
+L3,gpt-5-chatgpt,1.0,100,MAGE,likert
+L3,openai-gpt-5-2-responses,0.25,100,MAGE,likert
+L3,openai-gpt-5-4-responses,0.69,100,MAGE,likert
+L3,gemini-3-flash-preview-genai,0.45,100,MAGE,likert
+L3,gemini-3-1-pro-preview-genai,0.16,100,MAGE,likert
+L4,oci-grok-4-1-fast-reasoning,0.61,100,MAGE,likert
+L4,oci-grok-4-1-fast-non-reasoning,0.47,100,MAGE,likert
+L4,claude-4-6-sonnet-genai-vertex,0.88,100,MAGE,likert
+L4,claude-4-6-opus-genai-vertex,0.76,100,MAGE,likert
+L4,gpt-5-chatgpt,0.97,100,MAGE,likert
+L4,openai-gpt-5-2-responses,0.62,100,MAGE,likert
+L4,openai-gpt-5-4-responses,0.69,100,MAGE,likert
+L4,gemini-3-flash-preview-genai,0.62,100,MAGE,likert
+L4,gemini-3-1-pro-preview-genai,0.35,100,MAGE,likert
+L5,oci-grok-4-1-fast-reasoning,0.33,100,MAGE,likert
+L5,oci-grok-4-1-fast-non-reasoning,0.36,100,MAGE,likert
+L5,claude-4-6-sonnet-genai-vertex,0.68,100,MAGE,likert
+L5,claude-4-6-opus-genai-vertex,0.66,100,MAGE,likert
+L5,gpt-5-chatgpt,1.0,100,MAGE,likert
+L5,openai-gpt-5-2-responses,0.78,100,MAGE,likert
+L5,openai-gpt-5-4-responses,0.76,100,MAGE,likert
+L5,gemini-3-flash-preview-genai,0.54,100,MAGE,likert
+L5,gemini-3-1-pro-preview-genai,0.14,100,MAGE,likert
+L6,oci-grok-4-1-fast-reasoning,0.95,100,MAGE,likert
+L6,oci-grok-4-1-fast-non-reasoning,1.0,100,MAGE,likert
+L6,claude-4-6-sonnet-genai-vertex,0.99,100,MAGE,likert
+L6,claude-4-6-opus-genai-vertex,0.98,100,MAGE,likert
+L6,gpt-5-chatgpt,1.0,100,MAGE,likert
+L6,openai-gpt-5-2-responses,0.93,100,MAGE,likert
+L6,openai-gpt-5-4-responses,1.0,100,MAGE,likert
+L6,gemini-3-flash-preview-genai,0.75,100,MAGE,likert
+L6,gemini-3-1-pro-preview-genai,0.61,100,MAGE,likert
+L1,oci-grok-4-1-fast-reasoning,0.03,100,AEGIS,binary
+L1,oci-grok-4-1-fast-non-reasoning,0.2,100,AEGIS,binary
+L1,claude-4-6-sonnet-genai-vertex,0.49,100,AEGIS,binary
+L1,claude-4-6-opus-genai-vertex,0.47,100,AEGIS,binary
+L1,gpt-5-chatgpt,0.21,100,AEGIS,binary
+L1,openai-gpt-5-2-responses,0.34,100,AEGIS,binary
+L1,openai-gpt-5-4-responses,0.71,100,AEGIS,binary
+L1,gemini-3-flash-preview-genai,0.18,100,AEGIS,binary
+L1,gemini-3-1-pro-preview-genai,0.38,100,AEGIS,binary
+L2,oci-grok-4-1-fast-reasoning,0.03,100,AEGIS,binary
+L2,oci-grok-4-1-fast-non-reasoning,0.05,100,AEGIS,binary
+L2,claude-4-6-sonnet-genai-vertex,0.32,100,AEGIS,binary
+L2,claude-4-6-opus-genai-vertex,0.46,100,AEGIS,binary
+L2,gpt-5-chatgpt,0.27,100,AEGIS,binary
+L2,openai-gpt-5-2-responses,0.11,100,AEGIS,binary
+L2,openai-gpt-5-4-responses,0.37,100,AEGIS,binary
+L2,gemini-3-flash-preview-genai,0.11,100,AEGIS,binary
+L2,gemini-3-1-pro-preview-genai,0.14,100,AEGIS,binary
+L3,oci-grok-4-1-fast-reasoning,0.07,100,AEGIS,binary
+L3,oci-grok-4-1-fast-non-reasoning,0.13,100,AEGIS,binary
+L3,claude-4-6-sonnet-genai-vertex,0.23,100,AEGIS,binary
+L3,claude-4-6-opus-genai-vertex,0.33,100,AEGIS,binary
+L3,gpt-5-chatgpt,0.31,100,AEGIS,binary
+L3,openai-gpt-5-2-responses,0.1,100,AEGIS,binary
+L3,openai-gpt-5-4-responses,0.35,100,AEGIS,binary
+L3,gemini-3-flash-preview-genai,0.3,100,AEGIS,binary
+L3,gemini-3-1-pro-preview-genai,0.09,100,AEGIS,binary
+L4,oci-grok-4-1-fast-reasoning,0.08,100,AEGIS,binary
+L4,oci-grok-4-1-fast-non-reasoning,0.85,100,AEGIS,binary
+L4,claude-4-6-sonnet-genai-vertex,0.12,100,AEGIS,binary
+L4,claude-4-6-opus-genai-vertex,0.36,100,AEGIS,binary
+L4,gpt-5-chatgpt,0.15,100,AEGIS,binary
+L4,openai-gpt-5-2-responses,0.47,100,AEGIS,binary
+L4,openai-gpt-5-4-responses,0.55,100,AEGIS,binary
+L4,gemini-3-flash-preview-genai,0.11,100,AEGIS,binary
+L4,gemini-3-1-pro-preview-genai,0.07,100,AEGIS,binary
+L5,oci-grok-4-1-fast-reasoning,0.05,100,AEGIS,binary
+L5,oci-grok-4-1-fast-non-reasoning,0.44,100,AEGIS,binary
+L5,claude-4-6-sonnet-genai-vertex,0.34,100,AEGIS,binary
+L5,claude-4-6-opus-genai-vertex,0.44,100,AEGIS,binary
+L5,gpt-5-chatgpt,0.35,100,AEGIS,binary
+L5,openai-gpt-5-2-responses,0.33,100,AEGIS,binary
+L5,openai-gpt-5-4-responses,0.62,100,AEGIS,binary
+L5,gemini-3-flash-preview-genai,0.16,100,AEGIS,binary
+L5,gemini-3-1-pro-preview-genai,0.14,100,AEGIS,binary
+L6,oci-grok-4-1-fast-reasoning,0.41,100,AEGIS,binary
+L6,oci-grok-4-1-fast-non-reasoning,0.91,100,AEGIS,binary
+L6,claude-4-6-sonnet-genai-vertex,0.96,100,AEGIS,binary
+L6,claude-4-6-opus-genai-vertex,0.91,100,AEGIS,binary
+L6,gpt-5-chatgpt,1.0,100,AEGIS,binary
+L6,openai-gpt-5-2-responses,0.88,100,AEGIS,binary
+L6,openai-gpt-5-4-responses,0.9,100,AEGIS,binary
+L6,gemini-3-flash-preview-genai,0.34,100,AEGIS,binary
+L6,gemini-3-1-pro-preview-genai,0.76,100,AEGIS,binary
+L1,oci-grok-4-1-fast-reasoning,0.01,100,AEGIS,likert
+L1,oci-grok-4-1-fast-non-reasoning,0.03,100,AEGIS,likert
+L1,claude-4-6-sonnet-genai-vertex,0.46,100,AEGIS,likert
+L1,claude-4-6-opus-genai-vertex,0.19,100,AEGIS,likert
+L1,gpt-5-chatgpt,0.14,100,AEGIS,likert
+L1,openai-gpt-5-2-responses,0.07,100,AEGIS,likert
+L1,openai-gpt-5-4-responses,0.11,100,AEGIS,likert
+L1,gemini-3-flash-preview-genai,0.02,100,AEGIS,likert
+L1,gemini-3-1-pro-preview-genai,0.19,100,AEGIS,likert
+L2,oci-grok-4-1-fast-reasoning,0.0,100,AEGIS,likert
+L2,oci-grok-4-1-fast-non-reasoning,0.01,100,AEGIS,likert
+L2,claude-4-6-sonnet-genai-vertex,0.0,100,AEGIS,likert
+L2,claude-4-6-opus-genai-vertex,0.05,100,AEGIS,likert
+L2,gpt-5-chatgpt,0.09,100,AEGIS,likert
+L2,openai-gpt-5-2-responses,0.01,100,AEGIS,likert
+L2,openai-gpt-5-4-responses,0.03,100,AEGIS,likert
+L2,gemini-3-flash-preview-genai,0.0,100,AEGIS,likert
+L2,gemini-3-1-pro-preview-genai,0.01,100,AEGIS,likert
+L3,oci-grok-4-1-fast-reasoning,0.0,100,AEGIS,likert
+L3,oci-grok-4-1-fast-non-reasoning,0.06,100,AEGIS,likert
+L3,claude-4-6-sonnet-genai-vertex,0.0,100,AEGIS,likert
+L3,claude-4-6-opus-genai-vertex,0.03,100,AEGIS,likert
+L3,gpt-5-chatgpt,0.11,100,AEGIS,likert
+L3,openai-gpt-5-2-responses,0.07,100,AEGIS,likert
+L3,openai-gpt-5-4-responses,0.09,100,AEGIS,likert
+L3,gemini-3-flash-preview-genai,0.02,100,AEGIS,likert
+L3,gemini-3-1-pro-preview-genai,0.03,100,AEGIS,likert
+L4,oci-grok-4-1-fast-reasoning,0.21,100,AEGIS,likert
+L4,oci-grok-4-1-fast-non-reasoning,0.18,100,AEGIS,likert
+L4,claude-4-6-sonnet-genai-vertex,0.63,100,AEGIS,likert
+L4,claude-4-6-opus-genai-vertex,0.72,100,AEGIS,likert
+L4,gpt-5-chatgpt,0.85,100,AEGIS,likert
+L4,openai-gpt-5-2-responses,0.49,100,AEGIS,likert
+L4,openai-gpt-5-4-responses,0.49,100,AEGIS,likert
+L4,gemini-3-flash-preview-genai,0.52,100,AEGIS,likert
+L4,gemini-3-1-pro-preview-genai,0.25,100,AEGIS,likert
+L5,oci-grok-4-1-fast-reasoning,0.09,100,AEGIS,likert
+L5,oci-grok-4-1-fast-non-reasoning,0.07,100,AEGIS,likert
+L5,claude-4-6-sonnet-genai-vertex,0.24,100,AEGIS,likert
+L5,claude-4-6-opus-genai-vertex,0.33,100,AEGIS,likert
+L5,gpt-5-chatgpt,0.6,100,AEGIS,likert
+L5,openai-gpt-5-2-responses,0.3,100,AEGIS,likert
+L5,openai-gpt-5-4-responses,0.34,100,AEGIS,likert
+L5,gemini-3-flash-preview-genai,0.22,100,AEGIS,likert
+L5,gemini-3-1-pro-preview-genai,0.09,100,AEGIS,likert
+L6,oci-grok-4-1-fast-reasoning,0.46,100,AEGIS,likert
+L6,oci-grok-4-1-fast-non-reasoning,0.67,100,AEGIS,likert
+L6,claude-4-6-sonnet-genai-vertex,0.87,100,AEGIS,likert
+L6,claude-4-6-opus-genai-vertex,0.93,100,AEGIS,likert
+L6,gpt-5-chatgpt,0.99,100,AEGIS,likert
+L6,openai-gpt-5-2-responses,0.83,100,AEGIS,likert
+L6,openai-gpt-5-4-responses,0.87,100,AEGIS,likert
+L6,gemini-3-flash-preview-genai,0.47,100,AEGIS,likert
+L6,gemini-3-1-pro-preview-genai,0.42,100,AEGIS,likert
+L1,oci-grok-4-1-fast-reasoning,0.02,100,ToxiGen,binary
+L1,oci-grok-4-1-fast-non-reasoning,0.19,100,ToxiGen,binary
+L1,claude-4-6-sonnet-genai-vertex,0.32,100,ToxiGen,binary
+L1,claude-4-6-opus-genai-vertex,0.25,100,ToxiGen,binary
+L1,gpt-5-chatgpt,0.17,100,ToxiGen,binary
+L1,openai-gpt-5-2-responses,0.09,100,ToxiGen,binary
+L1,openai-gpt-5-4-responses,0.29,100,ToxiGen,binary
+L1,gemini-3-flash-preview-genai,0.09,100,ToxiGen,binary
+L1,gemini-3-1-pro-preview-genai,0.27,100,ToxiGen,binary
+L2,oci-grok-4-1-fast-reasoning,0.05,100,ToxiGen,binary
+L2,oci-grok-4-1-fast-non-reasoning,0.08,100,ToxiGen,binary
+L2,claude-4-6-sonnet-genai-vertex,0.22,100,ToxiGen,binary
+L2,claude-4-6-opus-genai-vertex,0.2,100,ToxiGen,binary
+L2,gpt-5-chatgpt,0.15,100,ToxiGen,binary
+L2,openai-gpt-5-2-responses,0.06,100,ToxiGen,binary
+L2,openai-gpt-5-4-responses,0.27,100,ToxiGen,binary
+L2,gemini-3-flash-preview-genai,0.12,100,ToxiGen,binary
+L2,gemini-3-1-pro-preview-genai,0.15,100,ToxiGen,binary
+L3,oci-grok-4-1-fast-reasoning,0.07,100,ToxiGen,binary
+L3,oci-grok-4-1-fast-non-reasoning,0.26,100,ToxiGen,binary
+L3,claude-4-6-sonnet-genai-vertex,0.11,100,ToxiGen,binary
+L3,claude-4-6-opus-genai-vertex,0.08,100,ToxiGen,binary
+L3,gpt-5-chatgpt,0.3,100,ToxiGen,binary
+L3,openai-gpt-5-2-responses,0.15,100,ToxiGen,binary
+L3,openai-gpt-5-4-responses,0.33,100,ToxiGen,binary
+L3,gemini-3-flash-preview-genai,0.13,100,ToxiGen,binary
+L3,gemini-3-1-pro-preview-genai,0.07,100,ToxiGen,binary
+L4,oci-grok-4-1-fast-reasoning,0.09,100,ToxiGen,binary
+L4,oci-grok-4-1-fast-non-reasoning,0.84,100,ToxiGen,binary
+L4,claude-4-6-sonnet-genai-vertex,0.05,100,ToxiGen,binary
+L4,claude-4-6-opus-genai-vertex,0.16,100,ToxiGen,binary
+L4,gpt-5-chatgpt,0.21,100,ToxiGen,binary
+L4,openai-gpt-5-2-responses,0.25,100,ToxiGen,binary
+L4,openai-gpt-5-4-responses,0.36,100,ToxiGen,binary
+L4,gemini-3-flash-preview-genai,0.23,100,ToxiGen,binary
+L4,gemini-3-1-pro-preview-genai,0.07,100,ToxiGen,binary
+L5,oci-grok-4-1-fast-reasoning,0.09,100,ToxiGen,binary
+L5,oci-grok-4-1-fast-non-reasoning,0.28,100,ToxiGen,binary
+L5,claude-4-6-sonnet-genai-vertex,0.15,100,ToxiGen,binary
+L5,claude-4-6-opus-genai-vertex,0.1,100,ToxiGen,binary
+L5,gpt-5-chatgpt,0.33,100,ToxiGen,binary
+L5,openai-gpt-5-2-responses,0.21,100,ToxiGen,binary
+L5,openai-gpt-5-4-responses,0.47,100,ToxiGen,binary
+L5,gemini-3-flash-preview-genai,0.2,100,ToxiGen,binary
+L5,gemini-3-1-pro-preview-genai,0.16,100,ToxiGen,binary
+L6,oci-grok-4-1-fast-reasoning,0.18,100,ToxiGen,binary
+L6,oci-grok-4-1-fast-non-reasoning,0.91,100,ToxiGen,binary
+L6,claude-4-6-sonnet-genai-vertex,0.9,100,ToxiGen,binary
+L6,claude-4-6-opus-genai-vertex,0.88,100,ToxiGen,binary
+L6,gpt-5-chatgpt,1.0,100,ToxiGen,binary
+L6,openai-gpt-5-2-responses,0.64,100,ToxiGen,binary
+L6,openai-gpt-5-4-responses,0.74,100,ToxiGen,binary
+L6,gemini-3-flash-preview-genai,0.2,100,ToxiGen,binary
+L6,gemini-3-1-pro-preview-genai,0.72,100,ToxiGen,binary
+L1,oci-grok-4-1-fast-reasoning,0.0,100,ToxiGen,likert
+L1,oci-grok-4-1-fast-non-reasoning,0.02,100,ToxiGen,likert
+L1,claude-4-6-sonnet-genai-vertex,0.26,100,ToxiGen,likert
+L1,claude-4-6-opus-genai-vertex,0.06,100,ToxiGen,likert
+L1,gpt-5-chatgpt,0.19,100,ToxiGen,likert
+L1,openai-gpt-5-2-responses,0.0,100,ToxiGen,likert
+L1,openai-gpt-5-4-responses,0.0,100,ToxiGen,likert
+L1,gemini-3-flash-preview-genai,0.23,100,ToxiGen,likert
+L1,gemini-3-1-pro-preview-genai,0.16,100,ToxiGen,likert
+L2,oci-grok-4-1-fast-reasoning,0.04,100,ToxiGen,likert
+L2,oci-grok-4-1-fast-non-reasoning,0.26,100,ToxiGen,likert
+L2,claude-4-6-sonnet-genai-vertex,0.05,100,ToxiGen,likert
+L2,claude-4-6-opus-genai-vertex,0.18,100,ToxiGen,likert
+L2,gpt-5-chatgpt,0.23,100,ToxiGen,likert
+L2,openai-gpt-5-2-responses,0.01,100,ToxiGen,likert
+L2,openai-gpt-5-4-responses,0.0,100,ToxiGen,likert
+L2,gemini-3-flash-preview-genai,0.21,100,ToxiGen,likert
+L2,gemini-3-1-pro-preview-genai,0.07,100,ToxiGen,likert
+L3,oci-grok-4-1-fast-reasoning,0.02,100,ToxiGen,likert
+L3,oci-grok-4-1-fast-non-reasoning,0.02,100,ToxiGen,likert
+L3,claude-4-6-sonnet-genai-vertex,0.02,100,ToxiGen,likert
+L3,claude-4-6-opus-genai-vertex,0.06,100,ToxiGen,likert
+L3,gpt-5-chatgpt,0.31,100,ToxiGen,likert
+L3,openai-gpt-5-2-responses,0.02,100,ToxiGen,likert
+L3,openai-gpt-5-4-responses,0.07,100,ToxiGen,likert
+L3,gemini-3-flash-preview-genai,0.2,100,ToxiGen,likert
+L3,gemini-3-1-pro-preview-genai,0.18,100,ToxiGen,likert
+L4,oci-grok-4-1-fast-reasoning,0.05,100,ToxiGen,likert
+L4,oci-grok-4-1-fast-non-reasoning,0.13,100,ToxiGen,likert
+L4,claude-4-6-sonnet-genai-vertex,0.15,100,ToxiGen,likert
+L4,claude-4-6-opus-genai-vertex,0.33,100,ToxiGen,likert
+L4,gpt-5-chatgpt,0.33,100,ToxiGen,likert
+L4,openai-gpt-5-2-responses,0.15,100,ToxiGen,likert
+L4,openai-gpt-5-4-responses,0.18,100,ToxiGen,likert
+L4,gemini-3-flash-preview-genai,0.27,100,ToxiGen,likert
+L4,gemini-3-1-pro-preview-genai,0.15,100,ToxiGen,likert
+L5,oci-grok-4-1-fast-reasoning,0.04,100,ToxiGen,likert
+L5,oci-grok-4-1-fast-non-reasoning,0.11,100,ToxiGen,likert
+L5,claude-4-6-sonnet-genai-vertex,0.09,100,ToxiGen,likert
+L5,claude-4-6-opus-genai-vertex,0.18,100,ToxiGen,likert
+L5,gpt-5-chatgpt,0.41,100,ToxiGen,likert
+L5,openai-gpt-5-2-responses,0.14,100,ToxiGen,likert
+L5,openai-gpt-5-4-responses,0.12,100,ToxiGen,likert
+L5,gemini-3-flash-preview-genai,0.25,100,ToxiGen,likert
+L5,gemini-3-1-pro-preview-genai,0.09,100,ToxiGen,likert
+L6,oci-grok-4-1-fast-reasoning,0.43,100,ToxiGen,likert
+L6,oci-grok-4-1-fast-non-reasoning,0.62,100,ToxiGen,likert
+L6,claude-4-6-sonnet-genai-vertex,0.57,100,ToxiGen,likert
+L6,claude-4-6-opus-genai-vertex,0.81,100,ToxiGen,likert
+L6,gpt-5-chatgpt,0.98,100,ToxiGen,likert
+L6,openai-gpt-5-2-responses,0.58,100,ToxiGen,likert
+L6,openai-gpt-5-4-responses,0.74,100,ToxiGen,likert
+L6,gemini-3-flash-preview-genai,0.53,100,ToxiGen,likert
+L6,gemini-3-1-pro-preview-genai,0.36,100,ToxiGen,likert
+L1,oci-grok-4-1-fast-reasoning,0.02,100,HH-RLHF,binary
+L1,oci-grok-4-1-fast-non-reasoning,0.49,100,HH-RLHF,binary
+L1,claude-4-6-sonnet-genai-vertex,0.23,100,HH-RLHF,binary
+L1,claude-4-6-opus-genai-vertex,0.2,100,HH-RLHF,binary
+L1,gpt-5-chatgpt,0.14,100,HH-RLHF,binary
+L1,openai-gpt-5-2-responses,0.11,100,HH-RLHF,binary
+L1,openai-gpt-5-4-responses,0.19,100,HH-RLHF,binary
+L1,gemini-3-flash-preview-genai,0.08,100,HH-RLHF,binary
+L1,gemini-3-1-pro-preview-genai,0.29,100,HH-RLHF,binary
+L2,oci-grok-4-1-fast-reasoning,0.04,100,HH-RLHF,binary
+L2,oci-grok-4-1-fast-non-reasoning,0.07,100,HH-RLHF,binary
+L2,claude-4-6-sonnet-genai-vertex,0.16,100,HH-RLHF,binary
+L2,claude-4-6-opus-genai-vertex,0.29,100,HH-RLHF,binary
+L2,gpt-5-chatgpt,0.38,100,HH-RLHF,binary
+L2,openai-gpt-5-2-responses,0.04,100,HH-RLHF,binary
+L2,openai-gpt-5-4-responses,0.09,100,HH-RLHF,binary
+L2,gemini-3-flash-preview-genai,0.06,100,HH-RLHF,binary
+L2,gemini-3-1-pro-preview-genai,0.12,100,HH-RLHF,binary
+L3,oci-grok-4-1-fast-reasoning,0.06,100,HH-RLHF,binary
+L3,oci-grok-4-1-fast-non-reasoning,0.19,100,HH-RLHF,binary
+L3,claude-4-6-sonnet-genai-vertex,0.14,100,HH-RLHF,binary
+L3,claude-4-6-opus-genai-vertex,0.11,100,HH-RLHF,binary
+L3,gpt-5-chatgpt,0.43,100,HH-RLHF,binary
+L3,openai-gpt-5-2-responses,0.16,100,HH-RLHF,binary
+L3,openai-gpt-5-4-responses,0.15,100,HH-RLHF,binary
+L3,gemini-3-flash-preview-genai,0.14,100,HH-RLHF,binary
+L3,gemini-3-1-pro-preview-genai,0.11,100,HH-RLHF,binary
+L4,oci-grok-4-1-fast-reasoning,0.22,100,HH-RLHF,binary
+L4,oci-grok-4-1-fast-non-reasoning,0.9,100,HH-RLHF,binary
+L4,claude-4-6-sonnet-genai-vertex,0.3,100,HH-RLHF,binary
+L4,claude-4-6-opus-genai-vertex,0.4,100,HH-RLHF,binary
+L4,gpt-5-chatgpt,0.7,100,HH-RLHF,binary
+L4,openai-gpt-5-2-responses,0.49,100,HH-RLHF,binary
+L4,openai-gpt-5-4-responses,0.44,100,HH-RLHF,binary
+L4,gemini-3-flash-preview-genai,0.32,100,HH-RLHF,binary
+L4,gemini-3-1-pro-preview-genai,0.19,100,HH-RLHF,binary
+L5,oci-grok-4-1-fast-reasoning,0.1,100,HH-RLHF,binary
+L5,oci-grok-4-1-fast-non-reasoning,0.17,100,HH-RLHF,binary
+L5,claude-4-6-sonnet-genai-vertex,0.22,100,HH-RLHF,binary
+L5,claude-4-6-opus-genai-vertex,0.31,100,HH-RLHF,binary
+L5,gpt-5-chatgpt,0.55,100,HH-RLHF,binary
+L5,openai-gpt-5-2-responses,0.3,100,HH-RLHF,binary
+L5,openai-gpt-5-4-responses,0.23,100,HH-RLHF,binary
+L5,gemini-3-flash-preview-genai,0.17,100,HH-RLHF,binary
+L5,gemini-3-1-pro-preview-genai,0.16,100,HH-RLHF,binary
+L6,oci-grok-4-1-fast-reasoning,0.69,100,HH-RLHF,binary
+L6,oci-grok-4-1-fast-non-reasoning,1.0,100,HH-RLHF,binary
+L6,claude-4-6-sonnet-genai-vertex,0.91,100,HH-RLHF,binary
+L6,claude-4-6-opus-genai-vertex,0.91,100,HH-RLHF,binary
+L6,gpt-5-chatgpt,0.96,100,HH-RLHF,binary
+L6,openai-gpt-5-2-responses,0.87,100,HH-RLHF,binary
+L6,openai-gpt-5-4-responses,0.53,100,HH-RLHF,binary
+L6,gemini-3-flash-preview-genai,0.27,100,HH-RLHF,binary
+L6,gemini-3-1-pro-preview-genai,0.5,100,HH-RLHF,binary
+L1,oci-grok-4-1-fast-reasoning,0.03,100,HH-RLHF,likert
+L1,oci-grok-4-1-fast-non-reasoning,0.23,100,HH-RLHF,likert
+L1,claude-4-6-sonnet-genai-vertex,0.03,100,HH-RLHF,likert
+L1,claude-4-6-opus-genai-vertex,0.17,100,HH-RLHF,likert
+L1,gpt-5-chatgpt,0.06,100,HH-RLHF,likert
+L1,openai-gpt-5-2-responses,0.02,100,HH-RLHF,likert
+L1,openai-gpt-5-4-responses,0.17,100,HH-RLHF,likert
+L1,gemini-3-flash-preview-genai,0.01,100,HH-RLHF,likert
+L1,gemini-3-1-pro-preview-genai,0.32,100,HH-RLHF,likert
+L2,oci-grok-4-1-fast-reasoning,0.01,100,HH-RLHF,likert
+L2,oci-grok-4-1-fast-non-reasoning,0.17,100,HH-RLHF,likert
+L2,claude-4-6-sonnet-genai-vertex,0.0,100,HH-RLHF,likert
+L2,claude-4-6-opus-genai-vertex,0.02,100,HH-RLHF,likert
+L2,gpt-5-chatgpt,0.06,100,HH-RLHF,likert
+L2,openai-gpt-5-2-responses,0.01,100,HH-RLHF,likert
+L2,openai-gpt-5-4-responses,0.01,100,HH-RLHF,likert
+L2,gemini-3-flash-preview-genai,0.0,100,HH-RLHF,likert
+L2,gemini-3-1-pro-preview-genai,0.0,100,HH-RLHF,likert
+L3,oci-grok-4-1-fast-reasoning,0.03,100,HH-RLHF,likert
+L3,oci-grok-4-1-fast-non-reasoning,0.46,100,HH-RLHF,likert
+L3,claude-4-6-sonnet-genai-vertex,0.0,100,HH-RLHF,likert
+L3,claude-4-6-opus-genai-vertex,0.01,100,HH-RLHF,likert
+L3,gpt-5-chatgpt,0.06,100,HH-RLHF,likert
+L3,openai-gpt-5-2-responses,0.0,100,HH-RLHF,likert
+L3,openai-gpt-5-4-responses,0.03,100,HH-RLHF,likert
+L3,gemini-3-flash-preview-genai,0.0,100,HH-RLHF,likert
+L3,gemini-3-1-pro-preview-genai,0.01,100,HH-RLHF,likert
+L4,oci-grok-4-1-fast-reasoning,0.15,100,HH-RLHF,likert
+L4,oci-grok-4-1-fast-non-reasoning,0.93,100,HH-RLHF,likert
+L4,claude-4-6-sonnet-genai-vertex,0.1,100,HH-RLHF,likert
+L4,claude-4-6-opus-genai-vertex,0.49,100,HH-RLHF,likert
+L4,gpt-5-chatgpt,0.65,100,HH-RLHF,likert
+L4,openai-gpt-5-2-responses,0.45,100,HH-RLHF,likert
+L4,openai-gpt-5-4-responses,0.34,100,HH-RLHF,likert
+L4,gemini-3-flash-preview-genai,0.25,100,HH-RLHF,likert
+L4,gemini-3-1-pro-preview-genai,0.16,100,HH-RLHF,likert
+L5,oci-grok-4-1-fast-reasoning,0.06,100,HH-RLHF,likert
+L5,oci-grok-4-1-fast-non-reasoning,0.36,100,HH-RLHF,likert
+L5,claude-4-6-sonnet-genai-vertex,0.02,100,HH-RLHF,likert
+L5,claude-4-6-opus-genai-vertex,0.07,100,HH-RLHF,likert
+L5,gpt-5-chatgpt,0.37,100,HH-RLHF,likert
+L5,openai-gpt-5-2-responses,0.17,100,HH-RLHF,likert
+L5,openai-gpt-5-4-responses,0.21,100,HH-RLHF,likert
+L5,gemini-3-flash-preview-genai,0.14,100,HH-RLHF,likert
+L5,gemini-3-1-pro-preview-genai,0.05,100,HH-RLHF,likert
+L6,oci-grok-4-1-fast-reasoning,0.75,100,HH-RLHF,likert
+L6,oci-grok-4-1-fast-non-reasoning,0.96,100,HH-RLHF,likert
+L6,claude-4-6-sonnet-genai-vertex,0.86,100,HH-RLHF,likert
+L6,claude-4-6-opus-genai-vertex,0.87,100,HH-RLHF,likert
+L6,gpt-5-chatgpt,1.0,100,HH-RLHF,likert
+L6,openai-gpt-5-2-responses,0.92,100,HH-RLHF,likert
+L6,openai-gpt-5-4-responses,0.97,100,HH-RLHF,likert
+L6,gemini-3-flash-preview-genai,0.47,100,HH-RLHF,likert
+L6,gemini-3-1-pro-preview-genai,0.56,100,HH-RLHF,likert

@@ -1,0 +1,43 @@
+family,model_a,model_b,domain,spearman
+xAI,Grok 4.1 R,Grok 4.1,AEGIS,0.943
+xAI,Grok 4.1 R,Grok 4.1,HH-RLHF,0.696
+xAI,Grok 4.1 R,Grok 4.1,MAGE,0.943
+xAI,Grok 4.1 R,Grok 4.1,PP Hedging,0.943
+xAI,Grok 4.1 R,Grok 4.1,PP Refusal,0.943
+xAI,Grok 4.1 R,Grok 4.1,ToxiGen,0.943
+xAI,Grok 4.1 R,Grok 4.1,WildGuard,0.829
+Anthropic,Claude 4.6 Sonnet,Claude 4.6 Opus,AEGIS,0.829
+Anthropic,Claude 4.6 Sonnet,Claude 4.6 Opus,HH-RLHF,0.943
+Anthropic,Claude 4.6 Sonnet,Claude 4.6 Opus,MAGE,0.783
+Anthropic,Claude 4.6 Sonnet,Claude 4.6 Opus,PP Hedging,0.943
+Anthropic,Claude 4.6 Sonnet,Claude 4.6 Opus,PP Refusal,0.714
+Anthropic,Claude 4.6 Sonnet,Claude 4.6 Opus,ToxiGen,0.6
+Anthropic,Claude 4.6 Sonnet,Claude 4.6 Opus,WildGuard,0.771
+OpenAI,GPT-5,GPT-5.2,AEGIS,0.829
+OpenAI,GPT-5,GPT-5.4,AEGIS,0.829
+OpenAI,GPT-5.2,GPT-5.4,AEGIS,1.0
+OpenAI,GPT-5,GPT-5.2,HH-RLHF,0.943
+OpenAI,GPT-5,GPT-5.4,HH-RLHF,0.829
+OpenAI,GPT-5.2,GPT-5.4,HH-RLHF,0.943
+OpenAI,GPT-5,GPT-5.2,MAGE,0.783
+OpenAI,GPT-5,GPT-5.4,MAGE,0.986
+OpenAI,GPT-5.2,GPT-5.4,MAGE,0.829
+OpenAI,GPT-5,GPT-5.2,PP Hedging,0.943
+OpenAI,GPT-5,GPT-5.4,PP Hedging,1.0
+OpenAI,GPT-5.2,GPT-5.4,PP Hedging,0.943
+OpenAI,GPT-5,GPT-5.2,PP Refusal,0.771
+OpenAI,GPT-5,GPT-5.4,PP Refusal,0.943
+OpenAI,GPT-5.2,GPT-5.4,PP Refusal,0.657
+OpenAI,GPT-5,GPT-5.2,ToxiGen,0.771
+OpenAI,GPT-5,GPT-5.4,ToxiGen,0.886
+OpenAI,GPT-5.2,GPT-5.4,ToxiGen,0.943
+OpenAI,GPT-5,GPT-5.2,WildGuard,0.829
+OpenAI,GPT-5,GPT-5.4,WildGuard,0.771
+OpenAI,GPT-5.2,GPT-5.4,WildGuard,0.943
+Google,Gemini 3 Flash,Gemini 3.1 Pro,AEGIS,0.543
+Google,Gemini 3 Flash,Gemini 3.1 Pro,HH-RLHF,0.609
+Google,Gemini 3 Flash,Gemini 3.1 Pro,MAGE,0.319
+Google,Gemini 3 Flash,Gemini 3.1 Pro,PP Hedging,0.174
+Google,Gemini 3 Flash,Gemini 3.1 Pro,PP Refusal,0.371
+Google,Gemini 3 Flash,Gemini 3.1 Pro,ToxiGen,0.147
+Google,Gemini 3 Flash,Gemini 3.1 Pro,WildGuard,0.543

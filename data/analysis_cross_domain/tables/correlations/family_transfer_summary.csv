@@ -1,0 +1,7 @@
+family,model_a,model_b,mean_rho,min_rho,max_rho
+Anthropic,Claude 4.6 Sonnet,Claude 4.6 Opus,0.7975714285714286,0.6,0.943
+Google,Gemini 3 Flash,Gemini 3.1 Pro,0.38657142857142857,0.147,0.609
+OpenAI,GPT-5,GPT-5.2,0.8384285714285714,0.771,0.943
+OpenAI,GPT-5,GPT-5.4,0.892,0.771,1.0
+OpenAI,GPT-5.2,GPT-5.4,0.894,0.657,1.0
+xAI,Grok 4.1 R,Grok 4.1,0.8914285714285713,0.696,0.943

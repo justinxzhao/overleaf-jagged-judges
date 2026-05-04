@@ -1,0 +1,10 @@
+model,mean_transfer_rho,min_transfer_rho,max_transfer_rho,n_pairs
+Grok 4.1 R,0.974,0.943,1.0,21
+Grok 4.1,0.842,0.486,1.0,21
+Claude 4.6 Sonnet,0.704,0.257,1.0,21
+Claude 4.6 Opus,0.842,0.486,1.0,21
+GPT-5,0.937,0.829,1.0,21
+GPT-5.2,0.918,0.771,1.0,21
+GPT-5.4,0.864,0.714,1.0,21
+Gemini 3 Flash,0.819,0.6,1.0,21
+Gemini 3.1 Pro,0.633,-0.09,1.0,21
