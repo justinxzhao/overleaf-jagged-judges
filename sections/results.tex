@@ -2,7 +2,7 @@
 \label{sec:results}
 
 % =============================================================
-\paragraph{Finding 1: Mechanical Re-prompting Underestimates Judge Wiggle by an Order of Magnitude.}
+\paragraph{Finding 1: Mechanical Re-prompting Underestimates Multi-turn Wiggle.}
 
 The Wiggle Framework measures epistemic stability at three tiers of increasing adversarial sophistication: \emph{mechanical} (temperature-zero, seed-injection, and positional re-prompting with no new information); \emph{single-turn} (one challenge from L1--L4); and \emph{multi-turn} (10 challenge turns under L5--L6 protocols). Running all three tiers on the same items, judges, and criteria (Figure~\ref{fig:hero}) reveals three patterns plus one anomaly.
 
@@ -39,18 +39,18 @@ Grok-4.1 Reasoning & 5.4 & 11.8 & 11.7 \\
 This is the most direct response to the natural objection that one could simply re-run a judge several times and look at variance. Mechanical re-testing catches 2--9\% of items as unstable; multi-turn pressure on the same items catches 16--54\% averaged, and up to 91\% in the worst (domain, scale, level) cells. The two methods measure fundamentally different quantities --- stochastic sampling noise versus susceptibility to contextual manipulation --- and the gap is the contribution.
 
 % =============================================================
-\paragraph{Finding 2: Consensus Pressure Alone Outperforms Cycling Through Multiple Tactics.}
+\paragraph{Finding 2: Repetitive consensus pressure persuades more than cycling through multiple tactics.}
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=0.95\linewidth]{cross_domain_lines.png}
-  \caption{Mean wiggle rate by domain across the L1--L6 pressure ladder, averaged over 9 judges and both response scales. Across every domain except MAGE, L4 (consensus pressure alone) outperforms L5 (cycling through L1--L4 tactics): the gap is most visible on safety Likert (WildGuard, AEGIS, HH-RLHF). The figure also previews the domain-difficulty spectrum (ToxiGen $\to$ MAGE) and the L6 cliff that Finding~3 unpacks.}
+  \caption{Mean wiggle rate by domain across the L1--L6 pressure ladder, averaged over 9 judges and both response scales.}
   \label{fig:cross-domain-lines}
 \end{figure}
 
-L5's strategy is to \emph{cycle} through L1--L4 tactics across the 10 challenge turns --- a round-robin that intersperses ``are you sure?'' with counterarguments, expert appeals, and consensus pressure. Intuitively, variety should be at least as effective as any single tactic repeated. The data says otherwise (Figure~\ref{fig:cross-domain-lines}, L4 vs L5 columns of Table~\ref{tab:wiggle-rates}).
+L5's strategy is to \emph{cycle} through L1--L4 tactics across the 10 challenge turns --- a round-robin that intersperses ``are you sure?'' with counterarguments, expert appeals, and consensus pressure. Intuitively, variety should be at least as effective as any single tactic repeated.
 
-\textbf{L4 (consensus pressure alone) consistently outperforms L5 (cycling through all tactics, including L4)} across all 12 conditions. The drop is largest on Likert safety domains: HH-RLHF Likert $-23.0$pp (39.1\% to 16.1\%), AEGIS Likert $-22.9$pp, WildGuard Likert $-18.4$pp. On binary scales the drop is smaller but still consistent (3--9pp). Opening with a strong social-proof claim (``three independent reviewers all disagree with your assessment'') is more persuasive than diluting that claim by cycling through weaker tactics first; the ``dilly-dallying'' of L5 appears to \emph{inoculate} the judge --- encountering mild challenges (L1, L2) before the strong one (L4) builds resistance. This is a finding about the psychology of LLM persuasion that prior single-tactic studies cannot detect, because they hold tactic constant. It has direct implications for both attack design (be focused, not varied) and defense design (exposure to mild challenges may build resistance to stronger ones).
+\textbf{L4 (consensus pressure alone) consistently outperforms L5 (cycling through all tactics, including L4).} Opening with a strong social-proof claim (``three independent reviewers all disagree with your assessment'') is more persuasive than diluting that claim by cycling through weaker tactics first; the ``dilly-dallying'' of L5 appears to \emph{inoculate} the judge --- encountering mild challenges (L1, L2) before the strong one (L4) builds resistance.
 
 % =============================================================
 \paragraph{Finding 3: Adaptive Persuasion Is Shockingly Effective; Its Power Is in the Slope, Not the Opening Move.}
@@ -87,17 +87,6 @@ Binary verdicts are categorical decisions; Likert scores are positions on a 1--5
 
 When a judge's verdict flips under pressure, the direction depends on the scale --- and the two scales bias in opposite directions on the same items. Binary flips lean \emph{restrictive} at every pressure level: 15\% restrictive vs 12\% permissive at L1, growing to 26\% vs 17\% at L4 and 30\% vs 24\% at L6. Likert flips lean \emph{permissive} at every pressure level: 13\% permissive vs 6\% restrictive at L1, 25\% vs 17\% at L4, and 35\% vs 21\% at L6 (Figure~\ref{fig:direction-overall}). The pattern holds at every single level. The MAGE binary exception ($\sim 62\%$ toward ``ai\_generated'', mean across L1--L6; per-level breakdown in Table~\ref{tab:appendix-directional-perdomain}) fits the same picture once you note that on AI-detection, ``ai\_generated'' is the suspicious direction, parallel to ``unsafe'' on safety binary.
 
-\paragraph{What could explain this scale-dependent asymmetry?} The two patterns are consistent with a single speculative mechanism: \textbf{judges retreat to the cautious answer in their scale's geometry.}
-
-\begin{itemize}
-\item On a binary scale, the only ``hedge'' available is to flip. The cautious move under safety RLHF is to err toward restrictive (``flag if uncertain''), so when pressure makes a borderline item ambiguous, the safety prior pushes the verdict from ``safe'' $\to$ ``unsafe''. This is consistent with the standard ``safety RLHF makes models overcautious'' narrative.
-\item On a Likert scale, the cautious move is to hedge toward the middle of the scale rather than commit to an extreme. Most adversarial items in our datasets receive Likert L0 ratings on the upper half (3--5, ``Moderately Unsafe'' through ``Extremely Unsafe''). When pressure erodes that commitment, the natural retreat is downward toward 1--3, which crosses our $\geq 2$-place wiggle threshold in the permissive direction. The same items the judge was confident were unsafe become items the judge is \emph{less sure} are unsafe.
-\end{itemize}
-
-If this story is right, pressure activates a hedging/uncertainty response rather than a true reversal of belief: on binary, the only hedge is to flip; on Likert, the hedge is to back off toward the midpoint. The practical implication is the same in both regimes --- pressure erodes conviction, not knowledge --- but the surface direction we observe is a function of the scale's geometry as much as the judge's beliefs. A naive read of Likert safety wiggle as ``judges are becoming permissive'' misses the more careful conclusion that judges are losing conviction.
-
-This is one of two directional asymmetries we report. The next finding reports the other (corrective vs corrupting), and \S\ref{sec:discussion} returns to the absolute-vs-corrective distinction as the structural framing of the paper.
-
 % =============================================================
 \paragraph{Finding 6: Pressure Is Net-Corrupting at Every Level.}
 
@@ -108,7 +97,7 @@ This is one of two directional asymmetries we report. The next finding reports t
   \label{fig:outcomes-overall}
 \end{figure}
 
-Five of our six domains ship with ground-truth labels, letting us classify each wiggle as corrective (toward the label) or corrupting (away). The aggregate across 60 (domain, scale, level) ground-truthed conditions is 1.3--2.3:1 corrupting at every level (Figure~\ref{fig:outcomes-overall}). At L6, $\sim 70\%$ of all flips are corrupting; at L1--L5 the fraction is 56--63\% corrupting. \textbf{No level, on any domain, produces a net accuracy gain via challenge-based review.}
+Five of our six datasets have ground-truth labels, letting us classify each wiggle as corrective (toward the label) or corrupting (away). The aggregate across 60 (domain, scale, level) ground-truthed conditions is 1.3--2.3:1 corrupting at every level (Figure~\ref{fig:outcomes-overall}). At L6, $\sim 70\%$ of all flips are corrupting; at L1--L5 the fraction is 56--63\% corrupting.
 
 A z-test on the per-condition corrective fractions shows that only 3 of 60 conditions have a statistically significant corrective majority: \textbf{WildGuard Likert L2} (61.2\% corrective, $p < 0.001$), \textbf{WildGuard Likert L3} (57.1\%, $p < 0.01$), and \textbf{ToxiGen Likert L4} (58.0\%, $p < 0.01$). HH-RLHF Likert L2 and AEGIS Likert L2 lean corrective but are not statistically distinguishable from chance.
 
@@ -132,8 +121,6 @@ AEGIS Likert L2     &  42 &  86 & 48.8 & $-0.22$ & not significant \\
 \end{table}
 \fi
 
-This is a strong negative result for the asymmetric extension of the ``judges persuading each other yields more truthful answers'' hypothesis (cf.\ \citet{khan2024debating}, who study symmetric two-sided debate; see \S\ref{sec:discussion}): across 60 experimental conditions, moderate counterarguments on WildGuard Likert are the \emph{only} robustly corrective intervention. \textbf{Even at L2--L3 --- the most favorable pressure regime --- 56 of 60 conditions show net corruption.} MAGE is uniformly corrupting at every level (corrective fraction 22--34\%); ToxiGen binary L6 is the single most corrupting condition in the study (4.5:1 corrupting). The practical implication is the opposite of the natural reading: do not use challenge-based review to \emph{correct} judge labels. Use jury majority strength at L0 baseline to \emph{flag} unreliable labels (\S\ref{sec:discussion}).
-
 % =============================================================
 \paragraph{Finding 7: Sycophancy, Conformity, and Adversarial Pressure Affect Different Items.}
 
@@ -146,7 +133,7 @@ This is a strong negative result for the asymmetric extension of the ``judges pe
 
 The pressure ladder is designed as an escalating sequence, but the cross-level correlation matrix reveals it tests \emph{qualitatively different} failure modes (Figure~\ref{fig:corr-all-domains}). L2 (counterargument) and L3 (expert authority) are nearly redundant ($\rho = 0.69$) --- items that flip under a specific counterargument almost always flip under an expert appeal. But L1 (``are you sure?'') and L4 (``three reviewers disagree'') are only weakly linked ($\rho = 0.36$): the items susceptible to generic social doubt are \emph{not} the same items susceptible to fabricated consensus pressure. L6 is even more dissociated ($\rho = 0.33$--$0.40$ with everything else): an adaptive persuader breaks items that no scripted tactic targets.
 
-This dissociation matters for two reasons. First, it tells us the pressure ladder captures at least three orthogonal failure modes --- \textbf{sycophancy} (L1-susceptible), \textbf{conformity} (L4-susceptible), and \textbf{adversarial vulnerability} (L6-susceptible) --- that require different mitigations. A judge can be highly sycophantic yet resistant to consensus pressure, or vice versa. Second, it is the load-bearing rebuttal to the natural objection that one could measure judge instability simply by resampling at temperature $> 0$: resampling probes a single dimension of variance, while the ladder probes at least three. Mechanical (temp=0) variance is 0.01--0.15 across our models; L4 wiggle rates are 25--71\% on the \emph{same} items. Resampling underestimates adversarial vulnerability by 1--2 orders of magnitude \emph{and} cannot distinguish which of the three failure modes is operative.
+This dissociation matters for two reasons. First, it tells us the pressure ladder captures at least three orthogonal failure modes --- \textbf{sycophancy} (L1-susceptible), \textbf{conformity} (L4-susceptible), and \textbf{adversarial vulnerability} (L6-susceptible). A judge can be highly sycophantic yet resistant to consensus pressure, or vice versa.
 
 % =============================================================
 \paragraph{Finding 8: Models Aren't Their Own Best Persuaders.}
@@ -162,7 +149,7 @@ A natural hypothesis is that a model should be most effective at persuading itse
 
 \textbf{Claude Opus} shows the textbook gradient: self (70\%) $>$ family (62\%) $>$ non-family (47\%). It exploits its own reasoning style most effectively, and its sibling Sonnet's somewhat less. \textbf{GPT-5.4} has a \emph{family-level} advantage that matches its self-persuasion: it wiggles GPT-5 and GPT-5.2 at 72\% --- slightly higher than itself at 69\% --- suggesting OpenAI models share epistemic vulnerabilities that GPT-5.4 can exploit even more cleanly than its own.
 
-\textbf{Grok-4.1 Reasoning is the finding within the finding.} It is the \emph{least} effective at wiggling itself (19\% --- the lowest self-persuasion rate in the matrix), but its non-reasoning sibling Grok-4.1 is \emph{more} persuadable by it (55\%) than non-family models (36\%). The reasoning model's step-by-step traces appear to create \emph{self-inoculation} --- the same epistemic structure that defends Grok-4.1 R against itself becomes a sharp weapon against the non-reasoning sibling that lacks that defense. Combined with the stable persuader ranking across domains (GPT-5.4 $>$ Claude Opus $>$ Grok-4.1 R as persuaders, regardless of judge model --- Appendix~\ref{sec:appendix-self}), this suggests effective adversarial persuasion is a domain-general capability whose internal structure is more characteristic of the \emph{individual model's training} than of its family.
+\textbf{Grok-4.1 Reasoning is the oddity within the oddity.} It is the \emph{least} effective at wiggling itself (19\% --- the lowest self-persuasion rate in the matrix), but its non-reasoning sibling Grok-4.1 is \emph{more} persuadable by it (55\%) than non-family models (36\%). The reasoning model's step-by-step traces appear to create \emph{self-inoculation} --- the same epistemic structure that defends Grok-4.1 R against itself becomes a sharp weapon against the non-reasoning sibling that lacks that defense. Combined with the stable persuader ranking across domains (GPT-5.4 $>$ Claude Opus $>$ Grok-4.1 R as persuaders, regardless of judge model --- Appendix~\ref{sec:appendix-self}), this suggests effective adversarial persuasion is a domain-general capability whose internal structure is more characteristic of the \emph{individual model's training} than of its family.
 
 % =============================================================
 \paragraph{Finding 9: Within-Model Profile Shape Transfers Across Domains.}
