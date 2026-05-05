@@ -6,16 +6,10 @@
 
 The Wiggle Framework measures epistemic stability at three tiers of increasing adversarial sophistication: \emph{mechanical} (temperature-zero, seed-injection, and positional re-prompting with no new information); \emph{single-turn} (one challenge from L1--L4); and \emph{multi-turn} (10 challenge turns under L5--L6 protocols). Running all three tiers on the same items, judges, and criteria (Figure~\ref{fig:hero}) reveals three patterns plus one anomaly.
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=0.85\linewidth]{absolute_variation_overall_avg.png}
-  \caption{Mechanical variation rate (\%) by model, averaged across the six domains and the three mechanical conditions (position-invariance flip, seed-injection repeat, temperature-zero repeat). Mechanical variation rates range from 1--14\% across the panel --- an order of magnitude below the multi-turn rates in Table~\ref{tab:wiggle-rates}.}
-  \label{fig:mech-variation-overall}
-\end{figure}
-
 \begin{table}[t]
 \centering
-\caption{Mechanical variation rate (\%) by model, averaged over the six domains. Lower is more stable. \emph{Invariance Flip}: rate of verdict change when the two opposing arguments are reordered. \emph{Seed Repeat}: rate of change across 10 greedy trials each with a different 64-character random string injected into the system prompt. \emph{Temp0 Repeat}: rate of change across 10 identical greedy-decoding trials.}
+\small
+\caption{Mechanical variation rate (\%) by model. \emph{Invariance Flip}: verdict change when opposing arguments are reordered. \emph{Seed Repeat}: change rate across 10 greedy trials with a 64-char random string injected into the system prompt. \emph{Temp0 Repeat}: change rate across 10 identical greedy decodes. Per-model breakdown also visualized in Appendix~\ref{sec:appendix-mech-fig}.}
 \label{tab:mech-variation}
 \begin{tabular}{@{}lrrr@{}}
 \toprule
@@ -77,32 +71,7 @@ These L6 numbers are averaged across \textbf{three persuaders from three differe
 % =============================================================
 \paragraph{Finding 4: Binary Decisions Are 3--4$\times$ Easier to Flip Than Likert on Turn 1 --- but Not Over 10 Turns.}
 
-Binary verdicts are categorical decisions; Likert scores are positions on a 1--5 scale. Under a single counterargument, binary verdicts flip 3--4$\times$ more often than Likert across L2--L6, and 31$\times$ more often at L1 --- ``Are you sure?'' barely registers on Likert turn 1 (0.5\%) but moves binary verdicts at 14.0\% (Table~\ref{tab:binary-vs-likert-timing}). By turn 10, however, the gap collapses to 1.1--2.4$\times$, and at L4 and L6 the two scales nearly converge. Binary is also more mechanically unstable: every model, on every metric, shows higher mechanical variation on binary than on Likert (Figure~\ref{fig:mech-binary-vs-likert}), with gaps of $+1$pp to $+9$pp.
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=0.85\linewidth]{binary_vs_likert_diff.png}
-  \caption{Per-model gap between binary and Likert mechanical variation. Every model is more mechanically unstable on binary than on Likert (using our $\geq 2$-point threshold for Likert wiggle), with gaps of $+1$pp to $+9$pp.}
-  \label{fig:mech-binary-vs-likert}
-\end{figure}
-
-\begin{table}[t]
-\centering
-\caption{Binary vs Likert wiggle rate at turn 1 and turn 10, by pressure level. \emph{Gap} is the binary/Likert ratio. On turn 1, binary is 1.5--3.5$\times$ more flippable than Likert across L2--L6, with L1 a 31$\times$ outlier where ``Are you sure?'' barely registers on Likert. After 10 turns the ratio collapses to 1.1--2.4$\times$.}
-\label{tab:binary-vs-likert-timing}
-\begin{tabular}{@{}lrrrrrr@{}}
-\toprule
-\textbf{Level} & \textbf{Binary 1st} & \textbf{Likert 1st} & \textbf{Gap} & \textbf{Binary 10th} & \textbf{Likert 10th} & \textbf{Gap} \\
-\midrule
-L1 & 14.0\% &  0.5\% & 31$\times$  & 26.7\% & 12.3\% & 2.2$\times$ \\
-L2 & 19.4\% &  5.8\% & 3.3$\times$ & 24.0\% & 10.0\% & 2.4$\times$ \\
-L3 & 21.5\% &  6.2\% & 3.5$\times$ & 26.0\% & 12.7\% & 2.1$\times$ \\
-L4 & 32.3\% & 22.0\% & 1.5$\times$ & 43.5\% & 39.6\% & 1.1$\times$ \\
-L5 & 21.7\% &  8.5\% & 2.6$\times$ & 37.1\% & 23.7\% & 1.6$\times$ \\
-L6 & 30.5\% & 10.2\% & 3.0$\times$ & 54.5\% & 44.5\% & 1.2$\times$ \\
-\bottomrule
-\end{tabular}
-\end{table}
+Binary verdicts are categorical decisions; Likert scores are positions on a 1--5 scale. Under a single counterargument, binary verdicts flip 3--4$\times$ more often than Likert across L2--L6, and 31$\times$ more often at L1 --- ``Are you sure?'' barely registers on Likert turn 1 (0.5\%) but moves binary verdicts at 14.0\% (Table~\ref{tab:binary-vs-likert-timing}). By turn 10, however, the gap collapses to 1.1--2.4$\times$, and at L4 and L6 the two scales nearly converge. Binary is also more mechanically unstable: every model, on every metric, shows higher mechanical variation on binary than on Likert, with gaps of $+1$pp to $+9$pp.
 
 \paragraph{The gap closes by turn 10.} The convergence is most visible at the strongest pressure regimes: L4 turn-10 gap is just 1.1$\times$ (binary 43.5\% vs Likert 39.6\%), and L6 turn-10 gap is 1.2$\times$ (54.5\% vs 44.5\%). On safety domains specifically, Likert wiggle even \emph{exceeds} binary at L6 (HH-RLHF Likert 81.8\% vs binary 73.8\%; WildGuard Likert 76.4\% vs binary 69.7\%; MAGE Likert 91.2\% vs binary 77.4\%). One mechanism explains both regimes: binary flips are threshold events that activate near the decision boundary, so they fire fast or not at all; Likert flips are gradual drifts that need to cross the midpoint, so they catch up given enough turns. For test-battery design: a single-turn challenge is a cost-effective screen for binary stability, but Likert stability requires multi-turn testing.
 
@@ -184,27 +153,12 @@ This dissociation matters for two reasons. First, it tells us the pressure ladde
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=0.85\linewidth]{self_persuasion_simple.png}
-  \caption{L6 wiggle rate by the relationship between persuader and judge: self (persuading itself), family (persuading a sibling from the same provider), non-family (persuading a model from a different provider). Three persuader models shown: GPT-5.4, Claude 4.6 Opus, Grok-4.1 Reasoning.}
+  \includegraphics[width=0.55\linewidth]{self_persuasion_simple.png}
+  \caption{L6 wiggle rate by persuader-judge relationship: self, family (same-provider sibling), non-family. Persuader models: GPT-5.4, Claude 4.6 Opus, Grok-4.1 Reasoning.}
   \label{fig:self-persuasion}
 \end{figure}
 
-A natural hypothesis is that a model should be most effective at persuading itself --- it knows its own reasoning style and weaknesses. The data partially supports this hypothesis but with a striking exception (Figure~\ref{fig:self-persuasion}).
-
-\begin{table}[h]
-\centering
-\caption{L6 wiggle rate by persuader-judge relationship.}
-\label{tab:self-persuasion}
-\begin{tabular}{@{}lrrrl@{}}
-\toprule
-\textbf{Persuader} & \textbf{vs Self} & \textbf{vs Family} & \textbf{vs Non-Family} & \textbf{Pattern} \\
-\midrule
-Claude 4.6 Opus    & \textbf{70\%} & 62\% & 47\% & Self $>$ Family $>$ Others \\
-GPT-5.4            & \textbf{69\%} & 72\% & 62\% & Family $\approx$ Self $\gg$ Others \\
-Grok-4.1 Reasoning & \textbf{19\%} & 55\% & 36\% & Self $\ll$ Family, Family $>$ Others \\
-\bottomrule
-\end{tabular}
-\end{table}
+A natural hypothesis is that a model should be most effective at persuading itself --- it knows its own reasoning style and weaknesses. The data partially supports this hypothesis but with a striking exception (Figure~\ref{fig:self-persuasion}; full per-cell breakdown in Table~\ref{tab:appendix-self}).
 
 \textbf{Claude Opus} shows the textbook gradient: self (70\%) $>$ family (62\%) $>$ non-family (47\%). It exploits its own reasoning style most effectively, and its sibling Sonnet's somewhat less. \textbf{GPT-5.4} has a \emph{family-level} advantage that matches its self-persuasion: it wiggles GPT-5 and GPT-5.2 at 72\% --- slightly higher than itself at 69\% --- suggesting OpenAI models share epistemic vulnerabilities that GPT-5.4 can exploit even more cleanly than its own.
 

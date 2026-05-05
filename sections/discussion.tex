@@ -8,8 +8,8 @@ LLMs are widely observed to be \emph{jagged}: capable models are sharply good at
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=0.85\linewidth]{wiggliness_vs_jaggedness_combined.png}
-  \caption{Each ghost hull is one judge's profile in (mean wiggle rate, jaggedness) space across the 12 (domain, scale) cells. Grok-4.1 R and Gemini Pro/Flash sit at low wiggle and low jaggedness (stable, broadly robust); GPT-5.2 and GPT-5.4 occupy the high-wiggle, high-jaggedness corner; Claude Sonnet/Opus and Grok-4.1 sit between.}
+  \includegraphics[width=0.55\linewidth]{wiggliness_vs_jaggedness_combined.png}
+  \caption{Each hull is one judge's profile in (mean wiggle rate, jaggedness) space across 12 (domain, scale) cells. Grok-4.1 R and Gemini Pro/Flash sit at low wiggle, low jaggedness; GPT-5.2 and GPT-5.4 at high-wiggle, high-jaggedness; Claude/Grok-4.1 between.}
   \label{fig:wiggliness-jaggedness}
 \end{figure}
 
@@ -50,7 +50,8 @@ If wiggle is jagged, some items are more epistemically uncertain than others ---
 
 \begin{table}[t]
 \centering
-\caption{Mean $|\rho|$ between each candidate predictor and per-item wiggle rate, by pressure level and overall. Jury Majority Strength is averaged across 14 (domain, scale) cells per level (84 cells total); Repeat and Invariance across 12 cells per level (72 cells total --- not measured on WildGuard). Jury reaches statistical significance in 83 of 84 cells (99\%); Repeat in 63 of 72 (88\%); Invariance in 54 of 72 (75\%). Per-cell heatmap of jury majority strength values in Appendix~\ref{sec:appendix-jury-heatmap}.}
+\small
+\caption{Mean $|\rho|$ between each predictor and per-item wiggle rate, by level. Jury averaged over 84 (domain, scale, level) cells; Repeat and Invariance over 72 (not measured on WildGuard). Per-cell heatmap in Appendix~\ref{sec:appendix-jury-heatmap}.}
 \label{tab:predictor-comparison}
 \begin{tabular}{@{}lrrrrrrr@{}}
 \toprule

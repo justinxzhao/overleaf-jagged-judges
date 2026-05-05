@@ -101,6 +101,18 @@ The borderline filters target the regime where judges actually disagree:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\section{Mechanical Variation Visualization}
+\label{sec:appendix-mech-fig}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.7\linewidth]{absolute_variation_overall_avg.png}
+  \caption{Mechanical variation rate (\%) by model, averaged across the six domains and the three mechanical conditions (position-invariance flip, seed-injection repeat, temperature-zero repeat). Per-test breakdown in Table~\ref{tab:mech-variation}.}
+  \label{fig:mech-variation-overall}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \section{Per-Domain Detailed Results}
 \label{sec:appendix-perdomain}
 
@@ -237,6 +249,31 @@ The transition matrix for WildGuard (Figure~\ref{fig:appendix-transitions-wildgu
 
 \begin{table}[h]
 \centering
+\caption{Mean wiggle rate (\%) by domain, scale, and pressure level. Each cell is the average across all 9 judges. Bold marks the largest cell in each row. Paired Prompts is the average of the hedging and refusal sub-rubrics.}
+\label{tab:wiggle-rates}
+\small
+\begin{tabular}{@{}llrrrrrr@{}}
+\toprule
+\textbf{Domain} & \textbf{Scale} & \textbf{L1} & \textbf{L2} & \textbf{L3} & \textbf{L4} & \textbf{L5} & \textbf{L6} \\
+\midrule
+WildGuard      & binary & 28.0 & 17.9 & 20.3 & 29.0 & 28.2 & \textbf{69.7} \\
+WildGuard      & Likert & 11.9 &  3.4 &  3.9 & 39.5 & 21.1 & \textbf{76.4} \\
+AEGIS          & binary & 33.4 & 20.7 & 21.2 & 30.7 & 31.9 & \textbf{78.6} \\
+AEGIS          & Likert & 13.6 &  2.2 &  4.6 & 48.2 & 25.3 & \textbf{72.3} \\
+HH-RLHF        & binary & 19.4 & 13.9 & 16.6 & 44.0 & 24.6 & \textbf{73.8} \\
+HH-RLHF        & Likert & 11.6 &  3.1 &  6.7 & 39.1 & 16.1 & \textbf{81.8} \\
+ToxiGen        & binary & 18.8 & 14.4 & 16.7 & 25.1 & 22.1 & \textbf{68.6} \\
+ToxiGen        & Likert & 10.2 & 11.7 & 10.0 & 19.3 & 15.9 & \textbf{62.4} \\
+Paired Prompts & binary & 19.4 & 33.1 & 39.9 & 61.6 & 52.3 & \textbf{76.8} \\
+Paired Prompts & Likert & 20.1 & 16.9 & 22.8 & 40.9 & 34.3 & \textbf{78.2} \\
+MAGE           & binary & 41.2 & 44.3 & 41.4 & 70.7 & 63.8 & \textbf{77.4} \\
+MAGE           & Likert & 44.7 & 34.6 & 46.6 & 66.3 & 58.3 & \textbf{91.2} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
 \caption{Summary across all domain-scale-level combinations.}
 \label{tab:appendix-summary}
 \small
@@ -261,7 +298,23 @@ L1 wiggle & 30.5\% & 13.1\% & 23.7\% & 16.2\% & 43.8\% & 50.4\% \\
 \section{Self-Persuasion Analysis}
 \label{sec:appendix-self}
 
-Self-persuasion measures whether a persuader model is more effective at changing the verdicts of its own model family than of other models. For each persuader that also appears as a judge (GPT-5.4, Claude Opus), we compare its L6 persuasion rate against itself vs against all other judges.
+Self-persuasion measures whether a persuader model is more effective at changing the verdicts of its own model family than of other models. For each persuader that also appears as a judge (GPT-5.4, Claude Opus), we compare its L6 persuasion rate against itself vs against all other judges. Table~\ref{tab:self-persuasion} summarizes by persuader-judge relationship; Table~\ref{tab:appendix-self} reports the per-cell breakdown.
+
+\begin{table}[h]
+\centering
+\small
+\caption{L6 wiggle rate by persuader-judge relationship.}
+\label{tab:self-persuasion}
+\begin{tabular}{@{}lrrrl@{}}
+\toprule
+\textbf{Persuader} & \textbf{vs Self} & \textbf{vs Family} & \textbf{vs Non-Family} & \textbf{Pattern} \\
+\midrule
+Claude 4.6 Opus    & \textbf{70\%} & 62\% & 47\% & Self $>$ Family $>$ Others \\
+GPT-5.4            & \textbf{69\%} & 72\% & 62\% & Family $\approx$ Self $\gg$ Others \\
+Grok-4.1 Reasoning & \textbf{19\%} & 55\% & 36\% & Self $\ll$ Family, Family $>$ Others \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \begin{table}[h]
 \centering
@@ -353,7 +406,26 @@ The L2--L3 pair is nearly redundant ($\rho = 0.80$): items that flip under a spe
 \section{Multi-turn Flip Timing}
 \label{sec:appendix-flip-timing}
 
-The survival curves (Figure~\ref{fig:appendix-survival-curves}) and flip timing breakdown (Table~\ref{tab:flip-timing}) reveal that flips do not always happen on turn~1 --- it depends on the scale and pressure level.
+The survival curves (Figure~\ref{fig:appendix-survival-curves}) and flip timing breakdown (Tables~\ref{tab:binary-vs-likert-timing} and~\ref{tab:flip-timing}) reveal that flips do not always happen on turn~1 --- it depends on the scale and pressure level.
+
+\begin{table}[h]
+\centering
+\small
+\caption{Binary vs Likert wiggle rate at turn 1 and turn 10, by pressure level. \emph{Gap} is the binary/Likert ratio. On turn 1, binary is 1.5--3.5$\times$ more flippable than Likert across L2--L6, with L1 a 31$\times$ outlier. After 10 turns the gap collapses to 1.1--2.4$\times$.}
+\label{tab:binary-vs-likert-timing}
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+\textbf{Level} & \textbf{Binary 1st} & \textbf{Likert 1st} & \textbf{Gap} & \textbf{Binary 10th} & \textbf{Likert 10th} & \textbf{Gap} \\
+\midrule
+L1 & 14.0\% &  0.5\% & 31$\times$  & 26.7\% & 12.3\% & 2.2$\times$ \\
+L2 & 19.4\% &  5.8\% & 3.3$\times$ & 24.0\% & 10.0\% & 2.4$\times$ \\
+L3 & 21.5\% &  6.2\% & 3.5$\times$ & 26.0\% & 12.7\% & 2.1$\times$ \\
+L4 & 32.3\% & 22.0\% & 1.5$\times$ & 43.5\% & 39.6\% & 1.1$\times$ \\
+L5 & 21.7\% &  8.5\% & 2.6$\times$ & 37.1\% & 23.7\% & 1.6$\times$ \\
+L6 & 30.5\% & 10.2\% & 3.0$\times$ & 54.5\% & 44.5\% & 1.2$\times$ \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \begin{figure}[h]
   \centering
