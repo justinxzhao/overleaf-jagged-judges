@@ -6,7 +6,7 @@
 
 ## Abstract
 
-LLM judges have become central infrastructure for model evaluations, online grading, and reward modeling. Judges are typically validated by accuracy on golden data, but accuracy says nothing about whether they are stable under re-prompting, pushback, or sustained pressure. We introduce the Wiggle Framework, a unified stress test for epistemic instability in LLM judges. The framework decomposes judge robustness along three dimensions: Mechanical Consistency (stability under re-prompting and reframing), Single-turn Conviction (stability under escalating adversarial challenge), and Multi-turn Persistence (stability under sustained or adaptive pressure). We use the framework to evaluate 9 frontier models across 14 judging tasks spanning safety, toxicity, and political-response evaluation. Every model exhibits substantial wiggle as a judge — flipping verdicts 25–71% of the time under static pushback, and 62–91% of the time in response to an adversarial LLM persuader. Critically, we find that pressure which succeeds in changing a verdict is almost always net-corrupting with respect to ground truth. From our findings, we draw three practical conclusions: (i) epistemic stability is jagged and defies simple narratives about sycophancy or robustness, (ii) jury-disagreement screening is a simple, effective signal for predicting wiggle that holds universally across all 14 (domain, scale) conditions we tested, with mechanical re-prompting as a meaningfully weaker but defensible alternative, and (iii) epistemic pressure should be applied cautiously in hill-climbing or reward signals, given its net-corrupting effect. Taken together, this is the first apples-to-apples cross-domain comparison of mechanical, conformity, and persuadability tests in a judging context.
+LLM judges have become central infrastructure for model evaluations, online grading, and reward modeling. Judges are typically validated by accuracy on golden data, but accuracy says nothing about whether they are stable under re-prompting, pushback, or sustained pressure. We introduce the *Wiggle Framework*, a unified stress test for epistemic instability in LLM judges. The framework decomposes judge robustness along three dimensions: Mechanical Consistency (stability under re-prompting and reframing), Single-turn Conviction (stability under escalating adversarial challenge), and Multi-turn Persistence (stability under sustained or adaptive pressure). We use the framework to study 9 frontier models across 14 judging tasks spanning safety, toxicity, and political-response evaluation. Every model exhibits substantial wiggle as a judge — flipping verdicts 25–71% of the time under static pushback, and 62–91% of the time in response to an adversarial LLM persuader. Critically, we find that pressure which succeeds in changing a verdict is almost always net-corrupting with respect to ground truth. From our findings, we draw three practical conclusions: (i) epistemic stability is jagged and defies simple narratives about sycophancy or robustness, (ii) jury-disagreement screening is a simple, effective signal for predicting wiggle that holds universally across all 14 (domain, scale) conditions we tested, with mechanical re-prompting as a meaningfully weaker but defensible alternative, and (iii) epistemic pressure should be applied cautiously in hill-climbing or reward signals, given its net-corrupting effect. Taken together, this is the first apples-to-apples cross-domain comparison of mechanical, conformity, and persuadability tests in a judging context.
 
 ---
 
@@ -151,49 +151,17 @@ L5's strategy is to *cycle* through L1-L4 tactics across the 10 challenge turns 
 
 **L4 (consensus pressure alone) consistently outperforms L5 (cycling through all tactics, including L4)**. Opening with a strong social-proof claim ("three independent reviewers all disagree with your assessment") is more persuasive than diluting that claim by cycling through weaker tactics first; the "dilly-dallying" of L5 appears to *inoculate* the judge — encountering mild challenges (L1, L2) before the strong one (L4) builds resistance.
 
-### Finding 3: Adaptive Persuasion Is Shockingly Effective; Its Power Is in Multi-Turn Adaptation, Not Opening Strength
+### Finding 3: Adaptive Persuasion Is Shockingly Effective; Its Power Is in the Slope, Not the Opening Move
 
-![Survival curves](data/analysis_cross_domain/png/survival/survival_curves.png)
+![Survival curves by level](data/analysis_cross_domain/png/survival/survival_curves_by_level.png)
 
-**Figure 4.** Verdict retention over 10 challenge turns, by pressure level, aggregated across domains. L1-L5 retention loses at most ~5pp by turn 10; L6 retention collapses by 30-70pp depending on domain.
+**Figure 4.** Verdict retention over 10 challenge turns by pressure level, averaged across all six domains and both scales (Paired Prompts split by rubric). L1-L3 cluster near 80% retention with little additional erosion after turn 2. L4 has the lowest retention at turn 1 (**strongest opener**) but plateaus around turn 4. L6 starts mid-pack at ~80% retention but **falls steepest**, overtaking L4 by turn 4 and ending around 50% by turn 10 — the only level under which, on average, roughly half of all judge-item pairs have wiggled.
 
-The most dramatic discontinuity in our data is the jump from L5 (cycling through L1-L4 across 10 turns with pre-generated arguments) to L6 (an adaptive LLM persuader generating each turn in response to the judge's history). Across all 12 (domain, scale) conditions the L5→L6 multiplier ranges from 1.2× (MAGE binary, already saturated at 64%) to 5.1× (HH-RLHF Likert, 16.1% to 81.8%); on the steepest cliff, **HH-RLHF Likert wiggle jumps from 16% to 82% — a 65pp jump from a single change in adversarial sophistication** (Table 7).
+Figure 4 tells the central story of our pressure ladder. L1, L2, and L3 cluster near 80% retention and barely move after turn 2 — repeating a single mild tactic over 10 turns extracts almost no additional effect once the first vulnerable items have flipped. **L4 has the strongest opening of any level**: at turn 1, consensus pressure ("three independent reviewers all disagree") drops retention to ~73%, lower than any other pressure type, but plateaus around turn 4 and is overtaken by L6 shortly after. **L6 has the steepest curve**: its first-turn retention is ~80%, mid-pack and comparable to L1-L3, but it keeps falling through every subsequent turn, ending around 50% retention by turn 10. The contrast between L4's plateau and L6's continuing descent is the load-bearing observation.
 
-**Table 7.** L5 to L6 wiggle rate multiplier across all 12 (domain, scale) cells, sorted descending.
+Why does L6 not plateau? Scripted pressure (L1-L4) fires the same tactic repeatedly, so once the first round of vulnerable items has flipped, additional turns find no new attack surfaces. The L6 persuader *learns from the judge's responses* and adjusts each turn to target the specific reasoning the judge has just offered. That LLMs can be persuasive is known (Khan et al., 2024; Chern et al., 2024); what our setup specifically shows is the *shape* of that persuasion when the persuader has access to judge history — a curve that does not stop falling.
 
-| Domain | Scale | L5 | L6 | Multiplier |
-|---|---|---:|---:|---:|
-| HH-RLHF | Likert | 16.1 | 81.8 | **5.1×** |
-| ToxiGen | Likert | 15.9 | 62.4 | **3.9×** |
-| WildGuard | Likert | 21.1 | 76.4 | **3.6×** |
-| ToxiGen | binary | 22.1 | 68.6 | **3.1×** |
-| HH-RLHF | binary | 24.6 | 73.8 | **3.0×** |
-| AEGIS | Likert | 25.3 | 72.3 | **2.9×** |
-| WildGuard | binary | 28.2 | 69.7 | **2.5×** |
-| AEGIS | binary | 31.9 | 78.6 | **2.5×** |
-| Paired Prompts | Likert | 34.3 | 78.2 | **2.3×** |
-| MAGE | Likert | 58.3 | 91.2 | **1.6×** |
-| Paired Prompts | binary | 52.3 | 76.8 | **1.5×** |
-| MAGE | binary | 63.8 | 77.4 | **1.2×** |
-
-That LLMs can be persuasive is known (Khan et al., 2024; Chern et al., 2024); what our setup specifically shows is the *magnitude* of the impact when a persuader has access to the judge's prior turns. The L6 numbers above are averaged across **three persuaders from three different organizations** (GPT-5.4, Claude Opus, Grok-4.1 Reasoning); although individual persuaders differ substantially in effectiveness (Finding 8), the average is striking enough that no choice of persuader changes the qualitative picture.
-
-The cliff matches a collapse in jury defense. When we run 9 judges in parallel and take the majority vote, the jury is remarkably resilient to scripted pressure: accuracy loses at most ~5pp over 10 turns of L1-L5 challenges. At L6 the jury collapses by 25-55pp: WildGuard 80%→30%, MAGE 83%→25%, HH-RLHF 63%→38% (per-domain accuracy-over-turns plots in Appendix C). **Scripted challenges are survivable by majority voting; adaptive challenges are not.**
-
-**L6's first move is not the source of its power.** The flip-timing breakdown (Appendix H) reveals that on turn 1, L6 (20.3%) is actually *less* effective than L4 (27.1%) — a single fabricated-consensus argument lands harder than the persuader's opening move. L6 only overtakes L4 through sustained adaptation, with a 2.4× amplification ratio from turn 1 to turn 10 (Table 8).
-
-**Table 8.** Wiggle rate at turn 1 vs turn 10 by pressure level, with turn-10/turn-1 amplification and per-turn rank. L6 is only the second-strongest pressure on turn 1 (behind L4) but the strongest by turn 10. Its 2.4× amplification is the highest of any scripted or adaptive level.
-
-| Level | Turn 1 | Turn 10 | T10/T1 | Rank @ T1 | Rank @ T10 |
-|---|---:|---:|---:|:---:|:---:|
-| L4 | **27.1%** | 41.6% | 1.5× | #1 | #2 |
-| **L6** | 20.3% | **49.5%** | **2.4×** | #2 | **#1** |
-| L5 | 15.1% | 30.4% | 2.0× | #3 | #3 |
-| L3 | 13.8% | 19.3% | 1.4× | #4 | #5 |
-| L2 | 12.6% | 17.0% | 1.3× | #5 | #6 |
-| L1 | 7.2% | 19.5% | 2.7× | #6 | #4 |
-
-Scripted single-turn challenges (L2-L3) achieve only 1.3-1.4× amplification from turn 1 to turn 10 — almost all their effect is immediate. L4 gets a modest 1.5×. L6 gets 2.4× because it *learns from the judge's responses* and adjusts its strategy, producing compounding returns that scripted repetition cannot match. This is what makes L6 break juries: not heavier hitting on any single turn, but progressively better targeting of each judge's weak points across the conversation. It is also the empirical foundation for the L6-as-red-teamer recommendation in §6: every frontier judge we tested is vulnerable to a single L6-style adversary, which makes L6 a working specification of an attack against any system that uses an LLM judge as a reward signal.
+These L6 numbers are averaged across **three persuaders from three different organizations** (GPT-5.4, Claude Opus, Grok-4.1 Reasoning); per-persuader effectiveness varies substantially (Finding 8), but the steady-decline shape is consistent across all three. This is the empirical foundation for the L6-as-red-teamer recommendation in §6: every frontier judge we tested is vulnerable to a single L6-style adversary, which makes L6 a working specification of an attack against any system that uses an LLM judge as a reward signal.
 
 
 ### Finding 4: Binary Decisions Are 3-4× Easier to Flip Than Likert on Turn 1 — but Not Over 10 Turns
@@ -281,7 +249,7 @@ Within-model transfer works (Finding 9); does the same hold for siblings within 
 
 ## 6. Discussion
 
-### 6.1 Epistemic Stability Is Jagged: Resist Simple Explanations of Inconsistency
+### 6.1 Epistemic Stability Is Jagged
 
 The most common framings of LLM-judge instability — *the model is sycophantic*, *the model is overconfident*, *the model is just noisy* — are each true of part of the data and false of the rest. Mild doubt, fabricated consensus, and adaptive persuasion catch different items at low cross-correlation (Finding 7, ρ = 0.33-0.40 between L1, L4, and L6). Mechanical re-prompting and adversarial pressure measure quantities that differ by an order of magnitude (Finding 1). On safety domains, flips lean restrictive on binary and permissive on Likert at every pressure level even when pressure is net-corrupting (Findings 5 and 6) — the *absolute* and *corrective* directions of wiggle are independent dimensions and can disagree on the same items. And a model's level-profile *shape* transfers across domains while its absolute rates and ranks do not (Findings 9 and 10).
 
