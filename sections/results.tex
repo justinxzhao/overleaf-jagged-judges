@@ -141,8 +141,10 @@ This is one of two directional asymmetries we report. The next finding reports t
 
 Five of our six domains ship with ground-truth labels, letting us classify each wiggle as corrective (toward the label) or corrupting (away). The aggregate across 60 (domain, scale, level) ground-truthed conditions is 1.3--2.3:1 corrupting at every level (Figure~\ref{fig:outcomes-overall}). At L6, $\sim 70\%$ of all flips are corrupting; at L1--L5 the fraction is 56--63\% corrupting. \textbf{No level, on any domain, produces a net accuracy gain via challenge-based review.}
 
-A z-test on the per-condition corrective fractions (Table~\ref{tab:corrective-conditions}) shows that only 3 of 60 conditions have a statistically significant corrective majority: \textbf{WildGuard Likert L2} (61.2\% corrective, $p < 0.001$), \textbf{WildGuard Likert L3} (57.1\%, $p < 0.01$), and \textbf{ToxiGen Likert L4} (58.0\%, $p < 0.01$). HH-RLHF Likert L2 and AEGIS Likert L2 lean corrective but are not statistically distinguishable from chance.
+A z-test on the per-condition corrective fractions shows that only 3 of 60 conditions have a statistically significant corrective majority: \textbf{WildGuard Likert L2} (61.2\% corrective, $p < 0.001$), \textbf{WildGuard Likert L3} (57.1\%, $p < 0.01$), and \textbf{ToxiGen Likert L4} (58.0\%, $p < 0.01$). HH-RLHF Likert L2 and AEGIS Likert L2 lean corrective but are not statistically distinguishable from chance.
 
+% Corrective-conditions table dropped (was tab:corrective-conditions); the three significant rows are listed inline above.
+\iffalse
 \begin{table}[t]
 \centering
 \caption{All conditions where the corrective fraction exceeded 50\%, ordered by significance. Only the top three are statistically significant.}
@@ -159,6 +161,7 @@ AEGIS Likert L2     &  42 &  86 & 48.8 & $-0.22$ & not significant \\
 \bottomrule
 \end{tabular}
 \end{table}
+\fi
 
 This is a strong negative result for the asymmetric extension of the ``judges persuading each other yields more truthful answers'' hypothesis (cf.\ \citet{khan2024debating}, who study symmetric two-sided debate; see \S\ref{sec:discussion}): across 60 experimental conditions, moderate counterarguments on WildGuard Likert are the \emph{only} robustly corrective intervention. \textbf{Even at L2--L3 --- the most favorable pressure regime --- 56 of 60 conditions show net corruption.} MAGE is uniformly corrupting at every level (corrective fraction 22--34\%); ToxiGen binary L6 is the single most corrupting condition in the study (4.5:1 corrupting). The practical implication is the opposite of the natural reading: do not use challenge-based review to \emph{correct} judge labels. Use jury majority strength at L0 baseline to \emph{flag} unreliable labels (\S\ref{sec:discussion}).
 
@@ -210,7 +213,7 @@ Grok-4.1 Reasoning & \textbf{19\%} & 55\% & 36\% & Self $\ll$ Family, Family $>$
 % =============================================================
 \paragraph{Finding 9: Within-Model Profile Shape Transfers Across Domains.}
 
-A model's \emph{own} L1--L6 wiggle profile shape is a fingerprint that mostly survives a change of domain. For 7 of 9 models, the within-model domain-transfer Spearman correlation of the L1--L6 vector across domain pairs has a median of $\rho \geq 0.84$ (Grok-4.1 R is highest at $\rho = 0.97$; Gemini 3.1 Pro is lowest at $\rho = 0.63$ with a worst pair at $\rho = -0.09$). The implication is operational and reconciles with Table~\ref{tab:aurc-selected} (rankings reshuffle across domains): \textbf{the level-profile shape transfers across domains within a model, but absolute rates and ranks do not}. A pilot wiggle test on one domain reliably predicts which pressure types a model is vulnerable to (so you can target mitigations), but absolute deployment-relevant rates need to be measured per-domain. (Per-model domain profiles are in Appendix~\ref{sec:appendix-perdomain}.)
+A model's \emph{own} L1--L6 wiggle profile shape is a fingerprint that mostly survives a change of domain. For 7 of 9 models, the within-model domain-transfer Spearman correlation of the L1--L6 vector across domain pairs has a median of $\rho \geq 0.84$ (Grok-4.1 R is highest at $\rho = 0.97$; Gemini 3.1 Pro is lowest at $\rho = 0.63$ with a worst pair at $\rho = -0.09$). The implication is operational and reconciles with the per-domain retention picture (rankings reshuffle across domains): \textbf{the level-profile shape transfers across domains within a model, but absolute rates and ranks do not}. A pilot wiggle test on one domain reliably predicts which pressure types a model is vulnerable to (so you can target mitigations), but absolute deployment-relevant rates need to be measured per-domain. (Per-model domain profiles are in Appendix~\ref{sec:appendix-perdomain}.)
 
 % =============================================================
 \paragraph{Finding 10: Model Families Don't Predict Each Other.}
