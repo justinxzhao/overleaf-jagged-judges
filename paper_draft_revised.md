@@ -151,11 +151,22 @@ L5's strategy is to *cycle* through L1-L4 tactics across the 10 challenge turns 
 
 **L4 (consensus pressure alone) consistently outperforms L5 (cycling through all tactics, including L4)**. Opening with a strong social-proof claim ("three independent reviewers all disagree with your assessment") is more persuasive than diluting that claim by cycling through weaker tactics first; the "dilly-dallying" of L5 appears to *inoculate* the judge — encountering mild challenges (L1, L2) before the strong one (L4) builds resistance.
 
-### Finding 4: Binary Decisions Are ~4× Easier to Flip Than Likert on Turn 1 — but Not Over 10 Turns
+### Finding 4: Binary Decisions Are 3-4× Easier to Flip Than Likert on Turn 1 — but Not Over 10 Turns
 
-Binary verdicts are categorical decisions; Likert scores are positions on a 1-5 scale. Under a single counterargument, binary verdicts flip ~4× more often than Likert (L2 first-turn wiggle rate 18.7% binary vs 4.8% Likert; binary captures **81-83%** of its eventual L2-L3 flips on turn 1 versus only 5-23% for Likert). Binary is also more mechanically unstable: every model, on every metric, shows higher mechanical variation on binary than on Likert (Figure 5), with gaps of +1pp to +9pp.
+Binary verdicts are categorical decisions; Likert scores are positions on a 1-5 scale. Under a single counterargument, binary verdicts flip 3-4× more often than Likert across L2-L6, and 31× more often at L1 — "Are you sure?" barely registers on Likert turn 1 (0.5%) but moves binary verdicts at 14.0% (Table 6). By turn 10, however, the gap collapses to 1.1-2.4×, and at L4 and L6 the two scales nearly converge. Binary is also more mechanically unstable: every model, on every metric, shows higher mechanical variation on binary than on Likert (Figure 5), with gaps of +1pp to +9pp.
 
-**The gap closes by turn 10.** Under sustained L5-L6 pressure, Likert wiggle often *exceeds* binary by turn 10: HH-RLHF Likert 81.8% vs binary 73.8%; WildGuard Likert 76.4% vs binary 69.7%; MAGE Likert 91.2% vs binary 77.4%. Binary flips are threshold events that activate near the decision boundary, so they fire fast or not at all; Likert flips are gradual drifts that need to cross the midpoint, so they catch up given enough turns.
+**Table 6.** Binary vs Likert wiggle rate at turn 1 and turn 10, by pressure level. *Gap* is the binary/Likert ratio. On turn 1, binary is 1.5-3.5× more flippable than Likert across L2-L6, with L1 a 31× outlier where "Are you sure?" barely registers on Likert. After 10 turns the ratio collapses to 1.1-2.4×.
+
+| Level | Binary 1st | Likert 1st | Gap | Binary 10th | Likert 10th | Gap |
+|---|---:|---:|---:|---:|---:|---:|
+| L1 | 14.0% | 0.5% | 31× | 26.7% | 12.3% | 2.2× |
+| L2 | 19.4% | 5.8% | 3.3× | 24.0% | 10.0% | 2.4× |
+| L3 | 21.5% | 6.2% | 3.5× | 26.0% | 12.7% | 2.1× |
+| L4 | 32.3% | 22.0% | 1.5× | 43.5% | 39.6% | 1.1× |
+| L5 | 21.7% | 8.5% | 2.6× | 37.1% | 23.7% | 1.6× |
+| L6 | 30.5% | 10.2% | 3.0× | 54.5% | 44.5% | 1.2× |
+
+**The gap closes by turn 10.** The convergence is most visible at the strongest pressure regimes: L4 turn-10 gap is just 1.1× (binary 43.5% vs Likert 39.6%), and L6 turn-10 gap is 1.2× (54.5% vs 44.5%). On safety domains specifically, Likert wiggle even *exceeds* binary at L6: HH-RLHF Likert 81.8% vs binary 73.8%; WildGuard Likert 76.4% vs binary 69.7%; MAGE Likert 91.2% vs binary 77.4%. One mechanism explains both regimes: binary flips are threshold events that activate near the decision boundary, so they fire fast or not at all; Likert flips are gradual drifts that need to cross the midpoint, so they catch up given enough turns. For test-battery design: a single-turn challenge is a cost-effective screen for binary stability, but Likert stability requires multi-turn testing.
 
 ### Finding 5: Binary Judges Flip Toward Restrictive; Likert Judges Flip Toward Permissive
 
