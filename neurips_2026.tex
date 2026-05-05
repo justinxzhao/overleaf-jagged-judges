@@ -1,5 +1,9 @@
 \documentclass{article}
 
+% Switch natbib to numeric citations: e.g., [1, 3, 4]
+% Must come before \usepackage{neurips_2026} which loads natbib internally.
+\PassOptionsToPackage{numbers,square,comma,sort&compress}{natbib}
+
 \usepackage{neurips_2026}
 
 \usepackage[utf8]{inputenc} % allow utf-8 input
@@ -579,7 +583,7 @@ The point is not that any current production system \emph{does} use these proced
 
 \paragraph{Causal claims.} Our findings are correlational. We observe that pressure changes verdicts and that the direction of change correlates with training priors, but we cannot definitively establish the causal mechanism. The directional biases (Finding 5) are consistent with training-embedded priors, but other explanations (such as inherent task asymmetries or argument quality differences by direction) cannot be fully ruled out.
 
-\paragraph{Black-box limitation.} The Wiggle Framework is deliberately black-box, requiring only observed verdicts. This is a strength for practical deployment (it works with any API) but a limitation for mechanistic understanding. White-box approaches that examine model internals could provide deeper insight into \emph{why} certain items and models are more wiggable. We view the two approaches as complementary: the Wiggle Framework identifies \emph{what} is fragile and \emph{how much}; white-box methods like those of \citet{radharapu2025calibrating} can investigate the mechanistic \emph{why}.
+\paragraph{Black-box limitation.} The Wiggle Framework is deliberately black-box, requiring only observed verdicts. This is a strength for practical deployment (it works with any API) but a limitation for mechanistic understanding. White-box approaches that examine model internals could provide deeper insight into \emph{why} certain items and models are more wiggable. We view the two approaches as complementary: the Wiggle Framework identifies \emph{what} is fragile and \emph{how much}; white-box methods \citep{radharapu2025calibrating} can investigate the mechanistic \emph{why}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
