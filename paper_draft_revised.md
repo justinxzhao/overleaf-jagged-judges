@@ -296,7 +296,7 @@ Beyond predicting wiggle, baseline jury majority strength is *interpretable*: it
 
 ### 6.3 Epistemic Fragility Beyond the Single-Shot Verdict
 
-Even though LLM judges are becoming widespread, including being increasingly used as training signals, they are typically deployed as a traditional classifier -- emitting a verdict absent epistemic tests. Finding 6 found that introducing epistemic challenges that actually succeed in changing the judge's mind are almost always likely to be more corruptive than corrective. If L4-L6 is any approximation of multi-agent judging designs like debate-based scalable oversight, and self-critique reward loops, our work suggests that these are not epistically robust or corrective.
+Even though LLM judges are becoming widespread, including being increasingly used as training signals, they are typically deployed as a traditional classifier -- emitting a verdict absent epistemic tests. Finding 6 found that introducing epistemic challenges that actually succeed in changing the judge's mind are almost always likely to be more corruptive than corrective. If L4-L6 is any approximation of multi-agent judging designs like debate-based scalable oversight, and self-critique reward loops, our work suggests that these are neither epistically robust nor corrective.
 
 ---
 
@@ -308,7 +308,7 @@ We deliberately focus on borderline items where judges are likely to be uncertai
 
 ## 8. Conclusion
 
-We presented the Wiggle Framework — a unified stress test for LLM-judge epistemic stability across Mechanical Consistency, Single-turn Conviction, and Multi-turn Persistence — applied to 9 frontier judges, 14 judging tasks, and 6 pressure levels. Judge behavior is jagged: no scalar summary captures it, mechanical re-prompting underestimates fragility by an order of magnitude, and sycophancy, conformity, and adversarial vulnerability are loosely related axes rather than a single dimension. The load-bearing implication is interpretive: the epistemic structure surrounding a single-shot verdict — defense, justification, rated confidence — looks substantial but collapses under sustained pressure. Three practical takeaways follow: resist single-narrative summaries; use baseline jury majority strength as a golden-set reliability screen; and do not use persuasion or debate to refine judge verdicts in hill-climbing settings. As judges enter agentic loops and scalable-oversight pipelines, the structural shape of their inconsistency — not its magnitude — should inform how we consume their signal.
+We presented the Wiggle Framework — a unified stress test for LLM-judge epistemic stability — applied to 9 frontier judges, 14 judging tasks, and 6 pressure levels. Our findings defy simple narratives about sycophancy or robustness, recognizing that the structural shape of how judges wiggle is a jagged phenomenon. Baseline jury majority strength serves as an imperfect, but the most reliable signal for anticipating which items are likely to be epistemically unstable. Average accuracy on a golden set remains the canonical deployment criterion; our tests show that any amount of pressure on a judge tends to be more corruptive than corrective, and we hope the Wiggle Framework gives practitioners a structured way to characterize epistemic behavior beyond raw accuracy — characterization that, given the jaggedness, must be built per-task rather than assumed to transfer.
 
 ---
 
