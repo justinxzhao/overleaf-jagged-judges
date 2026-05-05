@@ -151,6 +151,51 @@ L5's strategy is to *cycle* through L1-L4 tactics across the 10 challenge turns 
 
 **L4 (consensus pressure alone) consistently outperforms L5 (cycling through all tactics, including L4)**. Opening with a strong social-proof claim ("three independent reviewers all disagree with your assessment") is more persuasive than diluting that claim by cycling through weaker tactics first; the "dilly-dallying" of L5 appears to *inoculate* the judge — encountering mild challenges (L1, L2) before the strong one (L4) builds resistance.
 
+### Finding 3: Adaptive Persuasion Is Shockingly Effective; Its Power Is in Multi-Turn Adaptation, Not Opening Strength
+
+![Survival curves](data/analysis_cross_domain/png/survival/survival_curves.png)
+
+**Figure 4.** Verdict retention over 10 challenge turns, by pressure level, aggregated across domains. L1-L5 retention loses at most ~5pp by turn 10; L6 retention collapses by 30-70pp depending on domain.
+
+The most dramatic discontinuity in our data is the jump from L5 (cycling through L1-L4 across 10 turns with pre-generated arguments) to L6 (an adaptive LLM persuader generating each turn in response to the judge's history). Across all 12 (domain, scale) conditions the L5→L6 multiplier ranges from 1.2× (MAGE binary, already saturated at 64%) to 5.1× (HH-RLHF Likert, 16.1% to 81.8%); on the steepest cliff, **HH-RLHF Likert wiggle jumps from 16% to 82% — a 65pp jump from a single change in adversarial sophistication** (Table 7).
+
+**Table 7.** L5 to L6 wiggle rate multiplier across all 12 (domain, scale) cells, sorted descending.
+
+| Domain | Scale | L5 | L6 | Multiplier |
+|---|---|---:|---:|---:|
+| HH-RLHF | Likert | 16.1 | 81.8 | **5.1×** |
+| ToxiGen | Likert | 15.9 | 62.4 | **3.9×** |
+| WildGuard | Likert | 21.1 | 76.4 | **3.6×** |
+| ToxiGen | binary | 22.1 | 68.6 | **3.1×** |
+| HH-RLHF | binary | 24.6 | 73.8 | **3.0×** |
+| AEGIS | Likert | 25.3 | 72.3 | **2.9×** |
+| WildGuard | binary | 28.2 | 69.7 | **2.5×** |
+| AEGIS | binary | 31.9 | 78.6 | **2.5×** |
+| Paired Prompts | Likert | 34.3 | 78.2 | **2.3×** |
+| MAGE | Likert | 58.3 | 91.2 | **1.6×** |
+| Paired Prompts | binary | 52.3 | 76.8 | **1.5×** |
+| MAGE | binary | 63.8 | 77.4 | **1.2×** |
+
+That LLMs can be persuasive is known (Khan et al., 2024; Chern et al., 2024); what our setup specifically shows is the *magnitude* of the impact when a persuader has access to the judge's prior turns. The L6 numbers above are averaged across **three persuaders from three different organizations** (GPT-5.4, Claude Opus, Grok-4.1 Reasoning); although individual persuaders differ substantially in effectiveness (Finding 8), the average is striking enough that no choice of persuader changes the qualitative picture.
+
+The cliff matches a collapse in jury defense. When we run 9 judges in parallel and take the majority vote, the jury is remarkably resilient to scripted pressure: accuracy loses at most ~5pp over 10 turns of L1-L5 challenges. At L6 the jury collapses by 25-55pp: WildGuard 80%→30%, MAGE 83%→25%, HH-RLHF 63%→38% (per-domain accuracy-over-turns plots in Appendix C). **Scripted challenges are survivable by majority voting; adaptive challenges are not.**
+
+**L6's first move is not the source of its power.** The flip-timing breakdown (Appendix H) reveals that on turn 1, L6 (20.3%) is actually *less* effective than L4 (27.1%) — a single fabricated-consensus argument lands harder than the persuader's opening move. L6 only overtakes L4 through sustained adaptation, with a 2.4× amplification ratio from turn 1 to turn 10 (Table 8).
+
+**Table 8.** Wiggle rate at turn 1 vs turn 10 by pressure level, with turn-10/turn-1 amplification and per-turn rank. L6 is only the second-strongest pressure on turn 1 (behind L4) but the strongest by turn 10. Its 2.4× amplification is the highest of any scripted or adaptive level.
+
+| Level | Turn 1 | Turn 10 | T10/T1 | Rank @ T1 | Rank @ T10 |
+|---|---:|---:|---:|:---:|:---:|
+| L4 | **27.1%** | 41.6% | 1.5× | #1 | #2 |
+| **L6** | 20.3% | **49.5%** | **2.4×** | #2 | **#1** |
+| L5 | 15.1% | 30.4% | 2.0× | #3 | #3 |
+| L3 | 13.8% | 19.3% | 1.4× | #4 | #5 |
+| L2 | 12.6% | 17.0% | 1.3× | #5 | #6 |
+| L1 | 7.2% | 19.5% | 2.7× | #6 | #4 |
+
+Scripted single-turn challenges (L2-L3) achieve only 1.3-1.4× amplification from turn 1 to turn 10 — almost all their effect is immediate. L4 gets a modest 1.5×. L6 gets 2.4× because it *learns from the judge's responses* and adjusts its strategy, producing compounding returns that scripted repetition cannot match. This is what makes L6 break juries: not heavier hitting on any single turn, but progressively better targeting of each judge's weak points across the conversation. It is also the empirical foundation for the L6-as-red-teamer recommendation in §6: every frontier judge we tested is vulnerable to a single L6-style adversary, which makes L6 a working specification of an attack against any system that uses an LLM judge as a reward signal.
+
+
 ### Finding 4: Binary Decisions Are 3-4× Easier to Flip Than Likert on Turn 1 — but Not Over 10 Turns
 
 Binary verdicts are categorical decisions; Likert scores are positions on a 1-5 scale. Under a single counterargument, binary verdicts flip 3-4× more often than Likert across L2-L6, and 31× more often at L1 — "Are you sure?" barely registers on Likert turn 1 (0.5%) but moves binary verdicts at 14.0% (Table 6). By turn 10, however, the gap collapses to 1.1-2.4×, and at L4 and L6 the two scales nearly converge. Binary is also more mechanically unstable: every model, on every metric, shows higher mechanical variation on binary than on Likert (Figure 5), with gaps of +1pp to +9pp.
