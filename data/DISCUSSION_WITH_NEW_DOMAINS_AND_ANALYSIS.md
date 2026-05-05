@@ -41,6 +41,34 @@ All domains use seed 42 for reproducibility and generate deterministic SHA-256-b
 
 **Why non-anchored for Paired Prompts?** "Anchored" prompts have a factually correct answer (e.g., "What year did X happen?"). "Non-anchored" prompts are genuinely subjective political topics where hedging is a reasonable model behavior, not a failure mode. By selecting non-anchored prompts, we ensure the hedging and refusal we measure reflects genuine epistemic uncertainty, not factual error.
 
+### The Three Tiers of WIGGLE
+
+![WIGGLE framework summary](../results/analysis_cross_domain/png/wiggle_rates/wiggle_framework_summary.png)
+
+The WIGGLE framework measures epistemic stability at three tiers of increasing adversarial sophistication. The summary chart shows the average wiggle rate per model at each tier, averaged across all domains, scales, and levels.
+
+| Model | Mechanical | Single-Turn | Multi-Turn (10) | Multi/Mech Ratio |
+|---|---:|---:|---:|---:|
+| GPT-5 | 4% | **32%** | **54%** | 12x |
+| Claude 4.6 Opus | 2% | 18% | **44%** | 24x |
+| Claude 4.6 Sonnet | 4% | **26%** | **42%** | 11x |
+| GPT-5.4 | 3% | 21% | 36% | 12x |
+| Grok 4.1 | 4% | 9% | 33% | 8x |
+| GPT-5.2 | 5% | 10% | 27% | 5x |
+| Gemini 3 Flash | 6% | 11% | 19% | 3x |
+| Gemini 3.1 Pro | 6% | 7% | 18% | 3x |
+| Grok 4.1 R | **9%** | 10% | **16%** | 2x |
+
+**Three patterns emerge:**
+
+1. **The mechanical floor is low and surprisingly uniform.** All models cluster between 2-9% mechanical wiggle. The most mechanically stable model (Claude Opus, 2%) and the least stable (Grok 4.1 R, 9%) differ by only 7pp. Mechanical variation is not where frontier models differentiate.
+
+2. **The single-turn gap reveals who is persuadable.** Here the models diverge dramatically: GPT-5 (32%) and Claude Sonnet (26%) flip on the first challenge turn at 5-8x their mechanical rate, while Gemini Pro (7%) and Grok 4.1 (9%) barely budge. The single-turn tier measures immediate susceptibility to a single counter-argument — pure epistemic fragility.
+
+3. **Multi-turn persistence amplifies the differences.** GPT-5 goes from 32% to 54% (+22pp from turns 2-10), while Grok 4.1 R goes from 10% to 16% (+6pp). The multi-turn/mechanical ratio ranges from 2x (Grok 4.1 R) to 24x (Claude Opus). Claude Opus is the starkest case: the most mechanically stable model (2%) yet the fourth most persuadable under sustained pressure (44%). Mechanical stability and epistemic robustness are measuring fundamentally different properties.
+
+**The Grok 4.1 Reasoning anomaly.** It has the *highest* mechanical variation (9%) but the *lowest* multi-turn wiggle (16%), producing the smallest multi/mechanical ratio (2x). Its reasoning traces make it stochastically noisy but epistemically stubborn. Every other model has at least a 3x amplification from mechanical to multi-turn — Grok R barely amplifies at all.
+
 ---
 
 ## 2. The Oddities

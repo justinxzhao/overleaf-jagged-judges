@@ -3,8 +3,8 @@
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{hero_placeholder.png}
-  \caption{The Wiggle Framework decomposes LLM-judge inconsistency into three dimensions --- Mechanical Consistency (stability under silence), Single-turn Conviction (stability under single adversarial challenges), and Multi-turn Persistence (stability under sustained or adaptive pressure).}
+  \includegraphics[width=\linewidth]{wiggle_framework_summary.png}
+  \caption{Mean wiggle rate per judge across the three Wiggle Framework dimensions, averaged over six domains, two scales, and all pressure levels. \emph{Mechanical Consistency} (stability under silence): 2--9\%; \emph{Single-turn Conviction} (one challenge): 7--32\%; \emph{Multi-turn Persistence} (10 turns of pressure): 16--54\%. Every frontier judge wiggles on every dimension, with multi-turn rates 2--24$\times$ the mechanical floor.}
   \label{fig:hero}
 \end{figure}
 
@@ -14,7 +14,7 @@
 
 We propose the \emph{Wiggle Framework}, a unified stress test for epistemic instability in LLM judges. It decomposes judge instability into three dimensions: \emph{Mechanical Consistency}, which captures movement under repeated inference and superficial prompt changes; \emph{Single-turn Conviction}, which captures response to a single challenge; and \emph{Multi-turn Persistence}, which captures response to sustained or adaptive pressure across turns. We use the framework to measure the wiggle of 9 frontier models across 14 judging tasks drawn from six datasets spanning safety classification, toxicity detection, red-teaming, AI writing detection, and political-response evaluation, under both binary and Likert grading schemes.
 
-Wiggle is universal across all six domains, at substantial rates, for every model tested. Mechanical variation rates range from 1--14\%. At consensus pressure (L4), mean wiggle rates range from 19\%--71\%; under adaptive LLM persuasion (L6) they climb to 62--91\%, with some trials with individual verdict retention rates as low as 0\%.
+Wiggle is universal across all six domains, at substantial rates, for every model tested (Figure~\ref{fig:hero}). Mechanical variation rates range from 1--14\%. At consensus pressure (L4), mean wiggle rates range from 19\%--71\%; under adaptive LLM persuasion (L6) they climb to 62--91\%, with some trials with individual verdict retention rates as low as 0\%.
 
 \paragraph{Contributions.}
 \begin{itemize}

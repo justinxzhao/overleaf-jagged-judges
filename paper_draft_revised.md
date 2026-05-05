@@ -12,9 +12,9 @@ LLM judges have become central infrastructure for model evaluations, online grad
 
 ## 1. Introduction
 
-![Hero](data/hero_placeholder.png)
+![Hero](data/analysis_cross_domain/png/wiggle_rates/wiggle_framework_summary.png)
 
-**Figure 1.** The Wiggle Framework decomposes LLM-judge inconsistency into three dimensions — Mechanical Consistency (stability under silence), Single-turn Conviction (stability under single adversarial challenges), and Multi-turn Persistence (stability under sustained or adaptive pressure).
+**Figure 1.** Mean wiggle rate per judge across the three Wiggle Framework dimensions, averaged over six domains, two scales, and all pressure levels. *Mechanical Consistency* (stability under silence): 2-9%; *Single-turn Conviction* (one challenge): 7-32%; *Multi-turn Persistence* (10 turns of pressure): 16-54%. Every frontier judge wiggles on every dimension, with multi-turn rates 2-24× the mechanical floor.
 
 LLM judges have become central infrastructure for evaluations, online monitoring, and reward modeling. They score model outputs in benchmarks, classify content in production, and increasingly stand in for human judgment in the loops that train, grade, and refine frontier models. The standard validation workflow is straightforward: curate a golden set of expert-vetted examples, check that the LLM judge's verdicts are reasonably aligned to those labels, and deploy the judge if its accuracy is sufficiently good. This establishes whether a judge is correct on average on a static set of examples, but it says much less about whether the judge is *stable*.
 
@@ -22,7 +22,7 @@ LLM judges have become central infrastructure for evaluations, online monitoring
 
 We propose the *Wiggle Framework*, a unified stress test for epistemic instability in LLM judges. It decomposes judge instability into three dimensions: *Mechanical Consistency*, which captures movement under repeated inference and superficial prompt changes; *Single-turn Conviction*, which captures response to a single challenge; and *Multi-turn Persistence*, which captures response to sustained or adaptive pressure across turns. We use the framework to measure the wiggle of 9 frontier models across 14 judging tasks drawn from six datasets spanning safety classification, toxicity detection, red-teaming, AI writing detection, and political-response evaluation, under both binary and likert grading schemes.
 
-Wiggle is universal across all six domains, at substantial rates, for every model tested. Mechanical variation rates range from 1-14%. At consensus pressure (L4), mean wiggle rates range from 19%-71%; under adaptive LLM persuasion (L6) they climb to 62-91%, with some trials with individual verdict retention rates as low as 0%.
+Wiggle is universal across all six domains, at substantial rates, for every model tested (Figure 1). Mechanical variation rates range from 1-14%. At consensus pressure (L4), mean wiggle rates range from 19%-71%; under adaptive LLM persuasion (L6) they climb to 62-91%, with some trials with individual verdict retention rates as low as 0%.
 
 **Contributions.**
 
@@ -80,7 +80,7 @@ We decompose judge inconsistency into three dimensions, each capturing a distinc
 - **MAGE** (AI-generated text detection, 100 items): each item is either human-written or AI-generated, with known provenance.
 - **Paired Prompts** (political content, 50 prompt pairs per rubric): prompts are sampled from a non-anchored set, with two independent rubrics — *hedging* and *refusal*.
 
-Five of the six datasets ship with ground-truth labels, enabling per-wiggle classification as *corrective* (toward the label) or *corrupting* (away). Paired Prompts has no canonical ground truth, so it is excluded from corrective/corrupting analyses.
+Five of the six datasets have with ground-truth labels, enabling per-wiggle classification as *corrective* (toward the label) or *corrupting* (away). Paired Prompts has no canonical ground truth, so it is excluded from corrective/corrupting analyses.
 
 **Table 2.** Mean wiggle rate (%) by domain, scale, and pressure level. Each cell is the average across all 9 judges. Bold marks the largest cell in each row to highlight where the domain is most fragile. Paired Prompts is the average of the hedging and refusal sub-rubrics.
 
@@ -115,9 +115,9 @@ Wiggliness captures overall susceptibility to pressure; jaggedness captures how 
 
 ## 5. Findings
 
-### Finding 1: Mechanical Re-prompting Underestimates Judge Wiggle by an Order of Magnitude
+### Finding 1: Mechanical Re-prompting Underestimates Multi-turn Wiggle
 
-The mechanical tests in our framework (temperature-zero repeatability, seed-injection repeatability, position invariance) measure the *floor* of judge instability — what happens with no adversarial pressure at all, just re-asking the same question. The multi-turn experiments measure the *ceiling* — what happens under graduated adversarial pressure. Running the two on the same items, judges, and criteria reveals that the floor is low, the ceiling is high, and the two are not even monotonically related across models.
+The goal of mechanical tests in our framework (temperature-zero repeatability, seed-injection repeatability, position invariance) is to measure the *floor* of judge instability — what happens with no adversarial pressure at all, just re-asking the same question.
 
 ![Mechanical variation overall, by model](data/analysis_cross_domain/png/mechanical/absolute_variation_overall_avg.png)
 
@@ -127,7 +127,7 @@ The mechanical tests in our framework (temperature-zero repeatability, seed-inje
 
 **Figure 2b.** Per-model gap between binary and Likert mechanical variation. Every model is more mechanically unstable on binary than on Likert (using our ≥2-point threshold for Likert wiggle), with gaps ranging from +1pp to +9pp.
 
-**The floor is low.** Mechanical variation rates range from 1-14% of items across the 9 models (Figure 2a, Table 5). Claude 4.6 Opus is the most stable (1-2% on every metric); Grok-4.1 Reasoning is the least (5-12%).
+Mechanical variation rates range from 1-14% of items across the 9 models (Figure 2a, Table 5). Claude 4.6 Opus is the most stable (1-2% on every metric); Grok-4.1 Reasoning is the least (5-12%).
 
 **Table 5.** Mechanical variation rate (%) by model, averaged over the six domains. Lower is more stable. *Invariance Flip*: rate of verdict change when the two opposing arguments are reordered. *Seed Repeat*: rate of change across 10 greedy trials each with a different 64-character random string injected into the system prompt. *Temp0 Repeat*: rate of change across 10 identical greedy-decoding trials.
 
@@ -143,13 +143,9 @@ The mechanical tests in our framework (temperature-zero repeatability, seed-inje
 | Gemini 3 Flash | 6.4 | 9.9 | 5.3 |
 | Grok 4.1 R | 5.4 | 11.8 | 11.7 |
 
-**The ceiling is high.** The same models show 25-71% wiggle at L4 (templated consensus pressure) and 62-91% at L6 (adaptive persuasion) on the same items (Table 2). The gap between the mechanical floor and the adversarial ceiling is **20-80 percentage points** — the space of epistemic fragility that temperature resampling alone completely misses, and the structural reason a unified framework is needed rather than a single confidence scalar.
-
-**The floor and ceiling are not monotonically related.** Grok-4.1 Reasoning has the *highest* mechanical variation in our panel (12% on seed and temp=0) yet is among the most *resistant* to multi-turn pressure (~16% average wiggle). Its reasoning traces are mechanically noisy but epistemically stubborn — chain-of-thought sampling introduces variation without making the verdict persuadable. Claude Opus is the inverse: the *lowest* mechanical variation (1-2%) but moderate multi-turn wiggle (~39% on some domains). A mechanically precise model is not necessarily an epistemically robust one.
+Grok-4.1 Reasoning has the *highest* mechanical variation in our panel (12% on seed and temp=0) yet is among the most *resistant* to multi-turn pressure (~16% average wiggle). Its reasoning traces are mechanically noisy but epistemically stubborn — chain-of-thought sampling introduces variation without making the verdict persuadable. Claude 4.6 Opus is the inverse: the *lowest* mechanical variation (1-2%) but moderate multi-turn wiggle (~39% on some domains). A mechanically precise model is not necessarily an epistemically robust one or vice versa.
 
 **Binary is universally more mechanically unstable than Likert.** Every model, on every metric, shows higher mechanical variation on binary than on Likert (Figure 2b), with gaps of +1pp to +9pp. Binary verdicts are fragile threshold events that can flip without any pressure at all; Likert scores require sustained movement to cross the midpoint. This foreshadows the binary-vs-Likert capture-timing pattern in Finding 4.
-
-This is the most direct response to the natural objection that one could simply re-run a judge several times and look at variance. Mechanical re-testing catches 1-14% of items as unstable; the graduated pressure framework catches 10-91%. The two methods measure fundamentally different quantities — stochastic sampling noise versus susceptibility to contextual manipulation — and the gap is the contribution.
 
 ### Finding 2: Consensus Pressure Alone Outperforms Cycling Through Multiple Tactics
 
