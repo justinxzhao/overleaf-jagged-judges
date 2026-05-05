@@ -87,20 +87,27 @@ Binary verdicts are categorical decisions; Likert scores are positions on a 1--5
 \paragraph{The gap closes by turn 10.} Under sustained L5--L6 pressure, Likert wiggle often \emph{exceeds} binary by turn 10: HH-RLHF Likert 81.8\% vs binary 73.8\%; WildGuard Likert 76.4\% vs binary 69.7\%; MAGE Likert 91.2\% vs binary 77.4\%. One mechanism explains both regimes: binary flips are threshold events that activate near the decision boundary, so they fire fast or not at all; Likert flips are gradual drifts that need to cross the midpoint, so they catch up given enough turns. For test-battery design: a single-turn challenge is a cost-effective screen for binary stability, but Likert stability requires multi-turn testing.
 
 % =============================================================
-\paragraph{Finding 5: Flips Are Predominantly Permissive on Safety Domains.}
+\paragraph{Finding 5: Binary Judges Flip Toward Restrictive; Likert Judges Flip Toward Permissive.}
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=0.95\linewidth]{direction_overall_combined.png}
-  \caption{For each pressure level, the fraction of all flips that move toward the \emph{restrictive} verdict (``unsafe'', ``toxic'', ``refusing'') vs the \emph{permissive} verdict (``safe'', ``not toxic'', ``compliant''), aggregated across all six domains and both scales. On Likert safety scales, 60--78\% of flips are toward the permissive direction.}
+  \includegraphics[width=0.95\linewidth]{direction_overall.png}
+  \caption{For each pressure level, the fraction of all flips that move toward the \emph{restrictive} verdict (``unsafe'', ``toxic'', ``refusing'') vs the \emph{permissive} verdict (``safe'', ``not toxic'', ``compliant''), shown separately for binary and Likert scales and aggregated across all six domains. The two scales show \emph{opposite} directional biases at every level L1--L6: binary flips lean restrictive, Likert flips lean permissive.}
   \label{fig:direction-overall}
 \end{figure}
 
-When a judge's verdict flips under pressure, which direction does it go? Aggregating across 9 judges and all six domains (Figure~\ref{fig:direction-overall}), we find a striking asymmetry on Likert scales: \textbf{60--78\% of flips on safety domains are toward the permissive direction} (less restrictive verdict, e.g., ``safe'' rather than ``unsafe''; ``not toxic'' rather than ``toxic''). HH-RLHF Likert is the strongest case at $\sim 78\%$ permissive. The exception is MAGE binary, where flips lean $\sim 62\%$ toward ``ai\_generated'' --- a domain where the restrictive direction \emph{is} the suspicious direction.
+When a judge's verdict flips under pressure, the direction depends on the scale --- and the two scales bias in opposite directions on the same items. Binary flips lean \emph{restrictive} at every pressure level: 15\% restrictive vs 12\% permissive at L1, growing to 26\% vs 17\% at L4 and 30\% vs 24\% at L6. Likert flips lean \emph{permissive} at every pressure level: 13\% permissive vs 6\% restrictive at L1, 25\% vs 17\% at L4, and 35\% vs 21\% at L6 (Figure~\ref{fig:direction-overall}). The pattern holds at every single level. The MAGE binary exception ($\sim 62\%$ toward ``ai\_generated'') fits the same picture once you note that on AI-detection, ``ai\_generated'' is the suspicious direction, parallel to ``unsafe'' on safety binary.
 
-Safety-trained models are trained to be cautious --- to flag content as potentially harmful. Our data shows that when these models' safety judgments are challenged, they predominantly \emph{retreat from} their cautious position. \textbf{Pressure pushes safety judges toward under-flagging, not over-flagging.} This is the opposite of what a naive ``safety training makes models overcautious'' narrative would predict, and it has direct implications for the reliability of LLM-based safety gates: every conversational turn between a judge and an adversary is, on average, eroding the judge's willingness to flag harm.
+\paragraph{What could explain this scale-dependent asymmetry?} The two patterns are consistent with a single speculative mechanism: \textbf{judges retreat to the cautious answer in their scale's geometry.}
 
-This is one of two asymmetries we report: the \emph{absolute} direction of flips (permissive vs restrictive). The next finding reports the other (corrective vs corrupting). The two dimensions are not the same --- Finding~6's WildGuard Likert L2--L3 corrective window is also predominantly permissive --- and \S\ref{sec:discussion} returns to this point as the structural framing of the paper.
+\begin{itemize}
+\item On a binary scale, the only ``hedge'' available is to flip. The cautious move under safety RLHF is to err toward restrictive (``flag if uncertain''), so when pressure makes a borderline item ambiguous, the safety prior pushes the verdict from ``safe'' $\to$ ``unsafe''. This is consistent with the standard ``safety RLHF makes models overcautious'' narrative.
+\item On a Likert scale, the cautious move is to hedge toward the middle of the scale rather than commit to an extreme. Most adversarial items in our datasets receive Likert L0 ratings on the upper half (3--5, ``Moderately Unsafe'' through ``Extremely Unsafe''). When pressure erodes that commitment, the natural retreat is downward toward 1--3, which crosses our $\geq 2$-place wiggle threshold in the permissive direction. The same items the judge was confident were unsafe become items the judge is \emph{less sure} are unsafe.
+\end{itemize}
+
+If this story is right, pressure activates a hedging/uncertainty response rather than a true reversal of belief: on binary, the only hedge is to flip; on Likert, the hedge is to back off toward the midpoint. The practical implication is the same in both regimes --- pressure erodes conviction, not knowledge --- but the surface direction we observe is a function of the scale's geometry as much as the judge's beliefs. A naive read of Likert safety wiggle as ``judges are becoming permissive'' misses the more careful conclusion that judges are losing conviction.
+
+This is one of two directional asymmetries we report. The next finding reports the other (corrective vs corrupting), and \S\ref{sec:discussion} returns to the absolute-vs-corrective distinction as the structural framing of the paper.
 
 % =============================================================
 \paragraph{Finding 6: Pressure Is Net-Corrupting at Every Level.}

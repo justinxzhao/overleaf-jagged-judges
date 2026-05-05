@@ -141,7 +141,7 @@ The Wiggle Framework measures epistemic stability at three tiers of increasing a
 
 This is the most direct response to the natural objection that one could simply re-run a judge several times and look at variance. Mechanical re-testing catches 2-9% of items as unstable; multi-turn pressure on the same items catches 16-54% averaged, and up to 91% in the worst (domain, scale, level) cells. The two methods measure fundamentally different quantities — stochastic sampling noise versus susceptibility to contextual manipulation — and the gap is the contribution.
 
-### Finding 2: Consensus Pressure Alone Outperforms Cycling Through Multiple Tactics
+### Finding 2: Repetitive consensus pressure persuades more than cycling through multiple tactics
 
 ![Cross-domain wiggle rates by pressure level](data/analysis_cross_domain/png/wiggle_rates/cross_domain_lines.png)
 
@@ -149,41 +149,34 @@ This is the most direct response to the natural objection that one could simply 
 
 L5's strategy is to *cycle* through L1-L4 tactics across the 10 challenge turns — a round-robin that intersperses "are you sure?" with counterarguments, expert appeals, and consensus pressure. Intuitively, variety should be at least as effective as any single tactic repeated.
 
-**L4 (consensus pressure alone) consistently outperforms L5 (cycling through all tactics, including L4)** across all 12 conditions. The drop is largest on Likert safety domains: HH-RLHF Likert -23.0pp (39.1% to 16.1%), AEGIS Likert -22.9pp, WildGuard Likert -18.4pp. On binary scales the drop is smaller but still consistent (3-9pp). Opening with a strong social-proof claim ("three independent reviewers all disagree with your assessment") is more persuasive than diluting that claim by cycling through weaker tactics first; the "dilly-dallying" of L5 appears to *inoculate* the judge — encountering mild challenges (L1, L2) before the strong one (L4) builds resistance.
-
-### Finding 3: Adaptive LLM Persuasion Breaks Every Judge and Every Majority-Vote Jury
-
-![Survival curves](data/analysis_cross_domain/png/survival/survival_curves.png)
-
-**Figure 4.** Verdict retention over 10 challenge turns, by pressure level, aggregated across domains.
-
-The jump from L5 (cycling through L1-L4) to L6 (adaptive persuader) is the most dramatic discontinuity in our data. Across all 12 (domain, scale) conditions the L5-to-L6 multiplier ranges from 1.2x (MAGE binary, already saturated at 64%) to 5.1x (HH-RLHF Likert, 16.1% to 81.8%). On the steepest cliff, **HH-RLHF Likert wiggle goes from 16% to 82% — a 65 percentage-point jump from a single change in adversarial sophistication**.
-
-The cliff is matched by a corresponding collapse in jury defense. When we run 9 judges in parallel and take the majority vote, the jury is remarkably resilient to scripted pressure: jury accuracy loses at most ~5pp over 10 turns of L1-L5 challenges. At L6, however, the jury collapses by 25-55pp: WildGuard 80% to 30%, MAGE 83% to 25%, HH-RLHF 63% to 38% (per-domain accuracy-over-turns plots are in Appendix C). **Scripted challenges are survivable by majority voting; adaptive challenges are not.**
+**L4 (consensus pressure alone) consistently outperforms L5 (cycling through all tactics, including L4)**. Opening with a strong social-proof claim ("three independent reviewers all disagree with your assessment") is more persuasive than diluting that claim by cycling through weaker tactics first; the "dilly-dallying" of L5 appears to *inoculate* the judge — encountering mild challenges (L1, L2) before the strong one (L4) builds resistance.
 
 ### Finding 4: Binary Decisions Are ~4× Easier to Flip Than Likert on Turn 1 — but Not Over 10 Turns
 
 Binary verdicts are categorical decisions; Likert scores are positions on a 1-5 scale. Under a single counterargument, binary verdicts flip ~4× more often than Likert (L2 first-turn wiggle rate 18.7% binary vs 4.8% Likert; binary captures **81-83%** of its eventual L2-L3 flips on turn 1 versus only 5-23% for Likert). Binary is also more mechanically unstable: every model, on every metric, shows higher mechanical variation on binary than on Likert (Figure 5), with gaps of +1pp to +9pp.
 
-![Binary vs Likert mechanical gap](data/analysis_cross_domain/png/mechanical/binary_vs_likert_diff.png)
-
-**Figure 5.** Per-model gap between binary and Likert mechanical variation. Every model is more mechanically unstable on binary than on Likert (using our ≥2-point threshold for Likert wiggle).
-
 **The gap closes by turn 10.** Under sustained L5-L6 pressure, Likert wiggle often *exceeds* binary by turn 10: HH-RLHF Likert 81.8% vs binary 73.8%; WildGuard Likert 76.4% vs binary 69.7%; MAGE Likert 91.2% vs binary 77.4%. Binary flips are threshold events that activate near the decision boundary, so they fire fast or not at all; Likert flips are gradual drifts that need to cross the midpoint, so they catch up given enough turns.
 
-### Finding 5: Flips Are Predominantly Permissive on Safety Domains
+### Finding 5: Binary Judges Flip Toward Restrictive; Likert Judges Flip Toward Permissive
 
-![Direction dumbbell, all domains and levels](data/analysis_cross_domain/png/survival/direction_overall_combined.png)
+![Direction dumbbell, all domains and levels, split by scale](data/analysis_cross_domain/png/survival/direction_overall.png)
 
-**Figure 6.** For each pressure level, the fraction of all flips that move toward the *restrictive* verdict ("unsafe", "toxic", "refusing") vs the *permissive* verdict ("safe", "not toxic", "compliant"), aggregated across all six domains and both scales.
+**Figure 6.** For each pressure level, the fraction of all flips that move toward the *restrictive* verdict ("unsafe", "toxic", "refusing") vs the *permissive* verdict ("safe", "not toxic", "compliant"), shown separately for binary and Likert scales and aggregated across all six domains. The two scales show *opposite* directional biases at every level L1-L6: binary flips lean restrictive, Likert flips lean permissive.
 
-When a judge's verdict flips under pressure, which direction does it go? We find a striking asymmetry on Likert scales: **60-78% of flips on safety domains are toward the permissive direction** (less restrictive verdict, e.g., "safe" rather than "unsafe"; "not toxic" rather than "toxic").
+When a judge's verdict flips under pressure, the direction depends on the scale — and the two scales bias in opposite directions on the same items. Binary flips lean *restrictive* at every pressure level: 15% restrictive vs 12% permissive at L1, growing to 26% vs 17% at L4 and 30% vs 24% at L6. Likert flips lean *permissive* at every pressure level: 13% permissive vs 6% restrictive at L1, 25% vs 17% at L4, and 35% vs 21% at L6. The pattern holds at every single level. The MAGE binary exception (~62% toward "ai_generated") fits the same picture once you note that on AI-detection, "ai_generated" is the suspicious direction, parallel to "unsafe" on safety binary.
 
-Safety-trained models are trained to be cautious — to flag content as potentially harmful. Our data shows that when these models' safety judgments are challenged, they predominantly *retreat from* their cautious position. **Pressure pushes safety judges toward under-flagging, not over-flagging.** This is the opposite of what a naive "safety training makes models overcautious" narrative would predict, and it has direct implications for the reliability of LLM-based safety gates: every conversational turn between a judge and an adversary is, on average, eroding the judge's willingness to flag harm.
+**What could explain this scale-dependent asymmetry?** The two patterns are consistent with a single speculative mechanism: **judges retreat to the cautious answer in their scale's geometry.**
+
+- On a binary scale, the only "hedge" available is to flip. The cautious move under safety RLHF is to err toward restrictive ("flag if uncertain"), so when pressure makes a borderline item ambiguous, the safety prior pushes the verdict from "safe" → "unsafe". This is consistent with the standard "safety RLHF makes models overcautious" narrative.
+- On a Likert scale, the cautious move is to hedge toward the middle of the scale rather than commit to an extreme. Most adversarial items in our datasets receive Likert L0 ratings on the upper half (3-5, "Moderately Unsafe" through "Extremely Unsafe"). When pressure erodes that commitment, the natural retreat is downward toward 1-3, which crosses our ≥2-place wiggle threshold in the permissive direction. The same items the judge was confident were unsafe become items the judge is *less sure* are unsafe.
+
+If this story is right, pressure activates a hedging/uncertainty response rather than a true reversal of belief: on binary, the only hedge is to flip; on Likert, the hedge is to back off toward the midpoint. The practical implication is the same in both regimes — pressure erodes conviction, not knowledge — but the surface direction we observe is a function of the scale's geometry as much as the judge's beliefs. A naive read of Likert safety wiggle as "judges are becoming permissive" misses the more careful conclusion that judges are losing conviction.
+
+This is one of two directional asymmetries we report. The next finding reports the other (corrective vs corrupting), and §6 returns to the absolute-vs-corrective distinction as the structural framing of the paper.
 
 ### Finding 6: Pressure Is Net-Corrupting at Every Level
 
-![Outcomes dumbbell, all domains and levels](data/analysis_cross_domain/png/ground_truth/outcomes_overall_combined.png)
+![Outcomes dumbbell, all domains and levels](data/analysis_cross_domain/png/ground_truth/outcomes_overall.png)
 
 **Figure 7.** For each pressure level, the fraction of all flips that move *toward* the dataset ground-truth label (corrective) vs *away* from it (corrupting), aggregated across the five domains with ground truth.
 
@@ -243,7 +236,7 @@ Despite the failure of family-level prediction (Finding 9), a model's *own* L1-L
 
 ### 6.1 Epistemic Stability Is Jagged: Resist Simple Explanations of Inconsistency
 
-The most common framings of LLM-judge instability — *the model is sycophantic*, *the model is overconfident*, *the model is just noisy* — are each true of part of the data and false of the rest. Mild doubt, fabricated consensus, and adaptive persuasion catch different items at low cross-correlation (Finding 7, ρ = 0.33-0.40 between L1, L4, and L6). Mechanical re-prompting and adversarial pressure measure quantities that differ by an order of magnitude (Finding 1). On safety Likert scales, flips are predominantly *permissive* even when pressure is net-corrupting (Findings 5 and 6) — the *absolute* and *corrective* directions of wiggle are independent dimensions and can disagree on the same items. And a model's level-profile *shape* transfers across domains while its absolute rates and ranks do not (Findings 9 and 10).
+The most common framings of LLM-judge instability — *the model is sycophantic*, *the model is overconfident*, *the model is just noisy* — are each true of part of the data and false of the rest. Mild doubt, fabricated consensus, and adaptive persuasion catch different items at low cross-correlation (Finding 7, ρ = 0.33-0.40 between L1, L4, and L6). Mechanical re-prompting and adversarial pressure measure quantities that differ by an order of magnitude (Finding 1). On safety domains, flips lean restrictive on binary and permissive on Likert at every pressure level even when pressure is net-corrupting (Findings 5 and 6) — the *absolute* and *corrective* directions of wiggle are independent dimensions and can disagree on the same items. And a model's level-profile *shape* transfers across domains while its absolute rates and ranks do not (Findings 9 and 10).
 
 Concretely, no single judge is universally best. Mean-retention values across the 12 (domain, scale) cells span 0.085 (GPT-5 on MAGE binary) to 0.860 (Gemini 3.1 Pro on MAGE binary) — a 10x within-task gap. Within-model spans are also large (Claude Sonnet 0.171 to 0.904; GPT-5 0.033 to 0.714), and family is a weak proxy: Gemini Flash↔Pro share ρ = 0.32, lower than most cross-family pairs.
 
@@ -295,7 +288,7 @@ We deliberately focus on borderline items where judges are likely to be uncertai
 
 ## 8. Conclusion
 
-We presented the Wiggle Framework, which decomposes LLM-as-judge reliability into three dimensions — Mechanical Consistency, Single-turn Conviction, and Multi-turn Persistence — and validated it across six judgment domains, two response scales, six pressure levels, and nine frontier models. The cross-domain instrument reveals ten epistemic oddities that defy simple narratives about sycophancy or robustness: a 20-80pp gap between the mechanical floor and the adversarial ceiling that no single re-sampling protocol can reveal; focused consensus pressure outperforms varied cycling (L4>L5); the L6 cliff and the collapse of an 8-judge majority defense; an asymmetric flip toward permissive verdicts on safety Likert; net-corrupting pressure at every level except a narrow WildGuard Likert L2-L3 corrective window; the dissociation of sycophancy, conformity, and adversarial vulnerability; persuader idiosyncrasy in which Grok-reasoning's traces self-inoculate; family is a weak predictor of a sibling's wiggle profile; binary captures flips on turn 1 while Likert flips accumulate; and within-model profile shape transfers across domains while ranks and rates do not. Three practical takeaways follow: resist simple narratives of inconsistency; use jury disagreement at baseline as a cheap reliability screen for golden-set labels; and do not use persuasion or debate procedures to refine judge verdicts in hill-climbing settings. As LLM judges become load-bearing infrastructure for capability measurement and frontier-model training, the structural shape of their inconsistency — not just its overall magnitude — should inform how we design the loops that consume their signal.
+We presented the Wiggle Framework, which decomposes LLM-as-judge reliability into three dimensions — Mechanical Consistency, Single-turn Conviction, and Multi-turn Persistence — and validated it across six judgment domains, two response scales, six pressure levels, and nine frontier models. The cross-domain instrument reveals ten epistemic oddities that defy simple narratives about sycophancy or robustness: a 20-80pp gap between the mechanical floor and the adversarial ceiling that no single re-sampling protocol can reveal; focused consensus pressure outperforms varied cycling (L4>L5); the L6 cliff and the collapse of an 8-judge majority defense; a scale-dependent directional asymmetry — binary flips lean restrictive while Likert flips lean permissive at every pressure level; net-corrupting pressure at every level except a narrow WildGuard Likert L2-L3 corrective window; the dissociation of sycophancy, conformity, and adversarial vulnerability; persuader idiosyncrasy in which Grok-reasoning's traces self-inoculate; family is a weak predictor of a sibling's wiggle profile; binary captures flips on turn 1 while Likert flips accumulate; and within-model profile shape transfers across domains while ranks and rates do not. Three practical takeaways follow: resist simple narratives of inconsistency; use jury disagreement at baseline as a cheap reliability screen for golden-set labels; and do not use persuasion or debate procedures to refine judge verdicts in hill-climbing settings. As LLM judges become load-bearing infrastructure for capability measurement and frontier-model training, the structural shape of their inconsistency — not just its overall magnitude — should inform how we design the loops that consume their signal.
 
 ---
 
