@@ -14,7 +14,7 @@ LLM judges have become central infrastructure for model evaluations, online grad
 
 ![Hero](data/analysis_cross_domain/png/wiggle_rates/wiggle_framework_summary.png)
 
-**Figure `fig:hero`.** Mean wiggle rate per judge across the three Wiggle Framework dimensions, averaged over six domains, two scales, and all pressure levels. *Mechanical Consistency* (stability under silence): 2-9%; *Single-turn Conviction* (one challenge): 7-32%; *Multi-turn Persistence* (10 turns of pressure): 16-54%. Every frontier judge wiggles on every dimension, with multi-turn rates 2-24× the mechanical floor.
+**Figure `fig:hero`.** Mean wiggle rate per judge across the three Wiggle Framework dimensions, averaged over six domains, two scales, and all pressure levels. Every frontier judge wiggles on every dimension. *Mechanical Consistency*: 2-9%; *Single-turn Conviction*: 7-32%; *Multi-turn Persistence*: 16-54%.
 
 LLM judges have become central infrastructure for evaluations, online monitoring, and reward modeling. They score model outputs in benchmarks, classify content in production, and increasingly stand in for human judgment in the loops that train, grade, and refine frontier models. The standard validation workflow is straightforward: curate a golden set of expert-vetted examples, check that the LLM judge's verdicts are reasonably aligned to those labels, and deploy the judge if its accuracy is sufficiently good. This establishes whether a judge is correct on average on a static set of examples, but it says much less about whether the judge is *stable*.
 
@@ -81,31 +81,13 @@ We decompose judge inconsistency into three dimensions, each capturing a distinc
 
 ### Finding 1: Mechanical Re-prompting Underestimates Multi-turn Wiggle
 
-The Wiggle Framework measures epistemic stability at three tiers of increasing adversarial sophistication: *mechanical* (temperature-zero, seed-injection, and positional re-prompting with no new information); *single-turn* (one challenge from L1-L4); and *multi-turn* (10 challenge turns under L5-L6 protocols). Running all three tiers on the same items, judges, and criteria (Figure `fig:hero`) reveals three patterns plus one anomaly.
+Averaged across the three mechanical tests, all 9 models cluster between 2-9% wiggle (Figure `fig:hero`, mechanical bin; per-test breakdown in Table `tab:mech-variation`). The most mechanically stable judge (Claude Opus, 2%) and the least (Grok-4.1 R, 9%) differ by only 7pp. Mechanical variation is not where frontier models differentiate. 
 
-**Table `tab:mech-variation`.** Mechanical variation rate (%) by model, averaged over the six domains. Lower is more stable. *Invariance Flip*: rate of verdict change when the two opposing arguments are reordered. *Seed Repeat*: rate of change across 10 greedy trials each with a different 64-character random string injected into the system prompt. *Temp0 Repeat*: rate of change across 10 identical greedy-decoding trials.
+Models that look nearly identical at the mechanical floor pull apart sharply once a single counter-argument is introduced. Averaged across L1-L4, GPT-5 (32%) and Claude Sonnet (26%) flip on the first challenge turn at 5-8× their mechanical rate, while Gemini Pro (7%) and Grok-4.1 (9%) barely budge above their floor.
 
-| Model | Invariance Flip | Seed Repeat | Temp0 Repeat |
-|---|---:|---:|---:|
-| Claude 4.6 Opus | 2.0 | 2.4 | 1.1 |
-| GPT-5.4 | 1.9 | 4.1 | 3.7 |
-| Claude 4.6 Sonnet | 2.7 | 5.7 | 2.1 |
-| GPT-5.2 | 2.9 | 7.0 | 6.4 |
-| GPT-5 | 3.3 | 6.6 | 4.6 |
-| Grok 4.1 | 4.1 | 4.9 | 3.1 |
-| Gemini 3.1 Pro | 4.3 | 8.8 | 6.1 |
-| Gemini 3 Flash | 6.4 | 9.9 | 5.3 |
-| Grok 4.1 R | 5.4 | 11.8 | 11.7 |
+Averaged over 10 turns, GPT-5 climbs from 32% to 54% (+22pp from turns 2-10); Grok-4.1 R climbs from 10% to 16% (+6pp). The multi-turn/mechanical ratio ranges from 2× (Grok-4.1 R) to 24× (Claude Opus). Claude Opus is the starkest case: the most mechanically stable model in the panel (2%) yet the fourth most persuadable under sustained pressure (44%).
 
-**The mechanical floor is low and surprisingly uniform.** Averaged across the three mechanical tests, all 9 models cluster between 2-9% wiggle (Figure `fig:hero`, mechanical bin; per-test breakdown in Table `tab:mech-variation`). The most mechanically stable judge (Claude Opus, 2%) and the least (Grok-4.1 R, 9%) differ by only 7pp. Mechanical variation is not where frontier models differentiate.
-
-**The single-turn tier is where models diverge.** Models that look nearly identical at the mechanical floor pull apart sharply once a single counter-argument is introduced. Averaged across L1-L4, GPT-5 (32%) and Claude Sonnet (26%) flip on the first challenge turn at 5-8× their mechanical rate, while Gemini Pro (7%) and Grok-4.1 (9%) barely budge above their floor. The single-turn tier measures pure epistemic fragility — immediate susceptibility to a single counter-argument — and is the first tier where re-sampling alone tells you nothing useful.
-
-**Multi-turn pressure amplifies the spread.** Averaged over 10 turns, GPT-5 climbs from 32% to 54% (+22pp from turns 2-10); Grok-4.1 R climbs from 10% to 16% (+6pp). The multi-turn/mechanical ratio ranges from 2× (Grok-4.1 R) to 24× (Claude Opus). Claude Opus is the starkest case: the most mechanically stable model in the panel (2%) yet the fourth most persuadable under sustained pressure (44%). Mechanical stability and epistemic robustness are measuring fundamentally different properties.
-
-**The Grok-4.1 Reasoning anomaly.** Grok-4.1 R has the *highest* mechanical variation (9%) but the *lowest* multi-turn wiggle (16%), producing the smallest multi/mechanical ratio in the panel (2×). Its reasoning traces make it stochastically noisy but epistemically stubborn. Every other model amplifies at least 3× from mechanical to multi-turn — only Grok-4.1 R barely amplifies at all.
-
-This is the most direct response to the natural objection that one could simply re-run a judge several times and look at variance. Mechanical re-testing catches 2-9% of items as unstable; multi-turn pressure on the same items catches 16-54% averaged, and up to 91% in the worst (domain, scale, level) cells. The two methods measure fundamentally different quantities — stochastic sampling noise versus susceptibility to contextual manipulation — and the gap is the contribution.
+Grok-4.1 R has the *highest* mechanical variation (9%) but the *lowest* multi-turn wiggle (16%), producing the smallest multi/mechanical ratio in the panel (2×). Every other model amplifies at least 3× from mechanical to multi-turn — only Grok-4.1 R barely amplifies at all.
 
 ### Finding 2: Repetitive consensus pressure persuades more than cycling through multiple tactics
 
@@ -115,19 +97,19 @@ This is the most direct response to the natural objection that one could simply 
 
 L5's strategy is to *cycle* through L1-L4 tactics across the 10 challenge turns — a round-robin that intersperses "are you sure?" with counterarguments, expert appeals, and consensus pressure. Intuitively, variety should be at least as effective as any single tactic repeated.
 
-**L4 (consensus pressure alone) consistently outperforms L5 (cycling through all tactics, including L4)**. Opening with a strong social-proof claim ("three independent reviewers all disagree with your assessment") is more persuasive than diluting that claim by cycling through weaker tactics first; the "dilly-dallying" of L5 appears to *inoculate* the judge — encountering mild challenges (L1, L2) before the strong one (L4) builds resistance.
+L4 (consensus pressure alone) consistently outperforms L5 (cycling through all tactics, including L4). Opening with a strong social-proof claim ("three independent reviewers all disagree with your assessment") is more persuasive than diluting that claim by cycling through weaker tactics first; the "dilly-dallying" of L5 appears to *inoculate* the judge — encountering mild challenges (L1, L2) before the strong one (L4) builds resistance.
 
 ### Finding 3: Adaptive Persuasion Is Shockingly Effective; Its Power Is in the Slope, Not the Opening Move
 
 ![Survival curves by level](data/analysis_cross_domain/png/survival/survival_curves_by_level.png)
 
-**Figure `fig:survival-curves`.** Verdict retention over 10 challenge turns by pressure level, averaged across all six domains and both scales (Paired Prompts split by rubric). L1-L3 cluster near 80% retention with little additional erosion after turn 2. L4 has the lowest retention at turn 1 (**strongest opener**) but plateaus around turn 4. L6 starts mid-pack at ~80% retention but **falls steepest**, overtaking L4 by turn 4 and ending around 50% by turn 10 — the only level under which, on average, roughly half of all judge-item pairs have wiggled.
+**Figure `fig:survival-curves`.** Verdict retention over 10 challenge turns by pressure level, averaged across all six domains and both scales.
 
-Figure `fig:survival-curves` tells the central story of our pressure ladder. L1, L2, and L3 cluster near 80% retention and barely move after turn 2 — repeating a single mild tactic over 10 turns extracts almost no additional effect once the first vulnerable items have flipped. **L4 has the strongest opening of any level**: at turn 1, consensus pressure ("three independent reviewers all disagree") drops retention to ~73%, lower than any other pressure type, but plateaus around turn 4 and is overtaken by L6 shortly after. **L6 has the steepest curve**: its first-turn retention is ~80%, mid-pack and comparable to L1-L3, but it keeps falling through every subsequent turn, ending around 50% retention by turn 10. The contrast between L4's plateau and L6's continuing descent is the load-bearing observation.
+Figure `fig:survival-curves` tells the central story of our pressure ladder. L1, L2, and L3 cluster near 80% retention and barely move after turn 2 — repeating a single mild tactic over 10 turns extracts almost no additional effect once the first vulnerable items have flipped. L4 has the strongest opening of any level: at turn 1, consensus pressure ("three independent reviewers all disagree") drops retention to ~73%, lower than any other pressure type, but plateaus around turn 4 and is overtaken by L6 shortly after. **L6 has the steepest curve**: its first-turn retention is ~80%, mid-pack and comparable to L1-L3, but it keeps falling through every subsequent turn, ending around 50% retention by turn 10. The contrast between L4's plateau and L6's continuing descent is the load-bearing observation.
 
 Why does L6 not plateau? Scripted pressure (L1-L4) fires the same tactic repeatedly, so once the first round of vulnerable items has flipped, additional turns find no new attack surfaces. The L6 persuader *learns from the judge's responses* and adjusts each turn to target the specific reasoning the judge has just offered. That LLMs can be persuasive is known (Khan et al., 2024; Chern et al., 2024); what our setup specifically shows is the *shape* of that persuasion when the persuader has access to judge history — a curve that does not stop falling.
 
-These L6 numbers are averaged across **three persuaders from three different organizations** (GPT-5.4, Claude Opus, Grok-4.1 Reasoning); per-persuader effectiveness varies substantially (Finding 8), but the steady-decline shape is consistent across all three. This is the empirical foundation for the L6-as-red-teamer recommendation in §6: every frontier judge we tested is vulnerable to a single L6-style adversary, which makes L6 a working specification of an attack against any system that uses an LLM judge as a reward signal.
+These L6 numbers are averaged across **three persuaders from three different organizations** (GPT-5.4, Claude Opus, Grok-4.1 Reasoning); per-persuader effectiveness varies substantially (Finding 8), but the steady-decline shape is consistent across all three.
 
 
 ### Finding 4: Binary Decisions Are 3-4× Easier to Flip Than Likert on Turn 1 — but Not Over 10 Turns
@@ -140,7 +122,7 @@ Binary verdicts are categorical decisions; Likert scores are positions on a 1-5 
 
 ![Direction dumbbell, all domains and levels, split by scale](data/analysis_cross_domain/png/survival/direction_overall.png)
 
-**Figure `fig:direction-overall`.** For each pressure level, the fraction of all flips that move toward the *restrictive* verdict ("unsafe", "toxic", "refusing") vs the *permissive* verdict ("safe", "not toxic", "compliant"), shown separately for binary and Likert scales and aggregated across all six domains. The two scales show *opposite* directional biases at every level L1-L6: binary flips lean restrictive, Likert flips lean permissive.
+**Figure `fig:direction-overall`.** For each pressure level, the fraction of all flips that move toward the *restrictive* verdict ("unsafe", "toxic", "refusing") vs the *permissive* verdict ("safe", "not toxic", "compliant"), shown separately for binary and Likert scales and aggregated across all six domains.
 
 When a judge's verdict flips under pressure, the direction depends on the scale — and the two scales bias in opposite directions on the same items. Binary flips lean *restrictive* at every pressure level: 15% restrictive vs 12% permissive at L1, growing to 26% vs 17% at L4 and 30% vs 24% at L6. Likert flips lean *permissive* at every pressure level: 13% permissive vs 6% restrictive at L1, 25% vs 17% at L4, and 35% vs 21% at L6. The pattern holds at every single level. The MAGE binary exception (~62% toward "ai_generated", mean across L1-L6; per-level breakdown in Appendix L Table `tab:appendix-directional-perdomain`) fits the same picture once you note that on AI-detection, "ai_generated" is the suspicious direction, parallel to "unsafe" on safety binary.
 

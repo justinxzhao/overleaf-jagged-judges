@@ -105,15 +105,37 @@ The borderline filters target the regime where judges actually disagree:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Mechanical Variation Visualization}
+\section{Mechanical Variation}
 \label{sec:appendix-mech-fig}
 
 \begin{figure}[h]
   \centering
   \includegraphics[width=0.7\linewidth]{absolute_variation_overall_avg.png}
-  \caption{Mechanical variation rate (\%) by model, averaged across the six domains and the three mechanical conditions (position-invariance flip, seed-injection repeat, temperature-zero repeat). Per-test breakdown in Table~\ref{tab:mech-variation}.}
+  \caption{Mechanical variation rate (\%) by model, averaged across the six domains and the three mechanical conditions. Per-test breakdown in Table~\ref{tab:mech-variation}.}
   \label{fig:mech-variation-overall}
 \end{figure}
+
+\begin{table}[h]
+\centering
+\small
+\caption{Mechanical variation rate (\%) by model, averaged over the six domains. Lower is more stable. \emph{Invariance Flip}: rate of verdict change when the two opposing arguments are reordered. \emph{Seed Repeat}: rate of change across 10 greedy trials each with a different 64-character random string injected into the system prompt. \emph{Temp0 Repeat}: rate of change across 10 identical greedy-decoding trials.}
+\label{tab:mech-variation}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\textbf{Model} & \textbf{Invariance Flip} & \textbf{Seed Repeat} & \textbf{Temp0 Repeat} \\
+\midrule
+Claude 4.6 Opus    & 2.0 &  2.4 &  1.1 \\
+GPT-5.4            & 1.9 &  4.1 &  3.7 \\
+Claude 4.6 Sonnet  & 2.7 &  5.7 &  2.1 \\
+GPT-5.2            & 2.9 &  7.0 &  6.4 \\
+GPT-5              & 3.3 &  6.6 &  4.6 \\
+Grok-4.1           & 4.1 &  4.9 &  3.1 \\
+Gemini 3.1 Pro     & 4.3 &  8.8 &  6.1 \\
+Gemini 3 Flash     & 6.4 &  9.9 &  5.3 \\
+Grok-4.1 Reasoning & 5.4 & 11.8 & 11.7 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
