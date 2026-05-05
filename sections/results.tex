@@ -9,7 +9,7 @@ The Wiggle Framework measures epistemic stability at three tiers of increasing a
 \begin{table}[t]
 \centering
 \small
-\caption{Mechanical variation rate (\%) by model. \emph{Invariance Flip}: verdict change when opposing arguments are reordered. \emph{Seed Repeat}: change rate across 10 greedy trials with a 64-char random string injected into the system prompt. \emph{Temp0 Repeat}: change rate across 10 identical greedy decodes. Per-model breakdown also visualized in Appendix~\ref{sec:appendix-mech-fig}.}
+\caption{Mechanical variation rate (\%) by model, averaged over the six domains. Lower is more stable. \emph{Invariance Flip}: rate of verdict change when the two opposing arguments are reordered. \emph{Seed Repeat}: rate of change across 10 greedy trials each with a different 64-character random string injected into the system prompt. \emph{Temp0 Repeat}: rate of change across 10 identical greedy-decoding trials.}
 \label{tab:mech-variation}
 \begin{tabular}{@{}lrrr@{}}
 \toprule
@@ -92,8 +92,8 @@ When a judge's verdict flips under pressure, the direction depends on the scale 
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=0.95\linewidth]{outcomes_overall_combined.png}
-  \caption{For each pressure level, the fraction of all flips that move \emph{toward} the dataset ground-truth label (corrective) vs \emph{away} from it (corrupting), aggregated across the five domains with ground truth (WildGuard, AEGIS, HH-RLHF, ToxiGen, MAGE).}
+  \includegraphics[width=0.95\linewidth]{outcomes_overall.png}
+  \caption{For each pressure level, the fraction of all flips that move \emph{toward} the dataset ground-truth label (corrective) vs \emph{away} from it (corrupting), aggregated across the five domains with ground truth.}
   \label{fig:outcomes-overall}
 \end{figure}
 
@@ -141,7 +141,7 @@ This dissociation matters for two reasons. First, it tells us the pressure ladde
 \begin{figure}[t]
   \centering
   \includegraphics[width=0.55\linewidth]{self_persuasion_simple.png}
-  \caption{L6 wiggle rate by persuader-judge relationship: self, family (same-provider sibling), non-family. Persuader models: GPT-5.4, Claude 4.6 Opus, Grok-4.1 Reasoning.}
+  \caption{L6 wiggle rate by the relationship between persuader and judge: self (persuading itself), family (persuading a sibling from the same provider), non-family (persuading a model from a different provider). Three persuader models shown: GPT-5.4, Claude 4.6 Opus, Grok-4.1 Reasoning.}
   \label{fig:self-persuasion}
 \end{figure}
 
