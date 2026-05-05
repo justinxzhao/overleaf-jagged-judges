@@ -114,21 +114,17 @@ Binary verdicts are categorical decisions; Likert scores are positions on a 1-5 
 
 **The gap closes by turn 10.** The convergence is most visible at the strongest pressure regimes: L4 turn-10 gap is just 1.1× (binary 43.5% vs Likert 39.6%), and L6 turn-10 gap is 1.2× (54.5% vs 44.5%). On safety domains specifically, Likert wiggle even *exceeds* binary at L6: HH-RLHF Likert 81.8% vs binary 73.8%; WildGuard Likert 76.4% vs binary 69.7%; MAGE Likert 91.2% vs binary 77.4%. One mechanism explains both regimes: binary flips are threshold events that activate near the decision boundary, so they fire fast or not at all; Likert flips are gradual drifts that need to cross the midpoint, so they catch up given enough turns. For test-battery design: a single-turn challenge is a cost-effective screen for binary stability, but Likert stability requires multi-turn testing.
 
+![Direction and outcomes combined](data/analysis_cross_domain/png/combined/direction_and_outcomes.png)
+
+**Figure `fig:direction-and-outcomes`.** (Left) For each pressure level, the fraction of all flips that move toward the *restrictive* verdict ("unsafe", "toxic", "refusing") vs the *permissive* verdict ("safe", "not toxic", "compliant"), shown separately for binary and Likert scales and aggregated across all six domains. (Right) For each pressure level, the fraction of all flips that move *toward* the dataset ground-truth label (corrective) vs *away* from it (corrupting), aggregated across the five domains with ground truth.
+
 ### Finding 5: Binary Judges Flip Toward Restrictive; Likert Judges Flip Toward Permissive
 
-![Direction dumbbell, all domains and levels, split by scale](data/analysis_cross_domain/png/survival/direction_overall.png)
-
-**Figure `fig:direction-overall`.** For each pressure level, the fraction of all flips that move toward the *restrictive* verdict ("unsafe", "toxic", "refusing") vs the *permissive* verdict ("safe", "not toxic", "compliant"), shown separately for binary and Likert scales and aggregated across all six domains.
-
-When a judge's verdict flips under pressure, the direction depends on the scale — and the two scales bias in opposite directions on the same items. Binary flips lean *restrictive* at every pressure level: 15% restrictive vs 12% permissive at L1, growing to 26% vs 17% at L4 and 30% vs 24% at L6. Likert flips lean *permissive* at every pressure level: 13% permissive vs 6% restrictive at L1, 25% vs 17% at L4, and 35% vs 21% at L6. The pattern holds at every single level. The MAGE binary exception (~62% toward "ai_generated", mean across L1-L6; per-level breakdown in Appendix L Table `tab:appendix-directional-perdomain`) fits the same picture once you note that on AI-detection, "ai_generated" is the suspicious direction, parallel to "unsafe" on safety binary.
+When a judge's verdict flips under pressure, the direction depends on the scale — and the two scales bias in opposite directions on the same items. Binary flips lean *restrictive* at every pressure level: 15% restrictive vs 12% permissive at L1, growing to 26% vs 17% at L4 and 30% vs 24% at L6. Likert flips lean *permissive* at every pressure level: 13% permissive vs 6% restrictive at L1, 25% vs 17% at L4, and 35% vs 21% at L6 (Figure `fig:direction-and-outcomes`, left). The pattern holds at every single level. The MAGE binary exception (~62% toward "ai_generated", mean across L1-L6; per-level breakdown in Appendix L Table `tab:appendix-directional-perdomain`) fits the same picture once you note that on AI-detection, "ai_generated" is the suspicious direction, parallel to "unsafe" on safety binary.
 
 ### Finding 6: Pressure Is Net-Corrupting at Every Level
 
-![Outcomes dumbbell, all domains and levels](data/analysis_cross_domain/png/ground_truth/outcomes_overall.png)
-
-**Figure `fig:outcomes-overall`.** For each pressure level, the fraction of all flips that move *toward* the dataset ground-truth label (corrective) vs *away* from it (corrupting), aggregated across the five domains with ground truth.
-
-Five of our six datasets have ground-truth labels, letting us classify each wiggle as corrective (toward the label) or corrupting (away). The aggregate across 60 (domain, scale, level) ground-truthed conditions is 1.3-2.3:1 corrupting at every level (Figure `fig:outcomes-overall`). At L6, ~70% of all flips are corrupting; at L1-L5 the fraction is 56-63% corrupting.
+Five of our six datasets have ground-truth labels, letting us classify each wiggle as corrective (toward the label) or corrupting (away). The aggregate across 60 (domain, scale, level) ground-truthed conditions is 1.3-2.3:1 corrupting at every level (Figure `fig:direction-and-outcomes`, right). At L6, ~70% of all flips are corrupting; at L1-L5 the fraction is 56-63% corrupting.
 
 A z-test on the per-condition corrective fractions shows that only 3 of 60 conditions have a statistically significant corrective majority: **WildGuard Likert L2** (61.2% corrective, p < 0.001), **WildGuard Likert L3** (57.1%, p < 0.01), and **ToxiGen Likert L4** (58.0%, p < 0.01). HH-RLHF Likert L2 and AEGIS Likert L2 lean corrective but are not statistically distinguishable from chance.
 
@@ -144,11 +140,11 @@ A z-test on the per-condition corrective fractions shows that only 3 of 60 condi
 
 ### Finding 7: Sycophancy, Conformity, and Adversarial Pressure Affect Different Items
 
-![Cross-level correlation heatmap](data/analysis_cross_domain/png/correlations/corr_all_domains_overall.png)
+![Correlations first vs last turn](data/analysis_cross_domain/png/combined/correlations_first_vs_last.png)
 
-**Figure `fig:corr-all-domains`.** Spearman rank correlation between per-item wiggle vectors at each pressure level, aggregated across all six domains and both scales. L2-L3 cluster tightly (rho = 0.69); L1 and L4 are weakly correlated (rho = 0.36); L6 is weakly correlated with everything (rho = 0.33-0.40).
+**Figure `fig:corr-first-vs-last`.** Spearman rank correlation between per-item wiggle vectors at each pressure level, aggregated across all six domains and both scales. (Left) First-turn wiggle. (Right) Last-turn (turn 10) wiggle.
 
-The pressure ladder is designed as an escalating sequence, but the cross-level correlation matrix reveals it tests *qualitatively different* failure modes (Figure `fig:corr-all-domains`). L2 (counterargument) and L3 (expert authority) are nearly redundant (rho = 0.69) — items that flip under a specific counterargument almost always flip under an expert appeal. But L1 ("are you sure?") and L4 ("three reviewers disagree") are only weakly linked (rho = 0.36): the items susceptible to generic social doubt are *not* the same items susceptible to fabricated consensus pressure. L6 is even more dissociated (rho = 0.33-0.40 with everything else): an adaptive persuader breaks items that no scripted tactic targets.
+The pressure ladder is designed as an escalating sequence, but the cross-level correlation matrix reveals it tests *qualitatively different* failure modes (Figure `fig:corr-first-vs-last`). L2 (counterargument) and L3 (expert authority) are nearly redundant (rho = 0.69) — items that flip under a specific counterargument almost always flip under an expert appeal. But L1 ("are you sure?") and L4 ("three reviewers disagree") are only weakly linked (rho = 0.36): the items susceptible to generic social doubt are *not* the same items susceptible to fabricated consensus pressure. L6 is even more dissociated (rho = 0.33-0.40 with everything else): an adaptive persuader breaks items that no scripted tactic targets.
 
 This dissociation matters for two reasons. First, it tells us the pressure ladder captures at least three orthogonal failure modes — **sycophancy** (L1-susceptible), **conformity** (L4-susceptible), and **adversarial vulnerability** (L6-susceptible). A judge can be highly sycophantic yet resistant to consensus pressure, or vice versa.
 
