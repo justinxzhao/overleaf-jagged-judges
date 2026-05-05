@@ -128,16 +128,6 @@ Five of our six datasets have ground-truth labels, letting us classify each wigg
 
 A z-test on the per-condition corrective fractions shows that only 3 of 60 conditions have a statistically significant corrective majority: **WildGuard Likert L2** (61.2% corrective, p < 0.001), **WildGuard Likert L3** (57.1%, p < 0.01), and **ToxiGen Likert L4** (58.0%, p < 0.01). HH-RLHF Likert L2 and AEGIS Likert L2 lean corrective but are not statistically distinguishable from chance.
 
-<!-- DROPPED — was tab:corrective-conditions: All conditions where the corrective fraction exceeded 50%, ordered by significance. Only the top three are statistically significant.
-
-| Condition | Corrective | Total | Corrective % | z | Significance |
-|---|---:|---:|---:|---:|---|
-| WildGuard Likert L2 | 252 | 412 | 61.2% | 4.53 | p < 0.001 |
-| WildGuard Likert L3 | 246 | 431 | 57.1% | 2.94 | p < 0.01 |
-| ToxiGen Likert L4 | 160 | 276 | 58.0% | 2.65 | p < 0.01 |
-| HH-RLHF Likert L2 | 56 | 105 | 53.3% | 0.68 | not significant |
-| AEGIS Likert L2 | 42 | 86 | 48.8% | -0.22 | not significant | -->
-
 ### Finding 7: Sycophancy, Conformity, and Adversarial Pressure Affect Different Items
 
 ![Correlations first vs last turn](data/analysis_cross_domain/png/combined/correlations_first_vs_last.png)
@@ -184,22 +174,7 @@ Three clusters in (wiggle rate, jaggedness) space:
 
   1. Low-wiggle / low-jaggedness corner (bottom-left). Grok-4.1 R and Gemini 3 Flash sit tightly clustered around mean wiggle ≈ 0.10–0.25 and jaggedness ≈0.10–0.20. Gemini 3.1 Pro is nearby, slightly higher on wiggle but still in the low-jaggedness band. These are the stable, broadly robust judges — low wiggle on average and consistent across cells.
   1. High-wiggle / mid-to-high-jaggedness corner (right side). GPT-5.4 stretches across the highest wiggle range (~0.4–0.8) at mid jaggedness (~0.20–0.30); GPT-5.2 occupies a similar high-wiggle region but with notably higher jaggedness (~0.30–0.40). These judges wiggle a lot and their wiggle profile is uneven across tasks.
-  2. Mid-wiggle / high-jaggedness band (middle, upper). Claude 4.6 Sonnet and Claude 4.6 Opus sit at moderate wiggle rates (~0.25–0.45) but high jaggedness (~0.25–0.35) — they're not the most-wiggle-prone overall, but their susceptibility varies sharply by task. Grok-4.1 (non-reasoning) sits in a similar mid-wiggle, high-jaggedness region. GPT-5 spreads broadly across mid-to-high wiggle with mid jaggedness.
-
-<!-- TODO: Move to Appendix -->
-<!-- DROPPED — was tab:aurc-selected: Mean retention rate by model and (domain, scale) condition (mean across L1-L6 retention rates). Higher is better. Bold marks each model's best and worst cells. Rightmost column is the mean across cells. Sorted by mean retention.
-
-| Model | WG bin | WG lik | PP bin | PP lik | MAGE bin | MAGE lik | AEGIS bin | AEGIS lik | TG bin | TG lik | HH bin | HH lik | Mean Retention |
-|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| Grok 4.1 R | 0.855 | 0.881 | 0.767 | 0.906 | **0.516** | 0.671 | 0.910 | 0.909 | 0.920 | **0.939** | 0.845 | 0.879 | 0.833 |
-| Gemini 3.1 Pro | 0.785 | 0.884 | 0.684 | 0.913 | **0.860** | 0.751 | 0.798 | 0.900 | 0.811 | 0.889 | 0.805 | 0.895 | 0.831 |
-| Gemini 3 Flash | **0.877** | 0.855 | 0.793 | 0.902 | 0.735 | **0.500** | 0.812 | 0.812 | 0.835 | 0.771 | 0.827 | 0.889 | 0.801 |
-| GPT-5.2 | 0.831 | **0.936** | 0.676 | 0.850 | 0.434 | 0.706 | 0.676 | 0.878 | 0.793 | **0.951** | 0.704 | 0.843 | 0.773 |
-| Grok 4.1 | 0.616 | 0.820 | 0.688 | 0.731 | 0.640 | 0.674 | 0.595 | **0.871** | 0.598 | 0.843 | 0.585 | **0.548** | 0.684 |
-| GPT-5.4 | 0.720 | 0.820 | 0.538 | 0.765 | **0.274** | 0.395 | 0.461 | 0.787 | 0.611 | 0.897 | 0.746 | 0.807 | 0.652 |
-| Claude 4.6 Sonnet | 0.448 | 0.714 | **0.171** | 0.625 | 0.190 | 0.361 | 0.653 | 0.717 | 0.772 | 0.874 | 0.722 | **0.904** | 0.596 |
-| Claude 4.6 Opus | 0.602 | 0.686 | **0.207** | 0.577 | 0.234 | 0.385 | 0.544 | 0.713 | 0.779 | 0.786 | 0.667 | 0.814 | 0.583 |
-| GPT-5 | 0.669 | 0.714 | 0.247 | 0.244 | 0.085 | **0.033** | 0.663 | 0.624 | 0.685 | 0.712 | 0.478 | 0.693 | 0.487 | -->
+  1. Mid-wiggle / high-jaggedness band (middle, upper). Claude 4.6 Sonnet and Claude 4.6 Opus sit at moderate wiggle rates (~0.25–0.45) but high jaggedness (~0.25–0.35) — they're not the most-wiggle-prone overall, but their susceptibility varies sharply by task. Grok-4.1 (non-reasoning) sits in a similar mid-wiggle, high-jaggedness region. GPT-5 spreads broadly across mid-to-high wiggle with mid jaggedness.
 
 There's no judge that dominates on both axes simultaneously, and our evidence refutes simple framings of LLM-judge instability as sycophancy, overconfidence, or noise.
 
@@ -336,6 +311,22 @@ Most models achieve >95% agreement at greedy decoding (temp=0), suggesting high 
 | GPT-5.4 | 2.1% | -1.6 pp |
 | Gemini Flash | 4.7% | -2.6 pp |
 | Gemini Pro | 5.5% | -2.9 pp |
+
+### C.5 Mean Retention by Model and (Domain, Scale)
+
+**Table `tab:appendix-aurc`.** Mean retention rate by model and (domain, scale) condition (mean across L1-L6 retention rates). Higher is better. Bold marks each model's best and worst cells. Rightmost column is the mean across cells. Sorted by mean retention.
+
+| Model | WG bin | WG lik | PP bin | PP lik | MAGE bin | MAGE lik | AEGIS bin | AEGIS lik | TG bin | TG lik | HH bin | HH lik | Mean Retention |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Grok 4.1 R | 0.855 | 0.881 | 0.767 | 0.906 | **0.516** | 0.671 | 0.910 | 0.909 | 0.920 | **0.939** | 0.845 | 0.879 | 0.833 |
+| Gemini 3.1 Pro | 0.785 | 0.884 | 0.684 | 0.913 | **0.860** | 0.751 | 0.798 | 0.900 | 0.811 | 0.889 | 0.805 | 0.895 | 0.831 |
+| Gemini 3 Flash | **0.877** | 0.855 | 0.793 | 0.902 | 0.735 | **0.500** | 0.812 | 0.812 | 0.835 | 0.771 | 0.827 | 0.889 | 0.801 |
+| GPT-5.2 | 0.831 | **0.936** | 0.676 | 0.850 | 0.434 | 0.706 | 0.676 | 0.878 | 0.793 | **0.951** | 0.704 | 0.843 | 0.773 |
+| Grok 4.1 | 0.616 | 0.820 | 0.688 | 0.731 | 0.640 | 0.674 | 0.595 | **0.871** | 0.598 | 0.843 | 0.585 | **0.548** | 0.684 |
+| GPT-5.4 | 0.720 | 0.820 | 0.538 | 0.765 | **0.274** | 0.395 | 0.461 | 0.787 | 0.611 | 0.897 | 0.746 | 0.807 | 0.652 |
+| Claude 4.6 Sonnet | 0.448 | 0.714 | **0.171** | 0.625 | 0.190 | 0.361 | 0.653 | 0.717 | 0.772 | 0.874 | 0.722 | **0.904** | 0.596 |
+| Claude 4.6 Opus | 0.602 | 0.686 | **0.207** | 0.577 | 0.234 | 0.385 | 0.544 | 0.713 | 0.779 | 0.786 | 0.667 | 0.814 | 0.583 |
+| GPT-5 | 0.669 | 0.714 | 0.247 | 0.244 | 0.085 | **0.033** | 0.663 | 0.624 | 0.685 | 0.712 | 0.478 | 0.693 | 0.487 |
 
 ---
 
