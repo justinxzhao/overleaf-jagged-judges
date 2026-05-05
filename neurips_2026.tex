@@ -12,7 +12,7 @@
 \usepackage{microtype}      % microtypography
 \usepackage{xcolor}         % colors
 
-\title{Jagged Judges: Epistemic Stability\\Under Silence, Pressure, and Persistence}
+\title{Jagged Judges: Epistemic Oddities\\Under Silence, Pressure, and Persistence}
 
 \author{%
   Anonymous Authors\\
@@ -25,7 +25,7 @@
 \maketitle
 
 \begin{abstract}
-LLM judges have become central infrastructure for evaluations, online monitoring, and reward modeling. Judges are typically validated by accuracy on golden data, but accuracy says nothing about whether judges are stable under re-prompting, pushback, or sustained pressure. We introduce the \emph{Wiggle Framework}, which decomposes judge inconsistency along three dimensions: Mechanical Consistency (stability under re-prompting and reframing), Single-turn Conviction (stability under escalating adversarial challenge), and Multi-turn Persistence (stability under sustained or adaptive pressure). Testing 9 frontier models across 14 judging tasks, we find that every judge exhibits substantial wiggle --- flipping its verdict 25--71\% of the time under templated pushback, and 62--91\% of the time under an adaptive LLM persuader. We further document a set of epistemic oddities --- for example, that any amount of judge pressure is almost always net-corrupting: only 3 of 60 ground-truth-labeled conditions show a statistically significant shift toward the correct answer. From these findings we draw three practical conclusions: (i) epistemic stability is jagged  \hb{nit but we could consider replacing 'jagged' with asymmetric in the abstract to help with clarity} and defies simple one-factor explanations like sycophancy, (ii) jury-disagreement screening is a simple, effective signal for predicting wiggle, and (iii) epistemic pressure should be applied cautiously in any hill-climbing or reward loop, given its net-corrupting effect. To our knowledge this is the first apples-to-apples cross-domain comparison of sycophancy, persuadability, and conformity tests in a judging context.
+LLM judges have become central infrastructure for model evaluations, online grading, and reward modeling. Judges are typically validated by accuracy on golden data, but accuracy says nothing about whether they are stable under re-prompting, pushback, or sustained pressure. We introduce the \emph{Wiggle Framework}, a unified stress test for epistemic instability in LLM judges. The framework decomposes judge robustness along three dimensions: Mechanical Consistency (stability under re-prompting and reframing), Single-turn Conviction (stability under escalating adversarial challenge), and Multi-turn Persistence (stability under sustained or adaptive pressure). We use the framework to evaluate 9 frontier models across 14 judging tasks spanning safety, toxicity, and political-response evaluation. Every model exhibits substantial wiggle as a judge --- flipping verdicts 25--71\% of the time under static pushback, and 62--91\% of the time in response to an adversarial LLM persuader. Critically, we find that pressure which succeeds in changing a verdict is almost always net-corrupting with respect to ground truth. From our findings, we draw three practical conclusions: (i) epistemic stability is jagged and defies simple narratives about sycophancy or robustness, (ii) jury-disagreement screening is a simple, effective signal for predicting wiggle, and (iii) epistemic pressure should be applied cautiously in hill-climbing or reward signals, given its net-corrupting effect. Taken together, this is the first apples-to-apples cross-domain comparison of mechanical, conformity, and persuadability tests in a judging context.
 \end{abstract}
 
 \input{sections/introduction}
@@ -132,11 +132,11 @@ Gemini Pro    & 11.8\% & 22.7\% &  1.9$\times$ \\
 \end{tabular}
 \end{table}
 
-\subsection{Full AURC Table}
+\subsection{Full Mean-Retention Table}
 
 \begin{table}[h]
 \centering
-\caption{AURC values by model, domain, and scale. Higher values indicate greater robustness.}
+\caption{Mean-retention values by model, domain, and scale (mean across L1--L6 retention rates). Higher values indicate greater robustness.}
 \label{tab:appendix-aurc}
 \begin{tabular}{@{}lrrrrr@{}}
 \toprule
@@ -370,7 +370,7 @@ This approximately 10--15pp gap is consistent across all pressure levels. Items 
 \section{Directional Bias --- Level Dependence}
 \label{sec:appendix-directional}
 
-Aggregate directional ratios (Finding~4) mask level-dependent structure. WildGuard Likert is the clearest example: the overall ratio ($\sim 1.09$ toward-unsafe) appears nearly symmetric, but masks a level-dependent pattern. At L4--L5 the toward-unsafe bias is stronger (${\sim}1.5$--$2.2\times$), while at L1--L3 the bias is weak or absent. At low pressure, Likert shifts are within-side adjustments without strong directional tendency; at high pressure, the safety-conservative training prior activates and pushes shifts toward the cautious direction. The same level-dependent pattern is confirmed on AEGIS Likert and HH-RLHF Likert, establishing it as a robust safety-domain signature rather than a WildGuard-specific artifact.
+Aggregate directional ratios (Finding~5) mask level-dependent structure. WildGuard Likert is the clearest example: the overall ratio ($\sim 1.09$ toward-unsafe) appears nearly symmetric, but masks a level-dependent pattern. At L4--L5 the toward-unsafe bias is stronger (${\sim}1.5$--$2.2\times$), while at L1--L3 the bias is weak or absent. At low pressure, Likert shifts are within-side adjustments without strong directional tendency; at high pressure, the safety-conservative training prior activates and pushes shifts toward the cautious direction. The same level-dependent pattern is confirmed on AEGIS Likert and HH-RLHF Likert, establishing it as a robust safety-domain signature rather than a WildGuard-specific artifact.
 
 The directional bias structure could be used as a diagnostic tool in its own right: applying L1--L4 pressure to a new evaluation task and observing the directional distribution of shifts can infer what implicit priors the model carries about that dimension. For safety evaluation specifically, the universal restrictive bias means that prevalence estimates derived from challenge-based review will systematically overcount unsafe content; pipeline designers should either avoid challenge-based review or apply directional correction factors calibrated to the specific judge model's restrictive/permissive ratio.
 
@@ -398,7 +398,7 @@ Several procedures have been proposed to \emph{refine} judge signal beyond a sin
 
 \begin{itemize}
     \item \textbf{L1 (mild doubt)} models a chain-of-thought prompt asking the judge to ``reconsider'' --- a standard technique in self-consistency and reflection-based judging architectures.
-    \item \textbf{L2--L3 (counterarguments)} model an opposing-view turn in a debate or deliberation framework \citep{irving2018debate,radhakrishnan2023debating}.
+    \item \textbf{L2--L3 (counterarguments)} model an opposing-view turn in a debate or deliberation framework \citep{irving2018debate,khan2024debating}.
     \item \textbf{L4 (consensus pressure)} models an ensemble or aggregation layer that communicates other judges' disagreement to a focal judge.
     \item \textbf{L5--L6 (adaptive persuasion)} model the most sophisticated case: a dedicated adversarial process that adapts in real time to the judge's responses.
 \end{itemize}
@@ -424,7 +424,7 @@ The point is not that any current production system \emph{does} use these proced
 
 \paragraph{Domain coverage.} While six domains provide stronger evidence than one or three, they do not exhaust the space of LLM-as-judge applications. Aesthetic judgment, code review, mathematical reasoning verification, and other evaluation tasks may produce qualitatively different wiggle profiles.
 
-\paragraph{Causal claims.} Our findings are correlational. We observe that pressure changes verdicts and that the direction of change correlates with training priors, but we cannot definitively establish the causal mechanism. The directional biases (Finding 4) are consistent with training-embedded priors, but other explanations (such as inherent task asymmetries or argument quality differences by direction) cannot be fully ruled out.
+\paragraph{Causal claims.} Our findings are correlational. We observe that pressure changes verdicts and that the direction of change correlates with training priors, but we cannot definitively establish the causal mechanism. The directional biases (Finding 5) are consistent with training-embedded priors, but other explanations (such as inherent task asymmetries or argument quality differences by direction) cannot be fully ruled out.
 
 \paragraph{Black-box limitation.} The Wiggle Framework is deliberately black-box, requiring only observed verdicts. This is a strength for practical deployment (it works with any API) but a limitation for mechanistic understanding. White-box approaches that examine model internals could provide deeper insight into \emph{why} certain items and models are more wiggable. We view the two approaches as complementary: the Wiggle Framework identifies \emph{what} is fragile and \emph{how much}; white-box methods like those of \citet{radharapu2025calibrating} can investigate the mechanistic \emph{why}.
 

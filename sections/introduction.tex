@@ -4,7 +4,7 @@
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{hero_placeholder.png}
-  \caption{The Wiggle Framework decomposes LLM-judge inconsistency into three dimensions --- Mechanical Consistency (stability under silence), Single-turn Conviction (stability under single adversarial challenges), and Multi-turn Persistence (stability under sustained or adaptive pressure). Across nine frontier judges and fourteen judging tasks, the framework reveals ten findings about how judges actually behave under each dimension.}
+  \caption{The Wiggle Framework decomposes LLM-judge inconsistency into three dimensions --- Mechanical Consistency (stability under silence), Single-turn Conviction (stability under single adversarial challenges), and Multi-turn Persistence (stability under sustained or adaptive pressure).}
   \label{fig:hero}
 \end{figure}
 
@@ -14,11 +14,11 @@
 
 We propose the \emph{Wiggle Framework}, a unified stress test for epistemic instability in LLM judges. It decomposes judge instability into three dimensions: \emph{Mechanical Consistency}, which captures movement under repeated inference and superficial prompt changes; \emph{Single-turn Conviction}, which captures response to a single challenge; and \emph{Multi-turn Persistence}, which captures response to sustained or adaptive pressure across turns. We use the framework to measure the wiggle of 9 frontier models across 14 judging tasks drawn from six datasets spanning safety classification, toxicity detection, red-teaming, AI writing detection, and political-response evaluation, under both binary and Likert grading schemes.
 
-Wiggle is universal across all six domains, at substantial rates, for every model tested. Mechanical variation rates range from 1--14\%. At consensus pressure (L4), mean wiggle rates range from 19\% (ToxiGen Likert) to 71\% (MAGE binary); under adaptive LLM persuasion (L6) they climb to 62--91\%, with some individual verdict retention rates as low as 0\%.
+Wiggle is universal across all six domains, at substantial rates, for every model tested. Mechanical variation rates range from 1--14\%. At consensus pressure (L4), mean wiggle rates range from 19\%--71\%; under adaptive LLM persuasion (L6) they climb to 62--91\%, with some trials with individual verdict retention rates as low as 0\%.
 
 \paragraph{Contributions.}
 \begin{itemize}
-    \item \textbf{The Wiggle Framework}, a three-dimension decomposition (Mechanical Consistency, Single-turn Conviction, Multi-turn Persistence) and the first unified instrument for comparing classical-calibration analogs, re-prompt stability, and sycophancy/persuadability tests on the same items, judges, and criteria.
-    \item \textbf{Ten epistemic findings} from 9 frontier judges $\times$ 14 judging tasks $\times$ 6 pressure levels, including: mechanical re-prompting underestimates wiggle by an order of magnitude (1--14\% floor vs 25--91\% ceiling); pressure is net-corrupting in 57 of 60 ground-truthed conditions; sycophancy and conformity are dissociated failure modes ($\rho = 0.36$); and an adaptive persuader collapses an 8-judge majority defense by 25--55pp.
+    \item \textbf{The Wiggle Framework}, a unified decomposition for comparing classical calibration analogs and sycophancy/persuadability tests on the same items, judges, and criteria.
+    \item \textbf{Ten epistemic findings} from 9 frontier judges $\times$ 14 judging tasks $\times$ 6 pressure levels, including: mechanical re-prompting underestimates wiggle by an order of magnitude (1--14\% floor vs 25--91\% ceiling); binary verdicts flip mostly within one challenge turn while Likert verdicts erode gradually over many; pressure is net-corrupting in 57 of 60 ground-truthed conditions; sycophancy and conformity are dissociated failure modes ($\rho = 0.36$); and an adaptive persuader collapses a 9-judge majority defense by 25--55pp.
     \item \textbf{Three practical takeaways.} (i) Resist simple narratives of ``LLMs are inconsistent and sycophantic'' --- the structure is jagged. (ii) Jury disagreement at L0 baseline is a cheap reliability screen for golden-set labels (Spearman $\rho = -0.17$ to $-0.39$, universal across all 12 cells). (iii) Epistemic pressure procedures are net-corrupting; \textbf{we recommend against using persuasion or debate to refine judge verdicts in hill-climbing settings}.
 \end{itemize}

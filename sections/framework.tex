@@ -3,13 +3,13 @@
 
 We decompose judge inconsistency into three dimensions, each capturing a distinct failure mode. All three are evaluated on both binary and Likert (1--5) response scales.
 
-\paragraph{Mechanical Consistency} measures stability when the judge receives no new substantive information --- the baseline that prior work has used to estimate model confidence \citep{wei2024simpleqa} and to surface position bias \citep{wang2024unfair}. We test three conditions: \emph{infrastructure repetition} (10 identical greedy-decoding trials per item, exposing floating-point nondeterminism); \emph{trivial prompt perturbation} via seed injection (10 greedy trials each with a 64-character random string appended to the system prompt; Appendix~\ref{sec:appendix-seed}); and \emph{positional consistency} (the same two opposing arguments presented in both orderings). Mechanical wiggle is small --- temp=0 variance is 0.01--0.15 across models --- and that is the point. The bar set by prior consistency work is cleared by adversarial pressure by 1--2 orders of magnitude, a structural fact we exploit throughout \S\ref{sec:results} and \S\ref{sec:discussion}.
+\paragraph{Mechanical Consistency} measures stability when the judge receives no new substantive information. We test three conditions: \emph{infrastructure repetition} (10 identical greedy-decoding trials per item, exposing floating-point nondeterminism); \emph{trivial prompt perturbation} via seed injection (10 greedy trials each with a different 64-character random string appended to the system prompt; see Appendix~\ref{sec:appendix-seed}); and \emph{positional consistency} (the same two opposing arguments presented in both orderings).
 
 \paragraph{Single-turn Conviction and Multi-turn Persistence} measure whether a judge can be talked out of its verdict. They share a unified pressure ladder (Table~\ref{tab:pressure-levels}): L1--L4 are four pressure types of increasing sophistication applied as single probes (single-turn conviction); L5--L6 are multi-turn protocols that combine or adapt the L1--L4 building blocks across 10 challenge turns. The single-turn ladder measures the \emph{shape} of the degradation curve --- a judge that collapses at L1 (sycophancy) has a different failure mode than one that resists casual doubt but folds under fabricated consensus (conformity). L5--L6 test whether varied or adaptive strategies succeed where scripted single-turn strategies fail.
 
 \begin{table}[t]
 \centering
-\caption{The graduated pressure ladder, applied uniformly across domains. L1--L4 are single-turn probes; L5--L6 are multi-turn protocols spanning 10 challenge turns. \texttt{[opposite]} is the verdict opposite to the judge's L0 baseline; \texttt{[argument]} is a model-generated argument (Appendix~\ref{sec:appendix-pressure-gen}).}
+\caption{The graduated pressure ladder. \texttt{[opposite]} is the verdict opposite to the judge's L0 baseline; \texttt{[argument]} is a model-generated argument (Appendix~\ref{sec:appendix-pressure-gen}).}
 \label{tab:pressure-levels}
 \begin{tabular}{@{}clp{8cm}@{}}
 \toprule
