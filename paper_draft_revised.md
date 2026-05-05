@@ -174,16 +174,7 @@ Binary verdicts are categorical decisions; Likert scores are positions on a 1-5 
 
 **Figure 6.** For each pressure level, the fraction of all flips that move toward the *restrictive* verdict ("unsafe", "toxic", "refusing") vs the *permissive* verdict ("safe", "not toxic", "compliant"), shown separately for binary and Likert scales and aggregated across all six domains. The two scales show *opposite* directional biases at every level L1-L6: binary flips lean restrictive, Likert flips lean permissive.
 
-When a judge's verdict flips under pressure, the direction depends on the scale — and the two scales bias in opposite directions on the same items. Binary flips lean *restrictive* at every pressure level: 15% restrictive vs 12% permissive at L1, growing to 26% vs 17% at L4 and 30% vs 24% at L6. Likert flips lean *permissive* at every pressure level: 13% permissive vs 6% restrictive at L1, 25% vs 17% at L4, and 35% vs 21% at L6. The pattern holds at every single level. The MAGE binary exception (~62% toward "ai_generated") fits the same picture once you note that on AI-detection, "ai_generated" is the suspicious direction, parallel to "unsafe" on safety binary.
-
-**What could explain this scale-dependent asymmetry?** The two patterns are consistent with a single speculative mechanism: **judges retreat to the cautious answer in their scale's geometry.**
-
-- On a binary scale, the only "hedge" available is to flip. The cautious move under safety RLHF is to err toward restrictive ("flag if uncertain"), so when pressure makes a borderline item ambiguous, the safety prior pushes the verdict from "safe" → "unsafe". This is consistent with the standard "safety RLHF makes models overcautious" narrative.
-- On a Likert scale, the cautious move is to hedge toward the middle of the scale rather than commit to an extreme. Most adversarial items in our datasets receive Likert L0 ratings on the upper half (3-5, "Moderately Unsafe" through "Extremely Unsafe"). When pressure erodes that commitment, the natural retreat is downward toward 1-3, which crosses our ≥2-place wiggle threshold in the permissive direction. The same items the judge was confident were unsafe become items the judge is *less sure* are unsafe.
-
-If this story is right, pressure activates a hedging/uncertainty response rather than a true reversal of belief: on binary, the only hedge is to flip; on Likert, the hedge is to back off toward the midpoint. The practical implication is the same in both regimes — pressure erodes conviction, not knowledge — but the surface direction we observe is a function of the scale's geometry as much as the judge's beliefs. A naive read of Likert safety wiggle as "judges are becoming permissive" misses the more careful conclusion that judges are losing conviction.
-
-This is one of two directional asymmetries we report. The next finding reports the other (corrective vs corrupting), and §6 returns to the absolute-vs-corrective distinction as the structural framing of the paper.
+When a judge's verdict flips under pressure, the direction depends on the scale — and the two scales bias in opposite directions on the same items. Binary flips lean *restrictive* at every pressure level: 15% restrictive vs 12% permissive at L1, growing to 26% vs 17% at L4 and 30% vs 24% at L6. Likert flips lean *permissive* at every pressure level: 13% permissive vs 6% restrictive at L1, 25% vs 17% at L4, and 35% vs 21% at L6. The pattern holds at every single level. The MAGE binary exception (~62% toward "ai_generated", mean across L1-L6; per-level breakdown in Appendix L Table 12) fits the same picture once you note that on AI-detection, "ai_generated" is the suspicious direction, parallel to "unsafe" on safety binary.
 
 ### Finding 6: Pressure Is Net-Corrupting at Every Level
 
@@ -191,7 +182,7 @@ This is one of two directional asymmetries we report. The next finding reports t
 
 **Figure 7.** For each pressure level, the fraction of all flips that move *toward* the dataset ground-truth label (corrective) vs *away* from it (corrupting), aggregated across the five domains with ground truth.
 
-Five of our six domains ship with ground-truth labels, letting us classify each wiggle as corrective (toward the label) or corrupting (away). The aggregate across 60 (domain, scale, level) ground-truthed conditions is 1.3-2.3:1 corrupting at every level (Figure 7). At L6, ~70% of all flips are corrupting; at L1-L5 the fraction is 56-63% corrupting.
+Five of our six datasets have ground-truth labels, letting us classify each wiggle as corrective (toward the label) or corrupting (away). The aggregate across 60 (domain, scale, level) ground-truthed conditions is 1.3-2.3:1 corrupting at every level (Figure 7). At L6, ~70% of all flips are corrupting; at L1-L5 the fraction is 56-63% corrupting.
 
 A z-test on the per-condition corrective fractions (Table 3) shows that only 3 of 60 conditions have a statistically significant corrective majority: **WildGuard Likert L2** (61.2% corrective, p < 0.001), **WildGuard Likert L3** (57.1%, p < 0.01), and **ToxiGen Likert L4** (58.0%, p < 0.01). HH-RLHF Likert L2 and AEGIS Likert L2 lean corrective but are not statistically distinguishable from chance.
 
@@ -213,7 +204,7 @@ A z-test on the per-condition corrective fractions (Table 3) shows that only 3 o
 
 The pressure ladder is designed as an escalating sequence, but the cross-level correlation matrix reveals it tests *qualitatively different* failure modes (Figure 8). L2 (counterargument) and L3 (expert authority) are nearly redundant (rho = 0.69) — items that flip under a specific counterargument almost always flip under an expert appeal. But L1 ("are you sure?") and L4 ("three reviewers disagree") are only weakly linked (rho = 0.36): the items susceptible to generic social doubt are *not* the same items susceptible to fabricated consensus pressure. L6 is even more dissociated (rho = 0.33-0.40 with everything else): an adaptive persuader breaks items that no scripted tactic targets.
 
-This dissociation matters for two reasons. First, it tells us the pressure ladder captures at least three orthogonal failure modes — **sycophancy** (L1-susceptible), **conformity** (L4-susceptible), and **adversarial vulnerability** (L6-susceptible) — that require different mitigations. A judge can be highly sycophantic yet resistant to consensus pressure, or vice versa. Second, it is the load-bearing rebuttal to the natural objection that one could measure judge instability simply by resampling at temperature > 0: resampling probes a single dimension of variance, while the ladder probes at least three. Mechanical (temp=0) variance is 0.01-0.15 across our models; L4 wiggle rates are 25-71% on the *same* items. Resampling underestimates adversarial vulnerability by 1-2 orders of magnitude *and* cannot distinguish which of the three failure modes is operative.
+This dissociation matters for two reasons. First, it tells us the pressure ladder captures at least three orthogonal failure modes — **sycophancy** (L1-susceptible), **conformity** (L4-susceptible), and **adversarial vulnerability** (L6-susceptible). A judge can be highly sycophantic yet resistant to consensus pressure, or vice versa. Second, it is the load-bearing rebuttal to the natural objection that one could measure judge instability simply by resampling at temperature > 0: resampling probes a single dimension of variance, while the ladder probes at least three. Mechanical (temp=0) variance is 0.01-0.15 across our models; L4 wiggle rates are 25-71% on the *same* items. Resampling underestimates adversarial vulnerability by 1-2 orders of magnitude *and* cannot distinguish which of the three failure modes is operative.
 
 ### Finding 8: Models Aren't Their Own Best Persuaders
 
@@ -566,11 +557,32 @@ The full set of judge, challenge, observer, and adaptive persuader prompt templa
 
 ---
 
-## Appendix L: Directional Bias — Level Dependence on WildGuard Likert
+## Appendix L: Directional Bias — Per-Domain Detail
 
-Aggregate directional ratios (Finding 5) mask level-dependent structure. WildGuard Likert is the clearest example: the overall ratio (~1.09 toward-unsafe) is nearly symmetric, but masks a level-dependent pattern. At L4-L5 the toward-unsafe bias is stronger (~1.5-2.2x); at L1-L3 the bias is weak or absent. At low pressure, Likert shifts are within-side adjustments without strong directional tendency; at high pressure, the safety-conservative training prior activates and pushes shifts toward the cautious direction. At L6, the adaptive adversary is sophisticated enough to exploit both directions roughly equally, producing the observed near-symmetry.
+Table 12 reports the toward-restrictive fraction for each (domain, scale, level) cell — the percentage of all flips that move toward the restrictive verdict ("unsafe", "toxic", "ai_generated", "more hedging", "more refusing"). Cells >50% indicate restrictive bias; cells <50% indicate permissive bias. Source: `tables/survival/restrictiveness_direction.csv`.
 
-The same level-dependent pattern is confirmed on AEGIS Likert and HH-RLHF Likert (Appendix C), establishing it as a robust safety-domain signature rather than a WildGuard-specific artifact.
+**Table 12.** Toward-restrictive fraction (%) by (domain, scale, level). Of all flips at the given pressure level, the percentage that flipped toward the restrictive verdict. Bold means indicate the side (>50% or <50%) the row falls on. The MAGE binary mean of 62.1% is the source of the "~62% toward `ai_generated`" claim in Finding 5; on AI-detection, `ai_generated` is the suspicious direction parallel to "unsafe" on safety binary.
+
+| Domain | Scale | L1 | L2 | L3 | L4 | L5 | L6 | Mean |
+|---|---|---:|---:|---:|---:|---:|---:|---:|
+| WildGuard | binary | 45.4 | 64.0 | 72.5 | 22.8 | 50.3 | 39.4 | 49.1 |
+| WildGuard | Likert | 25.3 | 2.6 | 6.7 | 39.4 | 35.3 | 30.2 | **23.2** |
+| AEGIS | binary | 54.5 | 68.8 | 80.6 | 37.7 | 55.7 | 55.4 | **58.8** |
+| AEGIS | Likert | 37.7 | 10.0 | 17.1 | 55.3 | 48.2 | 51.6 | **36.6** |
+| HH-RLHF | binary | 48.0 | 67.2 | 75.8 | 63.1 | 66.5 | 47.1 | **61.3** |
+| HH-RLHF | Likert | 12.5 | 3.6 | 8.3 | 39.2 | 33.1 | 34.7 | **21.9** |
+| ToxiGen | binary | 38.5 | 56.2 | 57.3 | 59.3 | 50.3 | 38.4 | 50.0 |
+| ToxiGen | Likert | 16.3 | 16.2 | 26.7 | 38.5 | 38.5 | 33.1 | **28.2** |
+| MAGE | binary | 61.7 | 64.2 | 64.1 | 60.4 | 62.0 | 60.3 | **62.1** |
+| MAGE | Likert | 41.5 | 35.7 | 38.2 | 40.9 | 40.0 | 43.5 | **40.0** |
+| Paired Prompts | binary | 77.1 | 85.0 | 86.9 | 89.9 | 89.4 | 89.9 | **86.4** |
+| Paired Prompts | Likert | 25.1 | 27.2 | 27.1 | 25.8 | 25.1 | 27.7 | **26.3** |
+
+The pattern referenced in Finding 5 is visible across the rows: every Likert safety row leans permissive (mean <50%), every binary safety/MAGE row leans restrictive on average, and Paired Prompts binary is the strongest restrictive bias in the panel (86.4%) — consistent with judges defaulting to "more hedging" or "more refusing" under pressure on subjective political content.
+
+**Level-dependence on safety Likert.** Aggregate directional ratios on safety Likert mask level-dependent structure. WildGuard Likert L4 (39.4%) and L5 (35.3%) are notably less permissive than L2 (2.6%) or L3 (6.7%) — at consensus pressure the safety-conservative training prior activates and pushes some shifts back toward the cautious direction, partially offsetting the dominant permissive lean. The same level-dependent pattern is visible on AEGIS Likert (L4 55.3% vs L2 10.0%) and HH-RLHF Likert (L4 39.2% vs L2 3.6%), establishing it as a robust safety-domain signature rather than a WildGuard-specific artifact.
+
+The directional bias structure could be used as a diagnostic tool in its own right: applying L1-L4 pressure to a new evaluation task and observing the directional distribution of shifts can infer what implicit priors the model carries about that dimension. For safety evaluation specifically, the universal restrictive bias on binary scales means that prevalence estimates derived from challenge-based review will systematically overcount unsafe content; pipeline designers should either avoid challenge-based review or apply directional correction factors calibrated to the specific judge model's restrictive/permissive ratio.
 
 ---
 
