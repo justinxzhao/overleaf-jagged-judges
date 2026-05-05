@@ -4,7 +4,7 @@
 % =============================================================
 \paragraph{Finding 1: Mechanical Re-prompting Underestimates Judge Wiggle by an Order of Magnitude.}
 
-The mechanical tests in our framework (temperature-zero repeatability, seed-injection repeatability, position invariance) measure the \emph{floor} of judge instability --- what happens with no adversarial pressure at all, just re-asking the same question. The multi-turn experiments measure the \emph{ceiling} --- what happens under graduated adversarial pressure. Running the two on the same items, judges, and criteria reveals that the floor is low, the ceiling is high, and the two are not even monotonically related across models.
+The Wiggle Framework measures epistemic stability at three tiers of increasing adversarial sophistication: \emph{mechanical} (temperature-zero, seed-injection, and positional re-prompting with no new information); \emph{single-turn} (one challenge from L1--L4); and \emph{multi-turn} (10 challenge turns under L5--L6 protocols). Running all three tiers on the same items, judges, and criteria (Figure~\ref{fig:hero}) reveals three patterns plus one anomaly.
 
 \begin{figure}[t]
   \centering
@@ -12,15 +12,6 @@ The mechanical tests in our framework (temperature-zero repeatability, seed-inje
   \caption{Mechanical variation rate (\%) by model, averaged across the six domains and the three mechanical conditions (position-invariance flip, seed-injection repeat, temperature-zero repeat). Mechanical variation rates range from 1--14\% across the panel --- an order of magnitude below the multi-turn rates in Table~\ref{tab:wiggle-rates}.}
   \label{fig:mech-variation-overall}
 \end{figure}
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=0.85\linewidth]{binary_vs_likert_diff.png}
-  \caption{Per-model gap between binary and Likert mechanical variation. Every model is more mechanically unstable on binary than on Likert (using our $\geq 2$-point threshold for Likert wiggle), with gaps of $+1$pp to $+9$pp.}
-  \label{fig:mech-binary-vs-likert}
-\end{figure}
-
-\paragraph{The floor is low.} Mechanical variation rates range from 1--14\% of items across the 9 models (Figure~\ref{fig:mech-variation-overall}, Table~\ref{tab:mech-variation}). Claude 4.6 Opus is the most stable (1--2\% on every metric); Grok-4.1 Reasoning is the least (5--12\%).
 
 \begin{table}[t]
 \centering
@@ -43,13 +34,15 @@ Grok-4.1 Reasoning & 5.4 & 11.8 & 11.7 \\
 \end{tabular}
 \end{table}
 
-\paragraph{The ceiling is high.} The same models show 25--71\% wiggle at L4 (templated consensus pressure) and 62--91\% at L6 (adaptive persuasion) on the same items (Table~\ref{tab:wiggle-rates}). The gap between the mechanical floor and the adversarial ceiling is \textbf{20--80 percentage points} --- the space of epistemic fragility that temperature resampling alone completely misses, and the structural reason a unified framework is needed rather than a single confidence scalar.
+\paragraph{The mechanical floor is low and surprisingly uniform.} Averaged across the three mechanical tests, all 9 models cluster between 2--9\% wiggle (Figure~\ref{fig:hero}, mechanical bin; per-test breakdown in Table~\ref{tab:mech-variation}). The most mechanically stable judge (Claude Opus, 2\%) and the least (Grok-4.1 R, 9\%) differ by only 7pp. Mechanical variation is not where frontier models differentiate.
 
-\paragraph{The floor and ceiling are not monotonically related.} Grok-4.1 Reasoning has the \emph{highest} mechanical variation in our panel (12\% on seed and temp=0) yet is among the most \emph{resistant} to multi-turn pressure ($\sim 16\%$ average wiggle). Its reasoning traces are mechanically noisy but epistemically stubborn --- chain-of-thought sampling introduces variation without making the verdict persuadable. Claude Opus is the inverse: the \emph{lowest} mechanical variation (1--2\%) but moderate multi-turn wiggle ($\sim 39\%$ on some domains). A mechanically precise model is not necessarily an epistemically robust one.
+\paragraph{The single-turn tier is where models diverge.} Models that look nearly identical at the mechanical floor pull apart sharply once a single counter-argument is introduced. Averaged across L1--L4, GPT-5 (32\%) and Claude Sonnet (26\%) flip on the first challenge turn at 5--8$\times$ their mechanical rate, while Gemini Pro (7\%) and Grok-4.1 (9\%) barely budge above their floor. The single-turn tier measures pure epistemic fragility --- immediate susceptibility to a single counter-argument --- and is the first tier where re-sampling alone tells you nothing useful.
 
-\paragraph{Binary is universally more mechanically unstable than Likert.} Every model, on every metric, shows higher mechanical variation on binary than on Likert (Figure~\ref{fig:mech-binary-vs-likert}), with gaps of $+1$pp to $+9$pp. Binary verdicts are fragile threshold events that can flip without any pressure at all; Likert scores require sustained movement to cross the midpoint. This foreshadows the binary-vs-Likert capture-timing pattern in Finding~4.
+\paragraph{Multi-turn pressure amplifies the spread.} Averaged over 10 turns, GPT-5 climbs from 32\% to 54\% ($+22$pp from turns 2--10); Grok-4.1 R climbs from 10\% to 16\% (+6pp). The multi-turn/mechanical ratio ranges from 2$\times$ (Grok-4.1 R) to 24$\times$ (Claude Opus). Claude Opus is the starkest case: the most mechanically stable model in the panel (2\%) yet the fourth most persuadable under sustained pressure (44\%). Mechanical stability and epistemic robustness are measuring fundamentally different properties.
 
-This is the most direct response to the natural objection that one could simply re-run a judge several times and look at variance. Mechanical re-testing catches 1--14\% of items as unstable; the graduated pressure framework catches 10--91\%. The two methods measure fundamentally different quantities --- stochastic sampling noise versus susceptibility to contextual manipulation --- and the gap is the contribution.
+\paragraph{The Grok-4.1 Reasoning anomaly.} Grok-4.1 R has the \emph{highest} mechanical variation (9\%) but the \emph{lowest} multi-turn wiggle (16\%), producing the smallest multi/mechanical ratio in the panel (2$\times$). Its reasoning traces make it stochastically noisy but epistemically stubborn. Every other model amplifies at least 3$\times$ from mechanical to multi-turn --- only Grok-4.1 R barely amplifies at all.
+
+This is the most direct response to the natural objection that one could simply re-run a judge several times and look at variance. Mechanical re-testing catches 2--9\% of items as unstable; multi-turn pressure on the same items catches 16--54\% averaged, and up to 91\% in the worst (domain, scale, level) cells. The two methods measure fundamentally different quantities --- stochastic sampling noise versus susceptibility to contextual manipulation --- and the gap is the contribution.
 
 % =============================================================
 \paragraph{Finding 2: Consensus Pressure Alone Outperforms Cycling Through Multiple Tactics.}
@@ -80,11 +73,22 @@ The jump from L5 (cycling through L1--L4) to L6 (adaptive persuader) is the most
 The cliff is matched by a corresponding collapse in jury defense. When we run 8 judges in parallel and take the majority vote, the jury is remarkably resilient to scripted pressure: jury accuracy loses at most $\sim 5$pp over 10 turns of L1--L5 challenges. At L6, however, the jury collapses by 25--55pp: WildGuard 80\% to 30\%, MAGE 83\% to 25\%, HH-RLHF 63\% to 38\% (per-domain accuracy-over-turns plots are in Appendix~\ref{sec:appendix-perdomain}). \textbf{Scripted challenges are survivable by majority voting; adaptive challenges are not.} This is a binary distinction that prior single-domain sycophancy or debate work cannot detect, because they do not vary pressure sophistication along a calibrated axis. It is also the empirical foundation for the L6-as-red-teamer recommendation in \S\ref{sec:discussion}: every frontier judge we tested is vulnerable to a single L6-style adversary, which makes L6 a working specification of an attack against any system that uses an LLM judge as a reward signal.
 
 % =============================================================
-\paragraph{Finding 4: Binary Captures Most Flips on Turn 1; Likert Accumulates Over Time.}
+\paragraph{Finding 4: Binary Wiggle Is Threshold-Driven; Likert Wiggle Accumulates Over Turns.}
 
-A practical question: how many challenge turns do you actually need? The flip-timing data (Appendix~\ref{sec:appendix-flip-timing}) reveals a sharp divergence between binary and Likert scales. For binary L2--L3, a single challenge turn captures \textbf{81--83\% of all flips} that ever happen across 10 turns. A one-shot test is nearly as informative as the full multi-turn protocol. For Likert, the picture inverts: at L6, the first turn captures only \textbf{23\%} of eventual flips; at L1, only \textbf{5\%}. Binary verdicts are fragile \emph{immediately} --- if a challenge will flip them, it usually does so on the first attempt --- while Likert scores erode gradually until the score crosses the midpoint. The mechanisms differ: binary flips are threshold events; Likert flips are gradual drifts. For test-battery design: a single-turn challenge is a cost-effective screen for binary stability, but Likert stability requires multi-turn testing.
+Binary verdicts are categorical decisions; Likert scores are positions on a 1--5 scale. This structural difference produces two separate asymmetries in our data --- binary is more mechanically unstable than Likert, and binary captures most of its flips on turn 1 while Likert flips accumulate gradually --- both consistent with the same underlying mechanism: binary flips are threshold events, Likert flips are gradual drifts.
 
-The cross-level correlation structure shifts asymmetrically across turns. Comparing the Spearman correlation matrices at turn 1 vs turn 10, the average absolute change in correlation coefficients is only 0.023--0.036 for binary domains but 0.088--0.129 for Likert. The largest Likert shifts all involve L1: AEGIS Likert L1$\leftrightarrow$L2 drops from $\rho = +0.71$ to $+0.14$ ($\Delta = -0.57$), while All-Domains Likert L1$\leftrightarrow$L4 rises from $\rho = +0.10$ to $+0.41$ ($\Delta = +0.31$). On Likert, the items that eventually flip under ``Are you sure?'' repeated 10 times are not the same items that flip immediately. Jury-disagreement prediction shifts in parallel: on All-Domains Likert L1, the jury$\leftrightarrow$wiggle correlation moves from $\rho = -0.02$ at turn 1 to $-0.24$ at turn 10, while binary jury prediction is stable across turns ($\rho = -0.31$ to $-0.36$ on binary L1). Binary first-turn flips appear to be a property of the \emph{item} --- the same items that are fragile on the first turn remain fragile throughout --- while Likert flips accumulate through a gradual erosion that recruits new items over turns, changing the correlation structure as it goes.
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.85\linewidth]{binary_vs_likert_diff.png}
+  \caption{Per-model gap between binary and Likert mechanical variation. Every model is more mechanically unstable on binary than on Likert (using our $\geq 2$-point threshold for Likert wiggle), with gaps of $+1$pp to $+9$pp.}
+  \label{fig:mech-binary-vs-likert}
+\end{figure}
+
+\paragraph{Binary is universally more mechanically unstable than Likert.} Every model, on every metric, shows higher mechanical variation on binary than on Likert (Figure~\ref{fig:mech-binary-vs-likert}), with gaps of $+1$pp to $+9$pp. Binary verdicts can flip without any pressure at all when the judge's underlying score sits near the threshold; Likert scores require sustained movement to cross the midpoint, so superficial input perturbations don't move them across our $\geq 2$-point wiggle threshold.
+
+\paragraph{A single challenge turn captures most binary flips; Likert flips accumulate.} A practical question follows: how many challenge turns do you actually need? The flip-timing data (Appendix~\ref{sec:appendix-flip-timing}) reveals a sharp divergence. For binary L2--L3, a single challenge turn captures \textbf{81--83\% of all flips} that ever happen across 10 turns --- a one-shot test is nearly as informative as the full multi-turn protocol. For Likert, the picture inverts: at L6, the first turn captures only \textbf{23\%} of eventual flips; at L1, only \textbf{5\%}. Binary verdicts that will flip usually flip on the first attempt; Likert scores erode gradually until they cross the midpoint. For test-battery design: a single-turn challenge is a cost-effective screen for binary stability, but Likert stability requires multi-turn testing.
+
+The cross-level correlation structure shifts asymmetrically across turns, in line with the same mechanism. Comparing the Spearman correlation matrices at turn 1 vs turn 10, the average absolute change in correlation coefficients is only 0.023--0.036 for binary domains but 0.088--0.129 for Likert. The largest Likert shifts all involve L1: AEGIS Likert L1$\leftrightarrow$L2 drops from $\rho = +0.71$ to $+0.14$ ($\Delta = -0.57$), while All-Domains Likert L1$\leftrightarrow$L4 rises from $\rho = +0.10$ to $+0.41$ ($\Delta = +0.31$). On Likert, the items that eventually flip under ``Are you sure?'' repeated 10 times are not the same items that flip immediately. Jury-disagreement prediction shifts in parallel: on All-Domains Likert L1, the jury$\leftrightarrow$wiggle correlation moves from $\rho = -0.02$ at turn 1 to $-0.24$ at turn 10, while binary jury prediction is stable across turns ($\rho = -0.31$ to $-0.36$ on binary L1). Binary first-turn flips appear to be a property of the \emph{item} --- the same items that are fragile on the first turn remain fragile throughout --- while Likert flips accumulate through a gradual erosion that recruits new items over turns, changing the correlation structure as it goes.
 
 % =============================================================
 \paragraph{Finding 5: Flips Are Predominantly Permissive on Safety Domains.}
