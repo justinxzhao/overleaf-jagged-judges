@@ -1,0 +1,4 @@
+predictor,mean_abs_rho,median_abs_rho,n_significant,n_total,mean_rho
+Invariance,0.364625,0.422,54,72,0.3227638888888889
+Jury,0.59025,0.6185,83,84,-0.59025
+Repeat,0.41518055555555555,0.437,63,72,0.358875

@@ -24,6 +24,23 @@ The proposed title, **"Jagged Judges,"** captures the core finding: judge episte
 - **10 challenge turns** per item per level
 - **Data:** 119,496 total experimental rows (7,200-27,648 per domain, 9 models, 6 levels each)
 
+### Data Sampling Strategy
+
+A deliberate design choice across all domains: we sample from the **borderline regime** -- examples where judge models are most likely to exhibit epistemic instability. Easy cases (obvious spam, clearly benign content) would show near-zero wiggle and tell us nothing about judge reliability on the cases that actually matter.
+
+| Domain | Source | N | Borderline Selection | Stratification | Rationale |
+|---|---|---:|---|---|---|
+| **WildGuard** | WildGuardMix test | 512 | Model complied with non-benign prompt (`response_refusal_label == "compliance"` AND `subcategory != "benign"`) | By harm subcategory (proportional) | Compliance on adversarial prompts = the safety-ambiguous zone where judges disagree most |
+| **AEGIS** | Aegis v2.0 validation | 100 | Unsafe prompts only (`prompt_label == "unsafe"`) | 50/50 safe vs unsafe responses | Safe prompts produce trivially safe responses; unsafe prompts with mixed response safety are the borderline |
+| **ToxiGen** | ToxiGen train split | 100 | Keep only lewd/ambiguous content (exclude items explicitly labeled "doesn't contain lewd content") | Random sample from filtered pool | Lewd-content items are the most contestable for toxicity judgments |
+| **HH-RLHF** | Anthropic red-team attempts | 100 | None (dataset is inherently adversarial -- all items are red-team conversations) | 20 per rating bucket (0-4) | Rating stratification ensures coverage from "model handled safely" (0) to "most harmful" (4) |
+| **MAGE** | MAGE validation set | 100 | None | 50/50 human-written vs AI-generated | Balanced label distribution; no borderline filtering because AI detection difficulty is item-intrinsic |
+| **Paired Prompts** | Pre-generated completions on non-anchored political prompts | 100 | None (prompts are pre-curated as non-anchored political topics) | 50/50 left-leaning vs right-leaning | Non-anchored prompts are inherently subjective -- hedging and refusal are expected behaviors, not edge cases |
+
+All domains use seed 42 for reproducibility and generate deterministic SHA-256-based example IDs.
+
+**Why non-anchored for Paired Prompts?** "Anchored" prompts have a factually correct answer (e.g., "What year did X happen?"). "Non-anchored" prompts are genuinely subjective political topics where hedging is a reasonable model behavior, not a failure mode. By selecting non-anchored prompts, we ensure the hedging and refusal we measure reflects genuine epistemic uncertainty, not factual error.
+
 ---
 
 ## 2. The Oddities
@@ -238,6 +255,28 @@ For Likert L6, the first turn captures only 23% of eventual flips -- turns 2-10 
 
 **Why this matters:** Binary verdicts are fragile *immediately* -- if a challenge will flip them, it usually does so on the first attempt. Likert scores are more resistant initially but erode over sustained pressure. This has direct implications for test design: a single-turn challenge is a cost-effective screen for binary verdict stability, but Likert stability requires multi-turn testing to capture the slow erosion. It also suggests that the mechanisms of binary and Likert flips are fundamentally different -- binary flips are a threshold event (the argument is either convincing enough or not), while Likert flips are a gradual drift (each turn nudges the score incrementally until it crosses the midpoint).
 
+**First-turn vs last-turn correlation structure.** Comparing the cross-level Spearman correlation matrices at turn 1 vs turn 10 reveals a striking asymmetry between binary and Likert:
+
+![First-turn correlation (overall)](../results/analysis_cross_domain/png/correlations/first_turn/corr_all_domains_overall.png)
+
+**Binary correlations are stable across turns.** The average absolute change in correlation coefficients between first-turn and last-turn heatmaps is only 0.023-0.036 for binary domains. The vulnerability structure is fully determined by turn 1 — the same items are vulnerable at the same levels, and additional turns just catch more of them.
+
+**Likert correlations shift dramatically — especially L1.** The average change is 0.088-0.129 for Likert domains. The largest shifts all involve L1:
+
+| Domain | Pair | First Turn | Last Turn | Delta |
+|---|---|---:|---:|---:|
+| AEGIS Likert | L1-L2 | +0.71 | +0.14 | **-0.57** |
+| MAGE Likert | L1-L4 | +0.06 | +0.49 | **+0.43** |
+| MAGE Likert | L1-L3 | +0.16 | +0.55 | **+0.39** |
+| All Domains Likert | L1-L4 | +0.10 | +0.41 | **+0.31** |
+| All Domains Likert | L1-L2 | +0.15 | +0.45 | **+0.30** |
+
+On Likert scales, L1 ("Are you sure?") has *weak* correlation with other levels on the first turn (rho ~0.06-0.18) but *moderate* correlation by turn 10 (rho ~0.41-0.55). This means the items that eventually flip under a simple "Are you sure?" repeated 10 times are *not* the same items that flip immediately — the slow accumulation over turns targets different examples than the first-turn flips. On binary, L1 shows consistent correlation at both timepoints.
+
+**Jury prediction also shifts.** Jury disagreement is a stronger predictor of last-turn wiggle than first-turn wiggle on Likert (rho jumps from -0.02 to -0.24 on all-domains Likert L1). On binary, jury prediction is stable (-0.31 first-turn vs -0.36 last-turn for L1).
+
+**The interpretation:** Binary and Likert are measuring different phenomena. Binary first-turn flips are a property of the *item* — the same items that are fragile on the first turn remain fragile throughout. Likert flips accumulate through a gradual erosion process that recruits new items over turns, changing the correlation structure as it goes. This is further evidence that binary and Likert scales should be analyzed separately, not averaged, when studying the dynamics of epistemic pressure.
+
 ### Oddity 9: Epistemic Stability Does Not Transfer Across Domains
 
 ![Per-model domain profiles](../results/analysis_cross_domain/png/wiggle_rates/per_model_domain_profiles.png)
@@ -291,7 +330,6 @@ The OpenAI and xAI families have strong internal shape transfer (0.84-0.89). Cla
 
 The practical implication: for most families, testing an older sibling gives a reasonable prediction of the newer sibling's pressure vulnerability *shape*. But for Google's Gemini models, this transfer fails -- Flash and Pro appear to have been trained with sufficiently different approaches that their epistemic stability profiles are essentially independent.
 
-
 ### Oddity 10: Mechanical Noise Is Small, But the Gap Is the Contribution
 
 ![Mechanical variation overall](../results/analysis_cross_domain/png/mechanical/absolute_variation_overall_avg.png)
@@ -322,6 +360,48 @@ The mechanical tests (temperature-zero repeatability, seed-injection repeatabili
 
 **Why this matters:** This is the most direct response to the "just run validation multiple times" objection. Temperature-zero testing catches 1-14% of items as mechanically unstable. Our graduated pressure framework catches 10-91%. The difference — typically 20-80pp — is epistemic fragility that no amount of mechanical re-testing can reveal. The mechanical floor and the adversarial ceiling measure fundamentally different things: stochastic sampling noise vs. susceptibility to contextual manipulation.
 
+### Oddity 11: Jury Disagreement Is the Strongest Wiggle Predictor — With One Domain Exception
+
+![Jury rho heatmap](../results/analysis_cross_domain/png/jury/jury_rho_heatmap.png)
+
+![Predictor comparison](../results/analysis_cross_domain/png/jury/predictor_comparison.png)
+
+Jury disagreement at baseline (the fraction of judges agreeing on the majority verdict, with no pressure applied) is the single strongest predictor of wiggle vulnerability. But the validation reveals a precise boundary to its universality.
+
+**The heatmap is entirely negative.** 84 of 84 (domain × scale × level) cells show negative Spearman rho — items where the jury splits are more wiggable, without a single exception. When Paired Prompts is properly split into its hedging and refusal sub-domains (which use different rubrics and therefore different jury compositions), the positive correlations that appeared in the combined data vanish entirely. The correlations are strong: rho ranges from -0.01 to -0.86, with a median of -0.58.
+
+**Jury is the strongest predictor by a clear margin:**
+
+| Predictor | Mean |rho| | Significant | Mean rho |
+|---|---:|---:|---:|
+| **Jury** | **0.590** | 83/84 (99%) | -0.565 |
+| Repeat (temp0) | 0.415 | 63/72 (88%) | +0.415 |
+| Invariance | 0.365 | 54/72 (75%) | +0.365 |
+
+Jury wins by +0.175 rho points over the next best predictor and achieves statistical significance in 99% of conditions. Repeat and Invariance are genuinely predictive too — a model that gives inconsistent answers under mechanical re-testing is also more likely to flip under pressure — but they are meaningfully weaker and less universal.
+
+**The gap between unanimous and split juries is large:**
+
+| Domain | Scale | Mean Gap | Range |
+|---|---|---:|---|
+| PP Hedging | binary | **41.3pp** | 30-49pp |
+| PP Refusal | binary | **36.1pp** | 28-44pp |
+| ToxiGen | binary | **35.9pp** | 31-45pp |
+| PP Refusal | likert | **32.4pp** | 22-47pp |
+| ToxiGen | likert | **30.0pp** | 23-41pp |
+| MAGE | likert | **27.8pp** | 20-34pp |
+| WildGuard | binary | **27.5pp** | 23-33pp |
+| HH-RLHF | binary | **26.7pp** | 20-32pp |
+| AEGIS | binary | **26.4pp** | 22-31pp |
+| MAGE | binary | **25.5pp** | 18-34pp |
+| AEGIS | likert | **20.6pp** | 4-39pp |
+| PP Hedging | likert | **18.5pp** | 3-31pp |
+| HH-RLHF | likert | **19.1pp** | 7-32pp |
+| WildGuard | likert | **18.2pp** | 5-37pp |
+
+Across all 14 domain × scale conditions, the gap ranges from 18pp to 41pp on average. PP Hedging binary has the largest gap (41pp) — items where the jury splits on whether a response hedges are dramatically more susceptible to pressure than items with unanimous agreement.
+
+**A methodological note: combining rubrics masks the signal.** When Paired Prompts hedging and refusal were analyzed as a single combined domain, the jury rho appeared weakly positive on Likert — suggesting the jury screen didn't work for subjective tasks. Once properly separated, both sub-domains show strong negative rho everywhere. The mixing artifact arose because hedging and refusal juries have different compositions; combining them diluted the jury strength metric to noise. This is a reminder that multi-rubric domains must be analyzed rubric-by-rubric for jury-based analyses.
 
 ---
 

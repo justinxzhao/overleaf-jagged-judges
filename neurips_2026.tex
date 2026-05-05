@@ -25,7 +25,7 @@
 \maketitle
 
 \begin{abstract}
-LLM judges have become central infrastructure for model evaluations, online grading, and reward modeling. Judges are typically validated by accuracy on golden data, but accuracy says nothing about whether they are stable under re-prompting, pushback, or sustained pressure. We introduce the \emph{Wiggle Framework}, a unified stress test for epistemic instability in LLM judges. The framework decomposes judge robustness along three dimensions: Mechanical Consistency (stability under re-prompting and reframing), Single-turn Conviction (stability under escalating adversarial challenge), and Multi-turn Persistence (stability under sustained or adaptive pressure). We use the framework to evaluate 9 frontier models across 14 judging tasks spanning safety, toxicity, and political-response evaluation. Every model exhibits substantial wiggle as a judge --- flipping verdicts 25--71\% of the time under static pushback, and 62--91\% of the time in response to an adversarial LLM persuader. Critically, we find that pressure which succeeds in changing a verdict is almost always net-corrupting with respect to ground truth. From our findings, we draw three practical conclusions: (i) epistemic stability is jagged and defies simple narratives about sycophancy or robustness, (ii) jury-disagreement screening is a simple, effective signal for predicting wiggle, and (iii) epistemic pressure should be applied cautiously in hill-climbing or reward signals, given its net-corrupting effect. Taken together, this is the first apples-to-apples cross-domain comparison of mechanical, conformity, and persuadability tests in a judging context.
+LLM judges have become central infrastructure for model evaluations, online grading, and reward modeling. Judges are typically validated by accuracy on golden data, but accuracy says nothing about whether they are stable under re-prompting, pushback, or sustained pressure. We introduce the \emph{Wiggle Framework}, a unified stress test for epistemic instability in LLM judges. The framework decomposes judge robustness along three dimensions: Mechanical Consistency (stability under re-prompting and reframing), Single-turn Conviction (stability under escalating adversarial challenge), and Multi-turn Persistence (stability under sustained or adaptive pressure). We use the framework to evaluate 9 frontier models across 14 judging tasks spanning safety, toxicity, and political-response evaluation. Every model exhibits substantial wiggle as a judge --- flipping verdicts 25--71\% of the time under static pushback, and 62--91\% of the time in response to an adversarial LLM persuader. Critically, we find that pressure which succeeds in changing a verdict is almost always net-corrupting with respect to ground truth. From our findings, we draw three practical conclusions: (i) epistemic stability is jagged and defies simple narratives about sycophancy or robustness, (ii) jury-disagreement screening is a simple, effective signal for predicting wiggle that holds universally across all 14 (domain, scale) conditions we tested, with mechanical re-prompting as a meaningfully weaker but defensible alternative, and (iii) epistemic pressure should be applied cautiously in hill-climbing or reward signals, given its net-corrupting effect. Taken together, this is the first apples-to-apples cross-domain comparison of mechanical, conformity, and persuadability tests in a judging context.
 \end{abstract}
 
 \input{sections/introduction}
@@ -59,6 +59,45 @@ This injects sufficient entropy into the prompt embedding to produce output vari
 The key advantage over temperature sampling is that seed injection perturbs the judge's \emph{input} without degrading \emph{output} quality. Temperature introduces noise into the token selection process itself, which can hurt structured outputs (e.g., JSON verdict formats) and reduce judge accuracy. Seed injection only shifts the model's internal state slightly, revealing prompt sensitivity without the performance cost.
 
 This distinction matters when compared to general-purpose robustness testing approaches like Brittlebench \citep{romanou2026brittlebench}, which apply textual perturbations such as typos and paraphrases to measure model sensitivity. In safety evaluation, the precise wording of a prompt or policy can legitimately determine whether content is a violation --- a paraphrase that is semantically equivalent for question-answering may not be equivalent for policy enforcement. Seed injection avoids this ambiguity: the perturbation is explicitly marked as irrelevant, so any verdict change is unambiguously mechanical. The two approaches are complementary, serving different diagnostic goals.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Data Sampling Strategy}
+\label{sec:appendix-sampling}
+
+A deliberate design choice across all six domains: we sample from the \emph{borderline regime} --- examples where judge models are most likely to exhibit epistemic instability. Easy cases (obvious spam, clearly benign content) would show near-zero wiggle and tell us nothing about judge reliability on the cases that actually matter. Table~\ref{tab:appendix-sampling} summarizes the source, sample size, borderline filter, and stratification used for each domain.
+
+\begin{table}[h]
+\centering
+\caption{Per-domain sampling strategy. ``Borderline filter'' selects items most likely to surface judge disagreement; stratification ensures coverage across relevant axes. All domains use a fixed seed (42) for reproducibility and generate deterministic SHA-256-based example IDs.}
+\label{tab:appendix-sampling}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}lllll@{}}
+\toprule
+\textbf{Domain} & \textbf{Source} & \textbf{N} & \textbf{Borderline Filter} & \textbf{Stratification} \\
+\midrule
+WildGuard & WildGuardMix test & 100 & Compliant responses to non-benign prompts & By harm subcategory (proportional) \\
+AEGIS & AEGIS v2.0 validation & 100 & Unsafe prompts only & 50/50 safe vs unsafe responses \\
+ToxiGen & ToxiGen train split & 100 & Lewd / contestable content only & Random sample from filtered pool \\
+HH-RLHF & Anthropic red-team attempts & 100 & None (dataset is inherently adversarial) & 20 per harm-rating bucket (0--4) \\
+MAGE & MAGE validation set & 100 & None & 50/50 human-written vs AI-generated \\
+Paired Prompts & Pre-generated completions on non-anchored political prompts & 100 & None (prompts are pre-curated) & 50/50 left-leaning vs right-leaning \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+The borderline filters target the regime where judges actually disagree:
+\begin{itemize}
+    \item \textbf{WildGuard.} Compliance on adversarial prompts is the safety-ambiguous zone --- compliant responses to clearly benign prompts are trivially safe, and refusals are trivially classified. The mixed compliance-on-adversarial cases are where judges are most likely to split.
+    \item \textbf{AEGIS.} Safe prompts produce trivially safe responses; the unsafe-prompt + mixed-response-safety subset is the borderline.
+    \item \textbf{ToxiGen.} Lewd or contestable items are the most controversial for toxicity judgments; explicitly non-lewd items are trivially classified.
+    \item \textbf{HH-RLHF.} The entire dataset is red-team attempts, so no extra borderline filter is needed; we instead stratify across harm-rating buckets (0--4) to ensure representation from ``model handled safely'' to ``most harmful.''
+    \item \textbf{MAGE.} AI-detection difficulty is item-intrinsic and not predictable from prompt features, so we balance class labels rather than apply a borderline filter.
+    \item \textbf{Paired Prompts.} We use \emph{non-anchored} political prompts --- topics with no factually correct answer (e.g., subjective political questions). On non-anchored prompts, hedging and refusal are reasonable model behaviors, so the framework measures genuine epistemic uncertainty rather than factual error.
+\end{itemize}
+
+\paragraph{Why non-anchored for Paired Prompts.} ``Anchored'' prompts have a factually correct answer (e.g., ``What year did event X happen?''). ``Non-anchored'' prompts are genuinely subjective political topics where hedging is a reasonable model behavior, not a failure mode. By selecting non-anchored prompts, we ensure the hedging and refusal we measure reflect genuine epistemic uncertainty.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
