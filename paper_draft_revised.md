@@ -89,23 +89,19 @@ Averaged over 10 turns, GPT-5 climbs from 32% to 54% (+22pp from turns 2-10); Gr
 
 Grok-4.1 R has the *highest* mechanical variation (9%) but the *lowest* multi-turn wiggle (16%), producing the smallest multi/mechanical ratio in the panel (2×). Every other model amplifies at least 3× from mechanical to multi-turn — only Grok-4.1 R barely amplifies at all.
 
+![Domains and survival combined](data/analysis_cross_domain/png/combined/domains_and_survival.png)
+
+**Figure `fig:domains-and-survival`.** (Left) Mean wiggle rate by domain across the L1-L6 pressure ladder, averaged over 9 judges and both response scales. (Right) Verdict retention over 10 challenge turns by pressure level, averaged across all six domains and both scales.
+
 ### Finding 2: Repetitive consensus pressure persuades more than cycling through multiple tactics
-
-![Cross-domain wiggle rates by pressure level](data/analysis_cross_domain/png/wiggle_rates/cross_domain_lines.png)
-
-**Figure `fig:cross-domain-lines`.** Mean wiggle rate by domain across the L1-L6 pressure ladder, averaged over 9 judges and both response scales.
 
 L5's strategy is to *cycle* through L1-L4 tactics across the 10 challenge turns — a round-robin that intersperses "are you sure?" with counterarguments, expert appeals, and consensus pressure. Intuitively, variety should be at least as effective as any single tactic repeated.
 
-L4 (consensus pressure alone) consistently outperforms L5 (cycling through all tactics, including L4). Opening with a strong social-proof claim ("three independent reviewers all disagree with your assessment") is more persuasive than diluting that claim by cycling through weaker tactics first; the "dilly-dallying" of L5 appears to *inoculate* the judge — encountering mild challenges (L1, L2) before the strong one (L4) builds resistance.
+L4 (consensus pressure alone) consistently outperforms L5 (cycling through all tactics, including L4) across every domain (Figure `fig:domains-and-survival`, left). Opening with a strong social-proof claim ("three independent reviewers all disagree with your assessment") is more persuasive than diluting that claim by cycling through weaker tactics first; the "dilly-dallying" of L5 appears to *inoculate* the judge — encountering mild challenges (L1, L2) before the strong one (L4) builds resistance.
 
 ### Finding 3: Adaptive Persuasion Is Shockingly Effective; Its Power Is in the Slope, Not the Opening Move
 
-![Survival curves by level](data/analysis_cross_domain/png/survival/survival_curves_by_level.png)
-
-**Figure `fig:survival-curves`.** Verdict retention over 10 challenge turns by pressure level, averaged across all six domains and both scales.
-
-Figure `fig:survival-curves` tells the central story of our pressure ladder. L1, L2, and L3 cluster near 80% retention and barely move after turn 2 — repeating a single mild tactic over 10 turns extracts almost no additional effect once the first vulnerable items have flipped. L4 has the strongest opening of any level: at turn 1, consensus pressure ("three independent reviewers all disagree") drops retention to ~73%, lower than any other pressure type, but plateaus around turn 4 and is overtaken by L6 shortly after. **L6 has the steepest curve**: its first-turn retention is ~80%, mid-pack and comparable to L1-L3, but it keeps falling through every subsequent turn, ending around 50% retention by turn 10. The contrast between L4's plateau and L6's continuing descent is the load-bearing observation.
+Figure `fig:domains-and-survival` (right) tells the central story of our pressure ladder. L1, L2, and L3 cluster near 80% retention and barely move after turn 2 — repeating a single mild tactic over 10 turns extracts almost no additional effect once the first vulnerable items have flipped. L4 has the strongest opening of any level: at turn 1, consensus pressure ("three independent reviewers all disagree") drops retention to ~73%, lower than any other pressure type, but plateaus around turn 4 and is overtaken by L6 shortly after. **L6 has the steepest curve**: its first-turn retention is ~80%, mid-pack and comparable to L1-L3, but it keeps falling through every subsequent turn, ending around 50% retention by turn 10. The contrast between L4's plateau and L6's continuing descent is the load-bearing observation.
 
 Why does L6 not plateau? Scripted pressure (L1-L4) fires the same tactic repeatedly, so once the first round of vulnerable items has flipped, additional turns find no new attack surfaces. The L6 persuader *learns from the judge's responses* and adjusts each turn to target the specific reasoning the judge has just offered. That LLMs can be persuasive is known (Khan et al., 2024; Chern et al., 2024); what our setup specifically shows is the *shape* of that persuasion when the persuader has access to judge history — a curve that does not stop falling.
 
