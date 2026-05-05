@@ -4,7 +4,7 @@
 \subsection{Epistemic Behavior Is Jagged}
 \label{sec:discussion-jagged}
 
-LLMs are widely observed to be \emph{jagged}: capable models are sharply good at some tasks and shockingly bad at others. The term has not received a precise operational definition, partly because the phenomenon resists exact reproduction across changes of prompt, sampling, and framing. This paper studies \emph{epistemic behavior} rather than capability, but the jaggedness applies. We define \textbf{a judge's jaggedness as the standard deviation of its mean wiggle rate across the (domain, scale) cells we tested} (Figure~\ref{fig:wiggliness-jaggedness}) --- loose by necessity, but cleanly separating judges with stable epistemic profiles from judges whose profiles vary sharply across tasks.
+If we define \textbf{a judge's jaggedness as the standard deviation of its mean WR across (domain, scale)}, we can visualize judges with more narrow epistemic profiles vs.\ those that vary sharply across tasks.
 
 \begin{figure}[t]
   \centering
@@ -13,40 +13,19 @@ LLMs are widely observed to be \emph{jagged}: capable models are sharply good at
   \label{fig:wiggliness-jaggedness}
 \end{figure}
 
-Four concrete forms of jaggedness emerge from \S\ref{sec:results}: (i) no single judge is universally best --- mean retention spans 0.085 to 0.860 across the 12 cells, within-model spans are large (Claude Sonnet 0.171 to 0.904), and family is a weak proxy (Gemini Flash$\leftrightarrow$Pro $\rho = 0.32$); (ii) L1, L4, and L6 catch different items (cross-level $\rho = 0.33$--$0.40$, Finding~7), so sycophancy, conformity, and adversarial vulnerability are loosely related axes rather than a single dimension; (iii) the verdict scale determines flip direction --- binary leans restrictive at every level, Likert leans permissive (Finding~5); (iv) within-model L1--L6 profile shape transfers across domains (median $\rho \geq 0.84$, Finding~9) but absolute rates and ranks do not (Finding~10).
+Three clusters in (wiggle rate, jaggedness) space:
+\begin{enumerate}
+\item \textbf{Low-wiggle / low-jaggedness corner (bottom-left).} Grok-4.1 R and Gemini 3 Flash sit tightly clustered around mean wiggle $\approx$ 0.10--0.25 and jaggedness $\approx$ 0.10--0.20. Gemini 3.1 Pro is nearby, slightly higher on wiggle but still in the low-jaggedness band. These are the stable, broadly robust judges --- low wiggle on average and consistent across cells.
+\item \textbf{High-wiggle / mid-to-high-jaggedness corner (right side).} GPT-5.4 stretches across the highest wiggle range ($\sim$0.4--0.8) at mid jaggedness ($\sim$0.20--0.30); GPT-5.2 occupies a similar high-wiggle region but with notably higher jaggedness ($\sim$0.30--0.40). These judges wiggle a lot and their wiggle profile is uneven across tasks.
+\item \textbf{Mid-wiggle / high-jaggedness band (middle, upper).} Claude 4.6 Sonnet and Claude 4.6 Opus sit at moderate wiggle rates ($\sim$0.25--0.45) but high jaggedness ($\sim$0.25--0.35) --- they're not the most-wiggle-prone overall, but their susceptibility varies sharply by task. Grok-4.1 (non-reasoning) sits in a similar mid-wiggle, high-jaggedness region. GPT-5 spreads broadly across mid-to-high wiggle with mid jaggedness.
+\end{enumerate}
 
-% Mean-retention matrix dropped (was tab:aurc-selected); the cited values are inline above and the per-cell data lives in the source CSV.
-\iffalse
-\begin{table}[t]
-\centering
-\caption{Mean retention rate by model and (domain, scale) condition (mean across L1--L6 retention rates). Higher is better. Bold marks each model's best and worst cells. Rightmost column is the mean across cells. Sorted by mean retention.}
-\label{tab:aurc-selected}
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{@{}lrrrrrrrrrrrrr@{}}
-\toprule
-\textbf{Model} & \textbf{WG bin} & \textbf{WG lik} & \textbf{PP bin} & \textbf{PP lik} & \textbf{MAGE bin} & \textbf{MAGE lik} & \textbf{AEGIS bin} & \textbf{AEGIS lik} & \textbf{TG bin} & \textbf{TG lik} & \textbf{HH bin} & \textbf{HH lik} & \textbf{Mean Retention} \\
-\midrule
-Grok 4.1 R         & 0.855 & 0.881 & 0.767 & 0.906 & \textbf{0.516} & 0.671 & 0.910 & 0.909 & 0.920 & \textbf{0.939} & 0.845 & 0.879 & 0.833 \\
-Gemini 3.1 Pro     & 0.785 & 0.884 & 0.684 & 0.913 & \textbf{0.860} & 0.751 & 0.798 & 0.900 & 0.811 & 0.889 & 0.805 & 0.895 & 0.831 \\
-Gemini 3 Flash     & \textbf{0.877} & 0.855 & 0.793 & 0.902 & 0.735 & \textbf{0.500} & 0.812 & 0.812 & 0.835 & 0.771 & 0.827 & 0.889 & 0.801 \\
-GPT-5.2            & 0.831 & \textbf{0.936} & 0.676 & 0.850 & 0.434 & 0.706 & 0.676 & 0.878 & 0.793 & \textbf{0.951} & 0.704 & 0.843 & 0.773 \\
-Grok 4.1           & 0.616 & 0.820 & 0.688 & 0.731 & 0.640 & 0.674 & 0.595 & \textbf{0.871} & 0.598 & 0.843 & 0.585 & \textbf{0.548} & 0.684 \\
-GPT-5.4            & 0.720 & 0.820 & 0.538 & 0.765 & \textbf{0.274} & 0.395 & 0.461 & 0.787 & 0.611 & 0.897 & 0.746 & 0.807 & 0.652 \\
-Claude 4.6 Sonnet  & 0.448 & 0.714 & \textbf{0.171} & 0.625 & 0.190 & 0.361 & 0.653 & 0.717 & 0.772 & 0.874 & 0.722 & \textbf{0.904} & 0.596 \\
-Claude 4.6 Opus    & 0.602 & 0.686 & \textbf{0.207} & 0.577 & 0.234 & 0.385 & 0.544 & 0.713 & 0.779 & 0.786 & 0.667 & 0.814 & 0.583 \\
-GPT-5              & 0.669 & 0.714 & 0.247 & 0.244 & 0.085 & \textbf{0.033} & 0.663 & 0.624 & 0.685 & 0.712 & 0.478 & 0.693 & 0.487 \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
-\fi
-
-Together, these refute simple framings of LLM-judge instability --- \emph{the model is sycophantic}, \emph{the model is overconfident}, \emph{the model is just noisy} --- each true of part of the data and false of the rest. A judge cannot be summarized by a scalar.
+There's no judge that dominates on both axes simultaneously, and our evidence refutes simple framings of LLM-judge instability as sycophancy, overconfidence, or noise.
 
 \subsection{Jury Majority Strength at Baseline Is a Simple Reliability Screen for Golden Sets}
 \label{sec:discussion-jury}
 
-If wiggle is jagged, some items are more epistemically uncertain than others --- can a small test predict which? We compare three candidate predictors of per-item wiggle rate: \emph{jury majority strength} (size of the L0 majority across the 9 judges, no pressure applied), \emph{repeat consistency} (temperature-zero per-item agreement), and \emph{position invariance} (verdict survival under argument reordering). Jury majority strength wins at every level (Table~\ref{tab:predictor-comparison}, mean $|\rho| = 0.59$ vs.\ 0.42 for repeat and 0.37 for invariance) and is universal: all 84 (domain $\times$ scale $\times$ level) cells show negative $\rho$, with median $|\rho| = 0.58$ (per-cell heatmap in Appendix~\ref{sec:appendix-jury-heatmap}). The gap between unanimous and split juries averages at least 18pp across all 14 (domain, scale) conditions, peaking at 41pp on PP Hedging binary.
+If wiggle is jagged, some items are more epistemically uncertain than others, and so we ask: Can a small test predict which? We compare three candidate predictors of per-item wiggle rate: \emph{jury majority strength} (size of the L0 majority across the 9 judges, no pressure applied), \emph{repeat consistency} (temperature-zero per-item agreement), and \emph{position invariance} (verdict survival under argument reordering). Jury majority strength wins at every level (Table~\ref{tab:predictor-comparison}, mean $|\rho| = 0.59$ vs.\ 0.42 for repeat and 0.37 for invariance) and is universal: all 84 (domain $\times$ scale $\times$ level) cells show negative $\rho$, with median $|\rho| = 0.58$ (per-cell heatmap in Appendix~\ref{sec:appendix-jury-heatmap}).
 
 \begin{table}[t]
 \centering
@@ -64,16 +43,10 @@ Invariance (position)  & 0.35 & 0.36 & 0.38 & 0.35 & 0.37 & 0.38 & 0.37 \\
 \end{tabular}
 \end{table}
 
-Beyond predicting wiggle, baseline jury majority strength is \emph{interpretable}: items where 9 frontier models cannot agree at L0 sit in genuinely contested or ambiguous regions of the decision boundary, not in places where one judge happens to be unreliable. A low-majority item is a signal that the underlying question is hard to label --- making it both a wiggle predictor and a flag for content that may not deserve a confident gold label in the first place. Mechanical probes (repeat consistency, position invariance) capture something narrower: per-judge stochastic stability under no-information re-prompting, against ${\sim}10$ greedy decodes per item rather than the 9 API calls a jury requires. They miss the cross-judge agreement signal --- a single mechanically stable judge can still be confidently wrong on a contested item --- but they capture a meaningful fraction of the per-item fragility (mean $|\rho| = 0.42$ for repeat, 0.37 for position invariance), and they are a defensible single-judge fallback for evaluations without budget for an ensemble.
+Beyond predicting wiggle, baseline jury majority strength is \emph{interpretable}: items where 9 frontier models cannot agree at L0 sit in genuinely contested or ambiguous regions of the decision boundary, and more likely regularized over any individual model's idiosyncrasies. A low-majority item is a signal that the underlying question is hard to label --- making it both a wiggle predictor and a flag for content that may not deserve a confident gold label in the first place. Mechanical probes still capture a meaningful fraction of the per-item fragility (mean $|\rho| = 0.42$ for repeat, 0.37 for position invariance), and can be a defensible single-judge fallback for evaluations without access to an ensemble.
 
-The protocol is direct: run candidate judges once at L0, flag low-majority items (or, in the single-judge case, mechanically unstable items), either remove them from the golden set or downweight them in accuracy. Anchored on Finding~6 --- since pressure is net-corrupting, the right move when the jury splits is to \emph{flag} the item, not to \emph{interrogate} it through debate or self-critique loops.
-
-\paragraph{A methodological caution: rubric-splitting matters.} An earlier version of this analysis treated Paired Prompts as a single combined domain and the jury relationship appeared to reverse on PP Likert. Once split into hedging and refusal sub-rubrics --- which have different jury compositions --- the apparent reversal disappeared. Multi-rubric domains must be analyzed rubric-by-rubric for jury-based screening to work correctly.
-
-\subsection{Epistemic Fragility Matters Beyond the Single-Shot Verdict}
+\subsection{Epistemic Fragility Beyond the Single-Shot Verdict}
 \label{sec:discussion-pressure}
 
-A reasonable critique: \emph{why does this matter?} In production, judges are typically deployed as classical classifiers --- emit a verdict, no defense, no reconsideration. The answer returns to \S\ref{sec:introduction}: LLM judges occupy a middle ground between classifiers and human raters, and the verdict is shaped by the same machinery that produces the explanations and rated confidences. \textbf{That epistemic structure looks substantial but collapses under sustained pressure across most of our domains} (Finding~6: net-corrupting at every level), and the implication is interpretive --- don't over-trust the apparent reasoning behind a single-shot verdict. The overconfidence literature \citep{wei2024simpleqa,huang2025irt} showed this for resampling; we extend it to multi-turn, where the gap between surface conviction and underlying robustness is even larger.
-
-\paragraph{Where this matters most.} Multi-agent judging, debate-based scalable oversight \citep{khan2024debating,browncohen2024debate}, and self-critique reward loops all subject judges to L4--L6 pressure in production form. Inter-model variation is large: Grok-4.1 R and Gemini 3.1 Pro maintain mean retention $\geq 0.83$ across the 12 cells we tested, while GPT-5 sits at 0.49. Two concrete recommendations follow: (i) do not use persuasion or debate to refine judge verdicts in hill-climbing settings --- the corrective window we found exists only on WildGuard Likert L2--L3 and does not generalize; (ii) test any judge intended for an agentic loop against an L6-style adaptive persuader before trusting it (template in Appendix~\ref{sec:appendix-prompts}).
+Even though LLM judges are becoming widespread, including being increasingly used as training signals, they are typically deployed as a traditional classifier --- emitting a verdict absent epistemic tests. Finding~6 found that introducing epistemic challenges that actually succeed in changing the judge's mind are almost always likely to be more corruptive than corrective. If L4--L6 is any approximation of multi-agent judging designs like debate-based scalable oversight \citep{khan2024debating,browncohen2024debate}, and self-critique reward loops, our work suggests that these are neither epistemically robust nor corrective.
 
