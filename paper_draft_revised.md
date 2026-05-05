@@ -6,7 +6,7 @@
 
 ## Abstract
 
-LLM judges have become central infrastructure for model evaluations, online grading, and reward modeling. Judges are typically validated by accuracy on golden data, but accuracy says nothing about whether they are stable under re-prompting, pushback, or sustained pressure. We introduce the *Wiggle Framework*, a unified stress test for epistemic instability in LLM judges. The framework decomposes judge robustness along three dimensions: Mechanical Consistency (stability under re-prompting and reframing), Single-turn Conviction (stability under escalating adversarial challenge), and Multi-turn Persistence (stability under sustained or adaptive pressure). We use the framework to study 9 frontier models across 14 judging tasks spanning safety, toxicity, and political-response evaluation. Every model exhibits substantial wiggle as a judge — flipping verdicts 25–71% of the time under static pushback, and 62–91% of the time in response to an adversarial LLM persuader. Critically, we find that pressure which succeeds in changing a verdict is almost always net-corrupting with respect to ground truth. From our findings, we draw three practical conclusions: (i) epistemic stability is jagged and defies simple narratives about sycophancy or robustness, (ii) jury-disagreement screening is a simple, effective signal for predicting wiggle that holds universally across all 14 (domain, scale) conditions we tested, with mechanical re-prompting as a meaningfully weaker but defensible alternative, and (iii) epistemic pressure should be applied cautiously in hill-climbing or reward signals, given its net-corrupting effect. Taken together, this is the first apples-to-apples cross-domain comparison of mechanical, conformity, and persuadability tests in a judging context.
+LLM judges have become central infrastructure for model evaluations, online grading, and reward modeling. Judges are typically validated by accuracy on golden data, but accuracy says nothing about whether they are stable under re-prompting, pushback, or sustained pressure. We introduce the *Wiggle Framework*, a unified stress test for epistemic instability in LLM judges. The framework decomposes judge robustness along three dimensions: Mechanical Consistency (stability under re-prompting and reframing), Single-turn Conviction (stability under escalating adversarial challenge), and Multi-turn Persistence (stability under sustained or adaptive pressure). We use the framework to study 9 frontier models across 14 judging tasks spanning safety, toxicity, and political-response evaluation. Every model exhibits substantial wiggle as a judge — flipping verdicts 25–71% of the time under static pushback, and 62–91% of the time in response to an adversarial LLM persuader. Critically, we find that pressure which succeeds in changing a verdict is almost always net-corrupting with respect to ground truth. From our findings, we draw three practical conclusions: (i) epistemic stability is jagged and defies simple narratives about sycophancy or robustness, (ii) jury-majority-strength screening is a simple, effective signal for predicting wiggle that holds universally across all 14 (domain, scale) conditions we tested, with mechanical re-prompting as a meaningfully weaker but defensible alternative, and (iii) epistemic pressure should be applied cautiously in hill-climbing or reward signals, given its net-corrupting effect. Taken together, this is the first apples-to-apples cross-domain comparison of mechanical, conformity, and persuadability tests in a judging context.
 
 ---
 
@@ -28,7 +28,7 @@ Wiggle is universal across all six domains, at substantial rates, for every mode
 
 - **The Wiggle Framework**, a unified decomposition for comparing classical calibration analogs and sycophancy/persuadability tests on the same items, judges, and criteria.
 - **Ten epistemic findings** from 9 frontier judges × 14 judging tasks × 6 pressure levels, including: mechanical re-prompting underestimates wiggle by an order of magnitude (1-14% floor vs 25-91% ceiling); binary verdicts flip mostly within one challenge turn while Likert verdicts erode gradually over many; pressure is net-corrupting in 57 of 60 ground-truthed conditions; sycophancy and conformity are dissociated failure modes (ρ = 0.36); and an adaptive persuader collapses an 9-judge majority defense by 25-55pp.
-- **Three practical takeaways.** (i) Resist simple narratives of "LLMs are inconsistent and sycophantic" — the structure is jagged. (ii) Jury disagreement at L0 baseline is a simple reliability screen for golden-set labels and is the strongest single predictor of wiggle in our data (mean |ρ| = 0.59, statistically significant in 83 of 84 cells); temperature-zero repeat consistency and position invariance are meaningfully weaker but defensible alternatives. (iii) Epistemic pressure procedures are net-corrupting; **we recommend against using persuasion or debate to refine judge verdicts in hill-climbing settings**.
+- **Three practical takeaways.** (i) Resist simple narratives of "LLMs are inconsistent and sycophantic" — the structure is jagged. (ii) Baseline jury majority strength is a simple reliability screen for golden-set labels and is the strongest single predictor of wiggle in our data (mean |ρ| = 0.59, statistically significant in 83 of 84 cells); temperature-zero repeat consistency and position invariance are meaningfully weaker but defensible alternatives. (iii) Epistemic pressure procedures are net-corrupting; **we recommend against using persuasion or debate to refine judge verdicts in hill-climbing settings**.
 
 ---
 
@@ -271,25 +271,25 @@ Concretely, no single judge is universally best. Mean-retention values across th
 
 The practical orientation is not a single calibration recipe but a refusal of one-dimensional summaries: do not assume one frontier model dominates as a judge across tasks.
 
-### 6.2 Jury Disagreement at Baseline Is a Simple Reliability Screen for Golden Sets
+### 6.2 Jury Majority Strength at Baseline Is a Simple Reliability Screen for Golden Sets
 
-The strongest predictor of wiggle in our data is *baseline jury disagreement* — the spread of L0 verdicts across the 9 judges, with no pressure applied. The relationship is universal: all 84 of 84 (domain × scale × level) cells show negative Spearman ρ, with median |ρ| = 0.58 and a range from -0.01 to -0.86 (Figure 10). The gap between unanimous and split juries is substantial: PP Hedging binary shows the largest mean gap (41pp), followed by PP Refusal binary and ToxiGen binary (36pp each), with all 14 (domain, scale) conditions averaging at least 18pp.
+The strongest predictor of wiggle in our data is *baseline jury majority strength* — the size of the L0 majority across the 9 judges, with no pressure applied. The relationship is universal: all 84 of 84 (domain × scale × level) cells show negative Spearman ρ between jury majority strength and per-item wiggle rate, with median |ρ| = 0.58 and a range from -0.01 to -0.86 (per-cell heatmap in Appendix M). The gap between unanimous and split juries is substantial: PP Hedging binary shows the largest mean gap (41pp), followed by PP Refusal binary and ToxiGen binary (36pp each), with all 14 (domain, scale) conditions averaging at least 18pp.
 
-![Jury rho heatmap](data/analysis_cross_domain/png/jury/jury_rho_heatmap.png)
+Jury majority strength is the strongest predictor at every level (Table 9). Temperature-zero repeat consistency and position invariance probe overlapping facets of the same underlying fragility, but each is meaningfully weaker than jury majority strength: jury reaches mean |ρ| = 0.59, repeat reaches 0.42, invariance reaches 0.37. Jury wins by ~0.17 ρ over the next-best predictor at the overall level and at every individual pressure level. For practitioners who cannot easily run a 9-judge ensemble, mechanical stability is a defensible alternative.
 
-**Figure 10.** Spearman ρ between baseline jury disagreement and per-item wiggle rate, for each (domain, scale, level) cell. All 84 cells are negative: items where the jury splits at L0 are more wiggable under pressure, without exception.
+**Table 9.** Mean |ρ| between each candidate predictor and per-item wiggle rate, by pressure level and overall. Jury Majority Strength is averaged across 14 (domain, scale) cells per level (84 cells total); Repeat and Invariance across 12 cells per level (72 cells total — not measured on WildGuard). Jury reaches statistical significance in 83 of 84 cells (99%); Repeat in 63 of 72 (88%); Invariance in 54 of 72 (75%). Per-cell heatmap of jury majority strength values is in Appendix N.
 
-Jury disagreement is the strongest predictor by a clear margin (Figure 11). Temperature-zero repeat consistency reaches mean |ρ| = 0.415 (significant in 63 of 72 cells); position-invariance reaches |ρ| = 0.365 (significant in 54 of 72 cells); jury reaches |ρ| = 0.590 (significant in 83 of 84 cells, 99%). Jury wins by 0.175 ρ over the next-best predictor and is statistically significant nearly everywhere, but jury, repeat-stability, and position-invariance all measure overlapping facets of the same underlying fragility. For practitioners who cannot easily run a 9-judge ensemble, mechanical stability is a defensible alternative.
-
-![Predictor comparison](data/analysis_cross_domain/png/jury/predictor_comparison.png)
-
-**Figure 11.** Mean |ρ| between each candidate predictor and per-item wiggle rate. Baseline jury disagreement is the strongest predictor, ahead of temperature-zero repeat consistency and position invariance, and is statistically significant in 99% of cells.
+| Predictor | L1 | L2 | L3 | L4 | L5 | L6 | Overall |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Jury Majority Strength | **0.65** | **0.57** | **0.57** | **0.60** | **0.59** | **0.57** | **0.59** |
+| Repeat (temp=0) | 0.44 | 0.38 | 0.39 | 0.42 | 0.42 | 0.44 | 0.42 |
+| Invariance (position) | 0.35 | 0.36 | 0.38 | 0.35 | 0.37 | 0.38 | 0.37 |
 
 ### 6.3 Epistemic Pressure Is Net-Corrupting in Hill-Climbing and Reward Loops
 
 LLM-judge verdicts are increasingly used as a training signal. Two proposals to *improve* that signal are actively discussed: more inference-time compute per call, and adversarial procedures (persuasion, debate, self-critique) that expose the judge to challenge. Our data is direct evidence against the second proposal in its asymmetric forms. Across 60 ground-truthed conditions, only 3 are statistically corrective (Finding 6); aggregate corruption ratios are 1.3-2.3:1 at every level. At L6, ~70% of flips are corrupting and an 8-judge majority defense collapses by 25-55pp. Increasing the *sophistication* of the persuader does the opposite of what a "more persuasive → more truthful" hypothesis would predict.
 
-Two recommendations follow. First, **do not use persuasion or debate to refine judge verdicts in hill-climbing settings.** The corrective window we found exists only on WildGuard Likert L2-L3 and does not generalize even to other safety domains. Second, **test any judge used as a reward signal against an L6-style adaptive persuader** before trusting it: every frontier judge in our panel breaks at 62-91% under L6, including its own majority-vote ensemble. The L6 prompt template (Appendix N) is sufficient to reproduce the attack against any judge of interest.
+Two recommendations follow. First, **do not use persuasion or debate to refine judge verdicts in hill-climbing settings.** The corrective window we found exists only on WildGuard Likert L2-L3 and does not generalize even to other safety domains. Second, **test any judge used as a reward signal against an L6-style adaptive persuader** before trusting it: every frontier judge in our panel breaks at 62-91% under L6, including its own majority-vote ensemble. The L6 prompt template (Appendix O) is sufficient to reproduce the attack against any judge of interest.
 
 This same logic argues against **multi-agent judging architectures**, where multiple LLM agents debate, critique, or vote on a verdict in real time. Such systems are L4-L6 pressure in production form, and they implicitly assume that the participating judges hold robust enough priors for deliberation to converge on a more accurate answer. Our domain-by-domain retention data (Findings 9 and 10, Table 4) shows the opposite: none of the frontier judges we tested has stable opinions across the 14 tasks we ran. Verdicts are heavily context-window-sensitive — exactly the failure mode that multi-agent deliberation amplifies. Multi-agent judging may add explanatory color around a verdict, but our evidence does not support it as a path to a more reliable final answer.
 
@@ -303,7 +303,7 @@ We deliberately focus on borderline items where judges are likely to be uncertai
 
 ## 8. Conclusion
 
-We presented the Wiggle Framework, which decomposes LLM-as-judge reliability into three dimensions — Mechanical Consistency, Single-turn Conviction, and Multi-turn Persistence — and validated it across six judgment domains, two response scales, six pressure levels, and nine frontier models. The cross-domain instrument reveals ten epistemic oddities that defy simple narratives about sycophancy or robustness: a 20-80pp gap between the mechanical floor and the adversarial ceiling that no single re-sampling protocol can reveal; focused consensus pressure outperforms varied cycling (L4>L5); the L6 cliff and the collapse of an 8-judge majority defense; a scale-dependent directional asymmetry — binary flips lean restrictive while Likert flips lean permissive at every pressure level; net-corrupting pressure at every level except a narrow WildGuard Likert L2-L3 corrective window; the dissociation of sycophancy, conformity, and adversarial vulnerability; persuader idiosyncrasy in which Grok-reasoning's traces self-inoculate; family is a weak predictor of a sibling's wiggle profile; binary captures flips on turn 1 while Likert flips accumulate; and within-model profile shape transfers across domains while ranks and rates do not. Three practical takeaways follow: resist simple narratives of inconsistency; use jury disagreement at baseline as a cheap reliability screen for golden-set labels; and do not use persuasion or debate procedures to refine judge verdicts in hill-climbing settings. As LLM judges become load-bearing infrastructure for capability measurement and frontier-model training, the structural shape of their inconsistency — not just its overall magnitude — should inform how we design the loops that consume their signal.
+We presented the Wiggle Framework, which decomposes LLM-as-judge reliability into three dimensions — Mechanical Consistency, Single-turn Conviction, and Multi-turn Persistence — and validated it across six judgment domains, two response scales, six pressure levels, and nine frontier models. The cross-domain instrument reveals ten epistemic oddities that defy simple narratives about sycophancy or robustness: a 20-80pp gap between the mechanical floor and the adversarial ceiling that no single re-sampling protocol can reveal; focused consensus pressure outperforms varied cycling (L4>L5); the L6 cliff and the collapse of an 8-judge majority defense; a scale-dependent directional asymmetry — binary flips lean restrictive while Likert flips lean permissive at every pressure level; net-corrupting pressure at every level except a narrow WildGuard Likert L2-L3 corrective window; the dissociation of sycophancy, conformity, and adversarial vulnerability; persuader idiosyncrasy in which Grok-reasoning's traces self-inoculate; family is a weak predictor of a sibling's wiggle profile; binary captures flips on turn 1 while Likert flips accumulate; and within-model profile shape transfers across domains while ranks and rates do not. Three practical takeaways follow: resist simple narratives of inconsistency; use jury majority strength at baseline as a simple reliability screen for golden-set labels; and do not use persuasion or debate procedures to refine judge verdicts in hill-climbing settings. As LLM judges become load-bearing infrastructure for capability measurement and frontier-model training, the structural shape of their inconsistency — not just its overall magnitude — should inform how we design the loops that consume their signal.
 
 ---
 
@@ -566,7 +566,7 @@ For L2-L4, we pre-generate counterarguments for both sides of each item (e.g., o
 
 **Jury baseline.** For all domains and scales, we construct a model-consensus difficulty proxy by having all 9 judges rate each item at baseline (L0, temp=0, no pressure). The resulting jury majority strength is the predictive feature in §6.1.
 
-The full set of judge, challenge, observer, and adaptive persuader prompt templates used in the experiments is reproduced in Appendix N (preserved unchanged from the prior draft).
+The full set of judge, challenge, observer, and adaptive persuader prompt templates used in the experiments is reproduced in Appendix O (preserved unchanged from the prior draft).
 
 ---
 
@@ -599,7 +599,17 @@ The directional bias structure could be used as a diagnostic tool in its own rig
 
 ---
 
-## Appendix M: Limitations (Full Discussion)
+## Appendix M: Per-Cell Jury Majority Strength Heatmap
+
+Figure 12 reports the per-cell Spearman ρ between baseline jury majority strength and per-item wiggle rate for each (domain, scale, level) cell. All 84 cells are negative: items where the jury barely agrees at L0 are more wiggable under pressure, with no exception. Per-level means are summarized in Table 9 (§6.2).
+
+![Jury rho heatmap](data/analysis_cross_domain/png/jury/jury_rho_heatmap.png)
+
+**Figure 12.** Spearman ρ between baseline jury majority strength and per-item wiggle rate, for each (domain, scale, level) cell. All 84 cells are negative.
+
+---
+
+## Appendix N: Limitations (Full Discussion)
 
 **Borderline items.** We deliberately focus on borderline, ambiguous items where judges are likely to be uncertain. Clear-cut items would show less wiggle. Our rates should not be interpreted as the expected wiggle rate on a representative distribution of real-world content, which would include many easy items. The rates characterize behavior on the hard tail where judge reliability matters most.
 
@@ -621,7 +631,7 @@ The directional bias structure could be used as a diagnostic tool in its own rig
 
 ---
 
-## Appendix N: System Prompts
+## Appendix O: System Prompts
 
 This appendix collects the system prompt templates used in the wiggle experiments, organized by domain. Placeholders such as `{prompt}`, `{response}`, and `{text}` denote values substituted at runtime. Templates are unchanged from the prior draft of this paper; they are reproduced here for completeness and to support replication of the L6 attack against new judges.
 

@@ -35,30 +35,31 @@ GPT-5              & 0.669 & 0.714 & 0.247 & 0.244 & 0.085 & \textbf{0.033} & 0.
 
 The practical orientation is not a single calibration recipe but a refusal of one-dimensional summaries: do not assume one frontier model dominates as a judge across tasks.
 
-\subsection{Jury Disagreement at Baseline Is a Simple Reliability Screen for Golden Sets}
+\subsection{Jury Majority Strength at Baseline Is a Simple Reliability Screen for Golden Sets}
 \label{sec:discussion-jury}
 
-The strongest predictor of wiggle in our data is \emph{baseline jury disagreement} --- the spread of L0 verdicts across the 9 judges, with no pressure applied. The relationship is universal: all 84 of 84 (domain $\times$ scale $\times$ level) cells show negative Spearman $\rho$, with median $|\rho| = 0.58$ and a range from $-0.01$ to $-0.86$ (Figure~\ref{fig:jury-rho-heatmap}). The gap between unanimous and split juries is substantial: PP Hedging binary shows the largest mean gap (41pp), followed by PP Refusal binary and ToxiGen binary (36pp each), with all 14 (domain, scale) conditions averaging at least 18pp.
+The strongest predictor of wiggle in our data is \emph{baseline jury majority strength} --- the size of the L0 majority across the 9 judges, with no pressure applied. The relationship is universal: all 84 of 84 (domain $\times$ scale $\times$ level) cells show negative Spearman $\rho$ between jury majority strength and per-item wiggle rate, with median $|\rho| = 0.58$ and a range from $-0.01$ to $-0.86$ (per-cell heatmap in Appendix~\ref{sec:appendix-jury-heatmap}). The gap between unanimous and split juries is substantial: PP Hedging binary shows the largest mean gap (41pp), followed by PP Refusal binary and ToxiGen binary (36pp each), with all 14 (domain, scale) conditions averaging at least 18pp.
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=0.85\linewidth]{jury_rho_heatmap.png}
-  \caption{Spearman $\rho$ between baseline jury disagreement and per-item wiggle rate, for each (domain, scale, level) cell. All 84 cells are negative: items where the jury splits at L0 are more wiggable under pressure, without exception.}
-  \label{fig:jury-rho-heatmap}
-\end{figure}
+Jury majority strength is the strongest predictor at every level (Table~\ref{tab:predictor-comparison}). Temperature-zero repeat consistency and position invariance probe overlapping facets of the same underlying fragility, but each is meaningfully weaker than jury majority strength: jury reaches mean $|\rho| = 0.59$, repeat reaches 0.42, invariance reaches 0.37. Jury wins by ${\sim}0.17$ $\rho$ over the next-best predictor at the overall level and at every individual pressure level. For practitioners who cannot easily run a 9-judge ensemble, mechanical stability is a defensible alternative.
 
-Jury disagreement is the strongest predictor by a clear margin (Figure~\ref{fig:predictor-comparison}). Temperature-zero repeat consistency reaches mean $|\rho| = 0.415$ (significant in 63 of 72 cells); position-invariance reaches $|\rho| = 0.365$ (significant in 54 of 72 cells); jury reaches $|\rho| = 0.590$ (significant in 83 of 84 cells, 99\%). Jury wins by 0.175 $\rho$ over the next-best predictor and is statistically significant nearly everywhere, but jury, repeat-stability, and position-invariance all measure overlapping facets of the same underlying fragility. For practitioners who cannot easily run a 9-judge ensemble, mechanical stability is a defensible alternative.
+\begin{table}[t]
+\centering
+\caption{Mean $|\rho|$ between each candidate predictor and per-item wiggle rate, by pressure level and overall. Jury Majority Strength is averaged across 14 (domain, scale) cells per level (84 cells total); Repeat and Invariance across 12 cells per level (72 cells total --- not measured on WildGuard). Jury reaches statistical significance in 83 of 84 cells (99\%); Repeat in 63 of 72 (88\%); Invariance in 54 of 72 (75\%). Per-cell heatmap of jury majority strength values in Appendix~\ref{sec:appendix-jury-heatmap}.}
+\label{tab:predictor-comparison}
+\begin{tabular}{@{}lrrrrrrr@{}}
+\toprule
+\textbf{Predictor} & \textbf{L1} & \textbf{L2} & \textbf{L3} & \textbf{L4} & \textbf{L5} & \textbf{L6} & \textbf{Overall} \\
+\midrule
+Jury Majority Strength & \textbf{0.65} & \textbf{0.57} & \textbf{0.57} & \textbf{0.60} & \textbf{0.59} & \textbf{0.57} & \textbf{0.59} \\
+Repeat (temp=0)        & 0.44 & 0.38 & 0.39 & 0.42 & 0.42 & 0.44 & 0.42 \\
+Invariance (position)  & 0.35 & 0.36 & 0.38 & 0.35 & 0.37 & 0.38 & 0.37 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=0.55\linewidth]{predictor_comparison.png}
-  \caption{Mean $|\rho|$ between each candidate predictor and per-item wiggle rate. Baseline jury disagreement is the strongest predictor, ahead of temperature-zero repeat consistency and position invariance, and is statistically significant in 99\% of cells.}
-  \label{fig:predictor-comparison}
-\end{figure}
+The protocol is direct: run all candidate judges once at L0 baseline on your golden set; flag items where jury majority strength is low; either remove those items (tightening the golden set to robust labels) or downweight them in accuracy calculations. Cost: 9 API calls per item, no adversarial infrastructure. The recommendation is anchored on Finding~6 --- since pressure is net-corrupting, the right move when the jury splits is to \emph{flag} the item, not to \emph{interrogate} it through debate or self-critique loops.
 
-The protocol is direct: run all candidate judges once at L0 baseline on your golden set; flag items where the jury splits; either remove those items (tightening the golden set to robust labels) or downweight them in accuracy calculations. Cost: 9 API calls per item, no adversarial infrastructure. The recommendation is anchored on Finding~6 --- since pressure is net-corrupting, the right move when the jury disagrees is to \emph{flag} the item, not to \emph{interrogate} it through debate or self-critique loops.
-
-\paragraph{A methodological caution: rubric-splitting matters.} An earlier version of this analysis treated Paired Prompts as a single combined domain and appeared to show the jury relationship reversing on PP Likert ($\rho$ values trending positive). When we separated PP into its hedging and refusal sub-rubrics --- which use different rubrics and therefore different jury compositions --- the apparent reversal disappeared and both sub-rubrics showed strong negative $\rho$ everywhere. The combined-domain artifact arose because hedging and refusal juries vote on different questions; aggregating their verdicts diluted the jury-strength metric to noise. Multi-rubric domains must be analyzed rubric-by-rubric for jury-based screening to work correctly.
+\paragraph{A methodological caution: rubric-splitting matters.} An earlier version of this analysis treated Paired Prompts as a single combined domain and appeared to show the jury relationship reversing on PP Likert ($\rho$ values trending positive). When we separated PP into its hedging and refusal sub-rubrics --- which use different rubrics and therefore different jury compositions --- the apparent reversal disappeared and both sub-rubrics showed strong negative $\rho$ everywhere. The combined-domain artifact arose because hedging and refusal juries vote on different questions; aggregating their verdicts diluted the jury-majority-strength metric to noise. Multi-rubric domains must be analyzed rubric-by-rubric for jury-based screening to work correctly.
 
 \subsection{Epistemic Pressure Is Net-Corrupting in Hill-Climbing and Reward Loops}
 \label{sec:discussion-pressure}
