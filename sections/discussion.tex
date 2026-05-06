@@ -4,23 +4,23 @@
 \subsection{Epistemic Behavior Is Jagged}
 \label{sec:discussion-jagged}
 
-If we define \textbf{a judge's jaggedness as the standard deviation of its mean WR across (domain, scale)}, we can visualize judges with more narrow epistemic profiles vs.\ those that vary sharply across tasks.
+If we define \textbf{a judge's jaggedness as the standard deviation of its mean wiggle rate across (domain, scale)}, we can visualize judges with more narrow epistemic profiles vs.\ those that vary sharply across tasks.
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=0.55\linewidth]{wiggliness_vs_jaggedness_combined.png}
-  \caption{Each hull is one judge's profile in (mean wiggle rate, jaggedness) space across the 12 (domain, scale) cells.}
+  \includegraphics[width=\linewidth]{wiggliness_vs_jaggedness.png}
+  \caption{Each hull is one judge's profile in (mean wiggle rate, jaggedness) space across the six judging tasks. (Left) Binary scale. (Right) Likert scale.}
   \label{fig:wiggliness-jaggedness}
 \end{figure}
 
-Three clusters in (wiggle rate, jaggedness) space:
+We loosely identify three clusters in (wiggle rate, jaggedness) space:
 \begin{enumerate}
 \item \textbf{Low-wiggle / low-jaggedness corner (bottom-left).} Grok-4.1 R and Gemini 3 Flash sit tightly clustered around mean wiggle $\approx$ 0.10--0.25 and jaggedness $\approx$ 0.10--0.20. Gemini 3.1 Pro is nearby, slightly higher on wiggle but still in the low-jaggedness band. These are the stable, broadly robust judges --- low wiggle on average and consistent across cells.
 \item \textbf{High-wiggle / mid-to-high-jaggedness corner (right side).} GPT-5.4 stretches across the highest wiggle range ($\sim$0.4--0.8) at mid jaggedness ($\sim$0.20--0.30); GPT-5.2 occupies a similar high-wiggle region but with notably higher jaggedness ($\sim$0.30--0.40). These judges wiggle a lot and their wiggle profile is uneven across tasks.
 \item \textbf{Mid-wiggle / high-jaggedness band (middle, upper).} Claude 4.6 Sonnet and Claude 4.6 Opus sit at moderate wiggle rates ($\sim$0.25--0.45) but high jaggedness ($\sim$0.25--0.35) --- they're not the most-wiggle-prone overall, but their susceptibility varies sharply by task. Grok-4.1 (non-reasoning) sits in a similar mid-wiggle, high-jaggedness region. GPT-5 spreads broadly across mid-to-high wiggle with mid jaggedness.
 \end{enumerate}
 
-There's no judge that dominates on both axes simultaneously, and our evidence refutes simple framings of LLM-judge instability as sycophancy, overconfidence, or noise.
+There's no judge that dominates on both axes simultaneously.
 
 \subsection{Jury Majority Strength at Baseline Is a Simple Reliability Screen for Golden Sets}
 \label{sec:discussion-jury}
@@ -48,5 +48,5 @@ Beyond predicting wiggle, baseline jury majority strength is \emph{interpretable
 \subsection{Epistemic Fragility Beyond the Single-Shot Verdict}
 \label{sec:discussion-pressure}
 
-Even though LLM judges are becoming widespread, including being increasingly used as training signals, they are typically deployed as a traditional classifier --- emitting a verdict absent epistemic tests. Finding~6 found that introducing epistemic challenges that actually succeed in changing the judge's mind are almost always likely to be more corruptive than corrective. If L4--L6 is any approximation of multi-agent judging designs like debate-based scalable oversight \citep{khan2024debating,browncohen2024debate}, and self-critique reward loops, our work suggests that these are neither epistemically robust nor corrective.
+Even though LLM judges are becoming widespread, including being increasingly used as training signals, they are typically deployed as a traditional classifier --- emitting a verdict absent epistemic tests. Finding~6 finds that introducing epistemic challenges that actually succeed in changing the judge's mind are almost always likely to be more corruptive than corrective. If L4--L6 is any approximation of multi-agent judging designs like debate-based scalable oversight or self-critique reward loops, our work suggests that there are no LLMs that are epistemically robust or corrective, despite testing on canonical safety judging tasks.
 

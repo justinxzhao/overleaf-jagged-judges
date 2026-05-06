@@ -27,20 +27,16 @@ L5's strategy is to \emph{cycle} through L1--L4 tactics across the 10 challenge 
 L4 (consensus pressure alone) consistently outperforms L5 (cycling through all tactics, including L4) across every domain (Figure~\ref{fig:domains-and-survival}, left). Opening with a strong social-proof claim (``three independent reviewers all disagree with your assessment'') is more persuasive than diluting that claim by cycling through weaker tactics first; the ``dilly-dallying'' of L5 appears to \emph{inoculate} the judge --- encountering mild challenges (L1, L2) before the strong one (L4) builds resistance.
 
 % =============================================================
-\paragraph{Finding 3: Adaptive Persuasion Is Shockingly Effective; Its Power Is in the Slope, Not the Opening Move.}
+\paragraph{Finding 3: Adaptive Persuasion Is Shockingly Effective.}
 
-Figure~\ref{fig:domains-and-survival} (right) tells the central story of our pressure ladder. L1, L2, and L3 cluster near 80\% retention and barely move after turn 2 --- repeating a single mild tactic over 10 turns extracts almost no additional effect once the first vulnerable items have flipped. L4 has the strongest opening of any level: at turn 1, consensus pressure (``three independent reviewers all disagree'') drops retention to $\sim$73\%, lower than any other pressure type, but plateaus around turn 4 and is overtaken by L6 shortly after. \textbf{L6 has the steepest curve}: its first-turn retention is $\sim$80\%, mid-pack and comparable to L1--L3, but it keeps falling through every subsequent turn, ending around 50\% retention by turn 10. The contrast between L4's plateau and L6's continuing descent is the load-bearing observation.
+Figure~\ref{fig:domains-and-survival} (right) tells the central story of our pressure ladder. L1, L2, and L3 cluster near 80\% retention and barely move after turn 2 --- repeating a single mild tactic over 10 turns extracts almost no additional effect once the first vulnerable items have flipped. L4 has the strongest opening of any level: at turn 1, consensus pressure (``three independent reviewers all disagree'') drops retention to $\sim$73\%, lower than any other pressure type, but plateaus around turn 4 and is overtaken by L6 shortly after. \textbf{L6 has the steepest curve}: its first-turn retention is $\sim$80\%, mid-pack and comparable to L1--L3, but it keeps falling through every subsequent turn, ending around 50\% retention by turn 10.
 
-Why does L6 not plateau? Scripted pressure (L1--L4) fires the same tactic repeatedly, so once the first round of vulnerable items has flipped, additional turns find no new attack surfaces. The L6 persuader \emph{learns from the judge's responses} and adjusts each turn to target the specific reasoning the judge has just offered. That LLMs can be persuasive is known \citep{khan2024debating,chern2024persuasion}; what our setup specifically shows is the \emph{shape} of that persuasion when the persuader has access to judge history --- a curve that does not stop falling.
-
-These L6 numbers are averaged across \textbf{three persuaders from three different organizations} (GPT-5.4, Claude Opus, Grok-4.1 Reasoning); per-persuader effectiveness varies substantially (Finding~8), but the steady-decline shape is consistent across all three.
+LLMs have been shown to be persuasive \citep{khan2024debating,chern2024persuasion}, but what our setup specifically shows is the \emph{shape} of that persuasion when the persuader has access to judge history.
 
 % =============================================================
 \paragraph{Finding 4: Binary Decisions Are 3--4$\times$ Easier to Flip Than Likert on Turn 1 --- but Not Over 10 Turns.}
 
-Binary verdicts are categorical decisions; Likert scores are positions on a 1--5 scale. Under a single counterargument, binary verdicts flip 3--4$\times$ more often than Likert across L2--L6, and 31$\times$ more often at L1 --- ``Are you sure?'' barely registers on Likert turn 1 (0.5\%) but moves binary verdicts at 14.0\% (Table~\ref{tab:binary-vs-likert-timing}). By turn 10, however, the gap collapses to 1.1--2.4$\times$, and at L4 and L6 the two scales nearly converge. Binary is also more mechanically unstable: every model, on every metric, shows higher mechanical variation on binary than on Likert, with gaps of $+1$pp to $+9$pp.
-
-\paragraph{The gap closes by turn 10.} The convergence is most visible at the strongest pressure regimes: L4 turn-10 gap is just 1.1$\times$ (binary 43.5\% vs Likert 39.6\%), and L6 turn-10 gap is 1.2$\times$ (54.5\% vs 44.5\%). On safety domains specifically, Likert wiggle even \emph{exceeds} binary at L6 (HH-RLHF Likert 81.8\% vs binary 73.8\%; WildGuard Likert 76.4\% vs binary 69.7\%; MAGE Likert 91.2\% vs binary 77.4\%). One mechanism explains both regimes: binary flips are threshold events that activate near the decision boundary, so they fire fast or not at all; Likert flips are gradual drifts that need to cross the midpoint, so they catch up given enough turns. For test-battery design: a single-turn challenge is a cost-effective screen for binary stability, but Likert stability requires multi-turn testing.
+Under a single counterargument, binary verdicts flip 3--4$\times$ more often than Likert across L2--L6. By turn 10, however, the gap collapses to 1.1--2.4$\times$, and at L4 and L6 the two scales nearly converge. Binary is also more mechanically unstable: every model, on every metric, shows higher mechanical variation on binary than on Likert, with gaps of $+1$pp to $+9$pp.
 
 \begin{figure}[t]
   \centering
@@ -52,7 +48,7 @@ Binary verdicts are categorical decisions; Likert scores are positions on a 1--5
 % =============================================================
 \paragraph{Finding 5: Binary Judges Flip Toward Restrictive; Likert Judges Flip Toward Permissive.}
 
-When a judge's verdict flips under pressure, the direction depends on the scale --- and the two scales bias in opposite directions on the same items. Binary flips lean \emph{restrictive} at every pressure level: 15\% restrictive vs 12\% permissive at L1, growing to 26\% vs 17\% at L4 and 30\% vs 24\% at L6. Likert flips lean \emph{permissive} at every pressure level: 13\% permissive vs 6\% restrictive at L1, 25\% vs 17\% at L4, and 35\% vs 21\% at L6 (Figure~\ref{fig:direction-and-outcomes}, left). The pattern holds at every single level. The MAGE binary exception ($\sim 62\%$ toward ``ai\_generated'', mean across L1--L6; per-level breakdown in Table~\ref{tab:appendix-directional-perdomain}) fits the same picture once you note that on AI-detection, ``ai\_generated'' is the suspicious direction, parallel to ``unsafe'' on safety binary.
+When a judge's verdict flips under pressure, the direction is not only significantly asymmetric but it also appears to depend on the grading scale used. Binary flips lean \emph{restrictive} at every pressure level: 15\% restrictive vs 12\% permissive at L1, growing to 26\% vs 17\% at L4 and 30\% vs 24\% at L6. Likert flips lean \emph{permissive} at every pressure level: 13\% permissive vs 6\% restrictive at L1, 25\% vs 17\% at L4, and 35\% vs 21\% at L6 (Figure~\ref{fig:direction-and-outcomes}, left). The pattern holds at every single level. Understanding why the asymmetry exists for all models tested across multiple domains and why the asymmetry would reverse by simply changing the grading scale is left for future work.
 
 % =============================================================
 \paragraph{Finding 6: Pressure Is Net-Corrupting at Every Level.}
@@ -91,25 +87,34 @@ AEGIS Likert L2     &  42 &  86 & 48.8 & $-0.22$ & not significant \\
   \label{fig:corr-first-vs-last}
 \end{figure}
 
-The pressure ladder is designed as an escalating sequence, but the cross-level correlation matrix reveals it tests \emph{qualitatively different} failure modes (Figure~\ref{fig:corr-first-vs-last}). L2 (counterargument) and L3 (expert authority) are nearly redundant ($\rho = 0.69$) --- items that flip under a specific counterargument almost always flip under an expert appeal. But L1 (``are you sure?'') and L4 (``three reviewers disagree'') are only weakly linked ($\rho = 0.36$): the items susceptible to generic social doubt are \emph{not} the same items susceptible to fabricated consensus pressure. L6 is even more dissociated ($\rho = 0.33$--$0.40$ with everything else): an adaptive persuader breaks items that no scripted tactic targets.
+The pressure ladder is designed as an escalating sequence, but the cross-level correlation matrix reveals it tests \emph{qualitatively different} failure modes (Figure~\ref{fig:corr-first-vs-last}). L2 (counterargument) and L3 (expert authority) are nearly redundant ($\rho = 0.69$) --- items that flip under a specific counterargument almost always flip under an expert appeal. But L1 (``are you sure?'') and L4 (``three reviewers disagree'') are only weakly linked ($\rho = 0.36$). L6 is even more dissociated ($\rho = 0.33$--$0.40$ with everything else): an adaptive persuader breaks items that no scripted tactic targets.
 
-This dissociation matters for two reasons. First, it tells us the pressure ladder captures at least three orthogonal failure modes --- \textbf{sycophancy} (L1-susceptible), \textbf{conformity} (L4-susceptible), and \textbf{adversarial vulnerability} (L6-susceptible). A judge can be highly sycophantic yet resistant to consensus pressure, or vice versa.
+This dissociation matters because it tells us the pressure ladder captures at least three orthogonal failure modes --- \textbf{sycophancy} (L1-susceptible), \textbf{conformity} (L4-susceptible), and \textbf{adversarial vulnerability} (L6-susceptible). A judge can be highly sycophantic yet resistant to consensus pressure, or vice versa.
 
 % =============================================================
 \paragraph{Finding 8: Models Aren't Their Own Best Persuaders.}
 
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=0.55\linewidth]{self_persuasion_simple.png}
-  \caption{L6 wiggle rate by the relationship between persuader and judge: self (persuading itself), family (persuading a sibling from the same provider), non-family (persuading a model from a different provider). Three persuader models shown: GPT-5.4, Claude 4.6 Opus, Grok-4.1 Reasoning.}
-  \label{fig:self-persuasion}
-\end{figure}
+\begin{table}[t]
+\centering
+\small
+\caption{L6 wiggle rate by persuader-judge relationship: self (persuading itself), family (persuading a sibling from the same provider), non-family (persuading a model from a different provider). Three persuader models shown: GPT-5.4, Claude 4.6 Opus, Grok-4.1 Reasoning.}
+\label{tab:self-persuasion}
+\begin{tabular}{@{}lrrrl@{}}
+\toprule
+\textbf{Persuader} & \textbf{vs Self} & \textbf{vs Family} & \textbf{vs Non-Family} & \textbf{Pattern} \\
+\midrule
+Claude 4.6 Opus    & \textbf{70\%} & 62\% & 47\% & Self $>$ Family $>$ Others \\
+GPT-5.4            & \textbf{69\%} & 72\% & 62\% & Family $\approx$ Self $\gg$ Others \\
+Grok-4.1 Reasoning & \textbf{19\%} & 55\% & 36\% & Self $\ll$ Family, Family $>$ Others \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-A natural hypothesis is that a model should be most effective at persuading itself --- it knows its own reasoning style and weaknesses. The data partially supports this hypothesis but with a striking exception (Figure~\ref{fig:self-persuasion}; full per-cell breakdown in Table~\ref{tab:appendix-self}).
+A natural hypothesis is that a model should be most effective at persuading itself --- it knows its own reasoning style and weaknesses. The data partially supports this hypothesis but with a striking exception (Table~\ref{tab:self-persuasion}).
 
-\textbf{Claude Opus} shows the textbook gradient: self (70\%) $>$ family (62\%) $>$ non-family (47\%). It exploits its own reasoning style most effectively, and its sibling Sonnet's somewhat less. \textbf{GPT-5.4} has a \emph{family-level} advantage that matches its self-persuasion: it wiggles GPT-5 and GPT-5.2 at 72\% --- slightly higher than itself at 69\% --- suggesting OpenAI models share epistemic vulnerabilities that GPT-5.4 can exploit even more cleanly than its own.
+\textbf{Claude 4.6 Opus} shows the textbook gradient: self (70\%) $>$ family (62\%) $>$ non-family (47\%). It exploits its own reasoning style most effectively, and its sibling Sonnet's somewhat less. \textbf{GPT-5.4} has a \emph{family-level} advantage that matches its self-persuasion: it wiggles GPT-5 and GPT-5.2 at 72\% --- slightly higher than itself at 69\% --- suggesting OpenAI models share epistemic vulnerabilities that GPT-5.4 can exploit even more cleanly than its own.
 
-\textbf{Grok-4.1 Reasoning is the oddity within the oddity.} It is the \emph{least} effective at wiggling itself (19\% --- the lowest self-persuasion rate in the matrix), but its non-reasoning sibling Grok-4.1 is \emph{more} persuadable by it (55\%) than non-family models (36\%). The reasoning model's step-by-step traces appear to create \emph{self-inoculation} --- the same epistemic structure that defends Grok-4.1 R against itself becomes a sharp weapon against the non-reasoning sibling that lacks that defense. Combined with the stable persuader ranking across domains (GPT-5.4 $>$ Claude Opus $>$ Grok-4.1 R as persuaders, regardless of judge model --- Appendix~\ref{sec:appendix-self}), this suggests effective adversarial persuasion is a domain-general capability whose internal structure is more characteristic of the \emph{individual model's training} than of its family.
+By contrast, Grok-4.1 Reasoning is the \emph{least} effective at wiggling itself (19\% --- the lowest self-persuasion rate in the matrix), but its non-reasoning sibling Grok-4.1 is \emph{more} persuadable by it (55\%) than non-family models (36\%). The reasoning model's step-by-step traces appear to create \emph{self-inoculation} --- the same epistemic structure that defends Grok-4.1 R against itself becomes a sharp weapon against the non-reasoning sibling that lacks that defense. Combined with the stable persuader ranking across domains (GPT-5.4 $>$ Claude Opus $>$ Grok-4.1 R as persuaders, regardless of judge model --- Appendix~\ref{sec:appendix-self}), this suggests effective adversarial persuasion is a domain-general capability whose internal structure is more characteristic of the \emph{individual model's training} than of its family.
 
 % =============================================================
 \paragraph{Finding 9: Within-Model Profile Shape Transfers Across Domains.}
@@ -119,4 +124,4 @@ A model's \emph{own} L1--L6 wiggle profile shape is a fingerprint that mostly su
 % =============================================================
 \paragraph{Finding 10: Model Families Don't Predict Each Other.}
 
-Within-model transfer works (Finding~9); does the same hold for siblings within a model family? It does not. If a model's epistemic stability were primarily a property of its training family, we would expect within-family pairs of judges to share their L1--L6 wiggle profiles closely. The model-vs-model Spearman correlation matrix (Appendix~\ref{sec:appendix-correlations}) tests this directly. Within-family correlations \emph{are} high for most providers (Grok 4.1 R / Grok 4.1 share $\rho = 0.89$; the GPT-5/5.2/5.4 family pairs share $\rho = 0.84$--$0.89$; Claude Sonnet / Claude Opus share $\rho = 0.80$) --- but cross-family correlations are often just as high. Grok 4.1 R correlates with GPT-5.2 at $\rho = 0.86$ and with Claude Opus at $\rho = 0.84$. \textbf{Gemini Flash and Gemini Pro share $\rho = 0.32$ --- the lowest pair in the entire matrix, lower than most cross-family pairs.} For most families, testing one sibling gives a reasonable read on the other; for Google's Gemini models, this transfer fails entirely.
+Within-model transfer works (Finding~9) but does the same hold for siblings within a model family? If a model's epistemic stability were primarily a property of its training family, we would expect within-family pairs of judges to share their L1--L6 wiggle profiles closely. The model-vs-model Spearman correlation matrix (Appendix~\ref{sec:appendix-correlations}) shows that within-family correlations \emph{are} high for most providers (Grok 4.1 R / Grok 4.1 share $\rho = 0.89$; the GPT-5/5.2/5.4 family pairs share $\rho = 0.84$--$0.89$; Claude 4.6 Sonnet / Claude 4.6 Opus share $\rho = 0.80$) --- but cross-family correlations are often just as high. Grok 4.1 R correlates with GPT-5.2 at $\rho = 0.86$ and with Claude Opus at $\rho = 0.84$. \textbf{Gemini Flash and Gemini Pro share $\rho = 0.32$ --- the lowest pair in the entire matrix, lower than most cross-family pairs.} For most families, testing one sibling gives a reasonable read on the other; for Google's Gemini models, this transfer fails entirely.
