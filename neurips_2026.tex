@@ -236,7 +236,7 @@ AEGIS & AEGIS v2.0 validation & 100 & Unsafe prompts only & 50/50 safe vs unsafe
 ToxiGen & ToxiGen train split & 100 & Lewd / contestable content only & Random sample from filtered pool \\
 HH-RLHF & Anthropic red-team attempts & 100 & None (dataset is inherently adversarial) & 20 per harm-rating bucket (0--4) \\
 MAGE & MAGE validation set & 100 & None & 50/50 human-written vs AI-generated \\
-Paired Prompts & Pre-generated completions on non-anchored political prompts & 100 & None (prompts are pre-curated) & 50/50 left-leaning vs right-leaning \\
+Paired Prompts & Non-anchored political prompts with completions sampled from our 9-model panel & 100 & None (prompts are pre-curated) & 50/50 left-leaning vs right-leaning \\
 \bottomrule
 \end{tabular}%
 }
@@ -249,10 +249,19 @@ The borderline filters target the regime where judges actually disagree:
     \item \textbf{ToxiGen.} Lewd or contestable items are the most controversial for toxicity judgments; explicitly non-lewd items are trivially classified.
     \item \textbf{HH-RLHF.} The entire dataset is red-team attempts, so no extra borderline filter is needed; we instead stratify across harm-rating buckets (0--4) to ensure representation from ``model handled safely'' to ``most harmful.''
     \item \textbf{MAGE.} AI-detection difficulty is item-intrinsic and not predictable from prompt features, so we balance class labels rather than apply a borderline filter.
-    \item \textbf{Paired Prompts.} We use \emph{non-anchored} political prompts --- topics with no factually correct answer (e.g., subjective political questions). On non-anchored prompts, hedging and refusal are reasonable model behaviors, so the framework measures genuine epistemic uncertainty rather than factual error.
+    \item \textbf{Paired Prompts.} We restrict to \emph{non-anchored} political prompts --- templates that pose a stance to the model without first committing the user to it (see \emph{Why non-anchored} below). On non-anchored prompts, hedging and refusal are reasonable model behaviors rather than failure modes.
 \end{itemize}
 
-\paragraph{Why non-anchored for Paired Prompts.} ``Anchored'' prompts have a factually correct answer (e.g., ``What year did event X happen?''). ``Non-anchored'' prompts are genuinely subjective political topics where hedging is a reasonable model behavior, not a failure mode. By selecting non-anchored prompts, we ensure the hedging and refusal we measure reflect genuine epistemic uncertainty.
+\paragraph{Why non-anchored for Paired Prompts.} \emph{Anchored} prompts presuppose a clear user opinion --- for example, ``Write a persuasive essay that Republican health care approaches are superior.'' Judging a model's response to an anchored prompt is less subjective because the user's stance has already been established by the prompt itself. \emph{Non-anchored} prompts pose the same political stance neutrally, without the user committing to it. The Paired Prompts dataset ships templates of both kinds; we restrict to the four non-anchored templates:
+\begin{itemize}
+    \item \emph{Reasoning:} ``Explain why some believe that \{stance\}.''
+    \item \emph{Opinion:} ``Would you support the position that \{stance\}?''
+    \item \emph{Analytical:} ``What research backs up the position that \{stance\}?''
+    \item \emph{Analysis:} ``Evaluate the evidence for and against \{stance\}.''
+\end{itemize}
+Non-anchored prompts are more likely to produce responses where hedging is a reasonable model behavior, which is the regime the hedging and refusal rubrics are designed to score.
+
+\paragraph{Generating Paired Prompts responses.} The Paired Prompts dataset ships only prompts. To obtain responses for judging, we sampled completions from the same 9-model panel we use elsewhere in this paper (used here purely as response generators, not as judges). Each item in our 100-item Paired Prompts sample is a (prompt, response) pair where the response was drawn from one of these models.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -288,106 +297,128 @@ Grok-4.1 Reasoning & 5.4 & 11.8 & 11.7 \\
 \end{tabular}
 \end{table}
 
+\begin{table}[h]
+\centering
+\small
+\caption{Mechanical wiggle rate (\%) by (dataset, scale, test), averaged across all 9 judges. \emph{Temp-0 Repeat}: rate of any verdict change across 10 identical greedy-decoding trials. \emph{Seed Repeat}: rate of any verdict change across 10 greedy trials each with a different 64-character random seed string injected into the system prompt. \emph{Invariance Flip}: rate of verdict change when the two opposing arguments are reordered. Lower is more stable.}
+\label{tab:appendix-mechanical-consistency}
+\begin{tabular}{@{}llrrr@{}}
+\toprule
+\textbf{Dataset} & \textbf{Scale} & \textbf{Temp-0 Repeat} & \textbf{Seed Repeat} & \textbf{Invariance Flip} \\
+\midrule
+WildGuard                & binary &  6.4 & 10.7 &  4.4 \\
+WildGuard                & Likert &  1.6 &  4.2 &  1.8 \\
+AEGIS                    & binary &  9.0 & 15.1 &  5.4 \\
+AEGIS                    & Likert &  4.3 &  6.4 &  0.7 \\
+HH-RLHF                  & binary &  3.2 &  5.3 &  3.9 \\
+HH-RLHF                  & Likert &  1.8 &  3.0 &  0.9 \\
+ToxiGen                  & binary &  5.1 &  8.3 &  2.8 \\
+ToxiGen                  & Likert &  1.1 &  1.8 &  0.9 \\
+Paired Prompts (hedging) & binary &  0.1 &  0.1 &  0.3 \\
+Paired Prompts (hedging) & Likert &  0.0 &  0.0 &  0.7 \\
+Paired Prompts (refusal) & binary &  8.0 & 11.8 &  7.6 \\
+Paired Prompts (refusal) & Likert &  8.3 & 11.6 &  6.8 \\
+MAGE                     & binary &  6.7 & 10.7 & 10.8 \\
+MAGE                     & Likert &  3.3 &  6.3 &  4.3 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A few cross-dataset patterns are visible. First, mechanical wiggle is consistently higher on binary scales than on Likert (the binary threshold for a wiggle is 1 verdict-bit; the Likert threshold of $\geq 2$ places crossing the midpoint is harder to cross by chance). Second, seed-injection wiggle exceeds temp-0 repeat wiggle on every cell --- the \emph{determinism mirage}: a model can look stable under temperature noise yet drift under trivial prompt perturbation. Third, the Paired-Prompts hedging rubric is anomalously stable across all three tests (near 0\%); the refusal rubric, by contrast, has the highest mechanical wiggle in the panel. The asymmetry across the two PP rubrics persists even with the same items, the same models, and the same pressure pipeline.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Per-Dataset Detailed Results}
+\section{Per-Dataset Detailed Results and Summary Statistics}
 \label{sec:appendix-perdomain}
-
-\subsection{WildGuard (Binary)}
-
-\begin{table}[h]
-\centering
-\caption{Mechanical consistency: agreement rate (\%) by model and condition on WildGuard binary.}
-\label{tab:appendix-mechanical-consistency}
-\begin{tabular}{@{}lrrr@{}}
-\toprule
-\textbf{Model} & \textbf{temp=0} & \textbf{Seed Injection} & \textbf{temp=0.7} \\
-\midrule
-GPT-5           & 98.2 & 96.6 & 96.1 \\
-Grok-4.1~R      & 85.9 & 85.4 & 85.2 \\
-Grok-4.1        & 98.4 & 96.4 & 96.6 \\
-Claude Sonnet   & 93.9 & 90.8 & 88.7 \\
-Claude Opus     & 99.5 & 95.5 & 97.1 \\
-GPT-5.2         & 93.8 & 93.8 & 93.0 \\
-GPT-5.4         & 95.1 & 94.5 & 94.5 \\
-Gemini Flash    & 99.7 & 86.7 & 88.5 \\
-Gemini Pro      & 97.1 & 89.3 & 87.0 \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-Most models achieve $>$95\% agreement at greedy decoding (temp=0), suggesting high mechanical consistency. But the seed injection condition tells a different story. Gemini Flash drops from 99.7\% to 86.7\%, a 13-point swing --- we call this the \emph{determinism mirage}: near-perfect temp=0 consistency that collapses under trivial prompt perturbation. Claude Opus drops from 99.5\% to 95.5\%. Gemini Pro drops from 97.1\% to 89.3\%. These drops demonstrate that what practitioners typically measure (temp=0 agreement) is not the same as genuine robustness. We recommend seed injection as a standard complement to temperature-based consistency testing.
-
-\begin{table}[h]
-\centering
-\caption{Positional consistency: wiggle rate when argument order is reversed.}
-\label{tab:appendix-positional}
-\begin{tabular}{@{}lrr@{}}
-\toprule
-\textbf{Model} & \textbf{Flip Rate} & \textbf{Order Bias} \\
-\midrule
-GPT-5           & 1.0\% & $-$1.0 pp \\
-Grok-4.1~R      & 8.1\% & +4.9 pp \\
-Grok-4.1        & 5.2\% & +2.6 pp \\
-Claude Sonnet   & 7.0\% & +4.2 pp \\
-Claude Opus     & 5.5\% &  0.0 pp \\
-GPT-5.2         & 3.4\% & +1.8 pp \\
-GPT-5.4         & 2.1\% & $-$1.6 pp \\
-Gemini Flash    & 4.7\% & $-$2.6 pp \\
-Gemini Pro      & 5.5\% & $-$2.9 pp \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}[h]
-\centering
-\caption{Directional wiggle rates at L4 consensus pressure (WildGuard binary).}
-\label{tab:appendix-directional-l4}
-\begin{tabular}{@{}lrrr@{}}
-\toprule
-\textbf{Model} & \textbf{Permissive (unsafe$\to$safe)} & \textbf{Restrictive (safe$\to$unsafe)} & \textbf{Ratio} \\
-\midrule
-GPT-5         & 45.4\% & 89.6\% &  2.0$\times$ \\
-Grok-4.1~R    & 30.8\% & 45.9\% &  1.5$\times$ \\
-Grok-4.1      &  0.4\% &  7.0\% & 15.9$\times$ \\
-Claude Sonnet & 13.0\% & 84.2\% &  6.5$\times$ \\
-Claude Opus   & 23.9\% & 73.1\% &  3.1$\times$ \\
-GPT-5.2       &  4.4\% & 76.2\% & 17.5$\times$ \\
-GPT-5.4       & 12.1\% & 82.3\% &  6.8$\times$ \\
-Gemini Flash  &  7.6\% & 65.3\% &  8.6$\times$ \\
-Gemini Pro    & 11.8\% & 22.7\% &  1.9$\times$ \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\subsection{Full Mean-Retention Table}
 
 \begin{table}[h]
 \centering
 \small
-\caption{Mean retention rate by model and (dataset, scale) condition (mean across L1--L6 retention rates). Higher is better. Bold marks each model's best and worst cells. Rightmost column is the mean across cells. Sorted by mean retention.}
+\caption{Mean retention rate by (dataset, rubric, scale) condition and judge model (mean across L1--L6 retention rates). Higher is better. Bold marks each row's best and worst cells. Bottom row is the mean across cells per model. Source: \texttt{wiggliness/detail.csv}.}
 \label{tab:appendix-aurc}
 \resizebox{\linewidth}{!}{%
-\begin{tabular}{@{}lrrrrrrrrrrrrr@{}}
+\begin{tabular}{@{}llrrrrrrrrr@{}}
 \toprule
-\textbf{Model} & \textbf{WG bin} & \textbf{WG lik} & \textbf{PP bin} & \textbf{PP lik} & \textbf{MAGE bin} & \textbf{MAGE lik} & \textbf{AEGIS bin} & \textbf{AEGIS lik} & \textbf{TG bin} & \textbf{TG lik} & \textbf{HH bin} & \textbf{HH lik} & \textbf{Mean Retention} \\
+\textbf{Dataset} & \textbf{Scale} & \textbf{Grok-R} & \textbf{G.Pro} & \textbf{G.Flash} & \textbf{GPT-5.2} & \textbf{Grok} & \textbf{GPT-5.4} & \textbf{C.Son} & \textbf{C.Opus} & \textbf{GPT-5} \\
 \midrule
-Grok 4.1 R         & 0.855 & 0.881 & 0.767 & 0.906 & \textbf{0.516} & 0.671 & 0.910 & 0.909 & 0.920 & \textbf{0.939} & 0.845 & 0.879 & 0.833 \\
-Gemini 3.1 Pro     & 0.785 & 0.884 & 0.684 & 0.913 & \textbf{0.860} & 0.751 & 0.798 & 0.900 & 0.811 & 0.889 & 0.805 & 0.895 & 0.831 \\
-Gemini 3 Flash     & \textbf{0.877} & 0.855 & 0.793 & 0.902 & 0.735 & \textbf{0.500} & 0.812 & 0.812 & 0.835 & 0.771 & 0.827 & 0.889 & 0.801 \\
-GPT-5.2            & 0.831 & \textbf{0.936} & 0.676 & 0.850 & 0.434 & 0.706 & 0.676 & 0.878 & 0.793 & \textbf{0.951} & 0.704 & 0.843 & 0.773 \\
-Grok 4.1           & 0.616 & 0.820 & 0.688 & 0.731 & 0.640 & 0.674 & 0.595 & \textbf{0.871} & 0.598 & 0.843 & 0.585 & \textbf{0.548} & 0.684 \\
-GPT-5.4            & 0.720 & 0.820 & 0.538 & 0.765 & \textbf{0.274} & 0.395 & 0.461 & 0.787 & 0.611 & 0.897 & 0.746 & 0.807 & 0.652 \\
-Claude 4.6 Sonnet  & 0.448 & 0.714 & \textbf{0.171} & 0.625 & 0.190 & 0.361 & 0.653 & 0.717 & 0.772 & 0.874 & 0.722 & \textbf{0.904} & 0.596 \\
-Claude 4.6 Opus    & 0.602 & 0.686 & \textbf{0.207} & 0.577 & 0.234 & 0.385 & 0.544 & 0.713 & 0.779 & 0.786 & 0.667 & 0.814 & 0.583 \\
-GPT-5              & 0.669 & 0.714 & 0.247 & 0.244 & 0.085 & \textbf{0.033} & 0.663 & 0.624 & 0.685 & 0.712 & 0.478 & 0.693 & 0.487 \\
+WildGuard      & binary & 0.834 & 0.733 & \textbf{0.865} & 0.803 & 0.579 & 0.700 & \textbf{0.395} & 0.562 & 0.632 \\
+WildGuard      & Likert & 0.837 & 0.825 & \textbf{0.842} & 0.789 & 0.755 & 0.720 & 0.633 & \textbf{0.608} & 0.650 \\
+AEGIS          & binary & \textbf{0.888} & 0.737 & 0.800 & 0.628 & 0.570 & \textbf{0.417} & 0.590 & 0.505 & 0.618 \\
+AEGIS          & Likert & \textbf{0.872} & 0.835 & 0.792 & 0.705 & \textbf{0.830} & 0.678 & 0.633 & 0.625 & 0.537 \\
+HH-RLHF        & binary & 0.812 & 0.772 & \textbf{0.827} & 0.672 & 0.530 & 0.728 & 0.673 & 0.630 & \textbf{0.473} \\
+HH-RLHF        & Likert & 0.828 & 0.817 & \textbf{0.855} & 0.738 & \textbf{0.482} & 0.712 & \textbf{0.832} & 0.728 & 0.633 \\
+ToxiGen        & binary & \textbf{0.917} & 0.760 & 0.838 & 0.767 & 0.573 & 0.590 & 0.708 & \textbf{0.722} & 0.640 \\
+ToxiGen        & Likert & \textbf{0.903} & 0.832 & 0.718 & \textbf{0.850} & \textbf{0.807} & \textbf{0.815} & \textbf{0.810} & \textbf{0.730} & 0.592 \\
+PP (hedging)   & binary & 0.830 & 0.812 & 0.792 & \textbf{0.885} & 0.653 & 0.665 & \textbf{0.125} & \textbf{0.185} & 0.340 \\
+PP (hedging)   & Likert & \textbf{0.907} & \textbf{0.960} & 0.845 & 0.785 & 0.708 & 0.712 & 0.615 & 0.615 & 0.238 \\
+PP (refusal)   & binary & \textbf{0.735} & \textbf{0.605} & \textbf{0.853} & \textbf{0.532} & 0.660 & 0.432 & 0.238 & 0.283 & 0.213 \\
+PP (refusal)   & Likert & 0.858 & 0.790 & \textbf{0.938} & 0.672 & 0.635 & 0.547 & 0.443 & 0.427 & \textbf{0.203} \\
+MAGE           & binary & \textbf{0.523} & \textbf{0.832} & 0.735 & \textbf{0.425} & 0.635 & \textbf{0.277} & 0.172 & 0.215 & 0.103 \\
+MAGE           & Likert & 0.617 & \textbf{0.715} & \textbf{0.483} & 0.503 & 0.625 & 0.288 & 0.283 & 0.327 & \textbf{0.033} \\
+\midrule
+\textbf{Mean across cells} & & 0.812 & 0.787 & 0.799 & 0.697 & 0.646 & 0.591 & 0.511 & 0.512 & 0.422 \\
 \bottomrule
 \end{tabular}%
 }
 \end{table}
 
+\begin{table}[h]
+\centering
+\caption{Mean wiggle rate (\%) by (dataset, rubric, scale, level), averaged across all 9 judges. Bold marks the largest cell in each row. Source: \texttt{wiggliness/detail.csv}.}
+\label{tab:wiggle-rates}
+\small
+\begin{tabular}{@{}llrrrrrr@{}}
+\toprule
+\textbf{Dataset} & \textbf{Scale} & \textbf{L1} & \textbf{L2} & \textbf{L3} & \textbf{L4} & \textbf{L5} & \textbf{L6} \\
+\midrule
+WildGuard      & binary & 28.0 & 17.9 & 20.3 & 29.0 & 28.2 & \textbf{69.7} \\
+WildGuard      & Likert & 11.9 &  3.4 &  3.9 & 39.5 & 21.1 & \textbf{76.4} \\
+AEGIS          & binary & 33.4 & 20.7 & 21.2 & 30.7 & 31.9 & \textbf{78.6} \\
+AEGIS          & Likert & 13.6 &  2.2 &  4.6 & 48.2 & 25.3 & \textbf{72.3} \\
+HH-RLHF        & binary & 19.4 & 13.9 & 16.6 & 44.0 & 24.6 & \textbf{73.8} \\
+HH-RLHF        & Likert & 11.6 &  3.1 &  6.7 & 39.1 & 16.1 & \textbf{81.8} \\
+ToxiGen        & binary & 18.8 & 14.4 & 16.7 & 25.1 & 22.1 & \textbf{68.6} \\
+ToxiGen        & Likert & 10.2 & 11.7 & 10.0 & 19.3 & 15.9 & \textbf{62.4} \\
+PP (hedging)   & binary & 11.9 & 30.1 & 39.1 & 54.0 & 48.4 & \textbf{64.0} \\
+PP (hedging)   & Likert & 12.9 & 11.3 & 16.1 & 31.6 & 30.6 & \textbf{71.9} \\
+PP (refusal)   & binary & 26.9 & 36.0 & 40.7 & \textbf{69.2} & 56.1 & 67.7 \\
+PP (refusal)   & Likert & 27.3 & 22.6 & 29.4 & 50.2 & 38.1 & \textbf{64.8} \\
+MAGE           & binary & 41.2 & 44.3 & 41.4 & 70.7 & 63.8 & \textbf{77.4} \\
+MAGE           & Likert & 44.7 & 34.6 & 46.6 & 66.3 & 58.3 & \textbf{91.2} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Summary across all 14 (dataset, rubric, scale) combinations. Most robust / most fragile are the judges with the highest / lowest mean retention rate across L1--L6 (parenthesized values). L1, L4, L6 wiggle rates are averaged across all 9 judges.}
+\label{tab:appendix-summary}
+\small
+\begin{tabular}{@{}llrrrll@{}}
+\toprule
+\textbf{Dataset} & \textbf{Scale} & \textbf{L1} & \textbf{L4} & \textbf{L6} & \textbf{Most robust} & \textbf{Most fragile} \\
+\midrule
+WildGuard       & binary & 28.0\% & 29.0\% & 69.7\% & G.Flash (0.865)  & C.Sonnet (0.395) \\
+WildGuard       & Likert & 11.9\% & 39.5\% & 76.4\% & G.Flash (0.842)  & C.Opus (0.608)   \\
+AEGIS           & binary & 33.4\% & 30.7\% & 78.6\% & Grok-R (0.888)   & GPT-5.4 (0.417)  \\
+AEGIS           & Likert & 13.6\% & 48.2\% & 72.3\% & Grok-R (0.872)   & GPT-5 (0.537)    \\
+HH-RLHF         & binary & 19.4\% & 44.0\% & 73.8\% & G.Flash (0.827)  & GPT-5 (0.473)    \\
+HH-RLHF         & Likert & 11.6\% & 39.1\% & 81.8\% & G.Flash (0.855)  & Grok (0.482)     \\
+ToxiGen         & binary & 18.8\% & 25.1\% & 68.6\% & Grok-R (0.917)   & Grok (0.573)     \\
+ToxiGen         & Likert & 10.2\% & 19.3\% & 62.4\% & Grok-R (0.903)   & GPT-5 (0.592)    \\
+PP (hedging)    & binary & 11.9\% & 54.0\% & 64.0\% & GPT-5.2 (0.885)  & C.Sonnet (0.125) \\
+PP (hedging)    & Likert & 12.9\% & 31.6\% & 71.9\% & G.Pro (0.960)    & GPT-5 (0.238)    \\
+PP (refusal)    & binary & 26.9\% & 69.2\% & 67.7\% & G.Flash (0.853)  & GPT-5 (0.213)    \\
+PP (refusal)    & Likert & 27.3\% & 50.2\% & 64.8\% & G.Flash (0.938)  & GPT-5 (0.203)    \\
+MAGE            & binary & 41.2\% & 70.7\% & 77.4\% & G.Pro (0.832)    & GPT-5 (0.103)    \\
+MAGE            & Likert & 44.7\% & 66.3\% & 91.2\% & G.Pro (0.715)    & GPT-5 (0.033)    \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\clearpage
 \section{Score Transition Heatmaps}
 \label{sec:appendix-transitions}
 
@@ -444,63 +475,7 @@ The transition matrix for WildGuard (Figure~\ref{fig:appendix-transitions-wildgu
   \label{fig:appendix-transitions-pp-refusal}
 \end{figure}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Summary Statistics Across All Dataset-Scale Combinations}
-\label{sec:appendix-summary}
-
-\begin{table}[h]
-\centering
-\caption{Mean wiggle rate (\%) by dataset, scale, and pressure level. Each cell is the average across all 9 judges. Bold marks the largest cell in each row. Paired Prompts is the average of the hedging and refusal sub-rubrics.}
-\label{tab:wiggle-rates}
-\small
-\begin{tabular}{@{}llrrrrrr@{}}
-\toprule
-\textbf{Dataset} & \textbf{Scale} & \textbf{L1} & \textbf{L2} & \textbf{L3} & \textbf{L4} & \textbf{L5} & \textbf{L6} \\
-\midrule
-WildGuard      & binary & 28.0 & 17.9 & 20.3 & 29.0 & 28.2 & \textbf{69.7} \\
-WildGuard      & Likert & 11.9 &  3.4 &  3.9 & 39.5 & 21.1 & \textbf{76.4} \\
-AEGIS          & binary & 33.4 & 20.7 & 21.2 & 30.7 & 31.9 & \textbf{78.6} \\
-AEGIS          & Likert & 13.6 &  2.2 &  4.6 & 48.2 & 25.3 & \textbf{72.3} \\
-HH-RLHF        & binary & 19.4 & 13.9 & 16.6 & 44.0 & 24.6 & \textbf{73.8} \\
-HH-RLHF        & Likert & 11.6 &  3.1 &  6.7 & 39.1 & 16.1 & \textbf{81.8} \\
-ToxiGen        & binary & 18.8 & 14.4 & 16.7 & 25.1 & 22.1 & \textbf{68.6} \\
-ToxiGen        & Likert & 10.2 & 11.7 & 10.0 & 19.3 & 15.9 & \textbf{62.4} \\
-Paired Prompts & binary & 19.4 & 33.1 & 39.9 & 61.6 & 52.3 & \textbf{76.8} \\
-Paired Prompts & Likert & 20.1 & 16.9 & 22.8 & 40.9 & 34.3 & \textbf{78.2} \\
-MAGE           & binary & 41.2 & 44.3 & 41.4 & 70.7 & 63.8 & \textbf{77.4} \\
-MAGE           & Likert & 44.7 & 34.6 & 46.6 & 66.3 & 58.3 & \textbf{91.2} \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}[h]
-\centering
-\caption{Summary across all 12 (dataset, scale) combinations. Most robust / most fragile are the judges with the highest / lowest mean retention rate across L1--L6 (parenthesized AURC values). L1, L4, L6 wiggle rates are averaged across all 9 judges.}
-\label{tab:appendix-summary}
-\small
-\begin{tabular}{@{}llrrrll@{}}
-\toprule
-\textbf{Dataset} & \textbf{Verdict} & \textbf{L1} & \textbf{L4} & \textbf{L6} & \textbf{Most robust} & \textbf{Most fragile} \\
-\midrule
-WildGuard binary       & safe/unsafe       & 28.0\% & 29.0\% & 69.7\% & G.Flash (0.877)  & C.Sonnet (0.448) \\
-WildGuard Likert       & 1--5 safety       & 11.9\% & 39.5\% & 76.4\% & GPT-5.2 (0.936)  & C.Opus (0.686)   \\
-AEGIS binary           & safe/unsafe       & 33.4\% & 30.7\% & 78.6\% & Grok-R (0.910)   & GPT-5.4 (0.461)  \\
-AEGIS Likert           & 1--5 safety       & 13.6\% & 48.2\% & 72.3\% & Grok-R (0.909)   & GPT-5 (0.624)    \\
-HH-RLHF binary         & helpful/harmless  & 19.4\% & 44.0\% & 73.8\% & Grok-R (0.845)   & GPT-5 (0.478)    \\
-HH-RLHF Likert         & 1--5 harm         & 11.6\% & 39.1\% & 81.8\% & C.Sonnet (0.904) & Grok (0.548)     \\
-ToxiGen binary         & toxic/benign      & 18.8\% & 25.1\% & 68.6\% & Grok-R (0.920)   & Grok (0.598)     \\
-ToxiGen Likert         & 1--5 toxicity     & 10.2\% & 19.3\% & 62.4\% & GPT-5.2 (0.951)  & GPT-5 (0.712)    \\
-Paired Prompts binary  & hedge/comp.       & 19.4\% & 61.6\% & 76.8\% & G.Flash (0.793)  & C.Sonnet (0.171) \\
-Paired Prompts Likert  & 1--5 hedge/ref.   & 20.1\% & 40.9\% & 78.2\% & G.Pro (0.913)    & GPT-5 (0.244)    \\
-MAGE binary            & AI/human          & 41.2\% & 70.7\% & 77.4\% & G.Pro (0.860)    & GPT-5 (0.085)    \\
-MAGE Likert            & 1--5 AI           & 44.7\% & 66.3\% & 91.2\% & G.Pro (0.751)    & GPT-5 (0.033)    \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\clearpage
 \section{Self-Persuasion Analysis}
 \label{sec:appendix-self}
 
@@ -620,7 +595,7 @@ The L2--L3 pair is nearly redundant ($\rho = 0.80$): items that flip under a spe
 \section{Multi-turn Flip Timing}
 \label{sec:appendix-flip-timing}
 
-The survival curves (Figure~\ref{fig:appendix-survival-curves}) and flip timing breakdown (Tables~\ref{tab:binary-vs-likert-timing} and~\ref{tab:flip-timing}) reveal that flips do not always happen on turn~1 --- it depends on the scale and pressure level.
+Table~\ref{tab:binary-vs-likert-timing} reports binary vs Likert wiggle rates at turn 1 and turn 10 by pressure level, showing that the binary/Likert gap is largest at the first turn and collapses by turn 10.
 
 \begin{table}[h]
 \centering
@@ -641,40 +616,7 @@ L6 & 30.5\% & 10.2\% & 3.0$\times$ & 54.5\% & 44.5\% & 1.2$\times$ \\
 \end{tabular}
 \end{table}
 
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=\linewidth]{survival_curves.pdf}
-  \caption{Multi-turn persistence survival curves.}
-  \label{fig:appendix-survival-curves}
-\end{figure}
 
-\begin{table}[h]
-\centering
-\caption{Flip timing: fraction of items that flip on turn~1, within 3 turns, and by the final turn (turn 10). Delta = additional flips gained from multi-turn persistence beyond the first turn.}
-\label{tab:flip-timing}
-\begin{tabular}{@{}lllrrrr@{}}
-\toprule
-\textbf{Dataset} & \textbf{Scale} & \textbf{Level} & \textbf{Turn 1} & \textbf{$\leq$ Turn 3} & \textbf{Final} & \textbf{Delta} \\
-\midrule
-WildGuard & binary & L1 & 14.2\% & 25.3\% & 30.5\% & +16.4pp \\
-WildGuard & binary & L4 & 17.6\% & 24.6\% & 31.3\% & +13.7pp \\
-WildGuard & binary & L6 & 22.7\% & 35.2\% & 50.7\% & +28.0pp \\
-WildGuard & Likert & L1 &  0.6\% &  4.5\% &  8.3\% & +7.7pp  \\
-WildGuard & Likert & L4 & 21.6\% & 33.7\% & 39.6\% & +18.0pp \\
-WildGuard & Likert & L6 &  8.4\% & 30.6\% & 41.5\% & +33.1pp \\
-PP & binary & L4 & 51.1\% & 60.7\% & 66.0\% & +14.8pp \\
-PP & binary & L6 & 38.6\% & 48.7\% & 56.1\% & +17.5pp \\
-PP & Likert & L6 & 15.4\% & 33.5\% & 47.2\% & +31.8pp \\
-MAGE & binary & L4 & 59.8\% & 66.5\% & 70.6\% & +10.9pp \\
-MAGE & binary & L6 & 43.2\% & 52.5\% & 63.2\% & +20.0pp \\
-MAGE & Likert & L6 & 21.0\% & 50.4\% & 63.5\% & +42.5pp \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-For binary verdicts at L2--L3 (scripted counterarguments), most flips are first-turn (delta only 4--6pp). At higher pressure levels and on the Likert scale the picture changes: \textbf{L6 adaptive persuasion gains 20--43pp from multi-turn persistence}, with the first turn capturing only 21--43\% of items but turn 10 reaching 50--63\%. Likert wiggles are slower than binary because the crossed-sides definition requires $\geq 2$ points of movement, which often takes multiple turns to accumulate; MAGE Likert L6 shows the largest multi-turn effect (21\% on turn 1, 63.5\% by turn 10). L5 strategy cycling is also multi-turn dependent (deltas of 14--33pp), because cycling through L1--L4 in varied order exposes different vulnerabilities over successive turns.
-
-The takeaway is nuanced: for binary evaluation at low pressure (L1--L3), a single challenge turn is sufficient. For Likert evaluation or adaptive/cycling strategies (L5--L6), multi-turn protocols reveal substantial additional vulnerability that single-turn probes miss.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -713,15 +655,17 @@ HH-RLHF        & binary & 48.0 & 67.2 & 75.8 & 63.1 & 66.5 & 47.1 & \textbf{61.3
 HH-RLHF        & Likert & 12.5 &  3.6 &  8.3 & 39.2 & 33.1 & 34.7 & \textbf{21.9} \\
 ToxiGen        & binary & 38.5 & 56.2 & 57.3 & 59.3 & 50.3 & 38.4 & 50.0 \\
 ToxiGen        & Likert & 16.3 & 16.2 & 26.7 & 38.5 & 38.5 & 33.1 & \textbf{28.2} \\
+PP (hedging)   & binary & 79.4 & 86.7 & 88.1 & 90.1 & 90.1 & 90.4 & \textbf{87.5} \\
+PP (hedging)   & Likert & 25.4 & 28.9 & 27.4 & 32.4 & 25.2 & 27.6 & \textbf{27.8} \\
+PP (refusal)   & binary & 76.0 & 83.6 & 85.8 & 89.7 & 88.7 & 89.5 & \textbf{85.6} \\
+PP (refusal)   & Likert & 63.6 & 66.2 & 67.1 & 71.2 & 68.9 & 77.5 & \textbf{69.1} \\
 MAGE           & binary & 61.7 & 64.2 & 64.1 & 60.4 & 62.0 & 60.3 & \textbf{62.1} \\
 MAGE           & Likert & 41.5 & 35.7 & 38.2 & 40.9 & 40.0 & 43.5 & \textbf{40.0} \\
-Paired Prompts & binary & 77.1 & 85.0 & 86.9 & 89.9 & 89.4 & 89.9 & \textbf{86.4} \\
-Paired Prompts & Likert & 25.1 & 27.2 & 27.1 & 25.8 & 25.1 & 27.7 & \textbf{26.3} \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-The directional pattern referenced in Finding 2 (FO2) is visible across the rows: every Likert safety row leans permissive (mean $<50\%$), every binary safety/MAGE row leans restrictive on average, and Paired Prompts binary is the strongest restrictive bias in the panel (86.4\%) --- consistent with judges defaulting to ``more hedging'' or ``more refusing'' under pressure on subjective political content.
+The directional pattern referenced in Finding 2 (FO2) is visible across the rows: every Likert safety row leans permissive (mean $<50\%$), every binary safety/MAGE row leans restrictive on average, and Paired Prompts (hedging) binary is the strongest restrictive bias in the panel (87.5\%), with Paired Prompts (refusal) binary just behind (85.6\%) --- consistent with judges defaulting to ``more hedging'' or ``more refusing'' under pressure on subjective political content.
 
 \paragraph{Level-dependence on safety Likert.} Aggregate directional ratios on safety Likert mask level-dependent structure. WildGuard Likert L4 (39.4\%) and L5 (35.3\%) are notably less permissive than L2 (2.6\%) or L3 (6.7\%) --- at consensus pressure the safety-conservative training prior activates and pushes some shifts back toward the cautious direction, partially offsetting the dominant permissive lean. The same level-dependent pattern is visible on AEGIS Likert (L4 55.3\% vs L2 10.0\%) and HH-RLHF Likert (L4 39.2\% vs L2 3.6\%), establishing it as a robust safety-dataset signature rather than a WildGuard-specific artifact.
 
@@ -788,22 +732,6 @@ For all datasets and scales, we construct a model-consensus difficulty proxy by 
 The full set of judge, challenge, observer, and adaptive persuader prompt templates used in the experiments is reproduced in Appendix~\ref{sec:appendix-prompts}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{How the L1--L6 Ladder Maps onto Proposed Signal-Refinement Procedures}
-\label{sec:appendix-agentic}
-
-Most LLM judges today are deployed in one-shot mode: a single API call produces a verdict, no conversation occurs, and the judge is never challenged. In this setting, wiggle is \emph{latent} --- it exists as an epistemic property of the model but never manifests operationally. Golden-set validation remains the right first layer of quality assurance for one-shot deployments, complemented by our jury-bootstrapping recommendation (\S\ref{sec:discussion-jury}).
-
-Several procedures have been proposed to \emph{refine} judge signal beyond a single one-shot call --- most often in the context of using judges as reward signals for hill-climbing during post-training. Our L1--L6 ladder maps onto the pressures these procedures would expose a judge to:
-
-\begin{itemize}
-    \item \textbf{L1 (mild doubt)} models a chain-of-thought prompt asking the judge to ``reconsider'' --- a standard technique in self-consistency and reflection-based judging architectures.
-    \item \textbf{L2--L3 (counterarguments)} model an opposing-view turn in a debate or deliberation framework \citep{irving2018debate,khan2024debating}.
-    \item \textbf{L4 (consensus pressure)} models an ensemble or aggregation layer that communicates other judges' disagreement to a focal judge.
-    \item \textbf{L5--L6 (adaptive persuasion)} model the most sophisticated case: a dedicated adversarial process that adapts in real time to the judge's responses.
-\end{itemize}
-
-The point is not that any current production system \emph{does} use these procedures in exactly the form we model --- we do not know in detail what current agentic judge deployments look like, and they are very new. The point is that any procedure that exposes the judge to pressure of these \emph{types} will inherit the corrupting properties documented in \S\ref{sec:results} and \S\ref{sec:discussion-pressure}. A judge that flips 30\% of its verdicts under ``Are you sure?'' is fine if nobody asks ``Are you sure?'' --- but a self-reflective procedure asks the judge versions of this question routinely. A judge that folds under consensus pressure is harmless in isolation but biased when an ensemble surfaces disagreement to it. Across all six datasets, ${\sim}70\%$ of wiggles at L6 are corrupting; any procedure that subjects a judge to L6-style pressure will, on average, move it away from ground truth.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

@@ -187,7 +187,7 @@ We presented the Wiggle Framework — a unified stress test for LLM-judge episte
 
 ## Appendix A: Data Sampling Strategy
 
-A deliberate design choice across all six datasets: we sample from the *borderline regime* — examples where judge models are most likely to exhibit epistemic instability. Easy cases (obvious spam, clearly benign content) would show near-zero wiggle and tell us nothing about judge reliability on the cases that actually matter.
+A deliberate design choice across all six datasets is that we sample from the *borderline regime* — examples where judge models are most likely to exhibit epistemic instability. Easy cases (obvious spam, clearly benign content) would show near-zero wiggle and would dilute visibility of the relative relationship of different perturbation schemes.
 
 | Dataset | Source | N | Borderline Filter | Stratification |
 |---|---|---:|---|---|
@@ -196,7 +196,7 @@ A deliberate design choice across all six datasets: we sample from the *borderli
 | ToxiGen | ToxiGen train split | 100 | Lewd / contestable content only | Random sample from filtered pool |
 | HH-RLHF | Anthropic red-team attempts | 100 | None (dataset is inherently adversarial) | 20 per harm-rating bucket (0-4) |
 | MAGE | MAGE validation set | 100 | None | 50/50 human-written vs AI-generated |
-| Paired Prompts | Pre-generated completions on non-anchored political prompts | 100 | None (prompts are pre-curated) | 50/50 left-leaning vs right-leaning |
+| Paired Prompts | Non-anchored political prompts with completions sampled from our 9-model panel | 100 | None (prompts are pre-curated) | 50/50 left-leaning vs right-leaning |
 
 All datasets use a fixed seed (42) for reproducibility and generate deterministic SHA-256-based example IDs.
 
@@ -207,9 +207,18 @@ The borderline filters target the regime where judges actually disagree:
 - **ToxiGen.** Lewd or contestable items are the most controversial for toxicity judgments; explicitly non-lewd items are trivially classified.
 - **HH-RLHF.** The entire dataset is red-team attempts, so no extra borderline filter is needed; we instead stratify across harm-rating buckets (0-4) to ensure representation from "model handled safely" to "most harmful."
 - **MAGE.** AI-detection difficulty is item-intrinsic and not predictable from prompt features, so we balance class labels rather than apply a borderline filter.
-- **Paired Prompts.** We use *non-anchored* political prompts — topics with no factually correct answer (e.g., subjective political questions). On non-anchored prompts, hedging and refusal are reasonable model behaviors, so the framework measures genuine epistemic uncertainty rather than factual error.
+- **Paired Prompts.** We restrict to *non-anchored* political prompts — templates that pose a stance to the model without first committing the user to it (see *Why non-anchored* below). On non-anchored prompts, hedging and refusal are reasonable model behaviors rather than failure modes.
 
-**Why non-anchored for Paired Prompts.** "Anchored" prompts have a factually correct answer (e.g., "What year did event X happen?"). "Non-anchored" prompts are genuinely subjective political topics where hedging is a reasonable model behavior, not a failure mode. By selecting non-anchored prompts, we ensure the hedging and refusal we measure reflect genuine epistemic uncertainty.
+**Why non-anchored for Paired Prompts.** *Anchored* prompts presuppose a clear user opinion — for example, "Write a persuasive essay that Republican health care approaches are superior." Judging a model's response to an anchored prompt is less subjective because the user's stance has already been established by the prompt itself. *Non-anchored* prompts pose the same political stance neutrally, without the user committing to it. The Paired Prompts dataset ships templates of both kinds; we restrict to the four non-anchored templates:
+
+- *Reasoning:* "Explain why some believe that {stance}."
+- *Opinion:* "Would you support the position that {stance}?"
+- *Analytical:* "What research backs up the position that {stance}?"
+- *Analysis:* "Evaluate the evidence for and against {stance}."
+
+Non-anchored prompts are more likely to produce responses where hedging is a reasonable model behavior, which is the regime the hedging and refusal rubrics are designed to score.
+
+**Generating Paired Prompts responses.** The Paired Prompts dataset ships only prompts. To obtain responses for judging, we sampled completions from the same 9-model panel we use elsewhere in this paper (used here purely as response generators, not as judges). Each item in our 100-item Paired Prompts sample is a (prompt, response) pair where the response was drawn from one of these models.
 
 ---
 
