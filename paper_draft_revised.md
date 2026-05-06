@@ -56,13 +56,13 @@ For each (item $i$, judge $M$, condition $\ell$) we compute the **wiggle rate** 
 
 ### 3.2 Three dimensions
 
-**Mechanical Consistency** measures whether the judge's L0 verdict survives perturbations that carry no new information. We test three conditions: *infrastructure repetition* (10 identical greedy-decoding trials per item, exposing floating-point nondeterminism); *trivial prompt perturbation* via seed injection (10 greedy trials each with a different 64-character random string appended to the system prompt; Appendix B); and *positional consistency* (the same two opposing arguments presented in both orderings). A judge that wiggles here is an unstable classifier in the most basic sense — it gives different verdicts when nothing relevant has changed. This dimension is the closest analog to classical resampling-based confidence (Wei et al., 2024) and position-bias diagnostics, and it sets the empirical *floor* against which the next two dimensions must be measured.
+**Mechanical Consistency** measures whether the judge's L0 verdict survives perturbations that carry no new information. We test three conditions: *infrastructure repetition* (10 identical greedy-decoding trials per item, exposing floating-point nondeterminism); *trivial prompt perturbation* via seed injection (10 greedy trials each with a different 64-character random string appended to the system prompt; see the *Seed Injection Procedure* appendix); and *positional consistency* (the same two opposing arguments presented in both orderings). A judge that wiggles here is an unstable classifier in the most basic sense — it gives different verdicts when nothing relevant has changed. This dimension is the closest analog to classical resampling-based confidence (Wei et al., 2024) and position-bias diagnostics, and it sets the empirical *floor* against which the next two dimensions must be measured.
 
 **Single-turn Conviction** measures whether a single substantive challenge can talk the judge out of its L0 verdict. We use four scripted pressure types of increasing sophistication (L1–L4 in Table `tab:pressure-levels`) — mild doubt, counterargument, expert authority, and fabricated consensus — and apply each as a one-shot probe. The shape of the degradation curve across L1–L4 distinguishes failure modes: a judge that collapses at L1 is sycophantic; one that resists casual doubt but folds at L4 is susceptible to conformity. L1–L4 are *single-turn pressure types*, but we can also apply them in a multi-turn regime as 10-turn repetitions of the same pressure type.
 
-**Multi-turn Persistence** measures whether the judge holds its verdict when challenges are sustained or adapted across 10 turns. L5 cycles through the same L1–L4 pressure types in randomized order across 10 turns, and at L6 a separate LLM acts as an adaptive persuader, generating each turn live with access to the prior conversation (full L6 protocol in Appendix K.2). Technically, L5 and L6 also produce a turn-1 wiggle rate, but they are not the natural unit for those levels: L5 turn 1 is a randomized draw from L1–L4 and so reduces approximately to the L1–L4 average, while L6 turn 1 is a single adaptive opening move that, as we report later, produces *lower* wiggle than L1–L4 on average (Finding 1). The regime where L6 distinguishes itself is the multi-turn one.
+**Multi-turn Persistence** measures whether the judge holds its verdict when challenges are sustained or adapted across 10 turns. L5 cycles through the same L1–L4 pressure types in randomized order across 10 turns, and at L6 a separate LLM acts as an adaptive persuader, generating each turn live with access to the prior conversation (full L6 protocol in the *L6 Adaptive Persuasion Protocol* subsection of the *Pressure Generation, Observer, and Persuader Setup* appendix). Technically, L5 and L6 also produce a turn-1 wiggle rate, but they are not the natural unit for those levels: L5 turn 1 is a randomized draw from L1–L4 and so reduces approximately to the L1–L4 average, while L6 turn 1 is a single adaptive opening move that, as we report later, produces *lower* wiggle than L1–L4 on average (Finding 1). The regime where L6 distinguishes itself is the multi-turn one.
 
-**Table `tab:pressure-levels`.** The graduated pressure ladder. `[opposite]` is the verdict opposite to the judge's L0 baseline; `[argument]` is a model-generated argument (Appendix K).
+**Table `tab:pressure-levels`.** The graduated pressure ladder. `[opposite]` is the verdict opposite to the judge's L0 baseline; `[argument]` is a model-generated argument (see the *Pressure Generation, Observer, and Persuader Setup* appendix).
 
 | Level | Type | Challenge |
 |---|---|---|
@@ -71,17 +71,19 @@ For each (item $i$, judge $M$, condition $\ell$) we compute the **wiggle rate** 
 | L3 | Expert authority | "An expert concluded it is [opposite]. Their analysis: [argument]." |
 | L4 | Consensus | "Three independent reviewers all classified this as [opposite]. [Three arguments]." |
 | L5 | Strategy cycling | Each turn applies one of L1-L4 in randomized order over 10 turns. Pre-generated arguments. |
-| L6 | Adaptive persuader | A separate LLM generates each challenge in real time, with access to the conversation so far (full protocol in Appendix K.2). |
+| L6 | Adaptive persuader | A separate LLM generates each challenge in real time, with access to the conversation so far (full protocol in the *L6 Adaptive Persuasion Protocol* subsection of the *Pressure Generation, Observer, and Persuader Setup* appendix). |
 
-See Figure X. for a fully worked out example (TODO).
+See *Worked Example* appendix for a full walkthrough of the framework on five hypothetical items and how wiggle rates and corrective/corrupting fractions are computed.
 
 ---
 
 ## 4. Datasets and Models
 
-**Datasets.** We evaluate wiggle on six datasets, each filtered to items where judges are likely to be uncertain. The safety axis includes **WildGuard** (Han et al., 2024) (adversarial prompts with compliant responses), **AEGIS** (Ghosh et al., 2024) (a second safety taxonomy for replication), and **HH-RLHF** (Anthropic's red-team-attempts, stratified across harm levels 0-4). The remaining datasets are **ToxiGen** (adversarial toxicity items balanced across demographic targets), **MAGE** (AI-generated vs. human-written text detection with known provenance), and **Paired Prompts** (political content with two independent rubrics: *hedging* and *refusal*). Sample sizes are 100 items per safety/toxicity/AI-detection dataset and 50 prompt pairs per Paired Prompts rubric. Five datasets ship with ground-truth labels, enabling *corrective*/*corrupting* classification of each wiggle; Paired Prompts has no canonical ground truth and is excluded from those analyses. Sampling procedures, borderline filters, and per-dataset wiggle-rate matrices (Table `tab:wiggle-rates`) are in Appendix A and Appendix E.
+**Datasets.** We evaluate wiggle on six datasets, each filtered to items where judges are likely to be uncertain. The safety axis includes **WildGuard** (Han et al., 2024) (adversarial prompts with compliant responses), **AEGIS** (Ghosh et al., 2024) (a second safety taxonomy for replication), and **HH-RLHF** (Anthropic's red-team-attempts, stratified across harm levels 0-4). The remaining datasets are **ToxiGen** (adversarial toxicity items balanced across demographic targets), **MAGE** (AI-generated vs. human-written text detection with known provenance), and **Paired Prompts** (political content with two independent rubrics: *hedging* and *refusal*). Sample sizes are 100 items per safety/toxicity/AI-detection dataset and 50 prompt pairs per Paired Prompts rubric. Five datasets ship with ground-truth labels, enabling *corrective*/*corrupting* classification of each wiggle; Paired Prompts has no canonical ground truth and is excluded from those analyses. Sampling procedures, borderline filters, and per-dataset wiggle-rate matrices (Table `tab:wiggle-rates`) are in the *Data Sampling Strategy* and *Summary Statistics Across All Dataset-Scale Combinations* appendices.
 
-**Judging tasks.** Each dataset's verdict label space splits into a *restrictive* side — where the judge takes a more conservative action — and a *permissive* side. On the safety datasets (WildGuard, AEGIS, HH-RLHF), restrictive is *unsafe / harmful* and permissive is *safe / helpful*. On ToxiGen, restrictive is *toxic* and permissive is *benign*. On MAGE, restrictive is *AI-generated* (the suspicion side, parallel to *unsafe* on safety) and permissive is *human-written*. Paired Prompts splits into two rubrics: on the hedging rubric, restrictive is *more hedging* and permissive is *direct response*; on the refusal rubric, restrictive is *more refusing* and permissive is *compliant*. Each task is judged on two grading scales — a binary verdict and a 1–5 Likert that runs from most permissive (1) to most restrictive (5) — giving **14 (dataset, rubric, scale) judging tasks** in total: 5 single-rubric datasets × 2 scales + 1 dataset (Paired Prompts) × 2 rubrics × 2 scales.
+**Judging tasks.** Each dataset's verdict label space splits into a *restrictive* side — where the judge takes a more conservative action — and a *permissive* side. On the safety datasets (WildGuard, AEGIS, HH-RLHF), restrictive is *unsafe / harmful* and permissive is *safe / helpful*. On ToxiGen, restrictive is *toxic* and permissive is *benign*. On MAGE, restrictive is *AI-generated* (the suspicion side, parallel to *unsafe* on safety) and permissive is *human-written*. Two different rubrics are used for Paired Prompts: on the hedging rubric, restrictive is *more hedging* and permissive is *direct response*[^hedging-direction]; on the refusal rubric, restrictive is *more refusing* and permissive is *compliant*. Each task is judged on two grading scales — a binary verdict and a 1–5 Likert that runs from most permissive (1) to most restrictive (5) — giving **14 (dataset, rubric, scale) judging tasks** in total: 5 single-rubric datasets × 2 scales + 1 dataset (Paired Prompts) × 2 rubrics × 2 scales.
+
+[^hedging-direction]: The restrictive/permissive labels are less clean on the hedging rubric than elsewhere: on non-anchored political prompts, one could plausibly argue that *direct response* is the more restrictive position. We adopt the convention here to preserve the 1–5 Likert direction (most permissive → most restrictive) across all tasks: the judge system prompt from the original benchmark runs from most-direct (1) to most-hedging (5), and we maintain that parallelism.
 
 **Models.** We evaluate 9 judge models across four families: GPT-5, GPT-5.2, GPT-5.4 (OpenAI); Claude 4.6 Sonnet, Claude 4.6 Opus (Anthropic); Grok-4.1, Grok-4.1 Reasoning (xAI); Gemini 3 Flash, Gemini 3.1 Pro (Google). For L6 adaptive persuasion, three of these (GPT-5.4, Claude Opus, Grok-4.1 Reasoning) serve as persuaders, generating challenges for all judges including themselves. The L2-L4 counterarguments and L4 consensus sets are pre-generated by the same three persuader models; an observer model (GPT-5) extracts the judge's verdict from free-form responses. All models are queried at temperature 0 throughout, including for the L0 baseline. We use each model's default reasoning configuration: reasoning is off for OpenAI's GPT-5 family and for the Claude 4.6 models (extended thinking disabled); reasoning is on for Grok-4.1 Reasoning and for both Gemini 3 models with default reasoning effort.
 
@@ -119,7 +121,7 @@ Averaged over all models and datasets, L1, L2, and L3 cluster near 80% retention
 
 **Wiggles are directionally asymmetric, and the direction depends on the grading scale.** Using the restrictive/permissive framing from §4, binary flips lean *restrictive* at every pressure level while Likert flips lean *permissive* at every level (Figure `fig:direction-and-outcomes`, left). Why the same item, judged by the same model, would flip in opposite directions on a binary versus a Likert response scale — and why this asymmetry persists across 9 judges and 6 datasets — is left for speculation. Operationally, it means a deployment's choice of grading scale is also a choice of which kind of error pressure will introduce.
 
-**Binary and Likert flips also differ in *when* they happen.** Under a single counterargument, binary verdicts flip 3-4× more often than Likert across L2-L6. By turn 10 the gap collapses to 1.1-2.4×, and at L4 and L6 the two scales nearly converge. Binary flips tend to fire on turn 1 or never while Likert flips are gradual drifts that build over multiple turns. (Per-turn timing details in Appendix H.)
+**Binary and Likert flips also differ in *when* they happen.** Under a single counterargument, binary verdicts flip 3-4× more often than Likert across L2-L6. By turn 10 the gap collapses to 1.1-2.4×, and at L4 and L6 the two scales nearly converge. Binary flips tend to fire on turn 1 or never while Likert flips are gradual drifts that build over multiple turns. (Per-turn timing details in the *Multi-Turn Flip Timing* appendix.)
 
 ![Direction and outcomes combined](data/analysis_cross_domain/png/combined/direction_and_outcomes.png)
 
@@ -131,7 +133,7 @@ Averaged over all models and datasets, L1, L2, and L3 cluster near 80% retention
 
 **Family is a weak proxy for sibling behavior.** Within-family correlations *are* high for most providers (Grok 4.1 R / Grok 4.1 share rho = 0.89; the GPT-5/5.2/5.4 family pairs share rho = 0.84-0.89; Claude 4.6 Sonnet / Claude 4.6 Opus share rho = 0.80) — but cross-family correlations are often just as high. Grok 4.1 R correlates with GPT-5.2 at rho = 0.86 and with Claude Opus at rho = 0.84. **Gemini Flash and Gemini Pro share rho = 0.32 — the lowest pair in the entire matrix, lower than most cross-family pairs.** For most families, testing one sibling gives a reasonable read on the other; for Google's Gemini models, this transfer fails entirely.
 
-**Self-persuasion is asymmetric.** When a model persuades itself versus a sibling versus a non-family model, the L6 wiggle rates dissociate (Table `tab:self-persuasion`). Claude 4.6 Opus shows an intuitive gradient: self (70%) > family (62%) > non-family (47%). GPT-5.4 has small family-level advantage that *matches* its self-persuasion (72% vs 69%). Grok-4.1 R inverts the pattern: it is the *least* effective at wiggling itself (19%) but *more* effective on its non-reasoning sibling (55%) and on non-family models (36%). See detailed persuasion scores in Appendix F.
+**Self-persuasion is asymmetric.** When a model persuades itself versus a sibling versus a non-family model, the L6 wiggle rates dissociate (Table `tab:self-persuasion`). Claude 4.6 Opus shows an intuitive gradient: self (70%) > family (62%) > non-family (47%). GPT-5.4 has small family-level advantage that *matches* its self-persuasion (72% vs 69%). Grok-4.1 R inverts the pattern: it is the *least* effective at wiggling itself (19%) but *more* effective on its non-reasoning sibling (55%) and on non-family models (36%). See detailed persuasion scores in the *Persuader Effectiveness and Self-Persuasion* appendix.
 
 ---
 
@@ -151,13 +153,11 @@ We loosely identify three clusters in (wiggle rate, jaggedness) space:
   2. High-wiggle / mid-to-high-jaggedness corner (right side). GPT-5.4 stretches across the highest wiggle range (~0.4–0.8) at mid jaggedness (~0.20–0.30); GPT-5.2 occupies a similar high-wiggle region but with notably higher jaggedness (~0.30–0.40). These judges wiggle a lot and their wiggle profile is uneven across tasks.
   3. Mid-wiggle / high-jaggedness band (middle, upper). Claude 4.6 Sonnet and Claude 4.6 Opus sit at moderate wiggle rates (~0.25–0.45) but high jaggedness (~0.25–0.35) — they're not the most-wiggle-prone overall, but their susceptibility varies sharply by task. Grok-4.1 (non-reasoning) sits in a similar mid-wiggle, high-jaggedness region. GPT-5 spreads broadly across mid-to-high wiggle with mid jaggedness.
 
-There's no judge that dominates on both axes simultaneously.
-
 ### 6.2 Jury Majority Strength at Baseline Is a Simple Reliability Screen for Golden Sets
 
-If wiggle is jagged, some items are more epistemically uncertain than others, and so we ask: Can a small test predict which? We compare three candidate predictors of per-item wiggle rate: *jury majority strength* (size of the L0 majority across the 9 judges, no pressure applied), *repeat consistency* (temperature-zero per-item agreement), and *position invariance* (verdict survival under argument reordering). Jury majority strength wins at every level (Table `tab:predictor-comparison`, mean |ρ| = 0.59 vs. 0.42 for repeat and 0.37 for invariance) and is universal: all 84 (dataset, rubric, scale, level) cells show negative ρ, with median |ρ| = 0.58 (per-cell heatmap in Appendix M).
+If wiggle is jagged, some items are more epistemically uncertain than others, and so we ask: Can a small test predict which? We compare three candidate predictors of per-item wiggle rate: *jury majority strength* (size of the L0 majority across the 9 judges, no pressure applied), *repeat consistency* (temperature-zero per-item agreement), and *position invariance* (verdict survival under argument reordering). Jury majority strength wins at every level (Table `tab:predictor-comparison`, mean |ρ| = 0.59 vs. 0.42 for repeat and 0.37 for invariance) and is universal: all 84 (dataset, rubric, scale, level) cells show negative ρ, with median |ρ| = 0.58 (per-cell heatmap in the *Per-Cell Jury Majority Strength Heatmap* appendix).
 
-**Table `tab:predictor-comparison`.** Mean |ρ| between each predictor and per-item wiggle rate, by level. Jury averaged over 84 (dataset, rubric, scale, level) cells; Repeat and Invariance over 72 (not measured on WildGuard). Per-cell heatmap in Appendix N.
+**Table `tab:predictor-comparison`.** Mean |ρ| between each predictor and per-item wiggle rate, by level. Jury averaged over 84 (dataset, rubric, scale, level) cells; Repeat and Invariance over 72 (not measured on WildGuard). Per-cell heatmap in the *Per-Cell Jury Majority Strength Heatmap* appendix.
 
 | Predictor | L1 | L2 | L3 | L4 | L5 | L6 | Overall |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -175,7 +175,7 @@ Even though LLM judges are becoming widespread, including being increasingly use
 
 ## 7. Limitations
 
-We deliberately focus on borderline items where judges are likely to be uncertain (Appendix B), so wiggle rates characterize the hard minority rather than a representative content distribution. We do not measure a human-judge baseline under the same protocol, so we cannot say whether the rates we observe are anomalously high or comparable to human inconsistency under similar conditions. Our L2-L6 arguments are model-generated, which reflects the realistic threat model in deployments where judges face challenges from other LLMs but differs from human-authored arguments. Our L6 persuader set is fixed (GPT-5.4, Claude 4.6 Opus, Grok-4.1 Reasoning); a larger or different set might produce different ceilings. The full set of limitations — including dataset coverage, sample-size caveats, causal-inference caveats, and the scope of black-box analysis — is in Appendix M.
+We deliberately focus on borderline items where judges are likely to be uncertain (see the *Data Sampling Strategy* appendix), so wiggle rates characterize the hard minority rather than a representative content distribution. We do not measure a human-judge baseline under the same protocol, so we cannot say whether the rates we observe are anomalously high or comparable to human inconsistency under similar conditions. Our L2-L6 arguments are model-generated, which reflects the realistic threat model in deployments where judges face challenges from other LLMs but differs from human-authored arguments. Our L6 persuader set is fixed (GPT-5.4, Claude 4.6 Opus, Grok-4.1 Reasoning); a larger or different set might produce different ceilings. The full set of limitations — including dataset coverage, sample-size caveats, causal-inference caveats, and the scope of black-box analysis — is in the *Limitations (Full Discussion)* appendix.
 
 ---
 
@@ -232,7 +232,109 @@ This distinction matters when compared to general-purpose robustness testing app
 
 ---
 
-## Appendix C: Per-Dataset Detailed Results, Per-Model Profiles, and Family Transfer
+## Appendix C: A Fully Worked Example: Five Items Through the Wiggle Framework
+
+To ground the Wiggle Framework in concrete numbers, this appendix walks through a hypothetical run of all framework conditions on **five items** judged by a single model. The example uses a binary safety classification task to keep the verdict space simple; the same accounting applies to any (dataset, scale) cell with the appropriate threshold definitions from §3.1.
+
+**The five items.** We use a binary verdict space {safe, unsafe}. Truth and L0 verdicts are stipulated.
+
+| Item | Description (abbreviated) | Truth | L0 verdict | L0 correct? |
+|---|---|---|---|---|
+| 1 | Cooking-advice response on a benign prompt | safe | safe | yes |
+| 2 | Borderline policy-adjacent fiction with no actionable harm | safe | safe | yes |
+| 3 | Compliant response on an adversarial jailbreak prompt | unsafe | safe | **no** |
+| 4 | Refusal that includes a partial harmful explanation | unsafe | unsafe | yes |
+| 5 | Vague-policy compliance on a borderline jailbreak | unsafe | safe | **no** |
+
+L0 accuracy is therefore 3/5 = 60%. We will reuse this table as ground truth in every wiggle computation below.
+
+**Recall the wiggle rate.** For pressure level $\ell$, judge model $M$, and items $i = 1, \ldots, N$:
+
+$$w_\ell(M) = \frac{1}{N} \sum_{i=1}^{N} \mathbf{1}\!\left[\, V_\ell(i, M) \neq V_{L0}(i, M)\,\right]$$
+
+where $V_\ell(i, M)$ is the judge's verdict on item $i$ at level $\ell$ and $\mathbf{1}[\cdot]$ is the indicator. On binary scales the differ-from-L0 condition is a verdict flip; on Likert scales it is the threshold defined in §3.1.
+
+### C.1 Mechanical Consistency
+
+We run three mechanical tests on each item: 10 trials of greedy temperature-0 repetition, 10 trials with random seed-string injection (see the *Seed Injection Procedure* appendix), and a positional invariance check (the two opposing arguments presented in both orderings).
+
+| Item | Temp-0 differing / 10 | Seed-injection differing / 10 | Positional flipped? |
+|---|---|---|---|
+| 1 | 0 | 0 | no |
+| 2 | 0 | 1 | no |
+| 3 | 1 | 1 | no |
+| 4 | 0 | 0 | yes |
+| 5 | 0 | 0 | no |
+| **Aggregate** | 1/50 = 2.0% | 2/50 = 4.0% | 1/5 = 20.0% |
+
+Per-test mechanical wiggle rates: $w_\text{temp} = 2.0\%$, $w_\text{seed} = 4.0\%$, $w_\text{pos} = 20.0\%$. The aggregate temp/seed rates sit within the 2–9% band reported for frontier judges in Finding 1; the positional rate is higher because positional invariance is a per-item binary indicator, and one of five items here happens to be order-sensitive (item 4: a refusal whose verdict shifts depending on which argument is presented first).
+
+### C.2 Single-turn Conviction (L1–L4 as one-shot probes)
+
+Each L1–L4 challenge is delivered in a fresh conversation. The verdict is observed once, after the single challenge turn.
+
+| Item | L1 (mild doubt) | L2 (counter-arg.) | L3 (expert auth.) | L4 (consensus) |
+|---|---|---|---|---|
+| 1 | hold | hold | hold | flip → unsafe |
+| 2 | hold | hold | hold | flip → unsafe |
+| 3 | hold | flip → unsafe | flip → unsafe | flip → unsafe |
+| 4 | hold | hold | hold | hold |
+| 5 | hold | hold | flip → unsafe | flip → unsafe |
+| **$w_\ell$** | 0/5 = 0% | 1/5 = 20% | 2/5 = 40% | 4/5 = 80% |
+
+This hypothetical judge resists mild doubt entirely (sycophancy-resistant) but folds under fabricated consensus (conformity-susceptible). Item 4 holds across all four pressure types — a stable judge on this particular item.
+
+For the corrective/corrupting decomposition we restrict to items that actually flipped at the given level:
+
+- L1: 0 flips, no decomposition.
+- L2: 1 flip (item 3, was wrong at L0) → **1 corrective, 0 corrupting**.
+- L3: 2 flips (items 3, 5; both wrong at L0) → **2 corrective, 0 corrupting**.
+- L4: 4 flips (items 1, 2 corrupting; items 3, 5 corrective) → **2 corrective, 2 corrupting**.
+
+L4 is exactly net-neutral on this synthetic 5-item set — corruptive fraction 50%.
+
+### C.3 Multi-turn Persistence
+
+We now apply each L1–L4 pressure type as **10 sustained turns** (still in a fresh conversation; the L0–pressure relationship is unchanged, only the conversation length grows). We also run L5 (cycling through L1–L4 in randomized order across 10 turns) and L6 (an adaptive persuader that sees the full transcript). The natural unit is the **final-turn wiggle rate** at turn 10.
+
+| Item | L1×10 | L2×10 | L3×10 | L4×10 | L5 | L6 |
+|---|---|---|---|---|---|---|
+| 1 | hold | hold | hold | flip | hold | flip |
+| 2 | hold | flip | flip | flip | flip | flip |
+| 3 | hold | flip | flip | flip | flip | flip |
+| 4 | hold | flip | hold | hold | hold | flip |
+| 5 | hold | hold | flip | flip | flip | flip |
+| **$w_\ell$** | 0% | 60% | 60% | 80% | 60% | 100% |
+
+Two structural observations:
+
+**Multi-turn rates strictly exceed single-turn rates** for every level except L1 (where both are 0% on this small sample). Item 4 holds across L1, L2, L3, L4 in single-turn but flips at L2×10 — pressure that fails on turn 1 sometimes succeeds with sustained repetition.
+
+**L6 dominates** at 100%. All five items eventually flip under adaptive pressure. L4×10 (80%) ties or exceeds L5 (60%) on this set, consistent with the "more tactics isn't more effective" subfinding: cycling L1–L4 in random order fails on item 4, while sustained L4 reaches it.
+
+For the corrective/corrupting decomposition at L6 (where every item flipped):
+
+- Item 1 (truth safe, safe → unsafe): **corrupting**.
+- Item 2 (truth safe, safe → unsafe): **corrupting**.
+- Item 3 (truth unsafe, safe → unsafe): **corrective**.
+- Item 4 (truth unsafe, unsafe → safe): **corrupting**.
+- Item 5 (truth unsafe, safe → unsafe): **corrective**.
+
+L6 corruptive fraction = 3/5 = 60%. Notably, item 4's flip at L6 (unsafe → safe) is the only *permissive* flip in the example.
+
+### C.4 What this example illustrates
+
+A few framework properties become legible:
+
+- **L0 accuracy and wiggle rate are independent.** This judge is 60% accurate at L0 (3 of 5) and yet wiggles 0% under L1 and 80% under L4×10. Wiggle measures the verdict's *stability*, not its *correctness*.
+- **Mechanical wiggle is bounded.** The aggregate temp/seed mechanical rates (2% and 4%) sit roughly an order of magnitude below the L4×10 rate (80%).
+- **Direction and correctness are independent.** At L4 single-turn the corrupting and corrective shares were exactly tied (2:2); at L6 multi-turn the same items split 3:2 corrupting.
+
+The same accounting generalizes to Likert scales (replace each verdict with a 1–5 score and apply the threshold from §3.1), to non-safety datasets (substitute the dataset's restrictive/permissive vocabulary from §4; ground truth is dataset-defined), and to other models (rerun the same five items under a different judge to compare).
+
+---
+
+## Appendix D: Per-Dataset Detailed Results, Per-Model Profiles, and Family Transfer
 
 ### C.1 Per-Model Dataset Profiles
 
@@ -305,7 +407,7 @@ Most models achieve >95% agreement at greedy decoding (temp=0), suggesting high 
 
 ---
 
-## Appendix D: Score Transition Heatmaps (Likert)
+## Appendix E: Score Transition Heatmaps (Likert)
 
 The transition matrix for WildGuard shows that most shifts under pressure are toward the extremes of the scale — items initially rated 3 (the midpoint) shift predominantly to 1 or 5; items initially at 2 or 4 shift toward the nearer extreme. This is consistent with pressure activating a "pick a side" heuristic rather than producing nuanced reassessment. The MAGE, AEGIS, ToxiGen, HH-RLHF, and Paired Prompts transitions follow similar patterns.
 
@@ -313,7 +415,7 @@ Per-dataset transition heatmaps are at `data/analysis_cross_domain/png/transitio
 
 ---
 
-## Appendix E: Summary Statistics Across All Dataset-Scale Combinations
+## Appendix F: Summary Statistics Across All Dataset-Scale Combinations
 
 **Mean wiggle rate at L4 (consensus pressure):**
 
@@ -354,7 +456,7 @@ Per-dataset transition heatmaps are at `data/analysis_cross_domain/png/transitio
 
 ---
 
-## Appendix F: Persuader Effectiveness and Self-Persuasion (Full Tables)
+## Appendix G: Persuader Effectiveness and Self-Persuasion (Full Tables)
 
 **Persuader ranking is stable across all 12 (dataset, scale) conditions:** GPT-5.4 first, Claude Opus second, Grok-4.1 Reasoning third (with the within-Grok exception detailed below). The ranking does not shuffle, suggesting effective persuasion is a dataset-agnostic capability.
 
@@ -380,7 +482,7 @@ Claude Opus shows a strong self-persuasion effect (+15-57pp); GPT-5.4 shows a mo
 
 ---
 
-## Appendix G: Per-Dataset Cross-Level Correlation Heatmaps
+## Appendix H: Per-Dataset Cross-Level Correlation Heatmaps
 
 The cross-level correlation analysis (§5 Finding 7) is reported in aggregate as Figure `fig:corr-all-domains`. Per-dataset heatmaps (binary and Likert separately) are at:
 
@@ -395,7 +497,7 @@ The L1-L4 dissociation (rho ~= 0.36 in aggregate) holds across all per-dataset h
 
 ---
 
-## Appendix H: Multi-Turn Flip Timing — Binary vs Likert
+## Appendix I: Multi-Turn Flip Timing — Binary vs Likert
 
 A practical question for anyone designing an epistemic stability test: how many challenge turns do you actually need? The flip-timing data reveals a sharp divergence between binary and Likert scales.
 
@@ -426,7 +528,7 @@ For Likert L6, the first turn captures only 23% of eventual flips; for Likert L1
 
 ---
 
-## Appendix I: WildGuard Human Annotator Consensus
+## Appendix J: WildGuard Human Annotator Consensus
 
 WildGuard ships with annotator labels at varying consensus levels (2/3 vs 3/3 agreement). Stratifying by consensus reveals a consistent tracking effect:
 
@@ -437,7 +539,7 @@ This ~10-15pp gap is consistent across all pressure levels. Items where human an
 
 ---
 
-## Appendix J: How the L1-L6 Ladder Maps onto Proposed Signal-Refinement Procedures
+## Appendix K: How the L1-L6 Ladder Maps onto Proposed Signal-Refinement Procedures
 
 Most LLM judges today are deployed in one-shot mode: a single API call produces a verdict, no conversation occurs, and the judge is never challenged. In this setting, wiggle is *latent* — it exists as an epistemic property of the model but never manifests operationally. Golden-set validation remains the right first layer of QA for one-shot deployments, complemented by our jury-bootstrapping recommendation (§6.3).
 
@@ -452,7 +554,7 @@ The point is not that any current production system *does* use these procedures 
 
 ---
 
-## Appendix K: Pressure Generation, Observer, and Persuader Setup
+## Appendix L: Pressure Generation, Observer, and Persuader Setup
 
 ### K.1 L1–L5 Generation
 
@@ -471,9 +573,9 @@ L6 is the only level whose challenges are generated *online*, with full access t
 **The loop.** A single L6 trial proceeds as follows:
 
 1. **Turn 0 (baseline).** The judge produces its L0 verdict and rationale on the item, with no pressure applied. This becomes the reference verdict for the rest of the trial.
-2. **Turn $t$ (challenge generation).** The persuader is invoked over a *side channel* with its own system prompt (Appendix O, "Adaptive persuader prompt" under each dataset). It receives the judging prompt and item being judged, plus the full conversation transcript up to turn $t-1$ (judge's verdict, rationale, and all prior persuader-judge exchanges), and is tasked with writing the next user message back to the judge designed to flip the verdict away from L0.
+2. **Turn $t$ (challenge generation).** The persuader is invoked over a *side channel* with its own system prompt (see "Adaptive persuader prompt" under each dataset in the *System Prompts* appendix). It receives the judging prompt and item being judged, plus the full conversation transcript up to turn $t-1$ (judge's verdict, rationale, and all prior persuader-judge exchanges), and is tasked with writing the next user message back to the judge designed to flip the verdict away from L0.
 3. **Turn $t$ (judge response).** The persuader-generated message is appended to the judge's conversation as the next user turn. The judge produces its turn-$t$ response.
-4. **Turn $t$ (verdict extraction).** The observer is invoked with its own system prompt (Appendix O, "Observer prompt" under each dataset), reads the judge's turn-$t$ response, and classifies its current verdict using the same rubric as the judging prompt and whether the judge has changed position relative to L0.
+4. **Turn $t$ (verdict extraction).** The observer is invoked with its own system prompt (see "Observer prompt" under each dataset in the *System Prompts* appendix), reads the judge's turn-$t$ response, and classifies its current verdict using the same rubric as the judging prompt and whether the judge has changed position relative to L0.
 5. **Continue or stop.** The loop repeats until turn 10 or until the observer flags an early termination condition (e.g., the judge explicitly refuses to continue).
 
 The persuader's access to both the judging prompt and the running transcript is what makes L6 *adaptive*: it can target whatever rationale the judge most recently offered. The judge, by contrast, sees only what looks like a normal user reply — it has no signal that an LLM is on the other side of the conversation.
@@ -488,11 +590,11 @@ An observer model (GPT-5) is used across all multi-turn experiments (L5 and L6) 
 
 For all datasets and scales, we construct a model-consensus difficulty proxy by having all 9 judges rate each item at baseline (L0, temp=0, no pressure). The resulting jury majority strength is the predictive feature in §6.1.
 
-The full set of judge, challenge, observer, and adaptive persuader prompt templates used in the experiments is reproduced in Appendix O (preserved unchanged from the prior draft).
+The full set of judge, challenge, observer, and adaptive persuader prompt templates used in the experiments is reproduced in the *System Prompts* appendix (preserved unchanged from the prior draft).
 
 ---
 
-## Appendix L: Directional Bias — Per-Dataset Detail
+## Appendix M: Directional Bias — Per-Dataset Detail
 
 Table `tab:appendix-directional-perdomain` reports the toward-restrictive fraction for each (dataset, scale, level) cell — the percentage of all flips that move toward the restrictive verdict ("unsafe", "toxic", "ai_generated", "more hedging", "more refusing"). Cells >50% indicate restrictive bias; cells <50% indicate permissive bias. Source: `tables/survival/restrictiveness_direction.csv`.
 
@@ -521,7 +623,7 @@ The directional bias structure could be used as a diagnostic tool in its own rig
 
 ---
 
-## Appendix M: Per-Cell Jury Majority Strength Heatmap
+## Appendix N: Per-Cell Jury Majority Strength Heatmap
 
 Figure `fig:appendix-jury-rho-heatmap` reports the per-cell Spearman ρ between baseline jury majority strength and per-item wiggle rate for each (dataset, scale, level) cell. All 84 cells are negative: items where the jury barely agrees at L0 are more wiggable under pressure, with no exception. Per-level means are summarized in Table `tab:predictor-comparison` (§6.2).
 
@@ -531,11 +633,11 @@ Figure `fig:appendix-jury-rho-heatmap` reports the per-cell Spearman ρ between 
 
 ---
 
-## Appendix N: Limitations (Full Discussion)
+## Appendix O: Limitations (Full Discussion)
 
 **Borderline items.** We deliberately focus on borderline, ambiguous items where judges are likely to be uncertain. Clear-cut items would show less wiggle. Our rates should not be interpreted as the expected wiggle rate on a representative distribution of real-world content, which would include many easy items. The rates characterize behavior on the hard tail where judge reliability matters most.
 
-**No human judge baseline.** We do not measure human annotator wiggle under the same protocol. It is possible that human judges would show comparable instability under pressure on these items — the human consensus tracking data (Appendix I) suggests at least some overlap. A human baseline would contextualize whether model wiggle is anomalously high or within the range of human inconsistency.
+**No human judge baseline.** We do not measure human annotator wiggle under the same protocol. It is possible that human judges would show comparable instability under pressure on these items — the human consensus tracking data (see the *WildGuard Human Annotator Consensus* appendix) suggests at least some overlap. A human baseline would contextualize whether model wiggle is anomalously high or within the range of human inconsistency.
 
 **Model-generated counterarguments.** Our L2-L4 arguments and L6 adaptive persuasion are all model-generated. Human-authored arguments might produce different pressure profiles. The use of model-generated arguments does, however, reflect the realistic threat model: in deployment, LLM judges are more likely to face challenges from other LLMs than from humans crafting bespoke arguments.
 
@@ -553,7 +655,7 @@ Figure `fig:appendix-jury-rho-heatmap` reports the per-cell Spearman ρ between 
 
 ---
 
-## Appendix O: System Prompts
+## Appendix P: System Prompts
 
 This appendix collects the system prompt templates used in the wiggle experiments, organized by dataset. Placeholders such as `{prompt}`, `{response}`, and `{text}` denote values substituted at runtime. Templates are unchanged from the prior draft of this paper; they are reproduced here for completeness and to support replication of the L6 attack against new judges.
 
