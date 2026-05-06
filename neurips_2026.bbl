@@ -1,4 +1,4 @@
-\begin{thebibliography}{31}
+\begin{thebibliography}{33}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -142,6 +142,11 @@ Jason Wei, Nguyen Karina, Hyung~Won Chung, Yunxin~Joy Jiao, Spencer Papay, Ameli
 \newblock URL \url{https://cdn.openai.com/papers/simpleqa.pdf}.
 \newblock OpenAI technical report.
 
+\bibitem[Xiong et~al.(2024)Xiong, Hu, Lu, Li, Fu, He, and Hooi]{xiong2024confidence}
+Miao Xiong, Zhiyuan Hu, Xinyang Lu, Yifei Li, Jie Fu, Junxian He, and Bryan Hooi.
+\newblock Can {LLM}s express their uncertainty? an empirical evaluation of confidence elicitation in {LLM}s.
+\newblock \emph{arXiv preprint arXiv:2306.13063}, 2024.
+
 \bibitem[Xu(2024)]{xu2024influence}
 others Xu.
 \newblock Under the influence: Quantifying persuasion and vigilance in large language models.
@@ -151,6 +156,11 @@ others Xu.
 Binwei Yao, Chao Shang, Wanyu Du, Jianfeng He, Ruixue Lian, Yi~Zhang, Hang Su, Sandesh Swamy, and Yanjun Qi.
 \newblock Peacemaker or troublemaker: How sycophancy shapes multi-agent debate.
 \newblock \emph{arXiv preprint arXiv:2509.23055}, 2025.
+
+\bibitem[Yona et~al.(2024)Yona, Aharoni, and Geva]{yona2024faithful}
+Gal Yona, Roee Aharoni, and Mor Geva.
+\newblock Can large language models faithfully express their intrinsic uncertainty in words?
+\newblock \emph{arXiv preprint arXiv:2405.16908}, 2024.
 
 \bibitem[Zeng et~al.(2024)Zeng, Liu, Mullins, Peran, Fernandez, Harkous, Narasimhan, Proud, Kumar, Radharapu, Sturman, and Wahltinez]{zeng2024shieldgemma}
 Wenjun Zeng, Yuchi Liu, Ryan Mullins, Ludovic Peran, Joe Fernandez, Hamza Harkous, Karthik Narasimhan, Drew Proud, Piyush Kumar, Bhaktipriya Radharapu, Olivia Sturman, and Oscar Wahltinez.
