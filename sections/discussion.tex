@@ -4,7 +4,7 @@
 \subsection{Epistemic Behavior Is Jagged}
 \label{sec:discussion-jagged}
 
-If we define \textbf{a judge's jaggedness as the standard deviation of its mean wiggle rate across (domain, scale)}, we can visualize judges with more narrow epistemic profiles vs.\ those that vary sharply across tasks.
+If we define \textbf{a judge's jaggedness as the standard deviation of its mean wiggle rate across (dataset, scale)}, we can visualize judges with more narrow epistemic profiles vs.\ those that vary sharply across tasks (Figure~\ref{fig:wiggliness-jaggedness}).
 
 \begin{figure}[t]
   \centering
@@ -25,12 +25,12 @@ There's no judge that dominates on both axes simultaneously.
 \subsection{Jury Majority Strength at Baseline Is a Simple Reliability Screen for Golden Sets}
 \label{sec:discussion-jury}
 
-If wiggle is jagged, some items are more epistemically uncertain than others, and so we ask: Can a small test predict which? We compare three candidate predictors of per-item wiggle rate: \emph{jury majority strength} (size of the L0 majority across the 9 judges, no pressure applied), \emph{repeat consistency} (temperature-zero per-item agreement), and \emph{position invariance} (verdict survival under argument reordering). Jury majority strength wins at every level (Table~\ref{tab:predictor-comparison}, mean $|\rho| = 0.59$ vs.\ 0.42 for repeat and 0.37 for invariance) and is universal: all 84 (domain $\times$ scale $\times$ level) cells show negative $\rho$, with median $|\rho| = 0.58$ (per-cell heatmap in Appendix~\ref{sec:appendix-jury-heatmap}).
+If wiggle is jagged, some items are more epistemically uncertain than others, and so we ask: Can a small test predict which? We compare three candidate predictors of per-item wiggle rate: \emph{jury majority strength} (size of the L0 majority across the 9 judges, no pressure applied), \emph{repeat consistency} (temperature-zero per-item agreement), and \emph{position invariance} (verdict survival under argument reordering). Jury majority strength wins at every level (Table~\ref{tab:predictor-comparison}, mean $|\rho| = 0.59$ vs.\ 0.42 for repeat and 0.37 for invariance) and is universal: all 84 (dataset, rubric, scale, level) cells show negative $\rho$, with median $|\rho| = 0.58$ (per-cell heatmap in Appendix~\ref{sec:appendix-jury-heatmap}).
 
 \begin{table}[t]
 \centering
 \small
-\caption{Mean $|\rho|$ between each predictor and per-item wiggle rate, by level. Jury averaged over 84 (domain, scale, level) cells; Repeat and Invariance over 72 (not measured on WildGuard). Per-cell heatmap in Appendix~\ref{sec:appendix-jury-heatmap}.}
+\caption{Mean $|\rho|$ between each predictor and per-item wiggle rate, by level. Jury averaged over 84 (dataset, rubric, scale, level) cells; Repeat and Invariance over 72 (not measured on WildGuard). Per-cell heatmap in Appendix~\ref{sec:appendix-jury-heatmap}.}
 \label{tab:predictor-comparison}
 \begin{tabular}{@{}lrrrrrrr@{}}
 \toprule

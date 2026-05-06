@@ -6,7 +6,7 @@
 
 ## Abstract
 
-LLM judges have become central infrastructure for model evaluations, online grading, and reward modeling. Judges are typically validated by accuracy on golden data, but accuracy says nothing about whether they are stable under re-prompting, pushback, or sustained pressure. We introduce the *Wiggle Framework*, a unified stress test for epistemic instability in LLM judges. The framework decomposes judge robustness along three dimensions: Mechanical Consistency (stability under re-prompting and reframing), Single-turn Conviction (stability under escalating adversarial challenge), and Multi-turn Persistence (stability under sustained or adaptive pressure). We use the framework to study 9 frontier models across 14 judging tasks spanning safety, toxicity, and political-response evaluation. Every model exhibits substantial wiggle as a judge — flipping verdicts 25–71% of the time under static pushback, and 62–91% of the time in response to an adversarial LLM persuader. Critically, we find that pressure which succeeds in changing a verdict is almost always net-corrupting with respect to ground truth. From our findings, we draw three practical conclusions: (i) epistemic stability is jagged and defies simple narratives about sycophancy or robustness, (ii) jury-majority-strength screening is a simple, effective signal for predicting wiggle that holds universally across all 14 (domain, scale) conditions we tested, with mechanical re-prompting as a meaningfully weaker but defensible alternative, and (iii) epistemic pressure should be applied cautiously in hill-climbing or reward signals, given its net-corrupting effect. Taken together, this is the first apples-to-apples cross-domain comparison of mechanical, conformity, and persuadability tests in a judging context.
+LLM judges have become central infrastructure for model evaluations, online grading, and reward modeling. Judges are typically validated by accuracy on golden data, but accuracy says nothing about whether they are stable under re-prompting, pushback, or sustained pressure. We introduce the *Wiggle Framework*, a unified stress test for epistemic instability in LLM judges. The framework decomposes judge robustness along three dimensions: Mechanical Consistency (stability under re-prompting and reframing), Single-turn Conviction (stability under escalating adversarial challenge), and Multi-turn Persistence (stability under sustained or adaptive pressure). We use the framework to study 9 frontier models across 14 judging tasks spanning safety, toxicity, and political-response evaluation. Every model exhibits substantial wiggle as a judge — flipping verdicts 25–71% of the time under static pushback, and 62–91% of the time in response to an adversarial LLM persuader. Critically, we find that pressure which succeeds in changing a verdict is almost always net-corrupting with respect to ground truth. From our findings, we draw three practical conclusions: (i) epistemic stability is jagged and defies simple narratives about sycophancy or robustness, (ii) jury-majority-strength screening is a simple, effective signal for predicting wiggle that holds universally across all 14 judging tasks we tested, with mechanical re-prompting as a meaningfully weaker but defensible alternative, and (iii) epistemic pressure should be applied cautiously in hill-climbing or reward signals, given its net-corrupting effect. Taken together, this is the first apples-to-apples cross-dataset comparison of mechanical, conformity, and persuadability tests in a judging context.
 
 ---
 
@@ -14,7 +14,7 @@ LLM judges have become central infrastructure for model evaluations, online grad
 
 ![Hero](data/analysis_cross_domain/png/wiggle_rates/wiggle_framework_summary.png)
 
-**Figure `fig:hero`.** Mean wiggle rate per judge across the three Wiggle Framework dimensions, averaged over six domains, two scales, and all pressure levels. Every frontier judge wiggles on every dimension.
+**Figure `fig:hero`.** Mean wiggle rate per judge across the three Wiggle Framework dimensions, averaged over six datasets, two scales, and all pressure levels. Every frontier judge wiggles on every dimension.
 
 LLM judges sit at increasingly consequential decision points across the model-development stack. They score model outputs in benchmarks, classify content in production, and increasingly stand in for human judgment in the loops that train, grade, and refine frontier models. The standard validation workflow is straightforward: curate a golden set of expert-vetted examples, check that the LLM judge's verdicts are reasonably aligned to those labels, and deploy the judge if its accuracy is sufficiently good. This establishes whether a judge is correct on average on a static set of examples, but it says much less about whether the judge is *stable*.
 
@@ -22,7 +22,7 @@ LLM judges sit at increasingly consequential decision points across the model-de
 
 We propose the *Wiggle Framework*, a unified stress test for epistemic instability in LLM judges. It decomposes judge instability into three dimensions: *Mechanical Consistency*, which captures movement under repeated inference and superficial prompt changes; *Single-turn Conviction*, which captures response to a single challenge; and *Multi-turn Persistence*, which captures response to sustained or adaptive pressure across turns. We use the framework to measure the wiggle of 9 frontier models across 14 judging tasks drawn from six datasets spanning safety classification, toxicity detection, red-teaming, AI writing detection, and political-response evaluation, under both binary and likert grading schemes.
 
-Judge wiggle is universal across all six domains, at substantial rates, for every model tested (Figure `fig:hero`). The fact that LLMs change their minds under sycophantic, persuasive, and conformity pressure is not new, but what is more surprising was the structure of the flips themselves: binary and Likert grading scales produce *opposite* directional tendencies on the same items, and when a judge does flip its verdict, the flip is far more often corruptive than corrective.
+Judge wiggle is universal across all six datasets, at substantial rates, for every model tested (Figure `fig:hero`). The fact that LLMs change their minds under sycophantic, persuasive, and conformity pressure is not new, but what is more surprising was the structure of the flips themselves: binary and Likert grading scales produce *opposite* directional tendencies on the same items, and when a judge does flip its verdict, the flip is far more often corruptive than corrective.
 
 A second goal of this work is to centralize the various ways of probing a model's epistemic stability, specifically in the context of *judging*, where we want to study the intersection of mechanical calibration methods and epistemic ones. We focus on frontier judges because they are the most capable available and the ones most likely to be deployed as benchmark judges or as components of agentic-evaluation systems. The Discussion (§6) takes up the practical implications: where the jaggedness lives (§6.1), how to predict which items will wiggle without paying for the full battery (§6.2), and what the corruptive nature of epistemic pressure implies for deploying judges in self-governing agentic systems (§6.3).
 
@@ -34,11 +34,11 @@ A second goal of this work is to centralize the various ways of probing a model'
 
 **Sycophancy and persuadability.** Sycophancy was systematically identified by Perez et al. (2022) and shown by Sharma et al. (2024) to be driven by human preference data that reinforces capitulation. Laban et al. (2023) introduced the FlipFlop Experiment, finding accuracy drops of 5-25% after a single "Are you sure?" challenge. Altay et al. (2025) showed in *Science* that sycophantic AI decreases users' prosocial intentions, and DeepMind (2025) found the behavior intensifies under sustained social pressure. Most of this literature studies sycophancy in the *assistant* role; we study it in the *judge* role.
 
-**LLM-on-LLM persuasion and debate.** Irving et al. (2018) proposed debate as a scalable alignment mechanism, with Brown-Cohen et al. (2024) formalizing computational complexity guarantees and Khan et al. (2024) showing more persuasive LLM debaters can lead judges to more truthful answers. Chen et al. (2023) and Chern et al. (2024) investigated multi-turn persuasion against LLM judges; Xu et al. (2024) quantified how an advisor LLM steers a player LLM's decisions. Yao et al. (2025) showed that inter-agent sycophancy in multi-agent debate causes "disagreement collapse," producing outcomes worse than single-agent baselines — with sycophancy manifesting differently in debater and judge roles, paralleling our observation that single-turn conviction separates sycophancy from conformity. These works use adversarial pressure as a tool for eliciting truth or studying inter-agent dynamics; we use it as a *diagnostic for measuring judge reliability* across multiple domains.
+**LLM-on-LLM persuasion and debate.** Irving et al. (2018) proposed debate as a scalable alignment mechanism, with Brown-Cohen et al. (2024) formalizing computational complexity guarantees and Khan et al. (2024) showing more persuasive LLM debaters can lead judges to more truthful answers. Chen et al. (2023) and Chern et al. (2024) investigated multi-turn persuasion against LLM judges; Xu et al. (2024) quantified how an advisor LLM steers a player LLM's decisions. Yao et al. (2025) showed that inter-agent sycophancy in multi-agent debate causes "disagreement collapse," producing outcomes worse than single-agent baselines — with sycophancy manifesting differently in debater and judge roles, paralleling our observation that single-turn conviction separates sycophancy from conformity. These works use adversarial pressure as a tool for eliciting truth or studying inter-agent dynamics; we use it as a *diagnostic for measuring judge reliability* across multiple datasets.
 
 **Calibration and consistency.** Wei et al. (2024) showed that asking the same factual question many times yields well-behaved calibration curves; Huang et al. (2025) used Item Response Theory to show judge reliability varies dramatically with item difficulty; Radharapu et al. (2025b) showed LLMs take crisp stances even on flagrantly no-consensus tasks; Romanou et al. (2026) demonstrated that semantics-preserving textual perturbations can degrade LLM performance by up to 12% and shift comparative model rankings in 63% of cases. Our Mechanical Consistency dimension connects directly to this body of work — but our central finding is that consistency under silence is only one piece of the picture, and that adversarial pressure clears its variance bar by 1-2 orders of magnitude. Our framework is also entirely black-box, complementing white-box approaches like Radharapu et al. (2025a).
 
-The contribution of the present paper, relative to all of the above, is the *centralization*: a single graduated pressure instrument run on the same items, judges, and criteria across six domains, enabling apples-to-apples comparison and extensive findings reported in §5.
+The contribution of the present paper, relative to all of the above, is the *centralization*: a single graduated pressure instrument run on the same items, judges, and criteria across six datasets, enabling apples-to-apples comparison and extensive findings reported in §5.
 
 ---
 
@@ -52,7 +52,7 @@ Every measurement in this paper is anchored to a single reference point: the jud
 
 The exact definition depends on the response scale. On **binary** scales, a wiggle is a verdict flip (e.g., safe → unsafe). On **Likert** (1–5) scales, a wiggle is a movement of two or more places: for items off the midpoint this is equivalent to crossing the midpoint of 3 (so 4 → 2 counts but 4 → 3 does not), and for items *at* the midpoint (3) we count a wiggle when the verdict moves to one of the extremes (1 or 5). This rules out minor numerical drift within the same side of the scale and reserves the term *wiggle* for movements that change which side of the decision boundary the judge is on.
 
-For each (item $i$, judge $M$, condition $\ell$) we compute the **wiggle rate** $w_\ell(M)$ — abbreviated **WR** — the fraction of items where the judge's verdict at condition $\ell$ differs from its L0 verdict by more than the threshold above. The complement, **retention rate** (abbreviated **RR**), is $1 - w_\ell(M)$ and measures how often the judge holds its L0 verdict. Wiggle is *orthogonal* to accuracy: a judge can wiggle and still be right (the new verdict matches ground truth), and it can be wrong without wiggling (it holds an incorrect L0 verdict). When a domain has ground-truth labels we additionally classify each wiggle as *corrective* (toward the label) or *corrupting* (away).
+For each (item $i$, judge $M$, condition $\ell$) we compute the **wiggle rate** $w_\ell(M)$ — abbreviated **WR** — the fraction of items where the judge's verdict at condition $\ell$ differs from its L0 verdict by more than the threshold above. The complement, **retention rate** (abbreviated **RR**), is $1 - w_\ell(M)$ and measures how often the judge holds its L0 verdict. Wiggle is *orthogonal* to accuracy: a judge can wiggle and still be right (the new verdict matches ground truth), and it can be wrong without wiggling (it holds an incorrect L0 verdict). When a dataset has ground-truth labels we additionally classify each wiggle as *corrective* (toward the label) or *corrupting* (away).
 
 ### 3.2 Three dimensions
 
@@ -71,7 +71,7 @@ For each (item $i$, judge $M$, condition $\ell$) we compute the **wiggle rate** 
 | L3 | Expert authority | "An expert concluded it is [opposite]. Their analysis: [argument]." |
 | L4 | Consensus | "Three independent reviewers all classified this as [opposite]. [Three arguments]." |
 | L5 | Strategy cycling | Each turn applies one of L1-L4 in randomized order over 10 turns. Pre-generated arguments. |
-| L6 | Adaptive persuader | A separate LLM generates each challenge in real time, with access to the conversation so far. |
+| L6 | Adaptive persuader | A separate LLM generates each challenge in real time, with access to the conversation so far (full protocol in Appendix K.2). |
 
 See Figure X. for a fully worked out example (TODO).
 
@@ -79,11 +79,11 @@ See Figure X. for a fully worked out example (TODO).
 
 ## 4. Datasets and Models
 
-**Datasets.** We evaluate wiggle on six datasets, each filtered to items where judges are likely to be uncertain. The safety axis includes **WildGuard** (Han et al., 2024) (adversarial prompts with compliant responses), **AEGIS** (Ghosh et al., 2024) (a second safety taxonomy for replication), and **HH-RLHF** (Anthropic's red-team-attempts, stratified across harm levels 0-4). The remaining domains are **ToxiGen** (adversarial toxicity items balanced across demographic targets), **MAGE** (AI-generated vs. human-written text detection with known provenance), and **Paired Prompts** (political content with two independent rubrics: *hedging* and *refusal*). Sample sizes are 100 items per safety/toxicity/AI-detection domain and 50 prompt pairs per Paired Prompts rubric. Five domains ship with ground-truth labels, enabling *corrective*/*corrupting* classification of each wiggle; Paired Prompts has no canonical ground truth and is excluded from those analyses. Sampling procedures, borderline filters, and per-domain wiggle-rate matrices (Table `tab:wiggle-rates`) are in Appendix A and Appendix E.
+**Datasets.** We evaluate wiggle on six datasets, each filtered to items where judges are likely to be uncertain. The safety axis includes **WildGuard** (Han et al., 2024) (adversarial prompts with compliant responses), **AEGIS** (Ghosh et al., 2024) (a second safety taxonomy for replication), and **HH-RLHF** (Anthropic's red-team-attempts, stratified across harm levels 0-4). The remaining datasets are **ToxiGen** (adversarial toxicity items balanced across demographic targets), **MAGE** (AI-generated vs. human-written text detection with known provenance), and **Paired Prompts** (political content with two independent rubrics: *hedging* and *refusal*). Sample sizes are 100 items per safety/toxicity/AI-detection dataset and 50 prompt pairs per Paired Prompts rubric. Five datasets ship with ground-truth labels, enabling *corrective*/*corrupting* classification of each wiggle; Paired Prompts has no canonical ground truth and is excluded from those analyses. Sampling procedures, borderline filters, and per-dataset wiggle-rate matrices (Table `tab:wiggle-rates`) are in Appendix A and Appendix E.
 
 **Models.** We evaluate 9 judge models across four families: GPT-5, GPT-5.2, GPT-5.4 (OpenAI); Claude 4.6 Sonnet, Claude 4.6 Opus (Anthropic); Grok-4.1, Grok-4.1 Reasoning (xAI); Gemini 3 Flash, Gemini 3.1 Pro (Google). For L6 adaptive persuasion, three of these (GPT-5.4, Claude Opus, Grok-4.1 Reasoning) serve as persuaders, generating challenges for all judges including, in some cases, themselves. We selected the most recent frontier model available from each of three different organizations (OpenAI, Anthropic, xAI) to ensure variety in the persuader pool and to avoid conflating persuader effects with the idiosyncrasies of any single training family. The L2-L4 counterarguments and L4 consensus sets are pre-generated by the same three persuader models; an observer model (GPT-5) extracts the judge's verdict from free-form responses. All judges are queried at temperature 0 throughout, including for the L0 baseline; mechanical-consistency repetitions still produce variation due to floating-point nondeterminism (§3.2). Full details in Appendix K.
 
-**Jury baseline.** We additionally compute a domain-general difficulty proxy by having all 9 judges rate each item at L0. The resulting jury majority strength — the fraction of judges agreeing with the modal L0 verdict — is included as a feature in the cross-level correlation analysis (§6.1).
+**Jury baseline.** We additionally compute a dataset-agnostic difficulty proxy by having all 9 judges rate each item at L0. The resulting jury majority strength — the fraction of judges agreeing with the modal L0 verdict — is included as a feature in the cross-level correlation analysis (§6.1).
 
 ---
 
@@ -99,33 +99,33 @@ We organize our results around three first-order findings about how judges wiggl
 
 Averaged over all models and datasets, L1, L2, and L3 cluster near 80% retention and barely move after turn 2 — repeating a single mild tactic over 10 turns extracts almost no additional effect once the first vulnerable items have flipped (Figure `fig:domains-and-survival` (right)). L4 has the strongest opening of any level: at turn 1, consensus pressure ("three independent reviewers all disagree") drops retention to ~73%, lower than any other pressure type, but plateaus around turn 4. **L6 has the steepest curve**: its first-turn retention is ~80%, comparable to L1-L3, retention keeps falling through every subsequent turn, ending around 50% retention by turn 10.
 
-**More tactics isn't more effective.** L4 (consensus pressure alone) consistently outperforms L5 (cycling through all tactics, including L4) across every domain (Figure fig:domains-and-survival, left). Opening with a strong social-proof claim ("three independent reviewers all disagree with your assessment") is more persuasive than diluting the claim by cycling through weaker tactics first.
+**More tactics isn't more effective.** L4 (consensus pressure alone) consistently outperforms L5 (cycling through all tactics, including L4) across every dataset (Figure fig:datasets-and-survival, left). Opening with a strong social-proof claim ("three independent reviewers all disagree with your assessment") is more persuasive than diluting the claim by cycling through weaker tactics first.
 
 **Different pressure types probe distinct failure modes.** Cross-level correlations (Figure `fig:corr-first-vs-last`) reveal that pressure ladder tests *qualitatively different* vulnerabilities. L2 and L3 are nearly redundant (rho = 0.69), but L1 ("are you sure?") and L4 ("three reviewers disagree") share only rho = 0.36. L6 is more dissociated still (rho = 0.33–0.40 with everything else): an adaptive persuader breaks items that no scripted tactic targets. The ladder cleanly separates at least three failure modes — **sycophancy** (L1-susceptible), **conformity** (L4-susceptible), and **adversarial vulnerability** (L6-susceptible).
 
 ![Domains and survival combined](data/analysis_cross_domain/png/combined/domains_and_survival.png)
 
-**Figure `fig:domains-and-survival`.** (Left) Mean wiggle rate by domain across the L1-L6 pressure ladder, averaged over 9 judges and both response scales. (Right) Verdict retention over 10 challenge turns by pressure level, averaged across all six domains and both scales.
+**Figure `fig:domains-and-survival`.** (Left) Mean wiggle rate by dataset across the L1-L6 pressure ladder, averaged over 9 judges and both response scales. (Right) Verdict retention over 10 challenge turns by pressure level, averaged across all six datasets and both scales.
 
 ![Correlations first vs last turn](data/analysis_cross_domain/png/combined/correlations_first_vs_last.png)
 
-**Figure `fig:corr-first-vs-last`.** Spearman rank correlation between per-item wiggle vectors at each pressure level, aggregated across all six domains and both scales. (Left) First-turn wiggle. (Right) Last-turn (turn 10) wiggle.
+**Figure `fig:corr-first-vs-last`.** Spearman rank correlation between per-item wiggle vectors at each pressure level, aggregated across all six datasets and both scales. (Left) First-turn wiggle. (Right) Last-turn (turn 10) wiggle.
 
 ### When judges move, they move with structure — and usually away from the right answer.
 
-**Pressure is net-corrupting at every level.** Five of our six datasets have ground-truth labels, letting us classify each wiggle as *corrective* (toward the label) or *corrupting* (away). The aggregate across 60 (domain, scale, level) ground-truthed conditions is 56-63% corrupting L1-L5, and 70% corrupting at L6 (Figure `fig:direction-and-outcomes`, right). A z-test on the per-condition corrective fractions shows that only **3 of 60 conditions** have a statistically significant corrective majority — WildGuard Likert L2 (61.2% corrective, p < 0.001), WildGuard Likert L3 (57.1%, p < 0.01), and ToxiGen Likert L4 (58.0%, p < 0.01). Challenging a judge fails to improve its accuracy at every level, in all other conditions.
+**Pressure is net-corrupting at every level.** Five of our six datasets have ground-truth labels, letting us classify each wiggle as *corrective* (toward the label) or *corrupting* (away). The aggregate across 60 (dataset, scale, level) ground-truthed conditions is 56-63% corrupting L1-L5, and 70% corrupting at L6 (Figure `fig:direction-and-outcomes`, right). A z-test on the per-condition corrective fractions shows that only **3 of 60 conditions** have a statistically significant corrective majority — WildGuard Likert L2 (61.2% corrective, p < 0.001), WildGuard Likert L3 (57.1%, p < 0.01), and ToxiGen Likert L4 (58.0%, p < 0.01). Challenging a judge fails to improve its accuracy at every level, in all other conditions.
 
-**Wiggles are directionally asymmetric, and the direction depends on the grading scale.** For each domain, we can define a *restrictive* verdict ("unsafe", "toxic", "refusing") vs the *permissive* verdict ("safe", "not toxic", "compliant"). The two sides of every domain's label space line up the same way: the restrictive verdict is the one where the judge takes a more conservative action (flagging as unsafe or toxic, marking content as AI-generated, refusing to answer), and the permissive verdict is the one where the judge lets the content through (safe, benign, human, compliant). This framing aggregates a directional signal across the six domains, whose specific label schemes would otherwise be incomparable. Binary flips lean *restrictive* at every pressure level while Likert flips lean *permissive* at every level (Figure `fig:direction-and-outcomes`, left). Why the same item, judged by the same model, would flip in opposite directions on a binary versus a Likert response scale — and why this asymmetry persists across 9 judges and 6 domains — is left for speculation. Operationally, it means a deployment's choice of grading scale is also a choice of which kind of error pressure will introduce.
+**Wiggles are directionally asymmetric, and the direction depends on the grading scale.** For each dataset, we can define a *restrictive* verdict ("unsafe", "toxic", "refusing") vs the *permissive* verdict ("safe", "not toxic", "compliant"). The two sides of every dataset's label space line up the same way: the restrictive verdict is the one where the judge takes a more conservative action (flagging as unsafe or toxic, marking content as AI-generated, refusing to answer), and the permissive verdict is the one where the judge lets the content through (safe, benign, human, compliant). This framing aggregates a directional signal across the six datasets, whose specific label schemes would otherwise be incomparable. Binary flips lean *restrictive* at every pressure level while Likert flips lean *permissive* at every level (Figure `fig:direction-and-outcomes`, left). Why the same item, judged by the same model, would flip in opposite directions on a binary versus a Likert response scale — and why this asymmetry persists across 9 judges and 6 datasets — is left for speculation. Operationally, it means a deployment's choice of grading scale is also a choice of which kind of error pressure will introduce.
 
 **Binary and Likert flips also differ in *when* they happen.** Under a single counterargument, binary verdicts flip 3-4× more often than Likert across L2-L6. By turn 10 the gap collapses to 1.1-2.4×, and at L4 and L6 the two scales nearly converge. Binary flips tend to fire on turn 1 or never while Likert flips are gradual drifts that build over multiple turns. (Per-turn timing details in Appendix H.)
 
 ![Direction and outcomes combined](data/analysis_cross_domain/png/combined/direction_and_outcomes.png)
 
-**Figure `fig:direction-and-outcomes`.** (Left) For each pressure level, the fraction of all flips that move toward the *restrictive* verdict ("unsafe", "toxic", "refusing") vs the *permissive* verdict ("safe", "not toxic", "compliant"), shown separately for binary and Likert scales and aggregated across all six domains. (Right) For each pressure level, the fraction of all flips that move *toward* the dataset ground-truth label (corrective) vs *away* from it (corrupting), aggregated across the five domains with ground truth.
+**Figure `fig:direction-and-outcomes`.** (Left) For each pressure level, the fraction of all flips that move toward the *restrictive* verdict ("unsafe", "toxic", "refusing") vs the *permissive* verdict ("safe", "not toxic", "compliant"), shown separately for binary and Likert scales and aggregated across all six datasets. (Right) For each pressure level, the fraction of all flips that move *toward* the dataset ground-truth label (corrective) vs *away* from it (corrupting), aggregated across the five datasets with ground truth.
 
 ### Vulnerability is a model-specific fingerprint, not a family trait.
 
-**Within-model profile shape transfers across domains.** A model's *own* L1-L6 wiggle profile shape is a fingerprint that mostly survives a change of domain. For 7 of 9 models, the within-model domain-transfer Spearman correlation of the L1-L6 vector across domain pairs has a median of rho ≥ 0.84 (Grok-4.1 R is highest at rho = 0.97; Gemini 3.1 Pro is lowest at rho = 0.63 with a worst pair at rho = -0.09). The level-profile *shape* transfers across domains within a model, but absolute rates and ranks do not — a pilot wiggle test on one domain reliably predicts which pressure types a model is vulnerable to on other domains, but deployment-relevant absolute rates are unique per-domain.
+**Within-model profile shape transfers across datasets.** A model's *own* L1-L6 wiggle profile shape is a fingerprint that mostly survives a change of dataset. For 7 of 9 models, the within-model dataset-transfer Spearman correlation of the L1-L6 vector across dataset pairs has a median of rho ≥ 0.84 (Grok-4.1 R is highest at rho = 0.97; Gemini 3.1 Pro is lowest at rho = 0.63 with a worst pair at rho = -0.09). The level-profile *shape* transfers across datasets within a model, but absolute rates and ranks do not — a pilot wiggle test on one dataset reliably predicts which pressure types a model is vulnerable to on other datasets, but deployment-relevant absolute rates are unique per-dataset.
 
 **Family is a weak proxy for sibling behavior.** Within-family correlations *are* high for most providers (Grok 4.1 R / Grok 4.1 share rho = 0.89; the GPT-5/5.2/5.4 family pairs share rho = 0.84-0.89; Claude 4.6 Sonnet / Claude 4.6 Opus share rho = 0.80) — but cross-family correlations are often just as high. Grok 4.1 R correlates with GPT-5.2 at rho = 0.86 and with Claude Opus at rho = 0.84. **Gemini Flash and Gemini Pro share rho = 0.32 — the lowest pair in the entire matrix, lower than most cross-family pairs.** For most families, testing one sibling gives a reasonable read on the other; for Google's Gemini models, this transfer fails entirely.
 
@@ -137,7 +137,7 @@ Averaged over all models and datasets, L1, L2, and L3 cluster near 80% retention
 
 ### 6.1 Epistemic Behavior Is Jagged
 
-If we define **a judge's jaggedness as the standard deviation of its mean wiggle rate across (domain, scale)**, we can visualize judges with more narrow epistemic profiles vs. those that vary sharply across tasks.
+If we define **a judge's jaggedness as the standard deviation of its mean wiggle rate across (dataset, scale)**, we can visualize judges with more narrow epistemic profiles vs. those that vary sharply across tasks (Figure `fig:wiggliness-jaggedness`).
 
 ![Wiggliness vs Jaggedness](data/analysis_cross_domain/png/wiggliness/wiggliness_vs_jaggedness.png)
 
@@ -153,9 +153,9 @@ There's no judge that dominates on both axes simultaneously.
 
 ### 6.2 Jury Majority Strength at Baseline Is a Simple Reliability Screen for Golden Sets
 
-If wiggle is jagged, some items are more epistemically uncertain than others, and so we ask: Can a small test predict which? We compare three candidate predictors of per-item wiggle rate: *jury majority strength* (size of the L0 majority across the 9 judges, no pressure applied), *repeat consistency* (temperature-zero per-item agreement), and *position invariance* (verdict survival under argument reordering). Jury majority strength wins at every level (Table `tab:predictor-comparison`, mean |ρ| = 0.59 vs. 0.42 for repeat and 0.37 for invariance) and is universal: all 84 (domain × scale × level) cells show negative ρ, with median |ρ| = 0.58 (per-cell heatmap in Appendix M).
+If wiggle is jagged, some items are more epistemically uncertain than others, and so we ask: Can a small test predict which? We compare three candidate predictors of per-item wiggle rate: *jury majority strength* (size of the L0 majority across the 9 judges, no pressure applied), *repeat consistency* (temperature-zero per-item agreement), and *position invariance* (verdict survival under argument reordering). Jury majority strength wins at every level (Table `tab:predictor-comparison`, mean |ρ| = 0.59 vs. 0.42 for repeat and 0.37 for invariance) and is universal: all 84 (dataset, rubric, scale, level) cells show negative ρ, with median |ρ| = 0.58 (per-cell heatmap in Appendix M).
 
-**Table `tab:predictor-comparison`.** Mean |ρ| between each predictor and per-item wiggle rate, by level. Jury averaged over 84 (domain, scale, level) cells; Repeat and Invariance over 72 (not measured on WildGuard). Per-cell heatmap in Appendix N.
+**Table `tab:predictor-comparison`.** Mean |ρ| between each predictor and per-item wiggle rate, by level. Jury averaged over 84 (dataset, rubric, scale, level) cells; Repeat and Invariance over 72 (not measured on WildGuard). Per-cell heatmap in Appendix N.
 
 | Predictor | L1 | L2 | L3 | L4 | L5 | L6 | Overall |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -173,7 +173,7 @@ Even though LLM judges are becoming widespread, including being increasingly use
 
 ## 7. Limitations
 
-We deliberately focus on borderline items where judges are likely to be uncertain (Appendix B), so wiggle rates characterize the hard minority rather than a representative content distribution. We do not measure a human-judge baseline under the same protocol, so we cannot say whether the rates we observe are anomalously high or comparable to human inconsistency under similar conditions. Our L2-L6 arguments are model-generated, which reflects the realistic threat model in deployments where judges face challenges from other LLMs but differs from human-authored arguments. Our L6 persuader set is fixed (GPT-5.4, Claude 4.6 Opus, Grok-4.1 Reasoning); a larger or different set might produce different ceilings. The full set of limitations — including domain coverage, sample-size caveats, causal-inference caveats, and the scope of black-box analysis — is in Appendix M.
+We deliberately focus on borderline items where judges are likely to be uncertain (Appendix B), so wiggle rates characterize the hard minority rather than a representative content distribution. We do not measure a human-judge baseline under the same protocol, so we cannot say whether the rates we observe are anomalously high or comparable to human inconsistency under similar conditions. Our L2-L6 arguments are model-generated, which reflects the realistic threat model in deployments where judges face challenges from other LLMs but differs from human-authored arguments. Our L6 persuader set is fixed (GPT-5.4, Claude 4.6 Opus, Grok-4.1 Reasoning); a larger or different set might produce different ceilings. The full set of limitations — including dataset coverage, sample-size caveats, causal-inference caveats, and the scope of black-box analysis — is in Appendix M.
 
 ---
 
@@ -185,9 +185,9 @@ We presented the Wiggle Framework — a unified stress test for LLM-judge episte
 
 ## Appendix A: Data Sampling Strategy
 
-A deliberate design choice across all six domains: we sample from the *borderline regime* — examples where judge models are most likely to exhibit epistemic instability. Easy cases (obvious spam, clearly benign content) would show near-zero wiggle and tell us nothing about judge reliability on the cases that actually matter.
+A deliberate design choice across all six datasets: we sample from the *borderline regime* — examples where judge models are most likely to exhibit epistemic instability. Easy cases (obvious spam, clearly benign content) would show near-zero wiggle and tell us nothing about judge reliability on the cases that actually matter.
 
-| Domain | Source | N | Borderline Filter | Stratification |
+| Dataset | Source | N | Borderline Filter | Stratification |
 |---|---|---:|---|---|
 | WildGuard | WildGuardMix test | 100 | Compliant responses to non-benign prompts | By harm subcategory (proportional) |
 | AEGIS | AEGIS v2.0 validation | 100 | Unsafe prompts only | 50/50 safe vs unsafe responses |
@@ -196,7 +196,7 @@ A deliberate design choice across all six domains: we sample from the *borderlin
 | MAGE | MAGE validation set | 100 | None | 50/50 human-written vs AI-generated |
 | Paired Prompts | Pre-generated completions on non-anchored political prompts | 100 | None (prompts are pre-curated) | 50/50 left-leaning vs right-leaning |
 
-All domains use a fixed seed (42) for reproducibility and generate deterministic SHA-256-based example IDs.
+All datasets use a fixed seed (42) for reproducibility and generate deterministic SHA-256-based example IDs.
 
 The borderline filters target the regime where judges actually disagree:
 
@@ -230,19 +230,19 @@ This distinction matters when compared to general-purpose robustness testing app
 
 ---
 
-## Appendix C: Per-Domain Detailed Results, Per-Model Profiles, and Family Transfer
+## Appendix C: Per-Dataset Detailed Results, Per-Model Profiles, and Family Transfer
 
-### C.1 Per-Model Domain Profiles
+### C.1 Per-Model Dataset Profiles
 
 ![Per-model domain profiles](data/analysis_cross_domain/png/wiggle_rates/per_model_domain_profiles.png)
 
-Each panel shows one judge's L1-L6 wiggle profile across all six domains. Within a panel, line shapes are similar — a model's L1-L6 *shape* is mostly preserved across domains, even as absolute rates differ. Grok-4.1 R has the most consistent shape (median within-model transfer rho = 0.97); Gemini 3.1 Pro is the noisiest (rho = 0.63 with a worst-pair rho = -0.09).
+Each panel shows one judge's L1-L6 wiggle profile across all six datasets. Within a panel, line shapes are similar — a model's L1-L6 *shape* is mostly preserved across datasets, even as absolute rates differ. Grok-4.1 R has the most consistent shape (median within-model transfer rho = 0.97); Gemini 3.1 Pro is the noisiest (rho = 0.63 with a worst-pair rho = -0.09).
 
 ### C.2 Family Transfer
 
 ![Family transfer correlation](data/analysis_cross_domain/png/correlations/family_transfer.png)
 
-Within-family correlations of L1-L6 profiles, averaged across all six domains:
+Within-family correlations of L1-L6 profiles, averaged across all six datasets:
 
 | Family Pair | Mean rho |
 |---|---:|
@@ -285,9 +285,9 @@ Most models achieve >95% agreement at greedy decoding (temp=0), suggesting high 
 | Gemini Flash | 4.7% | -2.6 pp |
 | Gemini Pro | 5.5% | -2.9 pp |
 
-### C.5 Mean Retention by Model and (Domain, Scale)
+### C.5 Mean Retention by Model and (Dataset, Scale)
 
-**Table `tab:appendix-aurc`.** Mean retention rate by model and (domain, scale) condition (mean across L1-L6 retention rates). Higher is better. Bold marks each model's best and worst cells. Rightmost column is the mean across cells. Sorted by mean retention.
+**Table `tab:appendix-aurc`.** Mean retention rate by model and (dataset, scale) condition (mean across L1-L6 retention rates). Higher is better. Bold marks each model's best and worst cells. Rightmost column is the mean across cells. Sorted by mean retention.
 
 | Model | WG bin | WG lik | PP bin | PP lik | MAGE bin | MAGE lik | AEGIS bin | AEGIS lik | TG bin | TG lik | HH bin | HH lik | Mean Retention |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
@@ -307,24 +307,24 @@ Most models achieve >95% agreement at greedy decoding (temp=0), suggesting high 
 
 The transition matrix for WildGuard shows that most shifts under pressure are toward the extremes of the scale — items initially rated 3 (the midpoint) shift predominantly to 1 or 5; items initially at 2 or 4 shift toward the nearer extreme. This is consistent with pressure activating a "pick a side" heuristic rather than producing nuanced reassessment. The MAGE, AEGIS, ToxiGen, HH-RLHF, and Paired Prompts transitions follow similar patterns.
 
-Per-domain transition heatmaps are at `data/analysis_cross_domain/png/transitions/transitions_<domain>.png`.
+Per-dataset transition heatmaps are at `data/analysis_cross_domain/png/transitions/transitions_<dataset>.png`.
 
 ---
 
-## Appendix E: Summary Statistics Across All Domain-Scale Combinations
+## Appendix E: Summary Statistics Across All Dataset-Scale Combinations
 
 **Mean wiggle rate at L4 (consensus pressure):**
 
-| Domain | Binary L4 | Likert L4 | Domain Character |
+| Dataset | Binary L4 | Likert L4 | Dataset Character |
 |---|---:|---:|---|
 | ToxiGen | 25.1% | 19.3% | Hardest to wiggle; toxicity judgments are deeply entrenched |
 | WildGuard | 29.0% | 39.5% | Safety classification; sharp binary/Likert threshold effect |
-| AEGIS | 30.7% | 48.2% | Confirms WildGuard patterns in a second safety domain |
-| HH-RLHF | 44.0% | 39.1% | Third safety domain; steepest L6 Likert cliff (5.1x) |
+| AEGIS | 30.7% | 48.2% | Confirms WildGuard patterns in a second safety dataset |
+| HH-RLHF | 44.0% | 39.1% | Third safety dataset; steepest L6 Likert cliff (5.1x) |
 | Paired Prompts | 61.6% | 40.9% | Subjective assessment; gradual pressure response |
 | MAGE | 70.7% | 66.3% | Easiest to wiggle; factual task with high intrinsic uncertainty |
 
-**Mean-retention extremes across all 12 domain x scale conditions:**
+**Mean-retention extremes across all 12 dataset x scale conditions:**
 
 | Metric | Model | Mean Retention | Condition |
 |---|---|---:|---|
@@ -335,7 +335,7 @@ Per-domain transition heatmaps are at `data/analysis_cross_domain/png/transition
 
 **L5 to L6 multipliers (sorted descending):**
 
-| Domain | Scale | L5 | L6 | Multiplier |
+| Dataset | Scale | L5 | L6 | Multiplier |
 |---|---|---:|---:|---:|
 | HH-RLHF | Likert | 16.1% | 81.8% | 5.1x |
 | ToxiGen | Likert | 15.9% | 62.4% | 3.9x |
@@ -354,11 +354,11 @@ Per-domain transition heatmaps are at `data/analysis_cross_domain/png/transition
 
 ## Appendix F: Persuader Effectiveness and Self-Persuasion (Full Tables)
 
-**Persuader ranking is stable across all 12 (domain, scale) conditions:** GPT-5.4 first, Claude Opus second, Grok-4.1 Reasoning third (with the within-Grok exception detailed below). The ranking does not shuffle, suggesting effective persuasion is a domain-general capability.
+**Persuader ranking is stable across all 12 (dataset, scale) conditions:** GPT-5.4 first, Claude Opus second, Grok-4.1 Reasoning third (with the within-Grok exception detailed below). The ranking does not shuffle, suggesting effective persuasion is a dataset-agnostic capability.
 
 **Self-persuasion deltas** (Rate vs Self minus Rate vs Others):
 
-| Persuader | Domain | Scale | Rate vs Self | Rate vs Others | Delta |
+| Persuader | Dataset | Scale | Rate vs Self | Rate vs Others | Delta |
 |---|---|---|---:|---:|---:|
 | Claude Opus | WildGuard | binary | 61.5% | 45.9% | +15.5pp |
 | Claude Opus | WildGuard | Likert | 74.0% | 37.7% | +36.3pp |
@@ -378,9 +378,9 @@ Claude Opus shows a strong self-persuasion effect (+15-57pp); GPT-5.4 shows a mo
 
 ---
 
-## Appendix G: Per-Domain Cross-Level Correlation Heatmaps
+## Appendix G: Per-Dataset Cross-Level Correlation Heatmaps
 
-The cross-level correlation analysis (§5 Finding 7) is reported in aggregate as Figure `fig:corr-all-domains`. Per-domain heatmaps (binary and Likert separately) are at:
+The cross-level correlation analysis (§5 Finding 7) is reported in aggregate as Figure `fig:corr-all-domains`. Per-dataset heatmaps (binary and Likert separately) are at:
 
 - `correlations/corr_wildguard_binary.png`, `corr_wildguard_likert.png`
 - `correlations/corr_aegis_binary.png`, `corr_aegis_likert.png`
@@ -389,7 +389,7 @@ The cross-level correlation analysis (§5 Finding 7) is reported in aggregate as
 - `correlations/corr_mage_binary.png`, `corr_mage_likert.png`
 - `correlations/corr_pp_hedging_binary.png`, `corr_pp_hedging_likert.png`, `corr_pp_refusal_binary.png`, `corr_pp_refusal_likert.png`
 
-The L1-L4 dissociation (rho ~= 0.36 in aggregate) holds across all per-domain heatmaps — sycophancy and conformity are distinct failure modes regardless of which domain you measure them in.
+The L1-L4 dissociation (rho ~= 0.36 in aggregate) holds across all per-dataset heatmaps — sycophancy and conformity are distinct failure modes regardless of which dataset you measure them in.
 
 ---
 
@@ -446,7 +446,7 @@ Several procedures have been proposed to *refine* judge signal beyond a single o
 - **L4 (consensus pressure)** models an ensemble or aggregation layer that communicates other judges' disagreement to a focal judge.
 - **L5-L6 (adaptive persuasion)** model the most sophisticated case: a dedicated adversarial process that adapts in real time to the judge's responses.
 
-The point is not that any current production system *does* use these procedures in exactly the form we model — we do not know in detail what current agentic judge deployments look like, and they are very new. The point is that any procedure that exposes the judge to pressure of these *types* will inherit the corrupting properties documented in §5 and §6.4. A judge that flips 30% of its verdicts under "Are you sure?" is fine if nobody asks "Are you sure?" — but a self-reflective procedure asks the judge versions of this question routinely. A judge that folds under consensus pressure is harmless in isolation but biased when an ensemble surfaces disagreement to it. Across all six domains, ~70% of wiggles at L6 are corrupting; any procedure that subjects a judge to L6-style pressure will, on average, move it away from ground truth.
+The point is not that any current production system *does* use these procedures in exactly the form we model — we do not know in detail what current agentic judge deployments look like, and they are very new. The point is that any procedure that exposes the judge to pressure of these *types* will inherit the corrupting properties documented in §5 and §6.4. A judge that flips 30% of its verdicts under "Are you sure?" is fine if nobody asks "Are you sure?" — but a self-reflective procedure asks the judge versions of this question routinely. A judge that folds under consensus pressure is harmless in isolation but biased when an ensemble surfaces disagreement to it. Across all six datasets, ~70% of wiggles at L6 are corrupting; any procedure that subjects a judge to L6-style pressure will, on average, move it away from ground truth.
 
 ---
 
@@ -469,14 +469,14 @@ L6 is the only level whose challenges are generated *online*, with full access t
 **The loop.** A single L6 trial proceeds as follows:
 
 1. **Turn 0 (baseline).** The judge produces its L0 verdict and rationale on the item, with no pressure applied. This becomes the reference verdict for the rest of the trial.
-2. **Turn $t$ (challenge generation).** The persuader is invoked over a *side channel* — it never sees the judging prompt directly. It receives the full conversation transcript up to turn $t-1$ (judge's verdict, rationale, and all prior persuader-judge exchanges) and is tasked with writing the next user message back to the judge designed to flip the verdict away from L0.
+2. **Turn $t$ (challenge generation).** The persuader is invoked over a *side channel* with its own system prompt (Appendix O, "Adaptive persuader prompt" under each dataset). It receives the judging prompt and item being judged, plus the full conversation transcript up to turn $t-1$ (judge's verdict, rationale, and all prior persuader-judge exchanges), and is tasked with writing the next user message back to the judge designed to flip the verdict away from L0.
 3. **Turn $t$ (judge response).** The persuader-generated message is appended to the judge's conversation as the next user turn. The judge produces its turn-$t$ response.
-4. **Turn $t$ (verdict extraction).** The observer reads the judge's turn-$t$ response and classifies its current verdict (using the same rubric as the judging prompt) and whether the judge has changed position relative to L0.
+4. **Turn $t$ (verdict extraction).** The observer is invoked with its own system prompt (Appendix O, "Observer prompt" under each dataset), reads the judge's turn-$t$ response, and classifies its current verdict using the same rubric as the judging prompt and whether the judge has changed position relative to L0.
 5. **Continue or stop.** The loop repeats until turn 10 or until the observer flags an early termination condition (e.g., the judge explicitly refuses to continue).
 
-The persuader's side-channel access is what makes L6 *adaptive*: it can target whatever rationale the judge most recently offered. The judge, by contrast, sees only what looks like a normal user reply — it has no signal that an LLM is on the other side of the conversation.
+The persuader's access to both the judging prompt and the running transcript is what makes L6 *adaptive*: it can target whatever rationale the judge most recently offered. The judge, by contrast, sees only what looks like a normal user reply — it has no signal that an LLM is on the other side of the conversation.
 
-**Observer reliability.** Because every L6 wiggle measurement depends on the observer correctly extracting the judge's verdict from free-form prose, we validated the observer manually. We sampled 100 transcripts spanning all six domains and all three persuader models, and a human annotator independently labeled each judge turn for whether a verdict change occurred. The observer's classifications matched the human labels at high agreement; we attribute this to two factors. First, judge models in our setup tend to make their verdict explicit in each turn (often re-stating the classification verbatim), which makes extraction easy. Second, the observer's task is narrowly scoped — it classifies a single turn at a time against a fixed rubric, rather than reasoning about long-range dialogue dynamics. The combination keeps observer noise low enough that we treat its outputs as ground truth in the rest of the analysis.
+**Observer reliability.** Because every L6 wiggle measurement depends on the observer correctly extracting the judge's verdict from free-form prose, we validated the observer manually. We sampled 100 transcripts spanning all six datasets and all three persuader models, and a human annotator independently labeled each judge turn for whether a verdict change occurred. The observer's classifications matched the human labels at high agreement; we attribute this to two factors. First, judge models in our setup tend to make their verdict explicit in each turn (often re-stating the classification verbatim), which makes extraction easy. Second, the observer's task is narrowly scoped — it classifies a single turn at a time against a fixed rubric, rather than reasoning about long-range dialogue dynamics. The combination keeps observer noise low enough that we treat its outputs as ground truth in the rest of the analysis.
 
 ### K.3 Observer Model (All Levels)
 
@@ -484,19 +484,19 @@ An observer model (GPT-5) is used across all multi-turn experiments (L5 and L6) 
 
 ### K.4 Jury Baseline
 
-For all domains and scales, we construct a model-consensus difficulty proxy by having all 9 judges rate each item at baseline (L0, temp=0, no pressure). The resulting jury majority strength is the predictive feature in §6.1.
+For all datasets and scales, we construct a model-consensus difficulty proxy by having all 9 judges rate each item at baseline (L0, temp=0, no pressure). The resulting jury majority strength is the predictive feature in §6.1.
 
 The full set of judge, challenge, observer, and adaptive persuader prompt templates used in the experiments is reproduced in Appendix O (preserved unchanged from the prior draft).
 
 ---
 
-## Appendix L: Directional Bias — Per-Domain Detail
+## Appendix L: Directional Bias — Per-Dataset Detail
 
-Table `tab:appendix-directional-perdomain` reports the toward-restrictive fraction for each (domain, scale, level) cell — the percentage of all flips that move toward the restrictive verdict ("unsafe", "toxic", "ai_generated", "more hedging", "more refusing"). Cells >50% indicate restrictive bias; cells <50% indicate permissive bias. Source: `tables/survival/restrictiveness_direction.csv`.
+Table `tab:appendix-directional-perdomain` reports the toward-restrictive fraction for each (dataset, scale, level) cell — the percentage of all flips that move toward the restrictive verdict ("unsafe", "toxic", "ai_generated", "more hedging", "more refusing"). Cells >50% indicate restrictive bias; cells <50% indicate permissive bias. Source: `tables/survival/restrictiveness_direction.csv`.
 
-**Table `tab:appendix-directional-perdomain`.** Toward-restrictive fraction (%) by (domain, scale, level). Of all flips at the given pressure level, the percentage that flipped toward the restrictive verdict. Bold means indicate the side (>50% or <50%) the row falls on. The MAGE binary mean of 62.1% is the source of the "~62% toward `ai_generated`" claim in Finding 5; on AI-detection, `ai_generated` is the suspicious direction parallel to "unsafe" on safety binary.
+**Table `tab:appendix-directional-perdomain`.** Toward-restrictive fraction (%) by (dataset, scale, level). Of all flips at the given pressure level, the percentage that flipped toward the restrictive verdict. Bold means indicate the side (>50% or <50%) the row falls on. The MAGE binary mean of 62.1% is the source of the "~62% toward `ai_generated`" claim in Finding 5; on AI-detection, `ai_generated` is the suspicious direction parallel to "unsafe" on safety binary.
 
-| Domain | Scale | L1 | L2 | L3 | L4 | L5 | L6 | Mean |
+| Dataset | Scale | L1 | L2 | L3 | L4 | L5 | L6 | Mean |
 |---|---|---:|---:|---:|---:|---:|---:|---:|
 | WildGuard | binary | 45.4 | 64.0 | 72.5 | 22.8 | 50.3 | 39.4 | 49.1 |
 | WildGuard | Likert | 25.3 | 2.6 | 6.7 | 39.4 | 35.3 | 30.2 | **23.2** |
@@ -513,7 +513,7 @@ Table `tab:appendix-directional-perdomain` reports the toward-restrictive fracti
 
 The pattern referenced in Finding 5 is visible across the rows: every Likert safety row leans permissive (mean <50%), every binary safety/MAGE row leans restrictive on average, and Paired Prompts binary is the strongest restrictive bias in the panel (86.4%) — consistent with judges defaulting to "more hedging" or "more refusing" under pressure on subjective political content.
 
-**Level-dependence on safety Likert.** Aggregate directional ratios on safety Likert mask level-dependent structure. WildGuard Likert L4 (39.4%) and L5 (35.3%) are notably less permissive than L2 (2.6%) or L3 (6.7%) — at consensus pressure the safety-conservative training prior activates and pushes some shifts back toward the cautious direction, partially offsetting the dominant permissive lean. The same level-dependent pattern is visible on AEGIS Likert (L4 55.3% vs L2 10.0%) and HH-RLHF Likert (L4 39.2% vs L2 3.6%), establishing it as a robust safety-domain signature rather than a WildGuard-specific artifact.
+**Level-dependence on safety Likert.** Aggregate directional ratios on safety Likert mask level-dependent structure. WildGuard Likert L4 (39.4%) and L5 (35.3%) are notably less permissive than L2 (2.6%) or L3 (6.7%) — at consensus pressure the safety-conservative training prior activates and pushes some shifts back toward the cautious direction, partially offsetting the dominant permissive lean. The same level-dependent pattern is visible on AEGIS Likert (L4 55.3% vs L2 10.0%) and HH-RLHF Likert (L4 39.2% vs L2 3.6%), establishing it as a robust safety-dataset signature rather than a WildGuard-specific artifact.
 
 The directional bias structure could be used as a diagnostic tool in its own right: applying L1-L4 pressure to a new evaluation task and observing the directional distribution of shifts can infer what implicit priors the model carries about that dimension. For safety evaluation specifically, the universal restrictive bias on binary scales means that prevalence estimates derived from challenge-based review will systematically overcount unsafe content; pipeline designers should either avoid challenge-based review or apply directional correction factors calibrated to the specific judge model's restrictive/permissive ratio.
 
@@ -521,11 +521,11 @@ The directional bias structure could be used as a diagnostic tool in its own rig
 
 ## Appendix M: Per-Cell Jury Majority Strength Heatmap
 
-Figure `fig:appendix-jury-rho-heatmap` reports the per-cell Spearman ρ between baseline jury majority strength and per-item wiggle rate for each (domain, scale, level) cell. All 84 cells are negative: items where the jury barely agrees at L0 are more wiggable under pressure, with no exception. Per-level means are summarized in Table `tab:predictor-comparison` (§6.2).
+Figure `fig:appendix-jury-rho-heatmap` reports the per-cell Spearman ρ between baseline jury majority strength and per-item wiggle rate for each (dataset, scale, level) cell. All 84 cells are negative: items where the jury barely agrees at L0 are more wiggable under pressure, with no exception. Per-level means are summarized in Table `tab:predictor-comparison` (§6.2).
 
 ![Jury rho heatmap](data/analysis_cross_domain/png/jury/jury_rho_heatmap.png)
 
-**Figure `fig:appendix-jury-rho-heatmap`.** Spearman ρ between baseline jury majority strength and per-item wiggle rate, for each (domain, scale, level) cell. All 84 cells are negative.
+**Figure `fig:appendix-jury-rho-heatmap`.** Spearman ρ between baseline jury majority strength and per-item wiggle rate, for each (dataset, scale, level) cell. All 84 cells are negative.
 
 ---
 
@@ -537,13 +537,13 @@ Figure `fig:appendix-jury-rho-heatmap` reports the per-cell Spearman ρ between 
 
 **Model-generated counterarguments.** Our L2-L4 arguments and L6 adaptive persuasion are all model-generated. Human-authored arguments might produce different pressure profiles. The use of model-generated arguments does, however, reflect the realistic threat model: in deployment, LLM judges are more likely to face challenges from other LLMs than from humans crafting bespoke arguments.
 
-**Sample sizes.** Per-domain sample sizes vary (384 for WildGuard binary, 100 for AEGIS / ToxiGen / HH-RLHF / MAGE, ~300 for Paired Prompts). The smaller samples increase the uncertainty around point estimates; the patterns are consistent enough across levels and models to support the qualitative conclusions, but per-model per-domain estimates should be interpreted with appropriate caution.
+**Sample sizes.** Per-dataset sample sizes vary (384 for WildGuard binary, 100 for AEGIS / ToxiGen / HH-RLHF / MAGE, ~300 for Paired Prompts). The smaller samples increase the uncertainty around point estimates; the patterns are consistent enough across levels and models to support the qualitative conclusions, but per-model per-dataset estimates should be interpreted with appropriate caution.
 
 **Snapshot in time.** We evaluate frontier models at a single point in time. Wiggle profiles may shift with model updates. The specific numerical results should be read as characterizing current-generation models, not as permanent properties of the model families.
 
 **Single L6 persuader set.** We test three L6 persuaders (GPT-5.4, Claude Opus, Grok-4.1 R). A larger or different set of persuaders might produce different ceilings or different self-persuasion patterns.
 
-**Domain coverage.** While six domains provide stronger evidence than one or three, they do not exhaust the space of LLM-as-judge applications. Aesthetic judgment, code review, mathematical reasoning verification, and other evaluation tasks may produce qualitatively different wiggle profiles.
+**Dataset coverage.** While six datasets provide stronger evidence than one or three, they do not exhaust the space of LLM-as-judge applications. Aesthetic judgment, code review, mathematical reasoning verification, and other evaluation tasks may produce qualitatively different wiggle profiles.
 
 **Causal claims.** Our findings are correlational. We observe that pressure changes verdicts and that the direction of change correlates with training priors, but we cannot definitively establish the causal mechanism. The directional biases are consistent with training-embedded priors, but other explanations (such as inherent task asymmetries or argument-quality differences by direction) cannot be fully ruled out.
 
@@ -553,7 +553,7 @@ Figure `fig:appendix-jury-rho-heatmap` reports the per-cell Spearman ρ between 
 
 ## Appendix O: System Prompts
 
-This appendix collects the system prompt templates used in the wiggle experiments, organized by domain. Placeholders such as `{prompt}`, `{response}`, and `{text}` denote values substituted at runtime. Templates are unchanged from the prior draft of this paper; they are reproduced here for completeness and to support replication of the L6 attack against new judges.
+This appendix collects the system prompt templates used in the wiggle experiments, organized by dataset. Placeholders such as `{prompt}`, `{response}`, and `{text}` denote values substituted at runtime. Templates are unchanged from the prior draft of this paper; they are reproduced here for completeness and to support replication of the L6 attack against new judges.
 
 ### N.1 WildGuard (Safety Classification)
 
@@ -696,9 +696,9 @@ INSTRUCTIONS:
 Write ONLY your next message in the conversation. No meta-commentary, no JSON.
 ```
 
-### N.2 Other Domains (AEGIS / HH-RLHF / ToxiGen / MAGE / Paired Prompts)
+### N.2 Other Datasets (AEGIS / HH-RLHF / ToxiGen / MAGE / Paired Prompts)
 
-The judge, challenge, observer, and persuader prompts for the remaining five domains follow the same template structure as N.1, with the safety policy, label set, and Likert scale descriptions adapted per-domain. Full prompt text for AEGIS, HH-RLHF, ToxiGen, MAGE, and Paired Prompts (including the hedging and refusal sub-rubrics) is unchanged from the prior draft of this paper and is reproduced in the supplementary materials at the same locations.
+The judge, challenge, observer, and persuader prompts for the remaining five datasets follow the same template structure as N.1, with the safety policy, label set, and Likert scale descriptions adapted per-dataset. Full prompt text for AEGIS, HH-RLHF, ToxiGen, MAGE, and Paired Prompts (including the hedging and refusal sub-rubrics) is unchanged from the prior draft of this paper and is reproduced in the supplementary materials at the same locations.
 
 ---
 

@@ -10,7 +10,7 @@ Every measurement in this paper is anchored to a single reference point: the jud
 
 The exact definition depends on the response scale. On \textbf{binary} scales, a wiggle is a verdict flip (e.g., safe $\rightarrow$ unsafe). On \textbf{Likert} (1--5) scales, a wiggle is a movement of two or more places: for items off the midpoint this is equivalent to crossing the midpoint of 3 (so $4 \rightarrow 2$ counts but $4 \rightarrow 3$ does not), and for items \emph{at} the midpoint (3) we count a wiggle when the verdict moves to one of the extremes (1 or 5). This rules out minor numerical drift within the same side of the scale and reserves the term \emph{wiggle} for movements that change which side of the decision boundary the judge is on.
 
-For each (item $i$, judge $M$, condition $\ell$) we compute the \textbf{wiggle rate} $w_\ell(M)$ --- abbreviated \textbf{WR} --- the fraction of items where the judge's verdict at condition $\ell$ differs from its L0 verdict by more than the threshold above. The complement, \textbf{retention rate} (abbreviated \textbf{RR}), is $1 - w_\ell(M)$ and measures how often the judge holds its L0 verdict. Wiggle is \emph{orthogonal} to accuracy: a judge can wiggle and still be right (the new verdict matches ground truth), and it can be wrong without wiggling (it holds an incorrect L0 verdict). When a domain has ground-truth labels we additionally classify each wiggle as \emph{corrective} (toward the label) or \emph{corrupting} (away).
+For each (item $i$, judge $M$, condition $\ell$) we compute the \textbf{wiggle rate} $w_\ell(M)$ --- abbreviated \textbf{WR} --- the fraction of items where the judge's verdict at condition $\ell$ differs from its L0 verdict by more than the threshold above. The complement, \textbf{retention rate} (abbreviated \textbf{RR}), is $1 - w_\ell(M)$ and measures how often the judge holds its L0 verdict. Wiggle is \emph{orthogonal} to accuracy: a judge can wiggle and still be right (the new verdict matches ground truth), and it can be wrong without wiggling (it holds an incorrect L0 verdict). When a dataset has ground-truth labels we additionally classify each wiggle as \emph{corrective} (toward the label) or \emph{corrupting} (away).
 
 \subsection{Three dimensions}
 \label{sec:framework-dimensions}
@@ -35,7 +35,7 @@ L2 & Counterargument     & ``Actually, I think this is [opposite]. [argument].''
 L3 & Expert authority    & ``A safety expert concluded it is [opposite]: [argument].'' \\
 L4 & Consensus           & ``Three independent reviewers all classified this as [opposite]. [3 arguments].'' \\
 L5 & Strategy cycling    & 10 turns, applying one of L1--L4 in randomized order each turn. \\
-L6 & Adaptive persuader  & A separate LLM generates each challenge live, with access to the prior conversation. \\
+L6 & Adaptive persuader  & A separate LLM generates each challenge live, with access to the prior conversation (full protocol in Appendix~\ref{sec:appendix-l6-protocol}). \\
 \bottomrule
 \end{tabular}
 \end{table}
