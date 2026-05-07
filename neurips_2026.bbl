@@ -1,4 +1,4 @@
-\begin{thebibliography}{33}
+\begin{thebibliography}{37}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -52,6 +52,11 @@ Yann Dubois, Balazs Galambosi, Percy Liang, and Tatsunori~B. Hashimoto.
 \newblock Length-controlled {AlpacaEval}: A simple way to debias automatic evaluators.
 \newblock \emph{arXiv preprint arXiv:2404.04475}, 2024.
 
+\bibitem[Ganguli et~al.(2022)Ganguli, Lovitt, Kernion, Askell, Bai, Kadavath, Mann, Perez, Schiefer, Ndousse, Jones, Bowman, Chen, Conerly, DasSarma, Drain, Elhage, El-Showk, Fort, Hatfield-Dodds, Henighan, Hernandez, Hume, Jacobson, Johnston, Kravec, Olsson, Ringer, Tran-Johnson, Amodei, Brown, Joseph, McCandlish, Olah, Kaplan, and Clark]{ganguli2022redteam}
+Deep Ganguli, Liane Lovitt, Jackson Kernion, Amanda Askell, Yuntao Bai, Saurav Kadavath, Ben Mann, Ethan Perez, Nicholas Schiefer, Kamal Ndousse, Andy Jones, Sam Bowman, Anna Chen, Tom Conerly, Nova DasSarma, Dawn Drain, Nelson Elhage, Sheer El-Showk, Stanislav Fort, Zac Hatfield-Dodds, Tom Henighan, Danny Hernandez, Tristan Hume, Josh Jacobson, Scott Johnston, Shauna Kravec, Catherine Olsson, Sam Ringer, Eli Tran-Johnson, Dario Amodei, Tom Brown, Nicholas Joseph, Sam McCandlish, Christopher Olah, Jared Kaplan, and Jack Clark.
+\newblock Red teaming language models to reduce harms: Methods, scaling behaviors, and lessons learned.
+\newblock \emph{arXiv preprint arXiv:2209.07858}, 2022.
+
 \bibitem[Ghosh et~al.(2024)Ghosh, Varshney, Galinkin, and Parisien]{aegis2024}
 Shaona Ghosh, Prasoon Varshney, Erick Galinkin, and Christopher Parisien.
 \newblock {AEGIS}: Online adaptive {AI} content safety moderation with ensemble of {LLM} experts.
@@ -61,6 +66,11 @@ Shaona Ghosh, Prasoon Varshney, Erick Galinkin, and Christopher Parisien.
 Seungju Han, Kavel Rao, Allyson Ettinger, Liwei Jiang, Bill~Yuchen Lin, Nathan Lambert, Yejin Choi, and Nouha Dziri.
 \newblock {WildGuard}: Open one-stop moderation tools for safety risks, jailbreaks, and refusals of {LLM}s.
 \newblock In \emph{Advances in Neural Information Processing Systems}, 2024.
+
+\bibitem[Hartvigsen et~al.(2022)Hartvigsen, Gabriel, Palangi, Sap, Ray, and Kamar]{hartvigsen2022toxigen}
+Thomas Hartvigsen, Saadia Gabriel, Hamid Palangi, Maarten Sap, Dipankar Ray, and Ece Kamar.
+\newblock {ToxiGen}: A large-scale machine-generated dataset for implicit and adversarial hate speech detection.
+\newblock In \emph{Proceedings of the 60th Annual Meeting of the Association for Computational Linguistics}, 2022.
 
 \bibitem[Inan et~al.(2023)Inan, Upasani, Chi, Rungta, Iyer, Mao, Tontchev, Hu, Fuller, Testuggine, and Khabsa]{llamaguard2023}
 Hakan Inan, Kartikeya Upasani, Jianfeng Chi, Rashi Rungta, Krithika Iyer, Yuning Mao, Michael Tontchev, Qing Hu, Brian Fuller, Davide Testuggine, and Madian Khabsa.
@@ -87,10 +97,15 @@ Nathan Lambert, Valentina Pyatkin, Jacob Morrison, LJ~Miranda, Bill~Yuchen Lin, 
 \newblock {RewardBench}: Evaluating reward models for language modeling.
 \newblock \emph{arXiv preprint arXiv:2403.13787}, 2024.
 
-\bibitem[Li et~al.(2024)Li, Dong, Chen, Su, Zhou, Ai, Ye, and Liu]{li2024llmjudgesurvey}
+\bibitem[Li et~al.(2024{\natexlab{a}})Li, Dong, Chen, Su, Zhou, Ai, Ye, and Liu]{li2024llmjudgesurvey}
 Haitao Li, Qian Dong, Junjie Chen, Huixue Su, Yujia Zhou, Qingyao Ai, Ziyi Ye, and Yiqun Liu.
 \newblock {LLMs}-as-judges: A comprehensive survey on {LLM}-based evaluation methods.
-\newblock \emph{arXiv preprint arXiv:2412.05579}, 2024.
+\newblock \emph{arXiv preprint arXiv:2412.05579}, 2024{\natexlab{a}}.
+
+\bibitem[Li et~al.(2024{\natexlab{b}})Li, Li, Cui, Bi, Wang, Wang, Yang, Shi, and Zhang]{li2024mage}
+Yafu Li, Qintong Li, Leyang Cui, Wei Bi, Zhilin Wang, Longyue Wang, Linyi Yang, Shuming Shi, and Yue Zhang.
+\newblock {MAGE}: Machine-generated text detection in the wild.
+\newblock In \emph{Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)}, 2024{\natexlab{b}}.
 
 \bibitem[Perez et~al.(2023)Perez, Ringer, Luko{\v{s}}i{\=u}t{\.e}, Nguyen, Chen, Heiner, Pettit, Olsson, Kundu, Kadavath, et~al.]{perez2022discovering}
 Ethan Perez, Sam Ringer, Kamil{\.e} Luko{\v{s}}i{\=u}t{\.e}, Karina Nguyen, Edwin Chen, Scott Heiner, Craig Pettit, Catherine Olsson, Sandipan Kundu, Saurav Kadavath, et~al.
@@ -122,6 +137,11 @@ Angelika Romanou, Mark Ibrahim, Candace Ross, Chantal Shaib, Kerem Oktar, Samuel
 Mrinank Sharma, Meg Tong, Tomasz Korbak, David Duvenaud, Amanda Askell, Samuel~R. Bowman, Newton Cheng, Esin Durmus, Zac Hatfield-Dodds, Scott~R. Johnston, Shauna Kravec, Timothy Maxwell, Sam McCandlish, Kamal Ndousse, Oliver Rausch, Nicholas Schiefer, Da~Yan, Miranda Zhang, and Ethan Perez.
 \newblock Towards understanding sycophancy in language models.
 \newblock In \emph{Proceedings of the International Conference on Learning Representations}, 2024.
+
+\bibitem[Shen et~al.(2025)Shen, Appel, Tucker, Jagadish, Maheshwary, Askell, and Durmus]{anthropicPoliticalNeutrality}
+Judy~Hanwen Shen, Ruth Appel, Madeleine Tucker, Kamya Jagadish, Paruul Maheshwary, Amanda Askell, and Esin Durmus.
+\newblock Political even-handedness evaluation v1, 2025.
+\newblock URL \url{https://github.com/anthropics/political-neutrality-eval}.
 
 \bibitem[Wang(2025)]{wang2025instability}
 others Wang.

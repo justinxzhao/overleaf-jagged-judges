@@ -4,45 +4,45 @@ The top-level auxiliary file: neurips_2026.aux
 The style file: plainnat.bst
 Database file #1: references.bib
 Warning--empty journal in wei2024simpleqa
-You've used 33 entries,
+You've used 37 entries,
             2773 wiz_defined-function locations,
-            736 strings with 14714 characters,
-and the built_in function-call counts, 23717 in all, are:
-= -- 1714
-> -- 2723
+            752 strings with 16320 characters,
+and the built_in function-call counts, 27732 in all, are:
+= -- 1988
+> -- 3257
 < -- 2
-+ -- 911
-- -- 876
-* -- 2296
-:= -- 3975
-add.period$ -- 105
-call.type$ -- 33
-change.case$ -- 389
-chr.to.int$ -- 31
-cite$ -- 67
-duplicate$ -- 703
-empty$ -- 1138
-format.name$ -- 911
-if$ -- 4635
-int.to.chr$ -- 3
++ -- 1090
+- -- 1050
+* -- 2714
+:= -- 4653
+add.period$ -- 117
+call.type$ -- 37
+change.case$ -- 459
+chr.to.int$ -- 34
+cite$ -- 75
+duplicate$ -- 787
+empty$ -- 1284
+format.name$ -- 1089
+if$ -- 5407
+int.to.chr$ -- 4
 int.to.str$ -- 1
-missing$ -- 33
-newline$ -- 179
-num.names$ -- 132
-pop$ -- 817
+missing$ -- 36
+newline$ -- 199
+num.names$ -- 148
+pop$ -- 968
 preamble$ -- 1
-purify$ -- 356
+purify$ -- 422
 quote$ -- 0
-skip$ -- 685
+skip$ -- 789
 stack$ -- 0
-substring$ -- 75
-swap$ -- 47
+substring$ -- 83
+swap$ -- 55
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 363
+type$ -- 407
 warning$ -- 1
-while$ -- 100
+while$ -- 112
 width$ -- 0
-write$ -- 415
+write$ -- 463
 (There was 1 warning)
