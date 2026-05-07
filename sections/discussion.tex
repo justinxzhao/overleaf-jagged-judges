@@ -1,34 +1,29 @@
 \section{Discussion}
 \label{sec:discussion}
 
-\subsection{Epistemic Behavior Is Jagged}
+\subsection{Jaggedness Tracks Mean Wiggle Differently at Different Pressure Levels}
 \label{sec:discussion-jagged}
 
-If we define \textbf{a judge's jaggedness as the standard deviation of its mean wiggle rate across (dataset, scale)}, we can visualize judges with more narrow epistemic profiles vs.\ those that vary sharply across tasks (Figure~\ref{fig:wiggliness-jaggedness}).
+If we define a judge's \textbf{jaggedness} as the standard deviation of its mean wiggle rates across all datasets, we can plot each judge's mean wiggle against its jaggedness, separately at each pressure level (Figure~\ref{fig:wiggliness-jaggedness}).
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{wiggliness_vs_jaggedness.pdf}
-  \caption{Each hull is one judge's profile in (mean wiggle rate, jaggedness) space across the six judging tasks. (Left) Binary scale. (Right) Likert scale.}
+  \includegraphics[width=\linewidth]{per_level_scatter_combined.pdf}
+  \caption{Each panel plots all 9 judges at one pressure level: x-axis is the judge's mean wiggle rate at that level (averaged across the 14 judging tasks); y-axis is its cross-dataset jaggedness (std of wiggle rates). Dashed line is the OLS fit, $R^2$ and Pearson $r$ annotated.}
   \label{fig:wiggliness-jaggedness}
 \end{figure}
 
-We loosely identify three clusters in (wiggle rate, jaggedness) space:
-\begin{enumerate}
-\item \textbf{Low-wiggle / low-jaggedness corner (bottom-left).} Grok-4.1 R and Gemini 3 Flash sit tightly clustered around mean wiggle $\approx$ 0.10--0.25 and jaggedness $\approx$ 0.10--0.20. Gemini 3.1 Pro is nearby, slightly higher on wiggle but still in the low-jaggedness band. These are the stable, broadly robust judges --- low wiggle on average and consistent across cells.
-\item \textbf{High-wiggle / mid-to-high-jaggedness corner (right side).} GPT-5.4 stretches across the highest wiggle range ($\sim$0.4--0.8) at mid jaggedness ($\sim$0.20--0.30); GPT-5.2 occupies a similar high-wiggle region but with notably higher jaggedness ($\sim$0.30--0.40). These judges wiggle a lot and their wiggle profile is uneven across tasks.
-\item \textbf{Mid-wiggle / high-jaggedness band (middle, upper).} Claude 4.6 Sonnet and Claude 4.6 Opus sit at moderate wiggle rates ($\sim$0.25--0.45) but high jaggedness ($\sim$0.25--0.35) --- they're not the most-wiggle-prone overall, but their susceptibility varies sharply by task. Grok-4.1 (non-reasoning) sits in a similar mid-wiggle, high-jaggedness region. GPT-5 spreads broadly across mid-to-high wiggle with mid jaggedness.
-\end{enumerate}
+At L1--L3 (mild doubt, counter-argument, expert authority), mean wiggle and jaggedness are strongly positively correlated ($R^2 = 0.68$, $0.94$, $0.87$). When mean wiggle is near zero, std is bounded near zero too, so a low-wiggle judge has nowhere to be jagged. At L4 (consensus pressure) and L5 (strategy cycling), the correlation persists at $R^2 = 0.58$ and $0.75$ but is no longer floor-bounded. Judges that wiggle more on average also have a wider spread of wiggle rates across datasets. At L6 (adaptive persuader), the relationship \emph{inverts} ($R^2 = 0.64$, $r = -0.80$). The judges with the lowest mean wiggle rates (Gemini 3 Flash, Grok-4.1 R, Gemini 3.1 Pro) have \emph{more} cross-dataset spread. Jaggedness (defined as the standard deviation of mean wiggle rates) itself is jagged across different types of pressure.
 
 \subsection{Jury Majority Strength at Baseline Is a Simple Reliability Screen for Golden Sets}
 \label{sec:discussion-jury}
 
-If wiggle is jagged, some items are more epistemically uncertain than others, and so we ask: Can a small test predict which? We compare three candidate predictors of per-item wiggle rate: \emph{jury majority strength} (size of the L0 majority across the 9 judges, no pressure applied), \emph{repeat consistency} (temperature-zero per-item agreement), and \emph{position invariance} (verdict survival under argument reordering). Jury majority strength wins at every level (Table~\ref{tab:predictor-comparison}, mean $|\rho| = 0.59$ vs.\ 0.42 for repeat and 0.37 for invariance) and is universal: all 84 (dataset, rubric, scale, level) cells show negative $\rho$, with median $|\rho| = 0.58$ (per-cell heatmap in Appendix~\ref{sec:appendix-jury-heatmap}).
+If wiggle is jagged, some items are more epistemically uncertain than others, and so we ask: Can a small test predict which? We compare three candidate predictors of per-item wiggle rate: \emph{jury majority strength} (size of the L0 majority across the 9 judges, no pressure applied), \emph{repeat consistency} (temperature-zero per-item agreement), and \emph{position invariance} (verdict survival under argument reordering). Jury majority strength wins at every level (Table~\ref{tab:predictor-comparison}, mean $|\rho| = 0.59$ vs.\ 0.42 for repeat and 0.37 for invariance) and is universal: all 84 (dataset, rubric, scale, level) cells show negative $\rho$, with median $|\rho| = 0.58$ (per-cell table in Appendix~\ref{sec:appendix-jury-heatmap}).
 
 \begin{table}[t]
 \centering
 \small
-\caption{Mean $|\rho|$ between each predictor and per-item wiggle rate, by level. Jury averaged over 84 (dataset, rubric, scale, level) cells; Repeat and Invariance over 72 (not measured on WildGuard). Per-cell heatmap in Appendix~\ref{sec:appendix-jury-heatmap}.}
+\caption{Mean $|\rho|$ between each predictor and per-item wiggle rate, by level. Jury averaged over 84 (dataset, rubric, scale, level) cells; Repeat and Invariance over 72 (not measured on WildGuard). Per-cell table in Appendix~\ref{sec:appendix-jury-heatmap}.}
 \label{tab:predictor-comparison}
 \begin{tabular}{@{}lrrrrrrr@{}}
 \toprule

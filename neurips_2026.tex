@@ -29,7 +29,7 @@
 \maketitle
 
 \begin{abstract}
-LLM judges have become central infrastructure for model evaluations, online grading, and reward modeling. Judges are typically validated by accuracy on golden data, but accuracy says nothing about whether they are stable under re-prompting, pushback, or sustained pressure. We introduce the \emph{Wiggle Framework}, a unified stress test for epistemic instability in LLM judges. The framework decomposes judge robustness along three dimensions: Mechanical Consistency (stability under re-prompting and reframing), Single-turn Conviction (stability under escalating adversarial challenge), and Multi-turn Persistence (stability under sustained or adaptive pressure). We use the framework to evaluate 9 frontier models across 14 judging tasks spanning safety, toxicity, and political-response evaluation. Every model exhibits substantial wiggle as a judge --- flipping verdicts 25--71\% of the time under static pushback, and 62--91\% of the time in response to an adversarial LLM persuader. Critically, we find that pressure which succeeds in changing a verdict is almost always net-corrupting with respect to ground truth. From our findings, we draw three practical conclusions: (i) epistemic stability is jagged and defies simple narratives about sycophancy or robustness, (ii) jury-majority-strength screening is a simple, effective signal for predicting wiggle that holds universally across all 14 judging tasks we tested, with mechanical re-prompting as a meaningfully weaker but defensible alternative, and (iii) epistemic pressure should be applied cautiously in hill-climbing or reward signals, given its net-corrupting effect. Taken together, this is the first apples-to-apples cross-dataset comparison of mechanical, conformity, and persuadability tests in a judging context.
+LLM judges have become central infrastructure for model evaluations, online grading, and reward modeling. Judges are typically validated by accuracy on golden data, but accuracy says nothing about whether they are stable under re-prompting, pushback, or sustained pressure. We introduce the \emph{Wiggle Framework}, a unified stress test for epistemic instability in LLM judges. The framework decomposes judge robustness along three dimensions: Mechanical Consistency (stability under re-prompting and reframing), Single-turn Conviction (stability under escalating adversarial challenge), and Multi-turn Persistence (stability under sustained or adaptive pressure). We use the framework to study 9 frontier models across 14 judging tasks spanning safety, toxicity, AI detection, and political-response evaluation. Every model exhibits substantial wiggle as a judge --- flipping verdicts 25--71\% of the time under static pushback, and 62--91\% of the time with an adversarial LLM persuader. Critically, we find that pressure that succeeds in changing a judge's verdict is almost always net-corrupting with respect to ground truth. Beyond the framework itself, we identify baseline jury majority strength as the most effective single-shot signal for anticipating which items wiggle. Taken together, this is the first apples-to-apples cross-dataset comparison of mechanical, conformity, and persuadability tests in a judging context.
 \end{abstract}
 
 \input{sections/introduction}
@@ -673,17 +673,37 @@ The directional bias structure could be used as a diagnostic tool in its own rig
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Per-Cell Jury Majority Strength Heatmap}
+\section{Per-Cell Jury Majority Strength}
 \label{sec:appendix-jury-heatmap}
 
-Figure~\ref{fig:appendix-jury-rho-heatmap} reports the per-cell Spearman $\rho$ between baseline jury majority strength and per-item wiggle rate for each (dataset, scale, level) cell. All 84 cells are negative: items where the jury barely agrees at L0 are more wiggable under pressure, with no exception. Per-level means are summarized in Table~\ref{tab:predictor-comparison} (\S\ref{sec:discussion-jury}).
+Table~\ref{tab:appendix-jury-rho} reports the per-cell Spearman $\rho$ between baseline jury majority strength and per-item wiggle rate for each (dataset, rubric, scale, level) cell. All 84 cells are negative: items where the jury barely agrees at L0 are more wiggable under pressure, with no exception. Per-level means are summarized in Table~\ref{tab:predictor-comparison} (\S\ref{sec:discussion-jury}).
 
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.85\linewidth]{jury_rho_heatmap.pdf}
-  \caption{Spearman $\rho$ between baseline jury majority strength and per-item wiggle rate, for each (dataset, scale, level) cell. All 84 cells are negative.}
-  \label{fig:appendix-jury-rho-heatmap}
-\end{figure}
+\begin{table}[h]
+\centering
+\small
+\caption{Spearman $\rho$ between baseline jury majority strength and per-item wiggle rate, for each (dataset, rubric, scale, level) cell. All 84 cells are negative.}
+\label{tab:appendix-jury-rho}
+\begin{tabular}{@{}llrrrrrr@{}}
+\toprule
+\textbf{Dataset} & \textbf{Scale} & \textbf{L1} & \textbf{L2} & \textbf{L3} & \textbf{L4} & \textbf{L5} & \textbf{L6} \\
+\midrule
+WildGuard      & binary & $-0.684$ & $-0.683$ & $-0.678$ & $-0.623$ & $-0.675$ & $-0.653$ \\
+WildGuard      & Likert & $-0.640$ & $-0.379$ & $-0.437$ & $-0.708$ & $-0.766$ & $-0.683$ \\
+AEGIS          & binary & $-0.661$ & $-0.628$ & $-0.600$ & $-0.706$ & $-0.655$ & $-0.715$ \\
+AEGIS          & Likert & $-0.706$ & $-0.413$ & $-0.468$ & $-0.737$ & $-0.635$ & $-0.680$ \\
+HH-RLHF        & binary & $-0.693$ & $-0.651$ & $-0.641$ & $-0.343$ & $-0.590$ & $-0.628$ \\
+HH-RLHF        & Likert & $-0.725$ & $-0.609$ & $-0.472$ & $-0.705$ & $-0.623$ & $-0.567$ \\
+ToxiGen        & binary & $-0.694$ & $-0.684$ & $-0.647$ & $-0.595$ & $-0.598$ & $-0.628$ \\
+ToxiGen        & Likert & $-0.672$ & $-0.718$ & $-0.864$ & $-0.786$ & $-0.800$ & $-0.621$ \\
+PP (hedging)   & binary & $-0.464$ & $-0.433$ & $-0.419$ & $-0.398$ & $-0.394$ & $-0.424$ \\
+PP (hedging)   & Likert & $-0.574$ & $-0.462$ & $-0.522$ & $-0.579$ & $-0.523$ & $-0.011$ \\
+PP (refusal)   & binary & $-0.711$ & $-0.633$ & $-0.642$ & $-0.564$ & $-0.542$ & $-0.579$ \\
+PP (refusal)   & Likert & $-0.533$ & $-0.423$ & $-0.447$ & $-0.544$ & $-0.492$ & $-0.570$ \\
+MAGE           & binary & $-0.739$ & $-0.640$ & $-0.578$ & $-0.571$ & $-0.461$ & $-0.617$ \\
+MAGE           & Likert & $-0.620$ & $-0.588$ & $-0.587$ & $-0.508$ & $-0.480$ & $-0.542$ \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

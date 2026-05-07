@@ -5,10 +5,10 @@
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem[Altay et~al.(2025)Altay, Proshin, et~al.]{altay2025sycophantic}
-Sacha Altay, Alexander Proshin, et~al.
-\newblock Sycophantic {AI} decreases prosocial intentions and promotes dependence.
-\newblock \emph{Science}, 2025.
+\bibitem[Agarwal and Khanna(2025)]{agarwal2025persuasion}
+Mahak Agarwal and Divyam Khanna.
+\newblock When persuasion overrides truth in multi-agent {LLM} debates: Introducing a confidence-weighted persuasion override rate ({CW}-{POR}).
+\newblock \emph{arXiv preprint arXiv:2504.00374}, 2025.
 
 \bibitem[Bai et~al.(2022)Bai, Kadavath, Kundu, Askell, Kernion, Jones, Chen, Goldie, Mirhoseini, McKinnon, Chen, Olsson, Olah, Hernandez, Drain, Ganguli, Li, Tran-Johnson, Perez, Kerr, Mueller, Ladish, Landau, Ndousse, Lukosuite, Lovitt, Sellitto, Elhage, Schiefer, Mercado, DasSarma, Lasenby, Larson, Ringer, Johnston, Kravec, El~Showk, Fort, Lanham, Telleen-Lawton, Conerly, Henighan, Hume, Bowman, Hatfield-Dodds, Mann, Amodei, Joseph, McCandlish, Brown, and Kaplan]{bai2022constitutional}
 Yuntao Bai, Saurav Kadavath, Sandipan Kundu, Amanda Askell, Jackson Kernion, Andy Jones, Anna Chen, Anna Goldie, Azalia Mirhoseini, Cameron McKinnon, Carol Chen, Catherine Olsson, Christopher Olah, Danny Hernandez, Dawn Drain, Deep Ganguli, Dustin Li, Eli Tran-Johnson, Ethan Perez, Jamie Kerr, Jared Mueller, Jeffrey Ladish, Joshua Landau, Kamal Ndousse, Kamile Lukosuite, Liane Lovitt, Michael Sellitto, Nelson Elhage, Nicholas Schiefer, Noemi Mercado, Nova DasSarma, Robert Lasenby, Robin Larson, Sam Ringer, Scott Johnston, Shauna Kravec, Sheer El~Showk, Stanislav Fort, Tamera Lanham, Timothy Telleen-Lawton, Tom Conerly, Tom Henighan, Tristan Hume, Samuel~R. Bowman, Zac Hatfield-Dodds, Ben Mann, Dario Amodei, Nicholas Joseph, Sam McCandlish, Tom Brown, and Jared Kaplan.
@@ -25,20 +25,27 @@ Jonah Brown-Cohen, Geoffrey Irving, and Georgios Piliouras.
 \newblock Scalable {AI} safety via doubly-efficient debate.
 \newblock In \emph{Proceedings of the International Conference on Machine Learning}, 2024.
 
-\bibitem[Chen et~al.(2023)]{chen2023earthflat}
-Rongwu Chen et~al.
-\newblock The earth is flat because\ldots: Investigating {LLM}s' belief towards misinformation via persuasive conversation.
-\newblock \emph{arXiv preprint arXiv:2312.09085}, 2023.
+\bibitem[Cheng et~al.(2026{\natexlab{a}})Cheng, Lee, Khadpe, Yu, Han, and Jurafsky]{cheng2026sycophantic}
+Myra Cheng, Cinoo Lee, Pranav Khadpe, Sunny Yu, Dyllan Han, and Dan Jurafsky.
+\newblock Sycophantic {AI} decreases prosocial intentions and promotes dependence.
+\newblock \emph{Science}, 2026{\natexlab{a}}.
+\newblock Science version follows the 2025 arXiv preprint arXiv:2510.01395.
 
-\bibitem[Chern et~al.(2024)]{chern2024persuasion}
-Ethan Chern et~al.
-\newblock When persuasion overrides truth in multi-agent {LLM} debates.
-\newblock \emph{arXiv preprint arXiv:2405.12428}, 2024.
+\bibitem[Cheng et~al.(2026{\natexlab{b}})Cheng, Yu, Lee, Khadpe, Ibrahim, and Jurafsky]{cheng2026social}
+Myra Cheng, Sunny Yu, Cinoo Lee, Pranav Khadpe, Lujain Ibrahim, and Dan Jurafsky.
+\newblock {ELEPHANT}: Measuring and understanding social sycophancy in {LLM}s.
+\newblock In \emph{The Fourteenth International Conference on Learning Representations}, 2026{\natexlab{b}}.
+\newblock Conference version of arXiv:2505.13995, originally titled ``Social Sycophancy: A Broader Understanding of LLM Sycophancy''.
 
 \bibitem[Chiang et~al.(2024)Chiang, Zheng, Sheng, Angelopoulos, Li, Li, Zhang, Zhu, Jordan, Gonzalez, and Stoica]{chiang2024chatbot}
 Wei-Lin Chiang, Lianmin Zheng, Ying Sheng, Anastasios~Nikolas Angelopoulos, Tianle Li, Dacheng Li, Hao Zhang, Banghua Zhu, Michael Jordan, Joseph~E. Gonzalez, and Ion Stoica.
 \newblock Chatbot arena: An open platform for evaluating {LLM}s by human preference.
 \newblock In \emph{Proceedings of the International Conference on Machine Learning}, 2024.
+
+\bibitem[Choi et~al.(2026)Choi, Park, Cho, Park, and Kim]{huang2025irt}
+Junhyuk Choi, Sohhyung Park, Chanhee Cho, Hyeonchu Park, and Bugeun Kim.
+\newblock Diagnosing the reliability of {LLM}-as-a-judge via item response theory.
+\newblock \emph{arXiv preprint arXiv:2602.00521}, 2026.
 
 \bibitem[Dubois et~al.(2024)Dubois, Galambosi, Liang, and Hashimoto]{dubois2024length}
 Yann Dubois, Balazs Galambosi, Percy Liang, and Tatsunori~B. Hashimoto.
@@ -50,20 +57,10 @@ Shaona Ghosh, Prasoon Varshney, Erick Galinkin, and Christopher Parisien.
 \newblock {AEGIS}: Online adaptive {AI} content safety moderation with ensemble of {LLM} experts.
 \newblock \emph{arXiv preprint arXiv:2404.05993}, 2024.
 
-\bibitem[{Google DeepMind}(2025)]{deepmind2025social}
-{Google DeepMind}.
-\newblock Social sycophancy: A broader understanding of {LLM} sycophancy.
-\newblock \emph{arXiv preprint arXiv:2505.13995}, 2025.
-
 \bibitem[Han et~al.(2024)Han, Rao, Ettinger, Jiang, Lin, Lambert, Choi, and Dziri]{wildguardmix2024}
 Seungju Han, Kavel Rao, Allyson Ettinger, Liwei Jiang, Bill~Yuchen Lin, Nathan Lambert, Yejin Choi, and Nouha Dziri.
 \newblock {WildGuard}: Open one-stop moderation tools for safety risks, jailbreaks, and refusals of {LLM}s.
 \newblock In \emph{Advances in Neural Information Processing Systems}, 2024.
-
-\bibitem[Huang(2025)]{huang2025irt}
-others Huang.
-\newblock Diagnosing the reliability of {LLM}-as-a-judge via item response theory.
-\newblock \emph{arXiv preprint arXiv:2602.00521}, 2025.
 
 \bibitem[Inan et~al.(2023)Inan, Upasani, Chi, Rungta, Iyer, Mao, Tontchev, Hu, Fuller, Testuggine, and Khabsa]{llamaguard2023}
 Hakan Inan, Kartikeya Upasani, Jianfeng Chi, Rashi Rungta, Krithika Iyer, Yuning Mao, Michael Tontchev, Qing Hu, Brian Fuller, Davide Testuggine, and Madian Khabsa.
@@ -90,15 +87,10 @@ Nathan Lambert, Valentina Pyatkin, Jacob Morrison, LJ~Miranda, Bill~Yuchen Lin, 
 \newblock {RewardBench}: Evaluating reward models for language modeling.
 \newblock \emph{arXiv preprint arXiv:2403.13787}, 2024.
 
-\bibitem[Li et~al.(2024)Li, Dong, et~al.]{li2024llmjudgesurvey}
-Haitao Li, Qianqian Dong, et~al.
+\bibitem[Li et~al.(2024)Li, Dong, Chen, Su, Zhou, Ai, Ye, and Liu]{li2024llmjudgesurvey}
+Haitao Li, Qian Dong, Junjie Chen, Huixue Su, Yujia Zhou, Qingyao Ai, Ziyi Ye, and Yiqun Liu.
 \newblock {LLMs}-as-judges: A comprehensive survey on {LLM}-based evaluation methods.
 \newblock \emph{arXiv preprint arXiv:2412.05579}, 2024.
-
-\bibitem[Panickssery et~al.(2024)Panickssery, Bowman, and Feng]{panickssery2024selfpreference}
-Karina Panickssery, Samuel~R. Bowman, and Shi Feng.
-\newblock Self-preference bias in {LLM}-as-a-judge.
-\newblock \emph{arXiv preprint arXiv:2410.21819}, 2024.
 
 \bibitem[Perez et~al.(2023)Perez, Ringer, Luko{\v{s}}i{\=u}t{\.e}, Nguyen, Chen, Heiner, Pettit, Olsson, Kundu, Kadavath, et~al.]{perez2022discovering}
 Ethan Perez, Sam Ringer, Kamil{\.e} Luko{\v{s}}i{\=u}t{\.e}, Karina Nguyen, Edwin Chen, Scott Heiner, Craig Pettit, Catherine Olsson, Sandipan Kundu, Saurav Kadavath, et~al.
@@ -115,6 +107,12 @@ Bhaktipriya Radharapu, Eshika Saxena, Kenneth Li, Chenxi Whitehouse, Adina Willi
 \newblock Calibrating {LLM} judges: Linear probes for fast and reliable uncertainty estimation.
 \newblock \emph{arXiv preprint arXiv:2512.22245}, 2025{\natexlab{b}}.
 
+\bibitem[Robinson et~al.(2026)Robinson, Oktar, Collins, Sucholutsky, and Allen]{robinson2026influence}
+Sasha Robinson, Kerem Oktar, Katherine~M. Collins, Ilia Sucholutsky, and Kelsey~R. Allen.
+\newblock Under the influence: Quantifying persuasion and vigilance in large language models.
+\newblock \emph{arXiv preprint arXiv:2602.21262}, 2026.
+\newblock Submitted to ICLR 2026 on OpenReview.
+
 \bibitem[Romanou et~al.(2026)Romanou, Ibrahim, Ross, Shaib, Oktar, Bell, Ovalle, Dodge, Bosselut, Sinha, and Williams]{romanou2026brittlebench}
 Angelika Romanou, Mark Ibrahim, Candace Ross, Chantal Shaib, Kerem Oktar, Samuel~J. Bell, Anaelia Ovalle, Jesse Dodge, Antoine Bosselut, Koustuv Sinha, and Adina Williams.
 \newblock Brittlebench: Quantifying {LLM} robustness via prompt sensitivity.
@@ -130,13 +128,19 @@ others Wang.
 \newblock Diagnosing bias and instability in {LLM} evaluation: A scalable pairwise framework.
 \newblock \emph{Information}, 16\penalty0 (8):\penalty0 652, 2025.
 
-\bibitem[Wang et~al.(2024)Wang, Li, Chen, Zhu, Lin, Cao, Liu, Liu, and Sui]{wang2024unfair}
-Peiyi Wang, Lei Li, Liang Chen, Dawei Zhu, Binghuai Lin, Yunbo Cao, Qi~Liu, Tianyu Liu, and Zhifang Sui.
+\bibitem[Wang et~al.(2024)Wang, Li, Chen, Cai, Zhu, Lin, Cao, Kong, Liu, Liu, and Sui]{wang2024unfair}
+Peiyi Wang, Lei Li, Liang Chen, Zefan Cai, Dawei Zhu, Binghuai Lin, Yunbo Cao, Lingpeng Kong, Qi~Liu, Tianyu Liu, and Zhifang Sui.
 \newblock Large language models are not fair evaluators.
-\newblock In \emph{Proceedings of the Association for Computational Linguistics}, 2024.
+\newblock In \emph{Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)}, 2024.
 
-\bibitem[Wei et~al.(2024)Wei, Karina, Chung, Jiao, Papay, Glaese, Schulman, and Fedus]{wei2024simpleqa}
-Jason Wei, Nguyen Karina, Hyung~Won Chung, Yunxin~Joy Jiao, Spencer Papay, Amelia Glaese, John Schulman, and William Fedus.
+\bibitem[Wataoka et~al.(2024)Wataoka, Takahashi, and Ri]{wataoka2024selfpreference}
+Koki Wataoka, Tsubasa Takahashi, and Ryokan Ri.
+\newblock Self-preference bias in {LLM}-as-a-judge.
+\newblock \emph{arXiv preprint arXiv:2410.21819}, 2024.
+\newblock Also cited as a NeurIPS Safe Generative AI Workshop 2024 paper in later bibliographies.
+
+\bibitem[Wei et~al.(2024)Wei, Nguyen, Chung, Jiao, Papay, Glaese, Schulman, and Fedus]{wei2024simpleqa}
+Jason Wei, Karina Nguyen, Hyung~Won Chung, Yunxin~Joy Jiao, Spencer Papay, Amelia Glaese, John Schulman, and William Fedus.
 \newblock Measuring short-form factuality in large language models.
 \newblock 2024.
 \newblock URL \url{https://cdn.openai.com/papers/simpleqa.pdf}.
@@ -145,12 +149,12 @@ Jason Wei, Nguyen Karina, Hyung~Won Chung, Yunxin~Joy Jiao, Spencer Papay, Ameli
 \bibitem[Xiong et~al.(2024)Xiong, Hu, Lu, Li, Fu, He, and Hooi]{xiong2024confidence}
 Miao Xiong, Zhiyuan Hu, Xinyang Lu, Yifei Li, Jie Fu, Junxian He, and Bryan Hooi.
 \newblock Can {LLM}s express their uncertainty? an empirical evaluation of confidence elicitation in {LLM}s.
-\newblock \emph{arXiv preprint arXiv:2306.13063}, 2024.
+\newblock In \emph{The Twelfth International Conference on Learning Representations}, 2024.
 
-\bibitem[Xu(2024)]{xu2024influence}
-others Xu.
-\newblock Under the influence: Quantifying persuasion and vigilance in large language models.
-\newblock \emph{arXiv preprint}, 2024.
+\bibitem[Xu et~al.(2023)Xu, Lin, Yang, Zhang, Shi, Zhang, Fang, Xu, and Qiu]{xu2023earthflat}
+Rongwu Xu, Brian~S. Lin, Shujian Yang, Tianqi Zhang, Weiyan Shi, Tianwei Zhang, Zhixuan Fang, Wei Xu, and Han Qiu.
+\newblock The earth is flat because\ldots: Investigating {LLM}s' belief towards misinformation via persuasive conversation.
+\newblock \emph{arXiv preprint arXiv:2312.09085}, 2023.
 
 \bibitem[Yao et~al.(2025)Yao, Shang, Du, He, Lian, Zhang, Su, Swamy, and Qi]{yao2025peacemaker}
 Binwei Yao, Chao Shang, Wanyu Du, Jianfeng He, Ruixue Lian, Yi~Zhang, Hang Su, Sandesh Swamy, and Yanjun Qi.
@@ -160,7 +164,7 @@ Binwei Yao, Chao Shang, Wanyu Du, Jianfeng He, Ruixue Lian, Yi~Zhang, Hang Su, S
 \bibitem[Yona et~al.(2024)Yona, Aharoni, and Geva]{yona2024faithful}
 Gal Yona, Roee Aharoni, and Mor Geva.
 \newblock Can large language models faithfully express their intrinsic uncertainty in words?
-\newblock \emph{arXiv preprint arXiv:2405.16908}, 2024.
+\newblock In \emph{Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing}, 2024.
 
 \bibitem[Zeng et~al.(2024)Zeng, Liu, Mullins, Peran, Fernandez, Harkous, Narasimhan, Proud, Kumar, Radharapu, Sturman, and Wahltinez]{zeng2024shieldgemma}
 Wenjun Zeng, Yuchi Liu, Ryan Mullins, Ludovic Peran, Joe Fernandez, Hamza Harkous, Karthik Narasimhan, Drew Proud, Piyush Kumar, Bhaktipriya Radharapu, Olivia Sturman, and Oscar Wahltinez.

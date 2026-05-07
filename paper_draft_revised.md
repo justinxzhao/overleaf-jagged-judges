@@ -6,7 +6,7 @@
 
 ## Abstract
 
-LLM judges have become central infrastructure for model evaluations, online grading, and reward modeling. Judges are typically validated by accuracy on golden data, but accuracy says nothing about whether they are stable under re-prompting, pushback, or sustained pressure. We introduce the *Wiggle Framework*, a unified stress test for epistemic instability in LLM judges. The framework decomposes judge robustness along three dimensions: Mechanical Consistency (stability under re-prompting and reframing), Single-turn Conviction (stability under escalating adversarial challenge), and Multi-turn Persistence (stability under sustained or adaptive pressure). We use the framework to study 9 frontier models across 14 judging tasks spanning safety, toxicity, AI detection, and political-response evaluation. Every model exhibits substantial wiggle as a judge — flipping verdicts 25–71% of the time under static pushback, and 62–91% of the time in response to an adversarial LLM persuader. Critically, we find that pressure which succeeds in changing a verdict is almost always net-corrupting with respect to ground truth. From our findings, we draw three practical conclusions: (i) epistemic stability is jagged and defies simple narratives about sycophancy or robustness, (ii) jury-majority-strength screening is a simple, effective signal for predicting wiggle that holds universally across all 14 judging tasks we tested, with mechanical re-prompting as a meaningfully weaker but defensible alternative, and (iii) epistemic pressure should be applied cautiously in hill-climbing or reward signals, given its net-corrupting effect. Taken together, this is the first apples-to-apples cross-dataset comparison of mechanical, conformity, and persuadability tests in a judging context.
+LLM judges have become central infrastructure for model evaluations, online grading, and reward modeling. Judges are typically validated by accuracy on golden data, but accuracy says nothing about whether they are stable under re-prompting, pushback, or sustained pressure. We introduce the *Wiggle Framework*, a unified stress test for epistemic instability in LLM judges. The framework decomposes judge robustness along three dimensions: Mechanical Consistency (stability under re-prompting and reframing), Single-turn Conviction (stability under escalating adversarial challenge), and Multi-turn Persistence (stability under sustained or adaptive pressure). We use the framework to study 9 frontier models across 14 judging tasks spanning safety, toxicity, AI detection, and political-response evaluation. Every model exhibits substantial wiggle as a judge — flipping verdicts 25–71% of the time under static pushback, and 62–91% of the time with an adversarial LLM persuader. Critically, we find that pressure that succeeds in changing a judge's verdict is almost always net-corrupting with respect to ground truth. Beyond the framework itself, we identify baseline jury majority strength as the most effective single-shor signal for anticipating which items wiggle. Taken together, this is the first apples-to-apples cross-dataset comparison of mechanical, conformity, and persuadability tests in a judging context.
 
 ---
 
@@ -139,25 +139,21 @@ Averaged over all models and datasets, L1, L2, and L3 cluster near 80% retention
 
 ## 6. Discussion
 
-### 6.1 Epistemic Behavior Is Jagged
+### 6.1 Jaggedness Tracks Mean Wiggle Differently at Different Pressure Levels
 
-If we define **a judge's jaggedness as the standard deviation of its mean wiggle rate across (dataset, scale)**, we can visualize judges with more narrow epistemic profiles vs. those that vary sharply across tasks (Figure `fig:wiggliness-jaggedness`).
+If we define a judge's **jaggedness** as the standard deviation of its mean wiggle rates across all datasets, we can plot each judge's mean wiggle against its jaggedness, separately at each pressure level (Figure `fig:wiggliness-jaggedness`).
 
-![Wiggliness vs Jaggedness](data/analysis_cross_domain/png/wiggliness/wiggliness_vs_jaggedness.png)
+![Per-level jaggedness vs mean wiggle](data/analysis_cross_domain/png/wiggliness/per_level_scatter_combined.png)
 
-**Figure `fig:wiggliness-jaggedness`.** Each hull is one judge's profile in (mean wiggle rate, jaggedness) space across the six judging tasks. (Left) Binary scale. (Right) Likert scale.
+**Figure `fig:wiggliness-jaggedness`.** Each panel plots all 9 judges at one pressure level: x-axis is the judge's mean wiggle rate at that level (averaged across the 14 judging tasks); y-axis is its cross-dataset jaggedness (std of wiggle rates). Dashed line is the OLS fit, $R^2$ and Pearson $r$ annotated.
 
-We loosely identify three clusters in (wiggle rate, jaggedness) space:
-
-  1. Low-wiggle / low-jaggedness corner (bottom-left). Grok-4.1 R and Gemini 3 Flash sit tightly clustered around mean wiggle ≈ 0.10–0.25 and jaggedness ≈0.10–0.20. Gemini 3.1 Pro is nearby, slightly higher on wiggle but still in the low-jaggedness band. These are the stable, broadly robust judges — low wiggle on average and consistent across cells.
-  2. High-wiggle / mid-to-high-jaggedness corner (right side). GPT-5.4 stretches across the highest wiggle range (~0.4–0.8) at mid jaggedness (~0.20–0.30); GPT-5.2 occupies a similar high-wiggle region but with notably higher jaggedness (~0.30–0.40). These judges wiggle a lot and their wiggle profile is uneven across tasks.
-  3. Mid-wiggle / high-jaggedness band (middle, upper). Claude 4.6 Sonnet and Claude 4.6 Opus sit at moderate wiggle rates (~0.25–0.45) but high jaggedness (~0.25–0.35) — they're not the most-wiggle-prone overall, but their susceptibility varies sharply by task. Grok-4.1 (non-reasoning) sits in a similar mid-wiggle, high-jaggedness region. GPT-5 spreads broadly across mid-to-high wiggle with mid jaggedness.
+At L1–L3 (mild doubt, counter-argument, expert authority), mean wiggle and jaggedness are strongly positively correlated ($R^2 = 0.68$, $0.94$, $0.87$). When mean wiggle is near zero, std is bounded near zero too, so a low-wiggle judge has nowhere to be jagged. At L4 (consensus pressure) and L5 (strategy cycling), the correlation persists at $R^2 = 0.58$ and $0.75$ but is no longer floor-bounded. Judges that wiggle more on average also have a wider spread of wiggle rates across datasets. At L6 (adaptive persuader), the relationship *inverts* ($R^2 = 0.64$, $r = -0.80$). The judges with the lowest mean wiggle rates (Gemini 3 Flash, Grok-4.1 R, Gemini 3.1 Pro) have *more* cross-dataset spread. Jaggedness (defined as the standard deviation of mean wiggle rates) itself is jagged across different types of pressure.
 
 ### 6.2 Jury Majority Strength at Baseline Is a Simple Reliability Screen for Golden Sets
 
-If wiggle is jagged, some items are more epistemically uncertain than others, and so we ask: Can a small test predict which? We compare three candidate predictors of per-item wiggle rate: *jury majority strength* (size of the L0 majority across the 9 judges, no pressure applied), *repeat consistency* (temperature-zero per-item agreement), and *position invariance* (verdict survival under argument reordering). Jury majority strength wins at every level (Table `tab:predictor-comparison`, mean |ρ| = 0.59 vs. 0.42 for repeat and 0.37 for invariance) and is universal: all 84 (dataset, rubric, scale, level) cells show negative ρ, with median |ρ| = 0.58 (per-cell heatmap in the *Per-Cell Jury Majority Strength Heatmap* appendix).
+If wiggle is jagged, some items are more epistemically uncertain than others, and so we ask: Can a small test predict which? We compare three candidate predictors of per-item wiggle rate: *jury majority strength* (size of the L0 majority across the 9 judges, no pressure applied), *repeat consistency* (temperature-zero per-item agreement), and *position invariance* (verdict survival under argument reordering). Jury majority strength wins at every level (Table `tab:predictor-comparison`, mean |ρ| = 0.59 vs. 0.42 for repeat and 0.37 for invariance) and is universal: all 84 (dataset, rubric, scale, level) cells show negative ρ, with median |ρ| = 0.58 (per-cell table in the *Per-Cell Jury Majority Strength* appendix).
 
-**Table `tab:predictor-comparison`.** Mean |ρ| between each predictor and per-item wiggle rate, by level. Jury averaged over 84 (dataset, rubric, scale, level) cells; Repeat and Invariance over 72 (not measured on WildGuard). Per-cell heatmap in the *Per-Cell Jury Majority Strength Heatmap* appendix.
+**Table `tab:predictor-comparison`.** Mean |ρ| between each predictor and per-item wiggle rate, by level. Jury averaged over 84 (dataset, rubric, scale, level) cells; Repeat and Invariance over 72 (not measured on WildGuard). Per-cell table in the *Per-Cell Jury Majority Strength* appendix.
 
 | Predictor | L1 | L2 | L3 | L4 | L5 | L6 | Overall |
 |---|---:|---:|---:|---:|---:|---:|---:|
@@ -175,13 +171,13 @@ Even though LLM judges are becoming widespread, including being increasingly use
 
 ## 7. Limitations
 
-We deliberately focus on borderline items where judges are likely to be uncertain (see the *Data Sampling Strategy* appendix), so wiggle rates characterize the hard minority rather than a representative content distribution. We do not measure a human-judge baseline under the same protocol, so we cannot say whether the rates we observe are anomalously high or comparable to human inconsistency under similar conditions. Our L2-L6 arguments are model-generated, which reflects the realistic threat model in deployments where judges face challenges from other LLMs but differs from human-authored arguments. Our L6 persuader set is fixed (GPT-5.4, Claude 4.6 Opus, Grok-4.1 Reasoning); a larger or different set might produce different ceilings. The full set of limitations — including dataset coverage, sample-size caveats, causal-inference caveats, and the scope of black-box analysis — is in the *Limitations (Full Discussion)* appendix.
+We deliberately focus on borderline items where judges are likely to be uncertain (see the *Data Sampling Strategy* appendix), so WRs may be more inflated than what would be seen on the original dataset distribution. We have no comparable human-judge baseline under the same protocols to compare with. Our L2-L6 arguments are model-generated, which may differ from human-authored arguments. Our L6 persuader set is fixed (GPT-5.4, Claude 4.6 Opus, Grok-4.1 Reasoning); a larger or different set might produce different ceilings. Additional limitations are discussed in the *Limitations (Full Discussion)* appendix.
 
 ---
 
 ## 8. Conclusion
 
-We presented the Wiggle Framework — a unified stress test for LLM-judge epistemic stability — applied to 9 frontier judges, 14 judging tasks, and 6 pressure levels. Our findings defy simple narratives about sycophancy or robustness, recognizing that the structural shape of how judges wiggle is a jagged phenomenon. Our tests show that any amount of pressure on a judge tends to be more corruptive than corrective, but baseline jury majority strength serves as an imperfect, but reliable signal for anticipating which items are likely to be the most epistemically unstable.
+The Wiggle Framework is a unified stress test for LLM-judge epistemic stability and we applied to 9 frontier judges and 14 judging tasks at graduated levels of pressure. The structural shape of how judges wiggle is a jagged phenomenon, defying simple narratives about sycophancy or robustness. We find that any amount of pressure on a judge that changes its mind tends to be more corruptive than corrective, and baseline jury majority strength is the best single-shot signal for predicting which items are the most epistemically unstable. As LLM judges expand from benchmark scoring into reward modeling and agentic evaluation, we hope the Wiggle Framework gives the field a shared instrument for knowing where wiggle lives, in what direction, and under what kind of pressure.
 
 ---
 
@@ -632,13 +628,28 @@ The directional bias structure could be used as a diagnostic tool in its own rig
 
 ---
 
-## Appendix N: Per-Cell Jury Majority Strength Heatmap
+## Appendix N: Per-Cell Jury Majority Strength
 
-Figure `fig:appendix-jury-rho-heatmap` reports the per-cell Spearman ρ between baseline jury majority strength and per-item wiggle rate for each (dataset, scale, level) cell. All 84 cells are negative: items where the jury barely agrees at L0 are more wiggable under pressure, with no exception. Per-level means are summarized in Table `tab:predictor-comparison` (§6.2).
+Table `tab:appendix-jury-rho` reports the per-cell Spearman ρ between baseline jury majority strength and per-item wiggle rate for each (dataset, rubric, scale, level) cell. All 84 cells are negative: items where the jury barely agrees at L0 are more wiggable under pressure, with no exception. Per-level means are summarized in Table `tab:predictor-comparison` (§6.2).
 
-![Jury rho heatmap](data/analysis_cross_domain/png/jury/jury_rho_heatmap.png)
+**Table `tab:appendix-jury-rho`.** Spearman ρ between baseline jury majority strength and per-item wiggle rate, for each (dataset, rubric, scale, level) cell. All 84 cells are negative.
 
-**Figure `fig:appendix-jury-rho-heatmap`.** Spearman ρ between baseline jury majority strength and per-item wiggle rate, for each (dataset, scale, level) cell. All 84 cells are negative.
+| Dataset | Scale | L1 | L2 | L3 | L4 | L5 | L6 |
+|---|---|---:|---:|---:|---:|---:|---:|
+| WildGuard | binary | −0.684 | −0.683 | −0.678 | −0.623 | −0.675 | −0.653 |
+| WildGuard | Likert | −0.640 | −0.379 | −0.437 | −0.708 | −0.766 | −0.683 |
+| AEGIS | binary | −0.661 | −0.628 | −0.600 | −0.706 | −0.655 | −0.715 |
+| AEGIS | Likert | −0.706 | −0.413 | −0.468 | −0.737 | −0.635 | −0.680 |
+| HH-RLHF | binary | −0.693 | −0.651 | −0.641 | −0.343 | −0.590 | −0.628 |
+| HH-RLHF | Likert | −0.725 | −0.609 | −0.472 | −0.705 | −0.623 | −0.567 |
+| ToxiGen | binary | −0.694 | −0.684 | −0.647 | −0.595 | −0.598 | −0.628 |
+| ToxiGen | Likert | −0.672 | −0.718 | −0.864 | −0.786 | −0.800 | −0.621 |
+| PP (hedging) | binary | −0.464 | −0.433 | −0.419 | −0.398 | −0.394 | −0.424 |
+| PP (hedging) | Likert | −0.574 | −0.462 | −0.522 | −0.579 | −0.523 | −0.011 |
+| PP (refusal) | binary | −0.711 | −0.633 | −0.642 | −0.564 | −0.542 | −0.579 |
+| PP (refusal) | Likert | −0.533 | −0.423 | −0.447 | −0.544 | −0.492 | −0.570 |
+| MAGE | binary | −0.739 | −0.640 | −0.578 | −0.571 | −0.461 | −0.617 |
+| MAGE | Likert | −0.620 | −0.588 | −0.587 | −0.508 | −0.480 | −0.542 |
 
 ---
 
