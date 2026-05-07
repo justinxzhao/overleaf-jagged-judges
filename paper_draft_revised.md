@@ -185,19 +185,6 @@ The Wiggle Framework is a unified stress test for LLM-judge epistemic stability 
 
 A deliberate design choice across all six datasets is that we sample from the *borderline regime* — examples where judge models are most likely to exhibit epistemic instability. Easy cases (obvious spam, clearly benign content) would show near-zero wiggle and would dilute visibility of the relative relationship of different perturbation schemes.
 
-| Dataset | Source | N | Borderline Filter | Stratification |
-|---|---|---:|---|---|
-| WildGuard | WildGuardMix test | 100 | Compliant responses to non-benign prompts | By harm subcategory (proportional) |
-| AEGIS | AEGIS v2.0 validation | 100 | Unsafe prompts only | 50/50 safe vs unsafe responses |
-| ToxiGen | ToxiGen train split | 100 | Lewd / contestable content only | Random sample from filtered pool |
-| HH-RLHF | Anthropic red-team attempts | 100 | None (dataset is inherently adversarial) | 20 per harm-rating bucket (0-4) |
-| MAGE | MAGE validation set | 100 | None | 50/50 human-written vs AI-generated |
-| Paired Prompts | Non-anchored political prompts with completions sampled from our 9-model panel | 100 | None (prompts are pre-curated) | 50/50 left-leaning vs right-leaning |
-
-All datasets use a fixed seed (42) for reproducibility and generate deterministic SHA-256-based example IDs.
-
-The borderline filters target the regime where judges actually disagree:
-
 - **WildGuard.** Compliance on adversarial prompts is the safety-ambiguous zone — compliant responses to clearly benign prompts are trivially safe, and refusals are trivially classified. The mixed compliance-on-adversarial cases are where judges are most likely to split.
 - **AEGIS.** Safe prompts produce trivially safe responses; the unsafe-prompt + mixed-response-safety subset is the borderline.
 - **ToxiGen.** Lewd or contestable items are the most controversial for toxicity judgments; explicitly non-lewd items are trivially classified.
@@ -205,16 +192,16 @@ The borderline filters target the regime where judges actually disagree:
 - **MAGE.** AI-detection difficulty is item-intrinsic and not predictable from prompt features, so we balance class labels rather than apply a borderline filter.
 - **Paired Prompts.** We restrict to *non-anchored* political prompts — templates that pose a stance to the model without first committing the user to it (see *Why non-anchored* below). On non-anchored prompts, hedging and refusal are reasonable model behaviors rather than failure modes.
 
-**Why non-anchored for Paired Prompts.** *Anchored* prompts presuppose a clear user opinion — for example, "Write a persuasive essay that Republican health care approaches are superior." Judging a model's response to an anchored prompt is less subjective because the user's stance has already been established by the prompt itself. *Non-anchored* prompts pose the same political stance neutrally, without the user committing to it. The Paired Prompts dataset ships templates of both kinds; we restrict to the four non-anchored templates:
+100 random examples are sampled from the borderline subset of each dataset. For Paired Prompts, we sample 50 random prompt pairs.
+
+**Non-anchored for Paired Prompts.** *Anchored* prompts presuppose a clear user opinion. For example, "Write a persuasive essay that Republican health care approaches are superior." Judging a model's response to anchored prompts for hedging is likely to be less controversial because the user's stance has already been established by the prompt itself. *Non-anchored* prompts pose the same political stance more neutrally, without the user committing to it. We restrict to the four non-anchored templates:
 
 - *Reasoning:* "Explain why some believe that {stance}."
 - *Opinion:* "Would you support the position that {stance}?"
 - *Analytical:* "What research backs up the position that {stance}?"
 - *Analysis:* "Evaluate the evidence for and against {stance}."
 
-Non-anchored prompts are more likely to produce responses where hedging is a reasonable model behavior, which is the regime the hedging and refusal rubrics are designed to score.
-
-**Generating Paired Prompts responses.** The Paired Prompts dataset ships only prompts. To obtain responses for judging, we sampled completions from the same 9-model panel we use elsewhere in this paper (used here purely as response generators, not as judges). Each item in our 100-item Paired Prompts sample is a (prompt, response) pair where the response was drawn from one of these models.
+**Generating Paired Prompts responses.** To obtain responses for judging, we sampled completions from the same 9-model panel used for the main experiments in the paper. Each item in our 100-item Paired Prompts sample is a (prompt, response) pair where the response was drawn from one of these models.
 
 ---
 
@@ -339,60 +326,13 @@ The same accounting generalizes to Likert scales (replace each verdict with a 1�
 
 ---
 
-## Appendix D: Per-Dataset Detailed Results, Per-Model Profiles, and Family Transfer
+## Appendix D: Per-Dataset Detailed Results and Summary Statistics
 
 ### C.1 Per-Model Dataset Profiles
 
 ![Per-model domain profiles](data/analysis_cross_domain/png/wiggle_rates/per_model_domain_profiles.png)
 
 Each panel shows one judge's L1-L6 wiggle profile across all six datasets. Within a panel, line shapes are similar — a model's L1-L6 *shape* is mostly preserved across datasets, even as absolute rates differ. Grok-4.1 R has the most consistent shape (median within-model transfer rho = 0.97); Gemini 3.1 Pro is the noisiest (rho = 0.63 with a worst-pair rho = -0.09).
-
-### C.2 Family Transfer
-
-![Family transfer correlation](data/analysis_cross_domain/png/correlations/family_transfer.png)
-
-Within-family correlations of L1-L6 profiles, averaged across all six datasets:
-
-| Family Pair | Mean rho |
-|---|---:|
-| Grok 4.1 R / Grok 4.1 | 0.89 |
-| GPT-5 / GPT-5.4 | 0.89 |
-| GPT-5.2 / GPT-5.4 | 0.89 |
-| GPT-5 / GPT-5.2 | 0.84 |
-| Claude 4.6 Sonnet / Claude 4.6 Opus | 0.80 |
-| Gemini 3 Flash / Gemini 3.1 Pro | **0.39** |
-
-Gemini Flash and Gemini Pro are the dramatic exception — their profiles are essentially independent. The model-vs-model correlation matrix (`correlations/model_vs_model_corr.png`) shows the same pattern: cross-family pairs like Grok-4.1 R / GPT-5.2 (rho = 0.86) and Claude Opus / GPT-5.4 (rho = 0.82) are higher than most within-family pairs.
-
-### C.3 WildGuard (Binary) Mechanical Consistency
-
-| Model | temp=0 | Seed Injection | temp=0.7 |
-|---|---|---|---|
-| GPT-5 | 98.2 | 96.6 | 96.1 |
-| Grok-4.1 R | 85.9 | 85.4 | 85.2 |
-| Grok-4.1 | 98.4 | 96.4 | 96.6 |
-| Claude Sonnet | 93.9 | 90.8 | 88.7 |
-| Claude Opus | 99.5 | 95.5 | 97.1 |
-| GPT-5.2 | 93.8 | 93.8 | 93.0 |
-| GPT-5.4 | 95.1 | 94.5 | 94.5 |
-| Gemini Flash | 99.7 | 86.7 | 88.5 |
-| Gemini Pro | 97.1 | 89.3 | 87.0 |
-
-Most models achieve >95% agreement at greedy decoding (temp=0), suggesting high mechanical consistency. The seed injection condition tells a different story: Gemini Flash drops from 99.7% to 86.7% (the *determinism mirage* — near-perfect temp=0 consistency that collapses under trivial prompt perturbation); Claude Opus drops from 99.5% to 95.5%; Gemini Pro drops from 97.1% to 89.3%. We recommend seed injection as a standard complement to temperature-based consistency testing.
-
-### C.4 Positional Consistency (WildGuard binary)
-
-| Model | Flip Rate | Order Bias |
-|---|---|---|
-| GPT-5 | 1.0% | -1.0 pp |
-| Grok-4.1 R | 8.1% | +4.9 pp |
-| Grok-4.1 | 5.2% | +2.6 pp |
-| Claude Sonnet | 7.0% | +4.2 pp |
-| Claude Opus | 5.5% | 0.0 pp |
-| GPT-5.2 | 3.4% | +1.8 pp |
-| GPT-5.4 | 2.1% | -1.6 pp |
-| Gemini Flash | 4.7% | -2.6 pp |
-| Gemini Pro | 5.5% | -2.9 pp |
 
 ### C.5 Mean Retention by Model and (Dataset, Scale)
 
@@ -409,14 +349,6 @@ Most models achieve >95% agreement at greedy decoding (temp=0), suggesting high 
 | Claude 4.6 Sonnet | 0.448 | 0.714 | **0.171** | 0.625 | 0.190 | 0.361 | 0.653 | 0.717 | 0.772 | 0.874 | 0.722 | **0.904** | 0.596 |
 | Claude 4.6 Opus | 0.602 | 0.686 | **0.207** | 0.577 | 0.234 | 0.385 | 0.544 | 0.713 | 0.779 | 0.786 | 0.667 | 0.814 | 0.583 |
 | GPT-5 | 0.669 | 0.714 | 0.247 | 0.244 | 0.085 | **0.033** | 0.663 | 0.624 | 0.685 | 0.712 | 0.478 | 0.693 | 0.487 |
-
----
-
-## Appendix E: Score Transition Heatmaps (Likert)
-
-The transition matrix for WildGuard shows that most shifts under pressure are toward the extremes of the scale — items initially rated 3 (the midpoint) shift predominantly to 1 or 5; items initially at 2 or 4 shift toward the nearer extreme. This is consistent with pressure activating a "pick a side" heuristic rather than producing nuanced reassessment. The MAGE, AEGIS, ToxiGen, HH-RLHF, and Paired Prompts transitions follow similar patterns.
-
-Per-dataset transition heatmaps are at `data/analysis_cross_domain/png/transitions/transitions_<dataset>.png`.
 
 ---
 
