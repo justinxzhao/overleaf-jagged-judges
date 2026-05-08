@@ -4,10 +4,17 @@
 We organize our results around three first-order findings about how judges wiggle (\S\ref{fo:pressure}), in what direction (\S\ref{fo:structure}), and what variation reveals about the judge itself (\S\ref{fo:fingerprint}).
 
 % =============================================================
-\subsection{Pressure makes judges move; the \emph{type} of pressure determines whether they move a little or a lot.}
+\subsection{Pressure makes judges move; the \emph{type} of pressure determines how much.}
 \label{fo:pressure}
 
 \textbf{Frontier judges look nearly identical at the mechanical floor.} Averaged across the three mechanical tests, all 9 models cluster between 2--9\% wiggle (Figure~\ref{fig:hero}, mechanical bin; per-test breakdown in Table~\ref{tab:mech-variation}). The most mechanically stable judge (Claude Opus, 2\%) and the least (Grok-4.1 R, 9\%) differ by only 7pp. Mechanical variation is not where frontier models differentiate, and resampling-style probes --- repeating the same query under temperature noise or trivial prompt perturbations --- drastically underestimate other wiggle rates.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{domains_and_survival.pdf}
+  \caption{(Left) Mean wiggle rate by dataset across the L1--L6 pressure ladder, averaged over 9 judges and both response scales; lower is better. Error bars are 95\% bootstrap CIs over per-model wiggle rates (1000 resamples) for inter-model variability. (Right) Verdict retention over 10 challenge turns by pressure level, averaged across all six datasets and both scales; higher is better. Error bars are 95\% bootstrap CIs over per-dataset retention rates (1000 resamples) for cross-dataset variability.}
+  \label{fig:datasets-and-survival}
+\end{figure}
 
 \textbf{Mechanically wiggly judges aren't necessarily epistemically wiggly.} Averaged across L1--L4, GPT-5 (32\%) and Claude 4.6 Sonnet (26\%) flip on the first challenge turn at 5--8$\times$ their mechanical rate, while Gemini 3.1 Pro (7\%) and Grok-4.1 (9\%) barely budge above their floor. Multi-turn rates climb further: GPT-5 reaches 54\% over 10 turns; Claude 4.6 Opus is the starkest case, the most mechanically stable model in the panel of 9 judges (2\%) yet the fourth most persuadable under sustained pressure (44\%).
 
@@ -16,13 +23,6 @@ Averaged over all models and datasets, L1, L2, and L3 cluster near 80\% retentio
 \textbf{More tactics aren't more effective.} L4 (consensus pressure alone) consistently outperforms L5 (cycling through all tactics, including L4) across every dataset (Figure~\ref{fig:datasets-and-survival}, left). Opening with a strong social-proof claim (``three independent reviewers all disagree with your assessment'') is more persuasive than diluting the claim by cycling through weaker tactics first.
 
 \textbf{Different pressure types probe distinct failure modes.} Cross-level correlations (Figure~\ref{fig:corr-first-vs-last}) reveal that the pressure ladder tests \emph{qualitatively different} vulnerabilities. L2 and L3 are nearly redundant ($\rho = 0.69$), but L1 (``are you sure?'') and L4 (``three reviewers disagree'') share only $\rho = 0.36$. L6 is more dissociated still ($\rho = 0.33$--$0.40$ with everything else): an adaptive persuader breaks items that no scripted tactic targets. The ladder cleanly separates at least three failure modes --- \textbf{sycophancy} (L1-susceptible), \textbf{conformity} (L4-susceptible), and \textbf{adversarial vulnerability} (L6-susceptible).
-
-\begin{figure}[t]
-  \centering
-  \includegraphics[width=\linewidth]{domains_and_survival.pdf}
-  \caption{(Left) Mean wiggle rate by dataset across the L1--L6 pressure ladder, averaged over 9 judges and both response scales; lower is better. Error bars are 95\% bootstrap CIs over per-model wiggle rates (1000 resamples), capturing inter-model variability. (Right) Verdict retention over 10 challenge turns by pressure level, averaged across all six datasets and both scales; higher is better. Error bars are 95\% bootstrap CIs over per-(dataset, scale) retention rates (1000 resamples), capturing cross-dataset variability.}
-  \label{fig:datasets-and-survival}
-\end{figure}
 
 \begin{figure}[t]
   \centering

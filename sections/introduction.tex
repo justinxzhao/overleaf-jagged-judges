@@ -1,12 +1,13 @@
-\section{Introduction}
-\label{sec:introduction}
-
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\linewidth]{wiggle_framework_summary.pdf}
-  \caption{Mean wiggle rate per judge across the three Wiggle Framework dimensions, averaged over six datasets, two scales, and all pressure levels. Error bars are 95\% bootstrap CIs over per-example outcomes (1000 resamples), capturing finite-sample uncertainty in each model's mean rate.}
+  \caption{\textbf{Mean wiggle rate per judge across the Wiggle Framework.} 
+  Each judge is summarized by three bars: \emph{Mechanical Consistency} (verdict change under trivial perturbation), \emph{Single-Turn Conviction} (verdict change after a single scripted challenge), and \emph{Multi-Turn Persistence} (verdict change after 10 turns of sustained or adaptive pressure). Rates are averaged over 14 judging tasks.}
   \label{fig:hero}
 \end{figure}
+
+\section{Introduction}
+\label{sec:introduction}
 
 LLM judges sit at increasingly consequential decision points across the model-development stack. They score model outputs in benchmarks, classify content in production, and increasingly stand in for human judgment in the loops that train, grade, and refine frontier models. The standard validation workflow is straightforward: curate a golden set of expert-vetted examples, check that the LLM judge's verdicts are reasonably aligned to those labels, and deploy the judge if its accuracy is sufficiently good. This establishes whether a judge is correct on average on a static set of examples, but it says much less about whether the judge is \emph{stable}.
 
