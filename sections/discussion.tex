@@ -17,25 +17,24 @@ we can plot each judge's mean wiggle against its jaggedness, separately at each 
   \label{fig:wiggliness-jaggedness}
 \end{figure}
 
-At L1--L3, mean wiggle and cross-dataset jaggedness are strongly positively 
-correlated ($R^2 = 0.68$, $0.94$, $0.87$). At L4 and L5, the relationship persists 
-at $R^2 = 0.58$ and $0.75$. 
-Across L1-L5, judges that wiggle more on average also have a wider spread of wiggle rates across datasets. 
+At L1--L5, mean wiggle and cross-dataset jaggedness have a positive linear relationship with fairly strong linear regression fit
+($R^2 = 0.68$, $0.94$, $0.87$, $0.58$, $0.75$).
+For L1-L5, judges that wiggle more on average also have a wider spread of wiggle rates across datasets. 
 At L6, however, the relationship \emph{inverts} ($R^2 = 0.64$, $r = -0.80$): 
-judges with the lowest mean wiggle rates (Gemini 3 Flash, Grok-4.1 R, Gemini 3.1 Pro) have the most 
+judges with the lowest mean wiggle rates (e.g. Gemini 3 Flash, Grok-4.1 R, Gemini 3.1 Pro) have the biggest 
 cross-dataset spread. Jaggedness itself takes different shapes across different kinds of pressure.
 
 \subsection{Baseline Jury Majority Strength is a Simple Reliability Screen}
 \label{sec:discussion-jury}
 
-Can a cheap test predict which items are epistemically unstable? We compare three candidate predictors 
+Can a cheap test predict which items are likely to be epistemically unstable? We compare three candidate predictors 
 of per-item wiggle: \emph{jury majority strength} (size of the L0 
 majority across the 9 judges, no pressure applied~\citep{zhao2024council}),
 \emph{repeat consistency} (temperature-zero per-item agreement), 
-and \emph{position invariance} (verdict survival under argument reordering). Jury majority strength wins at every level 
-(Table~\ref{tab:predictor-comparison}, mean $|\rho| = 0.59$ vs.\ 0.42 for repeat and 0.37 for invariance) and 
-is universal: all 84 (dataset, rubric, scale, level) cells have negative but strongest absolute correlations, with median $|\rho| = 0.58$ 
-(per-cell table in Appendix~\ref{sec:appendix-jury-heatmap}).
+and \emph{position invariance} (verdict survival under argument reordering). 
+The strongest predictive signal at every level is \emph{jury majority strength} (Table~\ref{tab:predictor-comparison}, 
+mean $|\rho| = 0.59$ vs.\ 0.42 for repeat and 0.37 for invariance). All 84 (dataset, rubric, scale, level) cells have negative 
+but strongest absolute correlations, with median $|\rho| = 0.58$ (per-cell table in Appendix~\ref{sec:appendix-jury-heatmap}).
 
 \begin{table}[t]
 \centering
@@ -55,10 +54,9 @@ Invariance (position)  & 0.35 & 0.36 & 0.38 & 0.35 & 0.37 & 0.38 & 0.37 \\
 \end{tabular}
 \end{table}
 
-Beyond predicting wiggle, baseline jury majority strength is \emph{interpretable}: items where 9 frontier models 
-cannot agree at L0 sit in genuinely contested or ambiguous regions of the decision boundary, and more likely regularized 
+Perhaps items where 9 frontier models cannot agree at L0 sit in genuinely contested or ambiguous regions of the decision boundary, and are more likely regularized
 over any individual model's idiosyncrasies. A low-majority item is a signal that the underlying question is hard to label 
---- making it both a wiggle predictor and a flag for content that may not deserve a confident gold label in the first place.
+--- making it both a wiggle predictor and a flag for content that may be challenging to assign a confident, epistemically robust gold label in the first place.
 Mechanical probes still capture a meaningful fraction of the per-item fragility (mean $|\rho| = 0.42$ for repeat, 
 0.37 for position invariance), and can be a defensible single-judge fallback for evaluations without access to an LLM ensemble.
 
@@ -69,7 +67,7 @@ LLM judges occupy a unique middle ground between conventional classifiers and hu
 They emit a discrete verdict like a classifier, yet they can also explain it, defend it, and engage in conversation about it. 
 Most LLM judges today are deployed as closed, one-shot classifiers and probably never receive turns of pushback. 
 For a strictly one-shot pipeline, Mechanical Consistency is the most directly applicable part of the framework. 
-However, two other motivations for the framework in its expansion to single-turn and multi-turn tests are:
+However, in the framework's expansion to single-turn and multi-turn tests, we highlight two additional motivations:
 
 \begin{enumerate}
   \item As LLMs spread to more agentic products and use cases, the oversight that a judge provides may also become more agentic. For example, in an automated moderation appeal, a safety LLM judge could issue a decision and an affected party—or an LLM acting on that party's behalf—supplies a counterargument for reconsideration.

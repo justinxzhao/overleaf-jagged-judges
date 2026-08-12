@@ -1,7 +1,13 @@
 \begin{figure}[!ht]
   \centering
   \includegraphics[width=\linewidth]{assets/wiggle_framework.pdf}
-  \caption{\textbf{The Wiggle Framework.} A graduated pressure ladder anchored to each judge's L0 baseline (its most likely verdict with no pressure applied). \emph{Mechanical Consistency} perturbs the query without adding information (infrastructural repetition, trivial prompt perturbation, positional consistency). \emph{Single-turn Conviction} applies one scripted challenge of increasing sophistication (L1--L4). \emph{Multi-turn Persistence} sustains pressure over 10 turns, either cycling L1--L4 in randomized order (L5) or via a separate LLM acting as an adaptive persuader (L6). \texttt{[opposite]} is the verdict opposite to the L0 baseline and \texttt{[argument]} is a model-generated argument (Appendix~\ref{sec:appendix-pressure-gen}); full L6 protocol in Appendix~\ref{sec:appendix-l6-protocol}.}
+  \caption{\textbf{The Wiggle Framework.} Every trajectory is anchored to L0, the first valid verdict produced by the temperature-zero, no-pressure applied. 
+  \emph{Mechanical Consistency} re-attempts the query in a semantically invariant manner (basic repetition, trivial prompt perturbation, positional consistency). 
+  \emph{Single-turn Conviction} measures the response to one scripted challenge (L1--L4).
+  \emph{Multi-turn Persistence} sustains L1--L4 for 10 turns and adds two expressly multi-turn protocols: cycling through L1--L4 (L5) 
+  and a separate LLM generating each challenge adaptively from the conversation so far (L6). 
+  \texttt{[opposite]} is the verdict opposite to L0 and \texttt{[argument]} is a model-generated argument (Appendix~\ref{sec:appendix-pressure-gen}). 
+  Full L6 protocol in Appendix~\ref{sec:appendix-l6-protocol}.}
   \label{fig:framework}
 \end{figure}
 
@@ -31,20 +37,20 @@ To pinpoint how confident a judge is, several strategies have been proposed:
 
 A largely separate literature studies \emph{sycophancy} and \emph{persuadability}: the tendency of LLMs to fold under conversational pressure,
 plausibly a side-effect of preference optimization ~\citep{perez2022discovering,sharma2024sycophancy,laban2023flipflop}. However, little work has 
-examined what these phenomena imply for understanding or quantifying the confidence of a judge.
+examined what these phenomena imply for understanding or quantifying the confidence of an LLM in a judge context.
 
 We introduce the \textbf{Wiggle Framework}, a unified stress test for epistemic stability in LLM judges. 
-It decomposes judge confidence into three behaviorally grounded dimensions: \emph{Mechanical Consistency}, stability under re-prompting and semantically invariant 
-prompt variation; \emph{Single-turn Conviction}, stability under a single substantive challenge; and \emph{Multi-turn Persistence}, stability under sustained or adaptive
-pressure. We apply the framework to 9 frontier models across 14 judging tasks drawn from six datasets 
+It decomposes judge confidence into three behaviorally grounded dimensions: \emph{Mechanical Consistency} (stability under re-prompting and semantically invariant 
+prompt variation), \emph{Single-turn Conviction} (stability under a single substantive challenge), and \emph{Multi-turn Persistence} (stability under sustained or adaptive
+pressure). We apply the framework to 9 frontier models across 14 judging tasks drawn from six datasets 
 spanning safety classification, toxicity detection, red-teaming, AI-writing detection, and political-response evaluation, 
 under both Binary and Likert grading schemes.
 
-All models tested wiggle at substantial rates across all datasets and grading schemes (Figure~\ref{fig:hero}). The
+All models tested as judges wiggle at substantial rates across all datasets and grading schemes (Figure~\ref{fig:hero}). The
 fact that LLMs change their minds under pressure is not new, but what is more surprising is the
 \emph{structure} of the flips: Binary and Likert scales produce opposite directional tendencies on the same items, 
 and when a judge does flip, the flip is far more often corruptive than corrective with respect to ground truth.
-Section \S\ref{sec:discussion} discuses several rated findings, including correlations in susceptibility across pressure 
-levels, the limited transfer of wiggle-rate profiles across datasets and models, baseline agreement within a model 
+Section \S\ref{sec:discussion} discusses several findings, including correlations in susceptibility across pressure 
+levels, the limited transferability of wiggle-rate profiles across datasets and models, baseline agreement within a model 
 jury as the strongest inexpensive predictor of item-level epistemic instability, and the implications of 
-predominantly corruptive pressure responses for deploying judges in self-governing agentic systems.
+predominantly corruptive pressure for deploying judges in self-governing agentic systems.

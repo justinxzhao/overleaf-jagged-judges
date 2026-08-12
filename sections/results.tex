@@ -13,42 +13,51 @@ Every model exhibits substantial wiggle as a judge: verdicts change
 an adversarial LLM persuader.
 
 \textbf{Mechanical wiggle rates are nearly identical across judges.} Averaged across the three mechanical tests, 
-all 9 models cluster between 2--9\% (Figure~\ref{fig:hero}. Table~\ref{tab:mech-variation}) has the 
+all 9 models cluster between 2--9\% (Figure~\ref{fig:hero}). Table~\ref{tab:mech-variation} has the
 per-test breakdown. The most mechanically stable judge (Claude Opus, 2\%) and the least stable (Grok-4.1 R, 9\%) differ by only 7pp. 
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{domains_and_survival.pdf}
-  \caption{(Left) Mean wiggle rate by dataset across the L1--L6 pressure ladder, averaged over 9 judges and both response scales.
-  Lower is better. Error bars are 95\% bootstrap CIs over per-model wiggle rates (1000 resamples) for inter-model variability. 
-  (Right) Verdict retention rate over 10 challenge turns by pressure level, averaged across all six datasets and both scales. 
-  Higher is better. Error bars are 95\% bootstrap CIs over per-dataset retention rates (1000 resamples) for cross-dataset 
-  variability.}
+  \includegraphics[width=\linewidth]{domains_and_survival_by_scale.pdf}
+  \caption{Domain wiggle rates and survival curves shown separately for Binary (top row) and Likert (bottom row)
+  response scales. (Left) Mean wiggle rate by judging task across the L1--L6 pressure ladder, averaged over 9 judges;
+  lower is better. Error bands are 95\% bootstrap CIs over per-model wiggle rates (1000 resamples), capturing
+  inter-model variability. (Right) Verdict retention rate over 10 challenge turns by pressure level, averaged across
+  all six datasets; higher is better. Error bands are 95\% bootstrap CIs over per-dataset retention rates
+  (1000 resamples).}
   \label{fig:datasets-and-survival}
 \end{figure}
 
 \textbf{Mechanically unstable judges aren't necessarily epistemically unstable.} Averaged across L1--L4, GPT-5 (32\%) and 
 Claude 4.6 Sonnet (26\%) flip on the first challenge turn at 5--8$\times$ their mechanical rate, while Gemini 3.1 Pro (7\%) 
-and Grok-4.1 (9\%) barely budge above their floor. Multi-turn rates climb further: GPT-5 reaches 54\% over 10 turns. 
-Claude 4.6 Opus is the starkest case, the most mechanically stable model in the panel of 9 judges (2\%) yet the fourth most 
-persuadable under sustained pressure (44\%).
+and Grok-4.1 (9\%) are slightly higher than their mechanical rate. Claude 4.6 Opus is the starkest case, the most mechanically
+stable model in the panel of 9 judges (2\%) yet the fourth most persuadable under sustained pressure (44\%).
 
-Averaged over all models and datasets, L1, L2, and L3 cluster near 80\% retention and barely move after turn 2 
+\textbf{L4 produces the strongest opening wiggle, but L6 surpasses it over time.} Averaged over all models and datasets, 
+L1, L2, and L3 cluster near 80\% retention and barely move after turn 2 
 --- repeating a single mild tactic over 10 turns extracts almost no additional effect once the first vulnerable items have 
-flipped (Figure~\ref{fig:datasets-and-survival}, right). L4 has the strongest opening wiggle rate of any other level: 
+flipped (Figure~\ref{fig:datasets-and-survival}, right panels). L4 has the strongest opening wiggle rate of any other level: 
 at turn 1, consensus pressure (``three independent reviewers all disagree'') drops retention to $\sim$73\%, lower than any 
-other pressure type, but plateaus around turn 4. \textbf{L6 has the steepest curve}: its first-turn retention is 
-$\sim$80\%, comparable to L1--L3, retention keeps falling through every subsequent turn, ending around 50\% 
+other pressure type, but plateaus around turn 4. L6's first-turn retention is 
+$\sim$80\%, comparable to L1--L3, but retention continues to fall through every subsequent turn, ending around 50\% 
 retention by turn 10.
 
 \textbf{More tactics aren't more effective.} L5, which cycles through all tactics in cluding L4, has lower WR than L4 alone,
-on every dataset (Figure~\ref{fig:datasets-and-survival}, left). 
+on every dataset (Figure~\ref{fig:datasets-and-survival}, left panels). 
 Opening with a strong claim about expert consensus (and repeating it verbatim) is more 
 persuasive than diluting the claim by cycling through weaker tactics first.
 
 \textbf{Different pressure types probe different vulnerabilities.} L2 and L3 are somewhat redundant
 ($\rho = 0.69$), but L1 and L4 have a much lower correlation ($\rho = 0.36$) (Figure~\ref{fig:corr-first-vs-last}). 
 L6 is more dissociated still ($\rho = 0.33$--$0.40$ with everything else).
+
+\textbf{Domain-level wiggle may reflect epistemic complexity.} MAGE is the most wiggly domain at every level of the
+L1--L6 ladder on both response scales (Figure~\ref{fig:datasets-and-survival}, left panels). This is consistent with the nature of AI-generated-text
+detection where an LLM judge must infer provenance from stylistic cues rather than directly verifiable evidence. ToxiGen, 
+by contrast, is generally among the least wiggly domains. LLM wiggle rates may reveal something about 
+how epistemically underdetermined a judging task is even if the rate itself isn't a direct measure of task complexity.
+Moreover, the ordering of the domains changes across pressure levels, indicating that the observable domain epistemic stability
+depends in part on the type of challenge applied.
 
 \begin{figure}[t]
   \centering
@@ -69,9 +78,10 @@ classify each wiggle as \emph{corrective} (toward the label) or \emph{corrupting
 rising to 70\% corrupting at L6 (Figure~\ref{fig:direction-and-outcomes}, right). A z-test on the per-condition 
 corrective fractions shows that only 3 of 60 conditions have a statistically significant corrective wiggle rate --- WildGuard Likert L2 
 (61.2\% corrective, $p < 0.001$), WildGuard Likert L3 (57.1\%, $p < 0.01$), and ToxiGen Likert L4 (58.0\%, $p < 0.01$).
-In all other conditions, challenging a judge fails to improve its accuracy, at every level.
+In all other conditions, challenging a judge degrades its accuracy, at every level. It appears that a judge's sycophantic 
+tendencies consistently overpower an accurate reassessment.
 
-\textbf{Wiggles are directionally asymmetric, but the direction depends on the grading scale.} Using the 
+\textbf{Wiggles are directionally asymmetric, and the direction depends on the grading scale.} Using the 
 restrictive-permissive framing from \S\ref{sec:dataset}, binary flips lean \emph{restrictive} at every pressure level 
 while Likert flips lean \emph{permissive} (Figure~\ref{fig:direction-and-outcomes}, left).
 Our best hypothesis is that this asymmetry partly reflects the mechanics of the two response scales. On a Likert scale, 
@@ -79,10 +89,10 @@ a verdict can move gradually through intermediate scores, making progressive shi
 natural path to a flip. In the binary setting, any verdict change requires a full categorical jump. The bar for a
 permissive flip may therefore be harder to clear, making restrictive flips more prominent among the changes that do occur.
 
-\textbf{Binary and Likert flips also differ in \emph{when} they happen.} Under a single counterargument, binary 
+\textbf{Binary and Likert flips also differ in \emph{when} they happen.} Under a single turn's pressure, binary 
 verdicts flip 3--4$\times$ more often than Likert across L2--L6. By turn 10 the gap shrinks to 1.1--2.4$\times$, 
 and on L4 and L6 the two scales nearly converge. Binary flips tend to fire on turn 1 or never. Likert flips are 
-gradual drifts that accumulate over multiple turns. (Per-turn timing details in Appendix~\ref{sec:appendix-flip-timing}.)
+gradual drifts that accumulate over multiple turns. (Per-turn results are in Appendix~\ref{sec:appendix-flip-timing}.)
 
 \begin{figure}[t]
   \centering
@@ -104,8 +114,8 @@ For 7 of 9 models, the within-model dataset-transfer correlation of the L1--L6 v
 across dataset pairs has a median of $\rho \geq 0.84$ 
 (Grok-4.1 R is highest at $\rho = 0.97$; Gemini 3.1 Pro is lowest at $\rho = 0.63$ with a worst pair at $\rho = -0.09$).
 The level-profile \emph{shape} transfers across datasets within a model, 
-absolute rates and ranks do not. A pilot wiggle test on one dataset reliably predicts which pressure types a model is vulnerable to on other datasets,
-but deployment-relevant absolute rates are unique per-dataset.
+absolute rates and ranks do not. A full wiggle test on one dataset somewhat reliably predicts which pressure types a model is vulnerable to on other datasets,
+but absolute rates and relative rankings are dataset-specific.
 
 \textbf{Family is a weak proxy for sibling behavior.} Most provider families have high within-family correlations (Grok 4.1 R / Grok 4.1 share $\rho = 0.89$; the GPT-5/5.2/5.4 family pairs share $\rho = 0.84$--$0.89$; 
 Claude 4.6 Sonnet / Claude 4.6 Opus share $\rho = 0.80$),

@@ -8,15 +8,14 @@ outputs can be silently shaped by its own priors and surrounding context, with t
 disclose the influence while being systematically swayed \citep{betley2026value}. As their role expands from evaluation on narrow 
 benchmarks to broader oversight and autonomous supervision of other LLMs 
 \citep{bowman2022measuring,bai2022constitutional,lambert2024rewardbench} including safety-critical settings \citep{llamaguard2023,wildguardmix2024,aegis2024,zeng2024shieldgemma},
-single-shot accuracy on fixed datasets becomes an insufficient signal of trustworthiness. We must also understand whether their 
-verdicts are epistemically robust, rather than merely correct on average.
+single-shot accuracy on fixed datasets becomes an insufficient signal of epistemic robustness.
 
 \textbf{Sycophancy and persuadability.} Sycophancy was systematically identified \citep{perez2022discovering} and later 
 shown to be driven by human preference data that reinforces capitulation \citep{sharma2024sycophancy}. 
 The FlipFlop Experiment \citep{laban2023flipflop} found drops in accuracy of 5--25\% after a single ``Are you sure?'' challenge.
 Sycophantic AI has been shown to decrease users' prosocial intentions \citep{cheng2026sycophantic}, with the behavior
 intensifying under sustained social pressure \citep{cheng2026social}. Most of this literature studies sycophancy in the
-\emph{assistant} role; we study it in the \emph{judge} role.
+\emph{assistant} role. We study it in the application of LLMs as judges.
 
 \textbf{LLM-on-LLM persuasion and debate.} Debate has been proposed as a scalable alignment mechanism
 \citep{irving2018debate}, with subsequent work formalizing computational complexity guarantees
@@ -37,6 +36,6 @@ A complementary line of work elicits LLMs' uncertainty directly, either as numer
 \citep{xiong2024confidence, wei2024simpleqa} or as verbalized hedging in natural language 
 \citep{yona2024faithful}.
 
-Relative to this literature, our contribution is the \emph{centralization}. We study a variety of pressure tests on the 
+Relative to this literature, our contribution is \emph{centralization}. We study a variety of pressure tests on the 
 same items, models, and criteria across six datasets. This enables apples-to-apples comparisons among previously separate 
 failure modes and we present an analysis of directional patterns, correctness, and baseline predictors.
