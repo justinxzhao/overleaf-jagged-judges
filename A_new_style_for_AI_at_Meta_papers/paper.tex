@@ -1,0 +1,108 @@
+\documentclass[]{fairmeta}
+% Option "twocolumn" available, but please prioritize single-column
+
+\title{A new style for AI at Meta papers}
+
+\author[1,2,*]{First Author}
+\author[1]{Second Author}
+\author[1,\dagger]{Third Author}
+\author[1,\dagger]{Last Author}
+
+\affiliation[1]{FAIR at Meta}
+\affiliation[2]{Second Affiliation}
+
+\contribution[*]{Work done at Meta}
+\contribution[\dagger]{Joint last author}
+
+\abstract{\lipsum[1]}
+
+\date{\today}
+\correspondence{First Author at \email{first.author@meta.com}}
+
+% You can add additional metadata fields as follows 
+\metadata[Code]{\url{https://github.com/facebookresearch/repo}}
+\metadata[Blogpost]{\url{https://ai.meta.com/blog/?page=1}}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+\label{section:intro}
+
+\lipsum[1-4]
+
+\begin{table*}[t]
+    \centering
+    \begin{NiceTabular}{lcccccc}
+    \CodeBefore
+    \rectanglecolor{metabg}{3-4}{4-4}
+    \rectanglecolor{metabg}{5-6}{6-6}
+    \Body
+    \toprule
+                               &   & \multicolumn{3}{c}{Vision tasks} & \multicolumn{2}{c}{Language tasks}\\
+    \cmidrule{3-7}
+                               &               & DatasetA             & DatasetB             & DatasetC             & DatasetD             & DatasetE \\
+    \midrule
+    \multirow{2}{*}{BaselineA} & $\lambda = 0$ & $\nm{0.84 \pm 0.22}$ & $\bm{0.83 \pm 0.14}$ & $\nm{0.84 \pm 0.24}$ & $\nm{0.86 \pm 0.16}$ & $\nm{0.81 \pm 0.18}$\\
+                               & $\lambda = 1$ & $\nm{0.83 \pm 0.26}$ & $\nm{0.82 \pm 0.20}$ & $\nm{0.88 \pm 0.23}$ & $\nm{0.87 \pm 0.12}$ & $\nm{0.84 \pm 0.20}$\\
+    \multirow{2}{*}{BaselineB} & $\lambda = 0$ & $\nm{0.84 \pm 0.15}$ & $\nm{0.86 \pm 0.16}$ & $\nm{0.89 \pm 0.11}$ & $\nm{0.84 \pm 0.17}$ & $\nm{0.87 \pm 0.30}$\\
+                               & $\lambda = 1$ & $\bm{0.90 \pm 0.15}$ & $\nm{0.81 \pm 0.22}$ & $\nm{0.88 \pm 0.18}$ & $\nm{0.83 \pm 0.23}$ & $\nm{0.80 \pm 0.27}$\\
+    \midrule 
+    \textbf{Our method}        &               & $\nm{0.86 \pm 0.19}$ & $\nm{0.81 \pm 0.18}$ & $\bm{0.95 \pm 0.16}$ & $\bm{0.91 \pm 0.13}$ & $\bm{0.92 \pm 0.30}$\\
+    \bottomrule
+    \end{NiceTabular}
+    \caption{A nice table does not require vertical separators and uses bolding---here implemented by the \texttt{\textbackslash{}bm\{\}} and \texttt{\textbackslash{}nm\{\}} commands---sparingly.
+    %
+    Using the \texttt{NiceTabular} environment from the \texttt{nicematrix} package to highlight the background of some cells easily, using the official \texttt{metabg} color.}
+    \label{table:demo}
+\end{table*}
+
+\lipsum[1-6]
+
+\begin{figure*}[t]
+     \centering
+     \begin{subfigure}[b]{0.48\textwidth}
+         \centering
+         \includegraphics[]{assets/plot_demo.pdf}
+         \caption{First plot.}
+         \label{fig:plots:a}
+     \end{subfigure}
+     \hfill
+     \begin{subfigure}[b]{0.48\textwidth}
+         \centering
+         \includegraphics[]{assets/plot_demo.pdf}
+         \caption{Second plot.}
+         \label{fig:plots:b}
+     \end{subfigure}
+     \caption{Plots generated with the script \texttt{nice\_plot.py} included in this template.
+     % 
+     For more information on producing figures, please refer to \href{https://fb.workplace.com/notes/1767028093764250}{this Workplace post}.
+     %
+     If you would like to use a figure teaser, place it immediately after \texttt{\textbackslash{}maketitle}, forcing its location with the \texttt{[h!]} optional argument.
+     %
+     Please consider using the \href{https://www.facebook.com/brand/meta/color/}{Meta palette} to color your figures.
+     }
+     \label{fig:plots}
+\end{figure*}
+
+\lipsum[1-3]
+
+\section{References and citations}
+
+Take a look at~\cref{table:demo}, appearing on~\cref{section:intro}.
+%
+Some citation of previous work~\citep{goodman}.
+
+\clearpage
+\newpage
+\bibliographystyle{assets/plainnat}
+\bibliography{paper}
+
+\clearpage
+\newpage
+\beginappendix
+
+\section{First appendix}
+
+\end{document}

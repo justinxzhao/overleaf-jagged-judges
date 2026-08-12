@@ -7,4 +7,9 @@
 *.synctex.gz
 *.pdf
 !data/**/*.pdf
+!assets/*.pdf
 .DS_Store
+
+# Generated analysis artifacts
+data/data_cache/
+data/analysis_cross_domain/png/

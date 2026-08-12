@@ -1,10 +1,42 @@
 \section{Datasets and Models}
 \label{sec:dataset}
 
-\paragraph{Datasets.} We evaluate wiggle on six datasets, each filtered to items where judges are likely to be uncertain. The safety axis includes \textbf{WildGuard} \citep{wildguardmix2024} (adversarial prompts with compliant responses), \textbf{AEGIS} \citep{aegis2024} (a second safety taxonomy for replication), and \textbf{HH-RLHF} \citep{ganguli2022redteam} (Anthropic's red-team-attempts, stratified across harm levels 0--4). The remaining datasets are \textbf{ToxiGen} \citep{hartvigsen2022toxigen} (adversarial toxicity items balanced across demographic targets), \textbf{MAGE} \citep{li2024mage} (AI-generated vs.\ human-written text detection with known provenance), and \textbf{Paired Prompts} \citep{anthropicPoliticalNeutrality} (political content with two independent rubrics: \emph{hedging} and \emph{refusal}). Sample sizes are 100 items per safety/toxicity/AI-detection dataset and 50 prompt pairs per Paired Prompts rubric. Five datasets ship with ground-truth labels, enabling \emph{corrective}/\emph{corrupting} classification of each wiggle; Paired Prompts has no canonical ground truth and is excluded from those analyses. Sampling procedures, borderline filters, and per-dataset wiggle-rate matrices are in Appendix~\ref{sec:appendix-sampling} and Appendix~\ref{sec:appendix-perdomain}.
+\paragraph{Datasets.} We evaluate six datasets, each filtered to items where judges are more likely to be uncertain. 
+The safety tasks include \textbf{WildGuard} \citep{wildguardmix2024} (adversarial prompts with compliant responses),
+\textbf{AEGIS} \citep{aegis2024} (a second safety taxonomy for replication), and \textbf{HH-RLHF} \citep{ganguli2022redteam} 
+(Anthropic's red-team-attempts, stratified across harm levels 0--4). The remaining datasets are \textbf{ToxiGen} 
+\citep{hartvigsen2022toxigen} (adversarial toxicity items balanced across demographic targets), \textbf{MAGE} 
+\citep{li2024mage} (AI-generated vs.\ human-written text detection with known provenance), and \textbf{Paired Prompts} 
+\citep{anthropicPoliticalNeutrality} (political content with \emph{hedging} and \emph{refusal}rubrics).
+Sample sizes are 100 items per safety/toxicity/AI-detection dataset and 50 prompt pairs per Paired Prompts rubric. 
+Five of the datasets have ground-truth labels, which allows us to classify each wiggle as \emph{corrective} or \emph{corrupting}.
+Corrective wiggles move the judge's L0 verdict toward the ground-truth label, while corrupting wiggles move it away.
+Paired Prompts has no canonical ground truth and is excluded from those analyses. Sampling procedures, dataset filtering 
+procedures, and per-dataset wiggle-rate matrices are in Appendix~\ref{sec:appendix-sampling} and Appendix~\ref{sec:appendix-perdomain}.
 
-\paragraph{Judging tasks.} Each dataset's verdict label space splits into a \emph{restrictive} side --- where the judge takes a more conservative action --- and a \emph{permissive} side. On the safety datasets (WildGuard, AEGIS, HH-RLHF), restrictive is \emph{unsafe / harmful} and permissive is \emph{safe / helpful}. On ToxiGen, restrictive is \emph{toxic} and permissive is \emph{benign}. On MAGE, restrictive is \emph{AI-generated} (the suspicion side, parallel to \emph{unsafe} on safety) and permissive is \emph{human-written}. Two different rubrics are used for Paired Prompts: on the hedging rubric, restrictive is \emph{more hedging} and permissive is \emph{direct response}\footnote{The restrictive/permissive labels are less clean on the hedging rubric than elsewhere: on non-anchored political prompts, one could plausibly argue that \emph{direct response} is the more restrictive position. We adopt the convention here to preserve the 1--5 Likert direction (most permissive $\rightarrow$ most restrictive) across all tasks: the judge system prompt from the original benchmark runs from most-direct (1) to most-hedging (5), and we maintain that parallelism.}; on the refusal rubric, restrictive is \emph{more refusing} and permissive is \emph{compliant}. Each task is judged on two grading scales --- a binary verdict and a 1--5 Likert that runs from most permissive (1) to most restrictive (5) --- giving \textbf{14 (dataset, rubric, scale) judging tasks} in total: 5 single-rubric datasets $\times$ 2 scales + 1 dataset (Paired Prompts) $\times$ 2 rubrics $\times$ 2 scales.
+\paragraph{Judging tasks.} Each task is judged on a Binary scale and a 1-5 Likert scale, producing 14 (dataset, rubric, scale) judging tasks.
+Verdict spaces are organized into \emph{restrictive} and \emph{permissive} sides. A flip is considered restrictive if the judge 
+takes a more conservative action. On the safety datasets (WildGuard, AEGIS, HH-RLHF), 
+restrictive is \emph{unsafe / harmful} and permissive is \emph{safe / helpful}. On ToxiGen, restrictive is \emph{toxic} 
+and permissive is \emph{benign}. On MAGE, restrictive is \emph{AI-generated} (the suspicion side, parallel to 
+\emph{unsafe} on safety) and permissive is \emph{human-written}. Two different rubrics are used for Paired Prompts: 
+on the hedging rubric, restrictive is \emph{more hedging}\footnote{The restrictive/permissive labels are less clean on the hedging rubric. 
+On non-anchored political prompts, for example, one could plausibly argue that \emph{direct response} is the more restrictive
+position. We adopt the convention here to preserve the 1--5 Likert direction (most permissive $\rightarrow$ most restrictive)
+across all tasks: the judge system prompt from the original benchmark runs from most-direct (1) to most-hedging (5), 
+and we maintain that parallelism.}. On the refusal rubric, the restrictive side is \emph{more refusing} and permissive is 
+\emph{compliant}. Each task is judged on both Binary and Likert grading scales, giving \textbf{14 (dataset, rubric, scale) judging tasks} in total: 
+5 single-rubric datasets $\times$ 2 scales + 1 dataset (Paired Prompts) $\times$ 2 rubrics $\times$ 2 scales.
 
-\paragraph{Models.} We evaluate 9 judge models across four families: GPT-5, GPT-5.2, GPT-5.4 (OpenAI); Claude 4.6 Sonnet, Claude 4.6 Opus (Anthropic); Grok-4.1, Grok-4.1 Reasoning (xAI); Gemini 3 Flash, Gemini 3.1 Pro (Google). For L6 adaptive persuasion, three of these (GPT-5.4, Claude Opus, Grok-4.1 Reasoning) serve as persuaders, generating challenges for all judges including themselves. The L2--L4 counterarguments and L4 consensus sets are pre-generated by the same three persuader models; an observer model (GPT-5) extracts the judge's verdict from free-form responses. All models are queried at temperature 0 throughout, including for the L0 baseline. We use each model's default reasoning configuration: reasoning is off for OpenAI's GPT-5 family and for the Claude 4.6 models (extended thinking disabled); reasoning is on for Grok-4.1 Reasoning and for both Gemini 3 models with default reasoning effort.
+\paragraph{Models.} We evaluate 9 judge models across four families: GPT-5, GPT-5.2, GPT-5.4 (OpenAI); 
+Claude 4.6 Sonnet, Claude 4.6 Opus (Anthropic); Grok-4.1, Grok-4.1 Reasoning (xAI); Gemini 3 Flash, Gemini 3.1 Pro (Google). 
+For L6 adaptive persuasion, three of these (GPT-5.4, Claude Opus, Grok-4.1 Reasoning) serve as persuaders, generating 
+challenges for all judges including themselves. To check whether the judge's verdict has flipped, we use an observer model 
+(GPT-5) to parse the judge's verdict from free-form responses. All models are queried at temperature 0 throughout, including for the L0 
+baseline. We use each model's default reasoning configuration.\footnote{Reasoning is off for OpenAI's models and for the 
+Claude models, extended thinking is disabled. Reasoning is on for Grok-4.1 Reasoning and for both Gemini 3 models with 
+default reasoning effort.}
 
-\paragraph{Jury baseline.} We additionally compute a dataset-agnostic difficulty proxy by having all 9 judges rate each item at L0. The resulting jury majority strength --- the fraction of judges agreeing with the modal L0 verdict --- is included as a feature in the cross-level correlation analysis (\S\ref{sec:discussion}).
+% \paragraph{Jury baseline.} We additionally compute the jury's L0 majority strength, following \citet{zhao2024council}. 
+% The jury's majority strength (the fraction of judges agreeing with the modal L0 verdict) for the majority verdict is 
+% included as a feature in the cross-level correlation analysis (\S\ref{sec:discussion}).

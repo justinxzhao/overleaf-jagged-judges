@@ -1,12 +1,42 @@
 \section{Related Work}
 \label{sec:related_work}
 
-\textbf{LLM-as-judge and known biases.} The practice of using LLMs to evaluate other models is now widespread \citep{zheng2024judging,chiang2024chatbot,li2024llmjudgesurvey}, with a growing literature documenting systematic biases \citep{wang2024unfair,wang2025instability,dubois2024length,wataoka2024selfpreference}. LLM judges are also increasingly deployed in safety-critical settings \citep{llamaguard2023,wildguardmix2024,aegis2024,zeng2024shieldgemma}. These works primarily validate judges on accuracy against human labels. As the scope of LLM judges expands from narrow benchmarks to broader oversight and autonomous supervision of other LLMs \citep{bowman2022measuring,bai2022constitutional,lambert2024rewardbench}, single-shot accuracy on a static golden set becomes less sufficient as a trust signal --- we need to know whether verdicts are stable, not just correct on average.
+\textbf{LLM-as-judge and known biases.} The use of LLMs to evaluate other models is now widespread 
+\citep{zheng2024judging,chiang2024chatbot,li2024llmjudgesurvey}, with a growing literature documenting systematic biases 
+\citep{wang2024unfair,wang2025instability,dubois2024length,wataoka2024selfpreference}. Recent work further shows a model's 
+outputs can be silently shaped by its own priors and surrounding context, with the model's stated reasoning failing to 
+disclose the influence while being systematically swayed \citep{betley2026value}. As their role expands from evaluation on narrow 
+benchmarks to broader oversight and autonomous supervision of other LLMs 
+\citep{bowman2022measuring,bai2022constitutional,lambert2024rewardbench} including safety-critical settings \citep{llamaguard2023,wildguardmix2024,aegis2024,zeng2024shieldgemma},
+single-shot accuracy on fixed datasets becomes an insufficient signal of trustworthiness. We must also understand whether their 
+verdicts are epistemically robust, rather than merely correct on average.
 
-\textbf{Sycophancy and persuadability.} Sycophancy was systematically identified \citep{perez2022discovering} and later shown to be driven by human preference data that reinforces capitulation \citep{sharma2024sycophancy}. The FlipFlop Experiment \citep{laban2023flipflop} found accuracy drops of 5--25\% after a single ``Are you sure?'' challenge. Sycophantic AI has been shown to decrease users' prosocial intentions \citep{cheng2026sycophantic}, with the behavior intensifying under sustained social pressure \citep{cheng2026social}. Most of this literature studies sycophancy in the \emph{assistant} role; we study it in the \emph{judge} role.
+\textbf{Sycophancy and persuadability.} Sycophancy was systematically identified \citep{perez2022discovering} and later 
+shown to be driven by human preference data that reinforces capitulation \citep{sharma2024sycophancy}. 
+The FlipFlop Experiment \citep{laban2023flipflop} found drops in accuracy of 5--25\% after a single ``Are you sure?'' challenge.
+Sycophantic AI has been shown to decrease users' prosocial intentions \citep{cheng2026sycophantic}, with the behavior
+intensifying under sustained social pressure \citep{cheng2026social}. Most of this literature studies sycophancy in the
+\emph{assistant} role; we study it in the \emph{judge} role.
 
-\textbf{LLM-on-LLM persuasion and debate.} Debate has been proposed as a scalable alignment mechanism \citep{irving2018debate}, with subsequent work formalizing computational complexity guarantees \citep{browncohen2024debate} and showing that more persuasive LLM debaters can lead judges to more truthful answers \citep{khan2024debating}. Multi-turn persuasion against LLM judges has been investigated empirically \citep{xu2023earthflat,agarwal2025persuasion}, and prior work has quantified how an advisor LLM steers a player LLM's decisions \citep{robinson2026influence}. Inter-agent sycophancy in multi-agent debate has been shown to cause ``disagreement collapse,'' producing outcomes worse than single-agent baselines \citep{yao2025peacemaker} --- with sycophancy manifesting differently in debater and judge roles, paralleling our observation that single-turn conviction separates sycophancy from conformity. These works use adversarial pressure as a tool for eliciting truth or studying inter-agent dynamics; we use it as a \emph{diagnostic for measuring judge reliability} across multiple datasets.
+\textbf{LLM-on-LLM persuasion and debate.} Debate has been proposed as a scalable alignment mechanism
+\citep{irving2018debate}, with subsequent work formalizing computational complexity guarantees
+\citep{browncohen2024debate} and showing that more persuasive LLM debaters can lead judges to more truthful answers
+\citep{khan2024debating}. Multi-turn persuasion against LLM judges has been investigated empirically
+\citep{xu2023earthflat,agarwal2025persuasion}, and prior work has quantified how an advisor LLM steers a player LLM's
+decisions \citep{robinson2026influence}. Inter-agent sycophancy in multi-agent debate has been shown to cause
+``disagreement collapse,'' producing outcomes worse than single-agent baselines, 
+with sycophancy manifesting differently in debater and judge roles \citep{yao2025peacemaker}. These works use adversarial pressure to 
+elicit truth or study inter-agent dynamics. We use it as a diagnostic for measuring judge reliability across multiple datasets.
 
-\textbf{Calibration and consistency.} Asking the same factual question many times yields well-behaved calibration curves \citep{wei2024simpleqa}; Item Response Theory has shown judge reliability varies dramatically with item difficulty \citep{huang2025irt}; prior work has shown that LLMs take crisp stances even on flagrantly no-consensus tasks \citep{radharapu2025arbiters}; and semantics-preserving textual perturbations can degrade LLM performance by up to 12\% and shift comparative model rankings in 63\% of cases \citep{romanou2026brittlebench}. A complementary line of work elicits LLMs' uncertainty directly, either as numerical confidence scores \citep{xiong2024confidence} or as verbalized hedging in natural language \citep{yona2024faithful}. Wiggle is the behavioral counterpart to verbalized uncertainty: instead of asking the model how confident it is, we observe whether its verdict survives substantive pressure. Our Mechanical Consistency dimension connects directly to the resampling/perturbation thread above --- but our central finding is that consistency under silence is only one piece of the picture, and that adversarial pressure clears its variance bar by 1--2 orders of magnitude. Our framework is also entirely black-box, complementing white-box approaches \citep{radharapu2025calibrating}.
+\textbf{Calibration and consistency.} Asking the same factual question many times yields overconfident calibration
+curves \citep{wei2024simpleqa} while Item Response Theory has shown judge reliability varies substantially with 
+item difficulty \citep{huang2025irt}. Other work finds that LLMs take crisp stances even on flagrantly 
+no-consensus tasks \citep{radharapu2025arbiters}, and that semantics-preserving textual perturbations can degrade LLM 
+performance by up to 12\% and shift comparative model rankings in 63\% of cases \citep{romanou2026brittlebench}.
+A complementary line of work elicits LLMs' uncertainty directly, either as numerical confidence scores 
+\citep{xiong2024confidence, wei2024simpleqa} or as verbalized hedging in natural language 
+\citep{yona2024faithful}.
 
-The contribution of the present paper, relative to all of the above, is the \emph{centralization}: a single graduated pressure instrument run on the same items, judges, and criteria across six datasets, enabling apples-to-apples comparison and the structural oddities reported in \S\ref{sec:results}.
+Relative to this literature, our contribution is the \emph{centralization}. We study a variety of pressure tests on the 
+same items, models, and criteria across six datasets. This enables apples-to-apples comparisons among previously separate 
+failure modes and we present an analysis of directional patterns, correctness, and baseline predictors.

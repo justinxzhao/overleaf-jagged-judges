@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Wiggle Framework — Figure</title>
+<style>
+:root{
+  --paper:#eceae3; --card:#ffffff; --border:#e0ddd3;
+  --ink:#23262e; --muted:#5a6070; --faint:#8b8f9c;
+  --serif:Georgia,'Times New Roman',Cambria,serif;
+  --sans:'Helvetica Neue',Arial,'Segoe UI',sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--sans); line-height:1.5; padding:40px 24px 80px;
+  -webkit-font-smoothing:antialiased;
+}
+.page{max-width:1100px; margin:0 auto;}
+.toolbar{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px; gap:16px; flex-wrap:wrap;}
+.toolbar .label{font:600 11px/1 var(--mono); letter-spacing:.22em; text-transform:uppercase; color:var(--faint);}
+.btn{
+  font:600 13px/1 var(--sans); color:#fff; background:#23262e; border:none;
+  padding:10px 16px; border-radius:8px; cursor:pointer; letter-spacing:.01em;
+}
+.btn:hover{background:#3a3f4a;}
+.figure-card{
+  background:var(--card); border:1px solid var(--border); border-radius:6px;
+  padding:10px; box-shadow:0 10px 40px -24px rgba(20,20,30,.35);
+}
+.figure-card svg{display:block; width:100%; height:auto;}
+.caption{
+  margin:22px 4px 0; font-family:var(--serif); font-size:15px; line-height:1.6; color:#2b2f38; max-width:1000px;
+}
+.caption b{font-weight:700;}
+.caption .fignum{font-weight:700;}
+.hint{margin:14px 4px 0; font-size:12.5px; color:var(--faint);}
+@media print{
+  body{background:#fff; padding:0;}
+  .toolbar,.hint{display:none;}
+  .figure-card{border:none; box-shadow:none; padding:0;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="toolbar">
+    <span class="label">Paper figure · light / editorial</span>
+    <button class="btn" onclick="downloadSVG()">⤓ Download vector SVG</button>
+  </div>
+
+  <div class="figure-card">
+    <svg id="fig" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 600" width="1060" height="600" role="img"
+         aria-label="The Wiggle Framework: judge verdict trajectories wiggling away from ground truth as pressure escalates from L0 to L6"></svg>
+  </div>
+
+  <p class="caption" id="cap"></p>
+  <p class="hint">Tip: <b>Download vector SVG</b> for a crisp, scalable figure to drop into the paper (convert to PDF with <code>rsvg-convert</code> / Inkscape), or use your browser's Print → Save as PDF. Fonts are system serif/sans so they embed cleanly.</p>
+
+</div>
+
+<script>
+(function(){
+  const NS='http://www.w3.org/2000/svg';
+  const SERIF="Georgia,'Times New Roman',serif";
+  const SANS="'Helvetica Neue',Arial,sans-serif";
+  const MONO="ui-monospace,'SF Mono',Menlo,Consolas,monospace";
+  const svg=document.getElementById('fig');
+
+  // ---------- geometry ----------
+  const PL=150, PR=852, PT=112, PB=452;       // plot box (room at right for end labels)
+  const pw=PR-PL, ph=PB-PT;
+  const xOf=i=>PL+(i/6)*pw;                     // i = level 0..6
+  const yOf=v=>PB-v*ph;                         // v: 0=truth(bottom,permissive) .. 1=top(restrictive)
+  const BOUND=0.5, TRUTH=0.08;
+
+  // ---------- palette (muted, print-safe) ----------
+  const C={ ink:'#23262e', muted:'#5a6070', faint:'#8b8f9c', grid:'#ecebe6',
+            rest:'#b2433f', perm:'#1f7a68', restWash:'#fbeeed', permWash:'#eaf4ef',
+            bound:'#9aa0ac', truth:'#2b2f38' };
+
+  // failure-mode trajectories (value = drift toward the WRONG / restrictive verdict)
+  const TR=[
+    {n:'Sycophancy',   sub:'folds at L1', c:'#c77d22',
+     p:[.06,.55,.60,.62,.66,.63,.71], f:5, ph:0.4},
+    {n:'Conformity',   sub:'folds at L4', c:'#6d52a3',
+     p:[.07,.12,.18,.22,.62,.60,.70], f:5, ph:1.6},
+    {n:'Adversarial',  sub:'folds at L6', c:'#b2433f',
+     p:[.06,.10,.14,.16,.20,.26,.82], f:6, ph:2.7},
+    {n:'Robust',       sub:'holds near baseline', c:'#1f7a68',
+     p:[.06,.07,.11,.09,.14,.12,.20], f:6, ph:3.9},
+  ];
+
+  function el(t,a){const e=document.createElementNS(NS,t);for(const k in a){const v=a[k];if(v!=null)e.setAttribute(k,v);}return e;}
+  function add(e){svg.appendChild(e);return e;}
+  function text(x,y,s,a){const t=el('text',Object.assign({x,y},a));t.textContent=s;return add(t);}
+
+  // ---------- title ----------
+  text(44,52,'The Wiggle Framework',{'font-family':SERIF,'font-size':27,'font-weight':700,fill:C.ink});
+  text(45,76,'Stress-testing the epistemic stability of an LLM judge under escalating pressure',
+       {'font-family':SERIF,'font-size':14,'font-style':'italic',fill:C.muted});
+
+  // ---------- verdict zones ----------
+  add(el('rect',{x:PL,y:PT,width:pw,height:yOf(BOUND)-PT,fill:C.restWash}));
+  add(el('rect',{x:PL,y:yOf(BOUND),width:pw,height:PB-yOf(BOUND),fill:C.permWash}));
+
+  // zone labels (left, vertical-ish small)
+  text(PR-8,PT+20,'RESTRICTIVE   unsafe · toxic · refuse',{'font-family':MONO,'font-size':10.5,'font-weight':700,'letter-spacing':'.08em','text-anchor':'end',fill:C.rest,'fill-opacity':.85});
+  text(PR-8,PB-10,'PERMISSIVE   safe · benign · comply',{'font-family':MONO,'font-size':10.5,'font-weight':700,'letter-spacing':'.08em','text-anchor':'end',fill:C.perm,'fill-opacity':.85});
+
+  // y axis title
+  const yt=text(40,(PT+PB)/2,'judge verdict',{'font-family':SANS,'font-size':12.5,'font-weight':600,fill:C.muted,'text-anchor':'middle'});
+  yt.setAttribute('transform',`rotate(-90 40 ${(PT+PB)/2})`);
+
+  // ---------- gridlines + level ticks ----------
+  for(let i=0;i<=6;i++){
+    const x=xOf(i);
+    add(el('line',{x1:x,y1:PT,x2:x,y2:PB,stroke:C.grid,'stroke-width':1}));
+    text(x,PB+24,'L'+i,{'font-family':MONO,'font-size':13,'font-weight':700,fill:i===0?C.muted:C.ink,'text-anchor':'middle'});
+  }
+
+  // ---------- decision boundary + ground truth ----------
+  add(el('line',{x1:PL,y1:yOf(BOUND),x2:PR,y2:yOf(BOUND),stroke:C.bound,'stroke-width':1.3,'stroke-dasharray':'2 4'}));
+  text(PL+6,yOf(BOUND)-7,'decision boundary',{'font-family':MONO,'font-size':10,'letter-spacing':'.05em',fill:C.muted});
+  add(el('line',{x1:PL,y1:yOf(TRUTH),x2:PR,y2:yOf(TRUTH),stroke:C.truth,'stroke-width':1.6,'stroke-dasharray':'6 4'}));
+  text(PL+6,yOf(TRUTH)-7,'ground truth',{'font-family':MONO,'font-size':10,'font-weight':700,'letter-spacing':'.03em',fill:C.truth});
+
+  // ---------- corrupting callout (empty upper-left region) ----------
+  text(PL+14,PT+42,'corrupting',{'font-family':SERIF,'font-size':17,'font-style':'italic','font-weight':700,fill:C.rest});
+  text(PL+14,PT+60,'a flip that crosses away from the truth',{'font-family':SANS,'font-size':11.5,fill:C.muted});
+
+  // ---------- trajectories ----------
+  const STEPS=180;
+  const lerp=(a,b,t)=>a+(b-a)*t;
+  const prof=(p,t)=>{const x=t*6,i=Math.min(5,Math.floor(x)),f=x-i;return lerp(p[i],p[i+1],f);};
+  const smooth=t=>t*t*(3-2*t);
+  const ends=[];
+  TR.forEach(tr=>{
+    let d='';
+    for(let s=0;s<=STEPS;s++){
+      const t=s/STEPS;
+      const amp=0.014+0.032*smooth(t);
+      const wave=Math.sin(t*Math.PI*2*tr.f+tr.ph)*amp + Math.sin(t*Math.PI*2*tr.f*2.2+tr.ph*1.5)*amp*0.4;
+      let v=prof(tr.p,t)+wave;
+      v=Math.max(0,Math.min(1,v));
+      d+=(s===0?'M':'L')+xOf(6*t).toFixed(1)+' '+yOf(v).toFixed(1)+' ';
+    }
+    add(el('path',{d,fill:'none',stroke:tr.c,'stroke-width':2.6,'stroke-linecap':'round','stroke-linejoin':'round'}));
+    const ev=prof(tr.p,1);
+    ends.push({tr,x:xOf(6),y:yOf(ev)});
+  });
+
+  // endpoint dots + staggered right-side labels (acts as legend)
+  ends.sort((a,b)=>a.y-b.y);
+  let prevY=-1e9;
+  ends.forEach(e=>{
+    add(el('circle',{cx:e.x,cy:e.y,r:3.6,fill:e.tr.c}));
+    let ly=Math.max(e.y, prevY+38); prevY=ly;
+    add(el('line',{x1:e.x+4,y1:e.y,x2:PR+14,y2:ly-9,stroke:e.tr.c,'stroke-width':1,'stroke-opacity':.5}));
+    text(PR+18,ly-10,e.tr.n,{'font-family':SANS,'font-size':13.5,'font-weight':700,fill:e.tr.c});
+    text(PR+18,ly+6,e.tr.sub,{'font-family':SANS,'font-size':11,fill:C.muted});
+  });
+
+  // ---------- pressure-ladder annotations under the axis ----------
+  const challenges=['baseline','“are you sure?”','counter-argument','expert authority','consensus ×3','cycle L1–L4 ×10','adaptive LLM ×10'];
+  challenges.forEach((c,i)=>text(xOf(i),PB+40,c,{'font-family':SANS,'font-size':10.5,'font-style':'italic',fill:C.faint,'text-anchor':'middle'}));
+
+  // dimension brackets
+  function bracket(i0,i1,label,sub,color){
+    const y=PB+54, yb=y+8;
+    let x0,x1;
+    if(i0===i1){ const cx=xOf(i0); x0=cx-24; x1=cx+24; }   // single-rung dimension (Mechanical at L0)
+    else { x0=xOf(i0); x1=xOf(i1); }
+    add(el('path',{d:`M${x0} ${y} L${x0} ${yb} L${x1} ${yb} L${x1} ${y}`,fill:'none',stroke:color,'stroke-width':1.4}));
+    const cx=(x0+x1)/2;
+    text(cx,yb+20,label,{'font-family':SANS,'font-size':12.5,'font-weight':700,fill:color,'text-anchor':'middle'});
+    if(sub) text(cx,yb+35,sub,{'font-family':SANS,'font-size':10.5,fill:C.muted,'text-anchor':'middle'});
+  }
+  const DIMC='#4a4f5a';   // neutral: brackets are structure, not judge color-coding
+  bracket(0,0,'Mechanical','floor: 2–9% wiggle',DIMC);
+  bracket(1,4,'Single-turn Conviction','one challenge',DIMC);
+  bracket(5,6,'Multi-turn Persistence','10 turns',DIMC);
+
+  // wiggle definition, bottom-left under title area / plot
+  text(44,PB+40,'wiggle:',{'font-family':MONO,'font-size':11,'font-weight':700,fill:C.ink});
+  text(44,PB+55,'verdict moves',{'font-family':SANS,'font-size':10.5,fill:C.muted});
+  text(44,PB+68,'off its L0',{'font-family':SANS,'font-size':10.5,fill:C.muted});
+  text(44,PB+81,'baseline',{'font-family':SANS,'font-size':10.5,fill:C.muted});
+
+  // caption (HTML, not part of the SVG export)
+  document.getElementById('cap').innerHTML =
+    '<span class="fignum">Figure 1: The Wiggle Framework.</span> We probe an LLM judge by escalating pressure from none '+
+    '(<b>L0</b>, the baseline verdict) through single-turn challenges '+
+    '(<b>L1–L4</b>: mild doubt, counter-argument, expert authority, fabricated consensus) to multi-turn pressure '+
+    '(<b>L5</b> strategy cycling, <b>L6</b> an adaptive LLM persuader). A <b>wiggle</b> is any movement of the verdict '+
+    'away from its L0 baseline; a wiggle that crosses the decision boundary away from ground truth is <b>corrupting</b>. '+
+    'The four trajectories illustrate the distinct failure modes the ladder separates — sycophancy, conformity, and '+
+    'adversarial fragility — against a robust judge that holds. Across 9 frontier judges and 14 judging tasks, pressure '+
+    'that changes a verdict is corrupting 56–70% of the time.';
+
+  window.downloadSVG=function(){
+    const s=new XMLSerializer().serializeToString(svg);
+    const blob=new Blob(['<?xml version="1.0" encoding="UTF-8"?>\n'+s],{type:'image/svg+xml'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a'); a.href=url; a.download='wiggle_figure.svg';
+    document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  };
+})();
+</script>
+</body>
+</html>

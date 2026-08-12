@@ -1,4 +1,4 @@
-\begin{thebibliography}{40}
+\begin{thebibliography}{44}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -29,6 +29,11 @@ Samuel~R. Bowman, Jeeyoon Hyun, Ethan Perez, Edwin Chen, Craig Pettit, Scott Hei
 Jonah Brown-Cohen, Geoffrey Irving, and Georgios Piliouras.
 \newblock Scalable {AI} safety via doubly-efficient debate.
 \newblock In \emph{Proceedings of the International Conference on Machine Learning}, 2024.
+
+\bibitem[Carlini et~al.(2024)Carlini, Paleka, Dvijotham, Steinke, Hayase, Cooper, Lee, Jagielski, Nasr, Conmy, Wallace, Rolnick, and Tram{\`e}r]{carlini2024stealing}
+Nicholas Carlini, Daniel Paleka, Krishnamurthy~Dj Dvijotham, Thomas Steinke, Jonathan Hayase, A.~Feder Cooper, Katherine Lee, Matthew Jagielski, Milad Nasr, Arthur Conmy, Eric Wallace, David Rolnick, and Florian Tram{\`e}r.
+\newblock Stealing part of a production language model.
+\newblock In \emph{Proceedings of the 41st International Conference on Machine Learning}, pages 5680--5705, 2024.
 
 \bibitem[Cheng et~al.(2026{\natexlab{a}})Cheng, Lee, Khadpe, Yu, Han, and Jurafsky]{cheng2026sycophantic}
 Myra Cheng, Cinoo Lee, Pranav Khadpe, Sunny Yu, Dyllan Han, and Dan Jurafsky.
@@ -61,6 +66,17 @@ Stephane Collot, Colin Fraser, Justin Zhao, William~F. Shen, Timon Willi, and Il
 Yann Dubois, Balazs Galambosi, Percy Liang, and Tatsunori~B. Hashimoto.
 \newblock Length-controlled {AlpacaEval}: A simple way to debias automatic evaluators.
 \newblock \emph{arXiv preprint arXiv:2404.04475}, 2024.
+
+\bibitem[Durmus et~al.(2024)Durmus, Lovitt, Tamkin, Ritchie, Clark, and Ganguli]{durmus2024persuasiveness}
+Esin Durmus, Liane Lovitt, Alex Tamkin, Stuart Ritchie, Jack Clark, and Deep Ganguli.
+\newblock Measuring the persuasiveness of language models.
+\newblock Anthropic research report, 2024.
+\newblock \url{https://www.anthropic.com/news/measuring-model-persuasiveness}.
+
+\bibitem[Finlayson et~al.(2024)Finlayson, Ren, and Swayamdipta]{finlayson2024logits}
+Matthew Finlayson, Xiang Ren, and Swabha Swayamdipta.
+\newblock Logits of {API}-protected {LLM}s leak proprietary information.
+\newblock In \emph{Proceedings of the First Conference on Language Modeling}, 2024.
 
 \bibitem[Ganguli et~al.(2022)Ganguli, Lovitt, Kernion, Askell, Bai, Kadavath, Mann, Perez, Schiefer, Ndousse, Jones, Bowman, Chen, Conerly, DasSarma, Drain, Elhage, El-Showk, Fort, Hatfield-Dodds, Henighan, Hernandez, Hume, Jacobson, Johnston, Kravec, Olsson, Ringer, Tran-Johnson, Amodei, Brown, Joseph, McCandlish, Olah, Kaplan, and Clark]{ganguli2022redteam}
 Deep Ganguli, Liane Lovitt, Jackson Kernion, Amanda Askell, Yuntao Bai, Saurav Kadavath, Ben Mann, Ethan Perez, Nicholas Schiefer, Kamal Ndousse, Andy Jones, Sam Bowman, Anna Chen, Tom Conerly, Nova DasSarma, Dawn Drain, Nelson Elhage, Sheer El-Showk, Stanislav Fort, Zac Hatfield-Dodds, Tom Henighan, Danny Hernandez, Tristan Hume, Josh Jacobson, Scott Johnston, Shauna Kravec, Catherine Olsson, Sam Ringer, Eli Tran-Johnson, Dario Amodei, Tom Brown, Nicholas Joseph, Sam McCandlish, Christopher Olah, Jared Kaplan, and Jack Clark.
@@ -143,6 +159,12 @@ Angelika Romanou, Mark Ibrahim, Candace Ross, Chantal Shaib, Kerem Oktar, Samuel
 \newblock Brittlebench: Quantifying {LLM} robustness via prompt sensitivity.
 \newblock \emph{arXiv preprint arXiv:2603.13285}, 2026.
 
+\bibitem[Salvi et~al.(2025)Salvi, Horta~Ribeiro, Gallotti, and West]{salvi2025gpt4}
+Francesco Salvi, Manoel Horta~Ribeiro, Riccardo Gallotti, and Robert West.
+\newblock On the conversational persuasiveness of {GPT}-4.
+\newblock \emph{Nature Human Behaviour}, 9\penalty0 (8):\penalty0 1645--1653, 2025.
+\newblock \doi{10.1038/s41562-025-02194-6}.
+
 \bibitem[Sharma et~al.(2024)Sharma, Tong, Korbak, Duvenaud, Askell, Bowman, Cheng, Durmus, Hatfield-Dodds, Johnston, Kravec, Maxwell, McCandlish, Ndousse, Rausch, Schiefer, Yan, Zhang, and Perez]{sharma2024sycophancy}
 Mrinank Sharma, Meg Tong, Tomasz Korbak, David Duvenaud, Amanda Askell, Samuel~R. Bowman, Newton Cheng, Esin Durmus, Zac Hatfield-Dodds, Scott~R. Johnston, Shauna Kravec, Timothy Maxwell, Sam McCandlish, Kamal Ndousse, Oliver Rausch, Nicholas Schiefer, Da~Yan, Miranda Zhang, and Ethan Perez.
 \newblock Towards understanding sycophancy in language models.
@@ -151,7 +173,7 @@ Mrinank Sharma, Meg Tong, Tomasz Korbak, David Duvenaud, Amanda Askell, Samuel~R
 \bibitem[Shen et~al.(2025)Shen, Appel, Tucker, Jagadish, Maheshwary, Askell, and Durmus]{anthropicPoliticalNeutrality}
 Judy~Hanwen Shen, Ruth Appel, Madeleine Tucker, Kamya Jagadish, Paruul Maheshwary, Amanda Askell, and Esin Durmus.
 \newblock Political even-handedness evaluation v1, 2025.
-\newblock URL \url{https://github.com/anthropics/political-neutrality-eval}.
+\newblock \url{https://github.com/anthropics/political-neutrality-eval}.
 
 \bibitem[Wang(2025)]{wang2025instability}
 others Wang.
@@ -173,7 +195,7 @@ Koki Wataoka, Tsubasa Takahashi, and Ryokan Ri.
 Jason Wei, Karina Nguyen, Hyung~Won Chung, Yunxin~Joy Jiao, Spencer Papay, Amelia Glaese, John Schulman, and William Fedus.
 \newblock Measuring short-form factuality in large language models.
 \newblock 2024.
-\newblock URL \url{https://cdn.openai.com/papers/simpleqa.pdf}.
+\newblock \url{https://cdn.openai.com/papers/simpleqa.pdf}.
 \newblock OpenAI technical report.
 
 \bibitem[Xiong et~al.(2024)Xiong, Hu, Lu, Li, Fu, He, and Hooi]{xiong2024confidence}
