@@ -1,4 +1,4 @@
-\begin{thebibliography}{40}
+\begin{thebibliography}{47}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -29,6 +29,11 @@ Samuel~R. Bowman, Jeeyoon Hyun, Ethan Perez, Edwin Chen, Craig Pettit, Scott Hei
 Jonah Brown-Cohen, Geoffrey Irving, and Georgios Piliouras.
 \newblock Scalable {AI} safety via doubly-efficient debate.
 \newblock In \emph{Proceedings of the International Conference on Machine Learning}, 2024.
+
+\bibitem[Carlini et~al.(2024)Carlini, Paleka, Dvijotham, Steinke, Hayase, Cooper, Lee, Jagielski, Nasr, Conmy, Wallace, Rolnick, and Tram{\`e}r]{carlini2024stealing}
+Nicholas Carlini, Daniel Paleka, Krishnamurthy~Dj Dvijotham, Thomas Steinke, Jonathan Hayase, A.~Feder Cooper, Katherine Lee, Matthew Jagielski, Milad Nasr, Arthur Conmy, Eric Wallace, David Rolnick, and Florian Tram{\`e}r.
+\newblock Stealing part of a production language model.
+\newblock In \emph{Proceedings of the 41st International Conference on Machine Learning}, pages 5680--5705, 2024.
 
 \bibitem[Cheng et~al.(2026{\natexlab{a}})Cheng, Lee, Khadpe, Yu, Han, and Jurafsky]{cheng2026sycophantic}
 Myra Cheng, Cinoo Lee, Pranav Khadpe, Sunny Yu, Dyllan Han, and Dan Jurafsky.
@@ -61,6 +66,17 @@ Stephane Collot, Colin Fraser, Justin Zhao, William~F. Shen, Timon Willi, and Il
 Yann Dubois, Balazs Galambosi, Percy Liang, and Tatsunori~B. Hashimoto.
 \newblock Length-controlled {AlpacaEval}: A simple way to debias automatic evaluators.
 \newblock \emph{arXiv preprint arXiv:2404.04475}, 2024.
+
+\bibitem[Durmus et~al.(2024)Durmus, Lovitt, Tamkin, Ritchie, Clark, and Ganguli]{durmus2024persuasiveness}
+Esin Durmus, Liane Lovitt, Alex Tamkin, Stuart Ritchie, Jack Clark, and Deep Ganguli.
+\newblock Measuring the persuasiveness of language models.
+\newblock Anthropic research report, 2024.
+\newblock URL \url{https://www.anthropic.com/news/measuring-model-persuasiveness}.
+
+\bibitem[Finlayson et~al.(2024)Finlayson, Ren, and Swayamdipta]{finlayson2024logits}
+Matthew Finlayson, Xiang Ren, and Swabha Swayamdipta.
+\newblock Logits of {API}-protected {LLM}s leak proprietary information.
+\newblock In \emph{Proceedings of the First Conference on Language Modeling}, 2024.
 
 \bibitem[Ganguli et~al.(2022)Ganguli, Lovitt, Kernion, Askell, Bai, Kadavath, Mann, Perez, Schiefer, Ndousse, Jones, Bowman, Chen, Conerly, DasSarma, Drain, Elhage, El-Showk, Fort, Hatfield-Dodds, Henighan, Hernandez, Hume, Jacobson, Johnston, Kravec, Olsson, Ringer, Tran-Johnson, Amodei, Brown, Joseph, McCandlish, Olah, Kaplan, and Clark]{ganguli2022redteam}
 Deep Ganguli, Liane Lovitt, Jackson Kernion, Amanda Askell, Yuntao Bai, Saurav Kadavath, Ben Mann, Ethan Perez, Nicholas Schiefer, Kamal Ndousse, Andy Jones, Sam Bowman, Anna Chen, Tom Conerly, Nova DasSarma, Dawn Drain, Nelson Elhage, Sheer El-Showk, Stanislav Fort, Zac Hatfield-Dodds, Tom Henighan, Danny Hernandez, Tristan Hume, Josh Jacobson, Scott Johnston, Shauna Kravec, Catherine Olsson, Sam Ringer, Eli Tran-Johnson, Dario Amodei, Tom Brown, Nicholas Joseph, Sam McCandlish, Christopher Olah, Jared Kaplan, and Jack Clark.
@@ -97,6 +113,11 @@ Akbir Khan, John Hughes, Dan Valentine, Laura Ruis, Kshitij Sachan, Ansh Radhakr
 \newblock Debating with more persuasive {LLM}s leads to more truthful answers.
 \newblock \emph{arXiv preprint arXiv:2402.06782}, 2024.
 
+\bibitem[Kim et~al.(2026)Kim, Lee, Fong, Lee, and Lee]{kim2026drift}
+SongEun Kim, Seungyoo Lee, Edwin Fong, Hyungi Lee, and Juho Lee.
+\newblock From drift to coherence: Stabilizing beliefs in {LLM}s.
+\newblock \emph{arXiv preprint arXiv:2606.17832}, 2026.
+
 \bibitem[Laban et~al.(2023)Laban, Murakhovs'ka, Xiong, and Wu]{laban2023flipflop}
 Philippe Laban, Lidiya Murakhovs'ka, Caiming Xiong, and Chien-Sheng Wu.
 \newblock Are you sure? challenging {LLM}s leads to performance drops in the {FlipFlop} experiment.
@@ -117,20 +138,20 @@ Yafu Li, Qintong Li, Leyang Cui, Wei Bi, Zhilin Wang, Longyue Wang, Linyi Yang, 
 \newblock {MAGE}: Machine-generated text detection in the wild.
 \newblock In \emph{Proceedings of the 62nd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)}, 2024{\natexlab{b}}.
 
+\bibitem[Liu et~al.(2025)Liu, Guo, Liang, Shareghi, Vuli{\'c}, and Collier]{liu2025logic}
+Yinhong Liu, Zhijiang Guo, Tianya Liang, Ehsan Shareghi, Ivan Vuli{\'c}, and Nigel Collier.
+\newblock Aligning with logic: Measuring, evaluating and improving logical preference consistency in large language models.
+\newblock In \emph{Proceedings of the 42nd International Conference on Machine Learning}, volume 267 of \emph{Proceedings of Machine Learning Research}, pages 38518--38539, 2025.
+
 \bibitem[Perez et~al.(2023)Perez, Ringer, Luko{\v{s}}i{\=u}t{\.e}, Nguyen, Chen, Heiner, Pettit, Olsson, Kundu, Kadavath, et~al.]{perez2022discovering}
 Ethan Perez, Sam Ringer, Kamil{\.e} Luko{\v{s}}i{\=u}t{\.e}, Karina Nguyen, Edwin Chen, Scott Heiner, Craig Pettit, Catherine Olsson, Sandipan Kundu, Saurav Kadavath, et~al.
 \newblock Discovering language model behaviors with model-written evaluations.
 \newblock In \emph{Findings of the Association for Computational Linguistics}, 2023.
 
-\bibitem[Radharapu et~al.(2025{\natexlab{a}})Radharapu, Revel, Ung, Ruder, and Williams]{radharapu2025arbiters}
+\bibitem[Radharapu et~al.(2025)Radharapu, Revel, Ung, Ruder, and Williams]{radharapu2025arbiters}
 Bhaktipriya Radharapu, Manon Revel, Megan Ung, Sebastian Ruder, and Adina Williams.
 \newblock Arbiters of ambivalence: Challenges of using {LLM}s in no-consensus tasks.
-\newblock In \emph{Findings of the Association for Computational Linguistics: ACL 2025}, 2025{\natexlab{a}}.
-
-\bibitem[Radharapu et~al.(2025{\natexlab{b}})Radharapu, Saxena, Li, Whitehouse, Williams, and Cancedda]{radharapu2025calibrating}
-Bhaktipriya Radharapu, Eshika Saxena, Kenneth Li, Chenxi Whitehouse, Adina Williams, and Nicola Cancedda.
-\newblock Calibrating {LLM} judges: Linear probes for fast and reliable uncertainty estimation.
-\newblock \emph{arXiv preprint arXiv:2512.22245}, 2025{\natexlab{b}}.
+\newblock In \emph{Findings of the Association for Computational Linguistics: ACL 2025}, 2025.
 
 \bibitem[Robinson et~al.(2026)Robinson, Oktar, Collins, Sucholutsky, and Allen]{robinson2026influence}
 Sasha Robinson, Kerem Oktar, Katherine~M. Collins, Ilia Sucholutsky, and Kelsey~R. Allen.
@@ -143,6 +164,17 @@ Angelika Romanou, Mark Ibrahim, Candace Ross, Chantal Shaib, Kerem Oktar, Samuel
 \newblock Brittlebench: Quantifying {LLM} robustness via prompt sensitivity.
 \newblock \emph{arXiv preprint arXiv:2603.13285}, 2026.
 
+\bibitem[Salvi et~al.(2025)Salvi, Horta~Ribeiro, Gallotti, and West]{salvi2025gpt4}
+Francesco Salvi, Manoel Horta~Ribeiro, Riccardo Gallotti, and Robert West.
+\newblock On the conversational persuasiveness of {GPT}-4.
+\newblock \emph{Nature Human Behaviour}, 9\penalty0 (8):\penalty0 1645--1653, 2025.
+\newblock \doi{10.1038/s41562-025-02194-6}.
+
+\bibitem[Scherrer et~al.(2023)Scherrer, Shi, Feder, and Blei]{scherrer2023moral}
+Nino Scherrer, Claudia Shi, Amir Feder, and David~M. Blei.
+\newblock Evaluating the moral beliefs encoded in {LLM}s.
+\newblock \emph{arXiv preprint arXiv:2307.14324}, 2023.
+
 \bibitem[Sharma et~al.(2024)Sharma, Tong, Korbak, Duvenaud, Askell, Bowman, Cheng, Durmus, Hatfield-Dodds, Johnston, Kravec, Maxwell, McCandlish, Ndousse, Rausch, Schiefer, Yan, Zhang, and Perez]{sharma2024sycophancy}
 Mrinank Sharma, Meg Tong, Tomasz Korbak, David Duvenaud, Amanda Askell, Samuel~R. Bowman, Newton Cheng, Esin Durmus, Zac Hatfield-Dodds, Scott~R. Johnston, Shauna Kravec, Timothy Maxwell, Sam McCandlish, Kamal Ndousse, Oliver Rausch, Nicholas Schiefer, Da~Yan, Miranda Zhang, and Ethan Perez.
 \newblock Towards understanding sycophancy in language models.
@@ -152,6 +184,11 @@ Mrinank Sharma, Meg Tong, Tomasz Korbak, David Duvenaud, Amanda Askell, Samuel~R
 Judy~Hanwen Shen, Ruth Appel, Madeleine Tucker, Kamya Jagadish, Paruul Maheshwary, Amanda Askell, and Esin Durmus.
 \newblock Political even-handedness evaluation v1, 2025.
 \newblock URL \url{https://github.com/anthropics/political-neutrality-eval}.
+
+\bibitem[Sokol et~al.(2026)Sokol, Ganapini, and Chawla]{sokol2026core}
+Anna Sokol, Marianna~B. Ganapini, and Nitesh~V. Chawla.
+\newblock Do {LLM}s have core beliefs?
+\newblock \emph{arXiv preprint arXiv:2605.03255}, 2026.
 
 \bibitem[Wang(2025)]{wang2025instability}
 others Wang.
