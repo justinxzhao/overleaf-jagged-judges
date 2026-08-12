@@ -370,91 +370,6 @@ MAGE                     & Likert &  3.3 &  6.3 &  4.3 \\
 
 % Mechanical wiggle rates run noticeably higher on binary (top end $\sim$15\%) than on Likert (top end $\sim$10\%). The same model rankings transfer across scales --- Claude Opus, GPT-5.4, and Grok 4.1 (non-reasoning) are the most stable on both; Grok-4.1 Reasoning and the Gemini pair are the least stable on both --- but the absolute magnitudes are roughly half as large on Likert. Two notable scale-specific cells: Claude 4.6 Sonnet's Invariance Flip drops from $\sim$5\% on binary to essentially zero on Likert (positional sensitivity is a binary-only failure mode for Sonnet), and Grok-4.1 Reasoning's Temp-0 Repeat is $\sim$10\% on binary versus $\sim$7\% on Likert (the reasoning-trace divergence still propagates to the Likert verdict, but the higher Likert threshold absorbs some of it).
 
-\begin{table}[h]
-\centering
-\small
-\caption{Mean retention rate by (dataset, rubric, scale) condition and judge model (mean across L1--L6 retention rates). Higher is better. Bold marks each row's best and worst cells. Bottom row is the mean across cells per model.}
-\label{tab:appendix-aurc}
-\resizebox{\linewidth}{!}{%
-\begin{tabular}{@{}llrrrrrrrrr@{}}
-\toprule
-\textbf{Dataset} & \textbf{Scale} & \textbf{Grok-R} & \textbf{G.Pro} & \textbf{G.Flash} & \textbf{GPT-5.2} & \textbf{Grok} & \textbf{GPT-5.4} & \textbf{C.Son} & \textbf{C.Opus} & \textbf{GPT-5} \\
-\midrule
-WildGuard      & binary & 0.834 & 0.733 & \textbf{0.865} & 0.803 & 0.579 & 0.700 & \textbf{0.395} & 0.562 & 0.632 \\
-WildGuard      & Likert & 0.837 & 0.825 & \textbf{0.842} & 0.789 & 0.755 & 0.720 & 0.633 & \textbf{0.608} & 0.650 \\
-AEGIS          & binary & \textbf{0.888} & 0.737 & 0.800 & 0.628 & 0.570 & \textbf{0.417} & 0.590 & 0.505 & 0.618 \\
-AEGIS          & Likert & \textbf{0.872} & 0.835 & 0.792 & 0.705 & \textbf{0.830} & 0.678 & 0.633 & 0.625 & 0.537 \\
-HH-RLHF        & binary & 0.812 & 0.772 & \textbf{0.827} & 0.672 & 0.530 & 0.728 & 0.673 & 0.630 & \textbf{0.473} \\
-HH-RLHF        & Likert & 0.828 & 0.817 & \textbf{0.855} & 0.738 & \textbf{0.482} & 0.712 & \textbf{0.832} & 0.728 & 0.633 \\
-ToxiGen        & binary & \textbf{0.917} & 0.760 & 0.838 & 0.767 & 0.573 & 0.590 & 0.708 & \textbf{0.722} & 0.640 \\
-ToxiGen        & Likert & \textbf{0.903} & 0.832 & 0.718 & \textbf{0.850} & \textbf{0.807} & \textbf{0.815} & \textbf{0.810} & \textbf{0.730} & 0.592 \\
-PP (hedging)   & binary & 0.830 & 0.812 & 0.792 & \textbf{0.885} & 0.653 & 0.665 & \textbf{0.125} & \textbf{0.185} & 0.340 \\
-PP (hedging)   & Likert & \textbf{0.907} & \textbf{0.960} & 0.845 & 0.785 & 0.708 & 0.712 & 0.615 & 0.615 & 0.238 \\
-PP (refusal)   & binary & \textbf{0.735} & \textbf{0.605} & \textbf{0.853} & \textbf{0.532} & 0.660 & 0.432 & 0.238 & 0.283 & 0.213 \\
-PP (refusal)   & Likert & 0.858 & 0.790 & \textbf{0.938} & 0.672 & 0.635 & 0.547 & 0.443 & 0.427 & \textbf{0.203} \\
-MAGE           & binary & \textbf{0.523} & \textbf{0.832} & 0.735 & \textbf{0.425} & 0.635 & \textbf{0.277} & 0.172 & 0.215 & 0.103 \\
-MAGE           & Likert & 0.617 & \textbf{0.715} & \textbf{0.483} & 0.503 & 0.625 & 0.288 & 0.283 & 0.327 & \textbf{0.033} \\
-\midrule
-\textbf{Mean across cells} & & 0.812 & 0.787 & 0.799 & 0.697 & 0.646 & 0.591 & 0.511 & 0.512 & 0.422 \\
-\bottomrule
-\end{tabular}%
-}
-\end{table}
-
-\begin{table}[h]
-\centering
-\caption{Mean wiggle rate (\%) by (dataset, rubric, scale, level), averaged across all 9 judges. Bold marks the largest cell in each row.}
-\label{tab:wiggle-rates}
-\small
-\begin{tabular}{@{}llrrrrrr@{}}
-\toprule
-\textbf{Dataset} & \textbf{Scale} & \textbf{L1} & \textbf{L2} & \textbf{L3} & \textbf{L4} & \textbf{L5} & \textbf{L6} \\
-\midrule
-WildGuard      & binary & 28.0 & 17.9 & 20.3 & 29.0 & 28.2 & \textbf{69.7} \\
-WildGuard      & Likert & 11.9 &  3.4 &  3.9 & 39.5 & 21.1 & \textbf{76.4} \\
-AEGIS          & binary & 33.4 & 20.7 & 21.2 & 30.7 & 31.9 & \textbf{78.6} \\
-AEGIS          & Likert & 13.6 &  2.2 &  4.6 & 48.2 & 25.3 & \textbf{72.3} \\
-HH-RLHF        & binary & 19.4 & 13.9 & 16.6 & 44.0 & 24.6 & \textbf{73.8} \\
-HH-RLHF        & Likert & 11.6 &  3.1 &  6.7 & 39.1 & 16.1 & \textbf{81.8} \\
-ToxiGen        & binary & 18.8 & 14.4 & 16.7 & 25.1 & 22.1 & \textbf{68.6} \\
-ToxiGen        & Likert & 10.2 & 11.7 & 10.0 & 19.3 & 15.9 & \textbf{62.4} \\
-PP (hedging)   & binary & 11.9 & 30.1 & 39.1 & 54.0 & 48.4 & \textbf{64.0} \\
-PP (hedging)   & Likert & 12.9 & 11.3 & 16.1 & 31.6 & 30.6 & \textbf{71.9} \\
-PP (refusal)   & binary & 26.9 & 36.0 & 40.7 & \textbf{69.2} & 56.1 & 67.7 \\
-PP (refusal)   & Likert & 27.3 & 22.6 & 29.4 & 50.2 & 38.1 & \textbf{64.8} \\
-MAGE           & binary & 41.2 & 44.3 & 41.4 & 70.7 & 63.8 & \textbf{77.4} \\
-MAGE           & Likert & 44.7 & 34.6 & 46.6 & 66.3 & 58.3 & \textbf{91.2} \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}[h]
-\centering
-\caption{Summary across all 14 judging tasks. Most robust / most fragile are the judges with the highest / lowest mean retention rate across L1--L6 (parenthesized values). L1, L4, L6 wiggle rates are averaged across all 9 judges.}
-\label{tab:appendix-summary}
-\small
-\begin{tabular}{@{}llrrrll@{}}
-\toprule
-\textbf{Dataset} & \textbf{Scale} & \textbf{L1} & \textbf{L4} & \textbf{L6} & \textbf{Most robust} & \textbf{Most fragile} \\
-\midrule
-WildGuard       & binary & 28.0\% & 29.0\% & 69.7\% & G.Flash (0.865)  & C.Sonnet (0.395) \\
-WildGuard       & Likert & 11.9\% & 39.5\% & 76.4\% & G.Flash (0.842)  & C.Opus (0.608)   \\
-AEGIS           & binary & 33.4\% & 30.7\% & 78.6\% & Grok-R (0.888)   & GPT-5.4 (0.417)  \\
-AEGIS           & Likert & 13.6\% & 48.2\% & 72.3\% & Grok-R (0.872)   & GPT-5 (0.537)    \\
-HH-RLHF         & binary & 19.4\% & 44.0\% & 73.8\% & G.Flash (0.827)  & GPT-5 (0.473)    \\
-HH-RLHF         & Likert & 11.6\% & 39.1\% & 81.8\% & G.Flash (0.855)  & Grok (0.482)     \\
-ToxiGen         & binary & 18.8\% & 25.1\% & 68.6\% & Grok-R (0.917)   & Grok (0.573)     \\
-ToxiGen         & Likert & 10.2\% & 19.3\% & 62.4\% & Grok-R (0.903)   & GPT-5 (0.592)    \\
-PP (hedging)    & binary & 11.9\% & 54.0\% & 64.0\% & GPT-5.2 (0.885)  & C.Sonnet (0.125) \\
-PP (hedging)    & Likert & 12.9\% & 31.6\% & 71.9\% & G.Pro (0.960)    & GPT-5 (0.238)    \\
-PP (refusal)    & binary & 26.9\% & 69.2\% & 67.7\% & G.Flash (0.853)  & GPT-5 (0.213)    \\
-PP (refusal)    & Likert & 27.3\% & 50.2\% & 64.8\% & G.Flash (0.938)  & GPT-5 (0.203)    \\
-MAGE            & binary & 41.2\% & 70.7\% & 77.4\% & G.Pro (0.832)    & GPT-5 (0.103)    \\
-MAGE            & Likert & 44.7\% & 66.3\% & 91.2\% & G.Pro (0.715)    & GPT-5 (0.033)    \\
-\bottomrule
-\end{tabular}
-\end{table}
-
 % \subsection{Mechanical Wiggle}
 % \label{sec:appendix-mechanical}
 
@@ -639,35 +554,6 @@ MAGE           & Likert & 41.5 & 35.7 & 38.2 & 40.9 & 40.0 & 43.5 & \textbf{40.0
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\clearpage
-\section{When Do Judges Flip on Binary vs. Likert?}
-\label{sec:appendix-flip-timing}
-
-Table~\ref{tab:binary-vs-likert-timing} reports binary vs Likert wiggle rates at turn 1 and turn 10 by pressure level, showing that the binary/Likert gap is largest at the first turn and collapses by turn 10.
-
-\begin{table}[h]
-\centering
-\small
-\caption{Binary vs Likert wiggle rate at turn 1 and turn 10, by pressure level. \emph{Gap} is the binary/Likert ratio. On turn 1, binary is 1.5--3.5$\times$ more flippable than Likert across L2--L6, with L1 a 31$\times$ outlier. After 10 turns the gap collapses to 1.1--2.4$\times$.}
-\label{tab:binary-vs-likert-timing}
-\begin{tabular}{@{}lrrrrrr@{}}
-\toprule
-\textbf{Level} & \textbf{Binary 1st} & \textbf{Likert 1st} & \textbf{Gap} & \textbf{Binary 10th} & \textbf{Likert 10th} & \textbf{Gap} \\
-\midrule
-L1 & 14.0\% &  0.5\% & 31$\times$  & 26.7\% & 12.3\% & 2.2$\times$ \\
-L2 & 19.4\% &  5.8\% & 3.3$\times$ & 24.0\% & 10.0\% & 2.4$\times$ \\
-L3 & 21.5\% &  6.2\% & 3.5$\times$ & 26.0\% & 12.7\% & 2.1$\times$ \\
-L4 & 32.3\% & 22.0\% & 1.5$\times$ & 43.5\% & 39.6\% & 1.1$\times$ \\
-L5 & 21.7\% &  8.5\% & 2.6$\times$ & 37.1\% & 23.7\% & 1.6$\times$ \\
-L6 & 30.5\% & 10.2\% & 3.0$\times$ & 54.5\% & 44.5\% & 1.2$\times$ \\
-\bottomrule
-\end{tabular}
-\end{table}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \section{WildGuard Human Annotator Consensus}
 \label{sec:appendix-human-consensus}
 
@@ -680,40 +566,6 @@ WildGuard data includes human annotator labels with varying levels of consensus 
 
 This approximately 10--15pp gap is consistent across all pressure levels. Items where human annotators disagree are systematically more wiggable for LLM judges, suggesting wiggle partially measures \emph{intrinsic item ambiguity} --- a property of the content itself --- rather than purely model weakness. The overlap is not complete (even unanimous items wiggle at 27--40\%), so model-specific fragility is clearly also a factor. 
 High wiggle rates on items humans also find ambiguous may be less concerning, while high wiggle rates on items humans find clear-cut represent a more concerning failure mode.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Does Item Wiggle Correlate With Jury Majority Strength?}
-\label{sec:appendix-jury-heatmap}
-
-Table~\ref{tab:appendix-jury-rho} reports the per-cell Spearman $\rho$ between baseline jury majority strength and per-item wiggle rate for each (dataset, rubric, scale, level) cell. All 84 cells are negative: items where the jury barely agrees at L0 are more wiggable under pressure, with no exception. Per-level means are summarized in Table~\ref{tab:predictor-comparison} (\S\ref{sec:discussion-jury}).
-
-\begin{table}[h]
-\centering
-\small
-\caption{Spearman $\rho$ between baseline jury majority strength and per-item wiggle rate, for each (dataset, rubric, scale, level) cell. All 84 cells are negative.}
-\label{tab:appendix-jury-rho}
-\begin{tabular}{@{}llrrrrrr@{}}
-\toprule
-\textbf{Dataset} & \textbf{Scale} & \textbf{L1} & \textbf{L2} & \textbf{L3} & \textbf{L4} & \textbf{L5} & \textbf{L6} \\
-\midrule
-WildGuard      & binary & $-0.684$ & $-0.683$ & $-0.678$ & $-0.623$ & $-0.675$ & $-0.653$ \\
-WildGuard      & Likert & $-0.640$ & $-0.379$ & $-0.437$ & $-0.708$ & $-0.766$ & $-0.683$ \\
-AEGIS          & binary & $-0.661$ & $-0.628$ & $-0.600$ & $-0.706$ & $-0.655$ & $-0.715$ \\
-AEGIS          & Likert & $-0.706$ & $-0.413$ & $-0.468$ & $-0.737$ & $-0.635$ & $-0.680$ \\
-HH-RLHF        & binary & $-0.693$ & $-0.651$ & $-0.641$ & $-0.343$ & $-0.590$ & $-0.628$ \\
-HH-RLHF        & Likert & $-0.725$ & $-0.609$ & $-0.472$ & $-0.705$ & $-0.623$ & $-0.567$ \\
-ToxiGen        & binary & $-0.694$ & $-0.684$ & $-0.647$ & $-0.595$ & $-0.598$ & $-0.628$ \\
-ToxiGen        & Likert & $-0.672$ & $-0.718$ & $-0.864$ & $-0.786$ & $-0.800$ & $-0.621$ \\
-PP (hedging)   & binary & $-0.464$ & $-0.433$ & $-0.419$ & $-0.398$ & $-0.394$ & $-0.424$ \\
-PP (hedging)   & Likert & $-0.574$ & $-0.462$ & $-0.522$ & $-0.579$ & $-0.523$ & $-0.011$ \\
-PP (refusal)   & binary & $-0.711$ & $-0.633$ & $-0.642$ & $-0.564$ & $-0.542$ & $-0.579$ \\
-PP (refusal)   & Likert & $-0.533$ & $-0.423$ & $-0.447$ & $-0.544$ & $-0.492$ & $-0.570$ \\
-MAGE           & binary & $-0.739$ & $-0.640$ & $-0.578$ & $-0.571$ & $-0.461$ & $-0.617$ \\
-MAGE           & Likert & $-0.620$ & $-0.588$ & $-0.587$ & $-0.508$ & $-0.480$ & $-0.542$ \\
-\bottomrule
-\end{tabular}
-\end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

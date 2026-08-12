@@ -33,15 +33,15 @@ majority across the 9 judges, no pressure applied~\citep{zhao2024council}),
 \emph{repeat consistency} (temperature-zero per-item agreement), 
 and \emph{position invariance} (verdict survival under argument reordering). 
 The strongest predictive signal at every level is \emph{jury majority strength} (Table~\ref{tab:predictor-comparison}, 
-mean $|\rho| = 0.59$ vs.\ 0.42 for repeat and 0.37 for invariance). All 84 (dataset, rubric, scale, level) cells have negative 
-but strongest absolute correlations, with median $|\rho| = 0.58$ (per-cell table in Appendix~\ref{sec:appendix-jury-heatmap}).
+mean $|\rho| = 0.59$ vs.\ 0.42 for repeat and 0.37 for invariance). All 84 (dataset, rubric, scale, level)
+correlations are negative, with median $|\rho| = 0.58$ (Table~\ref{tab:jury-rho}).
 
 \begin{table}[t]
 \centering
 \small
 \caption{Mean $|\rho|$ between each predictor and per-item wiggle rate, by level. Jury averaged over 84 
 (dataset, rubric, scale, level) cells; Repeat and Invariance over 72 (not measured on WildGuard). 
-Per-cell table in Appendix~\ref{sec:appendix-jury-heatmap}.}
+Per-cell jury correlations are reported in Table~\ref{tab:jury-rho}.}
 \label{tab:predictor-comparison}
 \begin{tabular}{@{}lrrrrrrr@{}}
 \toprule
@@ -50,6 +50,33 @@ Per-cell table in Appendix~\ref{sec:appendix-jury-heatmap}.}
 Jury Majority Strength & \textbf{0.65} & \textbf{0.57} & \textbf{0.57} & \textbf{0.60} & \textbf{0.59} & \textbf{0.57} & \textbf{0.59} \\
 Repeat (temp=0)        & 0.44 & 0.38 & 0.39 & 0.42 & 0.42 & 0.44 & 0.42 \\
 Invariance (position)  & 0.35 & 0.36 & 0.38 & 0.35 & 0.37 & 0.38 & 0.37 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\small
+\caption{Spearman $\rho$ between baseline jury majority strength and per-item wiggle rate, for each (dataset, rubric, scale, level) cell. All 84 cells are negative.}
+\label{tab:jury-rho}
+\begin{tabular}{@{}llrrrrrr@{}}
+\toprule
+\textbf{Dataset} & \textbf{Scale} & \textbf{L1} & \textbf{L2} & \textbf{L3} & \textbf{L4} & \textbf{L5} & \textbf{L6} \\
+\midrule
+WildGuard      & binary & $-0.684$ & $-0.683$ & $-0.678$ & $-0.623$ & $-0.675$ & $-0.653$ \\
+WildGuard      & Likert & $-0.640$ & $-0.379$ & $-0.437$ & $-0.708$ & $-0.766$ & $-0.683$ \\
+AEGIS          & binary & $-0.661$ & $-0.628$ & $-0.600$ & $-0.706$ & $-0.655$ & $-0.715$ \\
+AEGIS          & Likert & $-0.706$ & $-0.413$ & $-0.468$ & $-0.737$ & $-0.635$ & $-0.680$ \\
+HH-RLHF        & binary & $-0.693$ & $-0.651$ & $-0.641$ & $-0.343$ & $-0.590$ & $-0.628$ \\
+HH-RLHF        & Likert & $-0.725$ & $-0.609$ & $-0.472$ & $-0.705$ & $-0.623$ & $-0.567$ \\
+ToxiGen        & binary & $-0.694$ & $-0.684$ & $-0.647$ & $-0.595$ & $-0.598$ & $-0.628$ \\
+ToxiGen        & Likert & $-0.672$ & $-0.718$ & $-0.864$ & $-0.786$ & $-0.800$ & $-0.621$ \\
+PP (hedging)   & binary & $-0.464$ & $-0.433$ & $-0.419$ & $-0.398$ & $-0.394$ & $-0.424$ \\
+PP (hedging)   & Likert & $-0.574$ & $-0.462$ & $-0.522$ & $-0.579$ & $-0.523$ & $-0.011$ \\
+PP (refusal)   & binary & $-0.711$ & $-0.633$ & $-0.642$ & $-0.564$ & $-0.542$ & $-0.579$ \\
+PP (refusal)   & Likert & $-0.533$ & $-0.423$ & $-0.447$ & $-0.544$ & $-0.492$ & $-0.570$ \\
+MAGE           & binary & $-0.739$ & $-0.640$ & $-0.578$ & $-0.571$ & $-0.461$ & $-0.617$ \\
+MAGE           & Likert & $-0.620$ & $-0.588$ & $-0.587$ & $-0.508$ & $-0.480$ & $-0.542$ \\
 \bottomrule
 \end{tabular}
 \end{table}

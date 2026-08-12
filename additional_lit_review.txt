@@ -1,0 +1,40 @@
+Sokol, A., Ganapini, M. B., & Chawla, N. V. (2026). "Do LLMs have core beliefs?" arXiv:2605.03255
+[2605.03255] Do LLMs have core beliefs?
+Li, Z. et al. (2026). "From Drift to Coherence: Stabilizing Beliefs in LLMs." arXiv:2606.17832
+https://arxiv.org/abs/2606.17832
+Zhang, Y. et al. (2025). "Probing the Lack of Stable Internal Beliefs in LLMs." NeurIPS 2025 Workshop PersonaNLP. arXiv:2603.25187
+https://arxiv.org/abs/2603.25187
+Rentschler, H. S. (2025). "Epistemic Consistency as an Optimization Target for AI Systems." SSRN
+https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5977016
+Veluwenkamp, H. et al. (2024). "Epistemological Fault Lines Between Human and Artificial Intelligence." arXiv:2512.19466
+https://arxiv.org/abs/2512.19466
+
+[2504.06324] From Stability to Inconsistency: A Study of Moral Preferences in LLMs
+
+[2512.03026] The Moral Consistency Pipeline: Continuous Ethical Evaluation for Large Language Models
+
+[2412.04476] The Moral Mind(s) of Large Language Models
+
+[2511.11790] Differences in the Moral Foundations of Large Language Models
+
+
+[2307.14324] Evaluating the Moral Beliefs Encoded in LLMs
+
+
+Butlin, P. & Dutilh Novaes, C. (2024). "Do Large Language Models Defend Inferentialist Semantics? On the Logical Expressivism and Anti-Representationalism of LLMs." arXiv:2412.14501
+https://arxiv.org/abs/2412.14501
+Shardlow, M. (2024). "LLMs, Turing Tests and Chinese Rooms: The Prospects for Meaning in Large Language Models." Inquiry (Taylor & Francis). DOI: 10.1080/0020174X.2024.2446241
+https://www.tandfonline.com/doi/abs/10.1080/0020174X.2024.2446241
+"Why large language models cannot possess consciousness: an integrated information theory perspective." (2025). PMC/Frontiers
+https://pmc.ncbi.nlm.nih.gov/articles/PMC12800557/
+Veluwenkamp, H. et al. (2024). "Epistemological Fault Lines Between Human and Artificial Intelligence." arXiv:2512.19466
+https://arxiv.org/abs/2512.19466
+Li, Y. et al. (2024). "Measuring, Evaluating and Improving Logical Consistency in Large Language Models." arXiv:2410.02205
+https://arxiv.org/abs/2410.02205
+Sun, J. et al. (2025). "Empowering LLMs with Logical Reasoning: A Comprehensive Survey." arXiv:2502.15652
+https://arxiv.org/abs/2502.15652
+Xu, Z. & Kankanhalli, M. (2024). "Strong Preferences Affect the Robustness of Value Alignment." arXiv:2410.02451
+https://arxiv.org/abs/2410.02451
+Chen, X. et al. (2026). "Controllable Value Alignment in Large Language Models through Neuron-Level Editing." arXiv:2602.07356
+https://arxiv.org/abs/2602.07356
+

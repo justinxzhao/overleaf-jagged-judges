@@ -12,7 +12,8 @@ Sample sizes are 100 items per safety/toxicity/AI-detection dataset and 50 promp
 Five of the datasets have ground-truth labels, which allows us to classify each wiggle as \emph{corrective} or \emph{corrupting}.
 Corrective wiggles move the judge's L0 verdict toward the ground-truth label, while corrupting wiggles move it away.
 Paired Prompts has no canonical ground truth and is excluded from corrective/corrupting analysis.
-Detailed tables for each dataset and model's wiggle rates are in Appendix~\ref{sec:appendix-perdomain}.
+Full per-task wiggle rates, a compact task summary, and model-by-task retention rates are reported in
+Tables~\ref{tab:wiggle-rates}, \ref{tab:task-summary}, and~\ref{tab:model-retention}, respectively.
 
 \paragraph{Judging tasks.} Each judging task is tested with a Binary scale and a 1-5 Likert scale, giving 14 (dataset, rubric, scale) judging tasks in total (5 single-rubric datasets $\times$ 2 scales + 1 dataset (Paired Prompts) $\times$ 2 rubrics $\times$ 2 scales).
 Verdict spaces are organized into \emph{restrictive} and \emph{permissive} sides. A flip is considered restrictive if the judge 

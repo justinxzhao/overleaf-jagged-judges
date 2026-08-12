@@ -15,7 +15,10 @@ shown to be driven by human preference data that reinforces capitulation \citep{
 The FlipFlop Experiment \citep{laban2023flipflop} found drops in accuracy of 5--25\% after a single ``Are you sure?'' challenge.
 Sycophantic AI has been shown to decrease users' prosocial intentions \citep{cheng2026sycophantic}, with the behavior
 intensifying under sustained social pressure \citep{cheng2026social}. Most of this literature studies sycophancy in the
-\emph{assistant} role. We study it in the application of LLMs as judges.
+\emph{assistant} role. Closest to our setting, \citet{sokol2026core} use adversarial dialogue trees and find that models
+eventually abandon even basic factual commitments under conversational pressure. We instead treat pressure responses as
+behavioral measurements of reliability for task-specific judge verdicts, without taking a position on whether LLMs
+literally possess beliefs.
 
 \textbf{LLM-on-LLM persuasion and debate.} Debate has been proposed as a scalable alignment mechanism
 \citep{irving2018debate}, with subsequent work formalizing computational complexity guarantees
@@ -27,15 +30,16 @@ decisions \citep{robinson2026influence}. Inter-agent sycophancy in multi-agent d
 with sycophancy manifesting differently in debater and judge roles \citep{yao2025peacemaker}. These works use adversarial pressure to 
 elicit truth or study inter-agent dynamics. We use it as a diagnostic for measuring judge reliability across multiple datasets.
 
-\textbf{Calibration and consistency.} Asking the same factual question many times yields overconfident calibration
-curves \citep{wei2024simpleqa} while Item Response Theory has shown judge reliability varies substantially with 
-item difficulty \citep{huang2025irt}. Other work finds that LLMs take crisp stances even on flagrantly 
-no-consensus tasks \citep{radharapu2025arbiters}, and that semantics-preserving textual perturbations can degrade LLM 
-performance by up to 12\% and shift comparative model rankings in 63\% of cases \citep{romanou2026brittlebench}.
-A complementary line of work elicits LLMs' uncertainty directly, either as numerical confidence scores 
-\citep{xiong2024confidence, wei2024simpleqa} or as verbalized hedging in natural language 
-\citep{yona2024faithful}.
+\textbf{Uncertainty, calibration, and consistency.} Work on calibration asks whether an LLM's confidence tracks its
+probability of being correct. Confidence can be elicited as a numerical self-report, inferred from answer frequencies
+across repeated samples, or expressed through verbal hedging, which tend to be overconfident or imperfectly faithful
+\citep{xiong2024confidence,wei2024simpleqa,yona2024faithful}. While strictly harder items have been found to vary more \citep{huang2025irt},
+LLMs also have a tendency to take strong positions on clearly no-consensus tasks \citep{radharapu2025arbiters} and exhibit
+greater wording sensitivity on ambiguous moral judgments \citep{scherrer2023moral}. A related literature measures behavioral consistency directly.
+When a model answers the same question repeatedly, its distribution over possible answers can shift during the first several repetitions before stabilizing \citep{kim2026drift};
+semantics-preserving prompt perturbations can degrade performance and change comparative model rankings \citep{romanou2026brittlebench}; and
+models can make mutually inconsistent decisions across logically related questions, such as reversing a preference when options are reordered \citep{liu2025logic}.
 
-Relative to this literature, our contribution is \emph{centralization}. We study a variety of pressure tests on the 
+Relative to this literature, our contribution is \emph{centralization}. Our framework unifies mechanical controls and studies a variety of pressure tests on the
 same items, models, and criteria across six datasets. This enables apples-to-apples comparisons among previously separate 
 failure modes and we present an analysis of directional patterns, correctness, and baseline predictors.
