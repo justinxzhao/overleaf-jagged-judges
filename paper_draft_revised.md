@@ -1,4 +1,4 @@
-# Jagged Judges: Epistemic Oddities Under Silence, Pressure, and Persistence
+# Jagged Judges: Epistemic Oddities Under Perturbation, Pressure, and Persistence
 
 **Anonymous Authors — Under Review**
 

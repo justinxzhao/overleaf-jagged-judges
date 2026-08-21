@@ -1,4 +1,4 @@
-# Jagged Judges: Epistemic Oddities Under Silence, Pressure, and Persistence
+# Jagged Judges: Epistemic Oddities Under Perturbation, Pressure, and Persistence
 
 *A synthesis of findings across six evaluation domains, nine frontier judge models, and a graduated pressure framework -- with a focus on the surprising, non-obvious results that only emerge from unified cross-domain analysis.*
 

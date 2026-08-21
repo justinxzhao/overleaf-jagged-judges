@@ -11,7 +11,7 @@ Overleaf: [https://overleaf.thefacebook.com/project/69dd2540274c5728cbe1b955](ht
 
 ## Working Title
 
-**"How Much Do Judges Wiggle? Measuring LLM-as-Judge Reliability Under Silence, Pressure, and Persistence"**
+**"How Much Do Judges Wiggle? Measuring LLM-as-Judge Reliability Under Perturbation, Pressure, and Persistence"**
 
 ---
 
