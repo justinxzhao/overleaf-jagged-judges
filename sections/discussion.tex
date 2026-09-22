@@ -1,47 +1,49 @@
 \section{Discussion}
 \label{sec:discussion}
 
-\subsection{Mean Wiggle Rate is Itself Jagged Across Pressure Levels}
+\subsection{Raw Cross-Task Dispersion Depends on the Rate Scale}
 \label{sec:discussion-jagged}
 
-If we define a judge's \textbf{jaggedness} as the standard deviation of its mean wiggle rates across all datasets, 
-we can plot each judge's mean wiggle against its jaggedness, separately at each pressure level 
+If we define a judge's \textbf{jaggedness} as the standard deviation of its mean wiggle rates across all datasets,
+we can plot each judge's mean wiggle against its jaggedness, separately at each pressure level
 (Figure~\ref{fig:wiggliness-jaggedness}).
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=\linewidth]{per_level_scatter_combined.pdf}
-  \caption{Each panel plots all 9 judges at one pressure level: x-axis is the judge's mean wiggle rate at that 
-  level (averaged across the 14 judging tasks); y-axis is its cross-dataset jaggedness (std of wiggle rates). 
+  \caption{Each panel plots all 9 judges at one pressure level: x-axis is the judge's mean wiggle rate at that
+  level (averaged across the 14 judging tasks); y-axis is its cross-task jaggedness (standard deviation of task-level wiggle rates).
   Dashed line is the OLS fit, $R^2$ and Pearson $r$ annotated.}
   \label{fig:wiggliness-jaggedness}
 \end{figure}
 
-At L1--L5, mean wiggle and cross-dataset jaggedness have a positive linear relationship with fairly strong linear regression fit
-($R^2 = 0.68$, $0.94$, $0.87$, $0.58$, $0.75$).
-For L1-L5, judges that wiggle more on average also have a wider spread of wiggle rates across datasets. 
-At L6, however, the relationship \emph{inverts} ($R^2 = 0.64$, $r = -0.80$): 
-judges with the lowest mean wiggle rates (e.g. Gemini 3 Flash, Grok-4.1 R, Gemini 3.1 Pro) have the biggest 
-cross-dataset spread. Jaggedness itself takes different shapes across different kinds of pressure.
+On the raw proportion scale, L1--L5 show positive relationships between mean wiggle and cross-task standard deviation
+($r = 0.83$, $0.97$, $0.93$, $0.76$, $0.87$). With mean-per-persuader L6, the raw relationship is negative
+($r=-0.56$). These correlations are partly mechanical because rates are bounded in $[0,1]$: attainable variance contracts
+near either endpoint. As a sensitivity analysis, we applied an empirical-logit transform with a one-half-count correction
+using each task's sample size and the three L6 trajectories. The L6 relationship becomes moderately positive ($r=0.37$),
+L2--L5 remain positive ($r=0.65$--$0.84$), and L1 is near zero ($r=-0.10$). We therefore treat
+Figure~\ref{fig:wiggliness-jaggedness} as a descriptive view of raw-scale
+heterogeneity, not evidence that adaptive pressure creates a distinct ``jaggedness inversion.''
 
-\subsection{Baseline Jury Majority Strength is a Simple Reliability Screen}
+\subsection{Baseline Jury Majority Strength is a Useful but Costly Diagnostic}
 \label{sec:discussion-jury}
 
-Can a cheap test predict which items are likely to be epistemically unstable? We compare three candidate predictors 
-of per-item wiggle: \emph{jury majority strength} (size of the L0 
+Can a single-pass diagnostic predict which items are likely to be epistemically unstable? We compare three candidate predictors
+of per-item wiggle: \emph{jury majority strength} (size of the L0
 majority across the 9 judges, no pressure applied~\citep{zhao2024council}),
-\emph{repeat consistency} (temperature-zero per-item agreement), 
-and \emph{position invariance} (verdict survival under argument reordering). 
-The strongest predictive signal at every level is \emph{jury majority strength} (Table~\ref{tab:predictor-comparison}, 
+\emph{repeat consistency} (temperature-zero per-item agreement),
+and \emph{position invariance} (verdict survival under argument reordering).
+In the original in-sample analysis, the strongest signal at every level is \emph{jury majority strength} (Table~\ref{tab:predictor-comparison},
 mean $|\rho| = 0.59$ vs.\ 0.42 for repeat and 0.37 for invariance). All 84 (dataset, rubric, scale, level)
 correlations are negative, with median $|\rho| = 0.58$ (Table~\ref{tab:jury-rho}).
 
 \begin{table}[t]
 \centering
 \small
-\caption{Mean $|\rho|$ between each predictor and per-item wiggle rate, by level. Jury averaged over 84 
-(dataset, rubric, scale, level) cells; Repeat and Invariance over 72 (not measured on WildGuard). 
-Per-cell jury correlations are reported in Table~\ref{tab:jury-rho}.}
+\caption{In-sample mean $|\rho|$ between each predictor and per-item wiggle rate, by level. Jury averaged over 84
+(dataset, rubric, scale, level) cells; item-level Repeat and Invariance correlations were available for 72 cells and exclude WildGuard, although aggregate WildGuard mechanical rates were measured.
+Per-cell jury correlations are reported in Table~\ref{tab:jury-rho}; its L6 column uses three-persuader union coverage.}
 \label{tab:predictor-comparison}
 \begin{tabular}{@{}lrrrrrrr@{}}
 \toprule
@@ -54,10 +56,29 @@ Invariance (position)  & 0.35 & 0.36 & 0.38 & 0.35 & 0.37 & 0.38 & 0.37 \\
 \end{tabular}
 \end{table}
 
+Because the same nine judges define both majority strength and mean panel wiggle in that analysis, we also predict each
+held-out judge using only the other models' L0 verdicts. Averaging over target judges, tasks, and levels, mean $|\rho|$ is
+0.22 for three-model panels, 0.26 for five-model panels, and 0.29 for the full eight-model leave-one-out panel. Thus the
+association transfers out of panel, but at substantially lower strength than the in-sample estimate.
+
 \begin{table}[t]
 \centering
 \small
-\caption{Spearman $\rho$ between baseline jury majority strength and per-item wiggle rate, for each (dataset, rubric, scale, level) cell. All 84 cells are negative.}
+\caption{Held-out-judge prediction from L0 jury panels. For panel sizes 3 and 5, results average all subsets of the eight non-target judges.}
+\label{tab:jury-heldout}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+\textbf{Panel size} & 3 & 5 & 8 \\
+\midrule
+Mean $|\rho|$ & 0.22 & 0.26 & 0.29 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[t]
+\centering
+\small
+\caption{Original in-sample Spearman $\rho$ between baseline jury majority strength and mean panel wiggle, for each (dataset, rubric, scale, level) cell. All 84 cells are negative; L6 uses union coverage.}
 \label{tab:jury-rho}
 \begin{tabular}{@{}llrrrrrr@{}}
 \toprule
@@ -81,19 +102,20 @@ MAGE           & Likert & $-0.620$ & $-0.588$ & $-0.587$ & $-0.508$ & $-0.480$ &
 \end{tabular}
 \end{table}
 
-Perhaps items where 9 frontier models cannot agree at L0 sit in genuinely contested or ambiguous regions of the decision boundary, and are more likely regularized
-over any individual model's idiosyncrasies. A low-majority item is a signal that the underlying question is hard to label 
---- making it both a wiggle predictor and a flag for content that may be challenging to assign a confident, epistemically robust gold label in the first place.
-Mechanical probes still capture a meaningful fraction of the per-item fragility (mean $|\rho| = 0.42$ for repeat, 
+Items where frontier models cannot agree at L0 may sit in genuinely contested or ambiguous regions of the decision boundary, and may be more likely regularized
+over any individual model's idiosyncrasies. A low-majority item is a signal that the underlying question is hard to label
+--- making it both a modest wiggle predictor and a flag for content that may be challenging to assign a confident, epistemically robust gold label in the first place.
+The jury is inexpensive only relative to multi-turn stress testing: an eight- or nine-model panel is substantially more costly than a single judge call.
+Mechanical probes still capture a meaningful fraction of the per-item fragility (mean $|\rho| = 0.42$ for repeat,
 0.37 for position invariance), and can be a defensible single-judge fallback for evaluations without access to an LLM ensemble.
 
 \subsection{Epistemic Fragility Beyond the Single-Shot Verdict}
 \label{sec:discussion-pressure}
 
-LLM judges occupy a unique middle ground between conventional classifiers and human raters. 
-They emit a discrete verdict like a classifier, yet they can also explain it, defend it, and engage in conversation about it. 
-Most LLM judges today are deployed as closed, one-shot classifiers and probably never receive turns of pushback. 
-For a strictly one-shot pipeline, Mechanical Consistency is the most directly applicable part of the framework. 
+LLM judges occupy a unique middle ground between conventional classifiers and human raters.
+They emit a discrete verdict like a classifier, yet they can also explain it, defend it, and engage in conversation about it.
+Most LLM judges today are deployed as closed, one-shot classifiers and probably never receive turns of pushback.
+For a strictly one-shot pipeline, Mechanical Consistency is the most directly applicable part of the framework.
 However, in the framework's expansion to single-turn and multi-turn tests, we highlight two additional motivations:
 
 \begin{enumerate}
@@ -101,6 +123,6 @@ However, in the framework's expansion to single-turn and multi-turn tests, we hi
   \item Although the paper focuses on judges, the framework bridges to deeper unsolved questions about how to measure epistemic stability. Judging makes this question more tractable because verdicts are typically discrete and, where ground-truth labels exist, changes can be classified as corrective or corrupting.
 \end{enumerate}
 
-Our results suggest that none of the LLMs we tested are consistently robust or corrective under pressure, even on canonical safety tasks. 
-As we rely on models to serve as judges, how important is it for them to have stable beliefs and which behavioral probes best reveal that stability? 
+Our results suggest that none of the LLMs we tested are consistently robust or corrective under pressure, even on canonical safety tasks.
+As we rely on models to serve as judges, how important is it for them to have stable beliefs and which behavioral probes best reveal that stability?
 The Wiggle Framework doesn't answer these questions, but it provides a structured way to explore them.

@@ -8,34 +8,53 @@ scales still require equivalent controls.
 
 \paragraph{No human baseline.} We do not measure human-annotator wiggle under the same settings,
 and thus we cannot establish the relationship between the wiggle of LLMs and humans. WildGuard's
-human-consensus data suggests that there may be some 
+human-consensus data suggests that there may be some
 non-trivial connection between judge wiggle and inter-human disagreement (Appendix~\ref{sec:appendix-human-consensus}), but a full baseline human study
 under the L1--L6 ladder would be needed to settle this. Existing work shows that
 LLM-generated arguments can shift human opinions and that LLMs can be persuasive in multi-turn debates with
 humans~\citep{durmus2024persuasiveness,salvi2025gpt4}, but it is unclear how these findings transfer to the judging
 domains and pressure protocols of our study.
 
-\paragraph{Dataset sample sizes.} We sample 100 items from each dataset per grading scale (50 prompt pairs for Paired Prompts). 
-The pooled per-level and per-judge results are stable enough to support our qualitative conclusions, but 
+\paragraph{Dataset sample sizes.} The analyzed WildGuard set contains 384 items; AEGIS, HH-RLHF, ToxiGen, and MAGE
+contain 100 items each; and each Paired Prompts rubric contains 50 prompt pairs.
+The pooled per-level and per-judge results are stable enough to support our qualitative conclusions, but
 per-cell point estimates for more granular slices of data like in the appendices should be interpreted with appropriate caution.
 
-\paragraph{Single L6 persuader set.} The L6 adaptive persuader pool is fixed at three models (GPT-5.4, Claude 4.6 Opus, 
-Grok-4.1 Reasoning). The models come from different organizations with capabilities assumed sufficient for adaptive argumentation. 
-Different persuader configurations like using a larger set of models or including models fine-tuned for adversarial persuasion could 
-produce different wiggle and self-persuasion patterns (Appendix~\ref{sec:appendix-self}).
+\paragraph{Single L6 persuader set.} The L6 adaptive persuader pool is fixed at three models (GPT-5.4, Claude 4.6 Opus,
+Grok-4.1 Reasoning). The models come from different organizations with capabilities assumed sufficient for adaptive argumentation.
+Different persuader configurations like using a larger set of models or including models fine-tuned for adversarial persuasion could
+produce different wiggle and self-persuasion patterns (Appendix~\ref{sec:appendix-self}). Google has no representative in the
+persuader pool, so its judges are evaluated only out of family. We therefore report mean-per-persuader and union metrics separately
+and avoid attributing L6 rankings solely to judge identity.
 
-\paragraph{Dataset coverage.} The six datasets span safety, toxicity, AI-text detection, and political-content evaluation, 
-but they do not exhaust the space of LLM-as-judge applications. Aesthetic judgment, code-review correctness, 
-mathematical-reasoning verification, medical-content review, and other expert-evaluation tasks may produce 
+\paragraph{Heterogeneous test-time reasoning.} The evaluated configurations do not hold reasoning compute fixed. Reasoning is
+enabled for Grok-4.1 Reasoning and the Gemini configurations but disabled for the OpenAI and Claude configurations. The resulting
+rankings compare deployed configurations, not architectures or providers under matched inference budgets.
+
+\paragraph{Unrestricted adaptive persuasion.} L6 intentionally permits the persuader to choose its rhetoric, length, appeals to
+authority, and claimed precedents. It is a worst-case conversational stress test, not an experiment that isolates factual argument
+quality from style or verbosity. The archived runs do not support a controlled decomposition of those mechanisms.
+
+\paragraph{Observer measurement.} The observer extracts verdicts from multi-turn responses. We manually inspected 100 L6
+transcripts, but the archived analysis does not retain a confusion matrix or per-family agreement statistics. We therefore cannot
+quantitatively bound observer error and treat this as an additional measurement limitation rather than assuming perfect extraction.
+
+\paragraph{Model scope.} The panel consists of general-purpose frontier conversational models rather than purpose-built evaluator
+models. Conclusions should be read as applying to the tested configurations; evaluator-specific fine-tuning may produce different
+stability profiles.
+
+\paragraph{Dataset coverage.} The six datasets span safety, toxicity, AI-text detection, and political-content evaluation,
+but they do not exhaust the space of LLM-as-judge applications. Aesthetic judgment, code-review correctness,
+mathematical-reasoning verification, medical-content review, and other expert-evaluation tasks may produce
 qualitatively different wiggle profiles. Why some tasks are more or less robust than others is an open question for future work.
 
-\paragraph{Causal claims on flip asymmetries.} Our results are correlational. We observe that pressure changes verdicts and that the 
-\emph{direction} of those changes may be consistent with what one would expect from training priors 
-(\S\ref{fo:structure} with binary flips leaning restrictive, Likert flips leaning permissive), but we cannot definitively 
-establish the causal mechanism. Alternative explanations like inherent task asymmetries, rubric-prompt 
-construction effects, or systematic differences in argument quality between the two flip directions could factor 
+\paragraph{Causal claims on flip asymmetries.} Our results are correlational. We observe that pressure changes verdicts and that the
+\emph{direction} of those changes may be consistent with what one would expect from training priors
+(\S\ref{fo:structure} with binary flips leaning restrictive, Likert flips leaning permissive), but we cannot definitively
+establish the causal mechanism. Alternative explanations like inherent task asymmetries, rubric-prompt
+construction effects, or systematic differences in argument quality between the two flip directions could factor
 into the same observations and cannot be fully ruled out without additional controlled experiments.
 
-\paragraph{Black-box techniques.} The Wiggle Framework deliberately emphasizes black-box methods, requiring only observed verdicts. 
+\paragraph{Black-box techniques.} The Wiggle Framework deliberately emphasizes black-box methods, requiring only observed verdicts.
 White-box or other mechanistic approaches that examine attention, residual streams, logits, or other activation patterns might uncover
 additional signal for predicting when certain models or items wiggle.

@@ -1,0 +1,127 @@
+task,scale,judge,short_name,mean_per_persuader,union_coverage
+AEGIS,binary,claude-4-6-opus-genai-vertex,C.Opus,0.7266666666666667,0.91
+AEGIS,binary,claude-4-6-sonnet-genai-vertex,C.Son,0.7333333333333333,0.96
+AEGIS,binary,gemini-3-1-pro-preview-genai,G.Pro,0.5066666666666667,0.76
+AEGIS,binary,gemini-3-flash-preview-genai,G.Flash,0.22333333333333333,0.34
+AEGIS,binary,gpt-5-chatgpt,GPT-5,0.9033333333333333,1.0
+AEGIS,binary,oci-grok-4-1-fast-non-reasoning,Grok,0.68,0.91
+AEGIS,binary,oci-grok-4-1-fast-reasoning,Grok-R,0.21333333333333335,0.41
+AEGIS,binary,openai-gpt-5-2-responses,GPT-5.2,0.6333333333333333,0.88
+AEGIS,binary,openai-gpt-5-4-responses,GPT-5.4,0.6466666666666666,0.9
+AEGIS,likert,claude-4-6-opus-genai-vertex,C.Opus,0.76,0.93
+AEGIS,likert,claude-4-6-sonnet-genai-vertex,C.Son,0.49666666666666665,0.87
+AEGIS,likert,gemini-3-1-pro-preview-genai,G.Pro,0.23333333333333334,0.42
+AEGIS,likert,gemini-3-flash-preview-genai,G.Flash,0.3,0.47
+AEGIS,likert,gpt-5-chatgpt,GPT-5,0.92,0.99
+AEGIS,likert,oci-grok-4-1-fast-non-reasoning,Grok,0.43,0.67
+AEGIS,likert,oci-grok-4-1-fast-reasoning,Grok-R,0.27666666666666667,0.46
+AEGIS,likert,openai-gpt-5-2-responses,GPT-5.2,0.6233333333333333,0.83
+AEGIS,likert,openai-gpt-5-4-responses,GPT-5.4,0.5233333333333333,0.87
+HH-RLHF,binary,claude-4-6-opus-genai-vertex,C.Opus,0.6966666666666667,0.91
+HH-RLHF,binary,claude-4-6-sonnet-genai-vertex,C.Son,0.6166666666666667,0.91
+HH-RLHF,binary,gemini-3-1-pro-preview-genai,G.Pro,0.38333333333333336,0.5
+HH-RLHF,binary,gemini-3-flash-preview-genai,G.Flash,0.17333333333333334,0.27
+HH-RLHF,binary,gpt-5-chatgpt,GPT-5,0.88,0.96
+HH-RLHF,binary,oci-grok-4-1-fast-non-reasoning,Grok,0.93,1.0
+HH-RLHF,binary,oci-grok-4-1-fast-reasoning,Grok-R,0.3466666666666667,0.69
+HH-RLHF,binary,openai-gpt-5-2-responses,GPT-5.2,0.5566666666666666,0.87
+HH-RLHF,binary,openai-gpt-5-4-responses,GPT-5.4,0.31666666666666665,0.53
+HH-RLHF,likert,claude-4-6-opus-genai-vertex,C.Opus,0.72,0.87
+HH-RLHF,likert,claude-4-6-sonnet-genai-vertex,C.Son,0.51,0.86
+HH-RLHF,likert,gemini-3-1-pro-preview-genai,G.Pro,0.37,0.56
+HH-RLHF,likert,gemini-3-flash-preview-genai,G.Flash,0.35333333333333333,0.47
+HH-RLHF,likert,gpt-5-chatgpt,GPT-5,0.9666666666666667,1.0
+HH-RLHF,likert,oci-grok-4-1-fast-non-reasoning,Grok,0.8233333333333334,0.96
+HH-RLHF,likert,oci-grok-4-1-fast-reasoning,Grok-R,0.5666666666666667,0.75
+HH-RLHF,likert,openai-gpt-5-2-responses,GPT-5.2,0.6966666666666667,0.92
+HH-RLHF,likert,openai-gpt-5-4-responses,GPT-5.4,0.6433333333333333,0.97
+MAGE,binary,claude-4-6-opus-genai-vertex,C.Opus,0.8733333333333333,1.0
+MAGE,binary,claude-4-6-sonnet-genai-vertex,C.Son,0.8466666666666667,1.0
+MAGE,binary,gemini-3-1-pro-preview-genai,G.Pro,0.27666666666666667,0.42
+MAGE,binary,gemini-3-flash-preview-genai,G.Flash,0.23,0.36
+MAGE,binary,gpt-5-chatgpt,GPT-5,0.9533333333333334,1.0
+MAGE,binary,oci-grok-4-1-fast-non-reasoning,Grok,0.5833333333333334,0.74
+MAGE,binary,oci-grok-4-1-fast-reasoning,Grok-R,0.5633333333333334,0.75
+MAGE,binary,openai-gpt-5-2-responses,GPT-5.2,0.62,0.84
+MAGE,binary,openai-gpt-5-4-responses,GPT-5.4,0.6333333333333333,0.86
+MAGE,likert,claude-4-6-opus-genai-vertex,C.Opus,0.9033333333333333,0.98
+MAGE,likert,claude-4-6-sonnet-genai-vertex,C.Son,0.75,0.99
+MAGE,likert,gemini-3-1-pro-preview-genai,G.Pro,0.38,0.61
+MAGE,likert,gemini-3-flash-preview-genai,G.Flash,0.5133333333333333,0.75
+MAGE,likert,gpt-5-chatgpt,GPT-5,1.0,1.0
+MAGE,likert,oci-grok-4-1-fast-non-reasoning,Grok,0.8833333333333333,1.0
+MAGE,likert,oci-grok-4-1-fast-reasoning,Grok-R,0.7866666666666666,0.95
+MAGE,likert,openai-gpt-5-2-responses,GPT-5.2,0.6166666666666667,0.93
+MAGE,likert,openai-gpt-5-4-responses,GPT-5.4,0.74,1.0
+PP Hedging,binary,claude-4-6-opus-genai-vertex,C.Opus,0.97,1.0
+PP Hedging,binary,claude-4-6-sonnet-genai-vertex,C.Son,0.7,1.0
+PP Hedging,binary,gemini-3-1-pro-preview-genai,G.Pro,0.18666666666666668,0.41
+PP Hedging,binary,gemini-3-flash-preview-genai,G.Flash,0.06,0.1
+PP Hedging,binary,gpt-5-chatgpt,GPT-5,0.8566666666666667,1.0
+PP Hedging,binary,oci-grok-4-1-fast-non-reasoning,Grok,0.78,0.97
+PP Hedging,binary,oci-grok-4-1-fast-reasoning,Grok-R,0.18333333333333332,0.36
+PP Hedging,binary,openai-gpt-5-2-responses,GPT-5.2,0.08333333333333333,0.19
+PP Hedging,binary,openai-gpt-5-4-responses,GPT-5.4,0.36333333333333334,0.73
+PP Hedging,likert,claude-4-6-opus-genai-vertex,C.Opus,0.8733333333333333,0.98
+PP Hedging,likert,claude-4-6-sonnet-genai-vertex,C.Son,0.8166666666666667,0.98
+PP Hedging,likert,gemini-3-1-pro-preview-genai,G.Pro,0.02,0.05
+PP Hedging,likert,gemini-3-flash-preview-genai,G.Flash,0.1,0.2
+PP Hedging,likert,gpt-5-chatgpt,GPT-5,0.9933333333333333,1.0
+PP Hedging,likert,oci-grok-4-1-fast-non-reasoning,Grok,0.8533333333333334,0.94
+PP Hedging,likert,oci-grok-4-1-fast-reasoning,Grok-R,0.2,0.44
+PP Hedging,likert,openai-gpt-5-2-responses,GPT-5.2,0.5066666666666667,0.93
+PP Hedging,likert,openai-gpt-5-4-responses,GPT-5.4,0.69,0.95
+PP Refusal,binary,claude-4-6-opus-genai-vertex,C.Opus,0.8233333333333334,0.9
+PP Refusal,binary,claude-4-6-sonnet-genai-vertex,C.Son,0.8033333333333333,0.97
+PP Refusal,binary,gemini-3-1-pro-preview-genai,G.Pro,0.25333333333333335,0.41
+PP Refusal,binary,gemini-3-flash-preview-genai,G.Flash,0.04,0.06
+PP Refusal,binary,gpt-5-chatgpt,GPT-5,0.9466666666666667,1.0
+PP Refusal,binary,oci-grok-4-1-fast-non-reasoning,Grok,0.8166666666666667,0.98
+PP Refusal,binary,oci-grok-4-1-fast-reasoning,Grok-R,0.24,0.37
+PP Refusal,binary,openai-gpt-5-2-responses,GPT-5.2,0.55,0.7
+PP Refusal,binary,openai-gpt-5-4-responses,GPT-5.4,0.53,0.7
+PP Refusal,likert,claude-4-6-opus-genai-vertex,C.Opus,0.74,0.88
+PP Refusal,likert,claude-4-6-sonnet-genai-vertex,C.Son,0.7766666666666666,1.0
+PP Refusal,likert,gemini-3-1-pro-preview-genai,G.Pro,0.13333333333333333,0.2
+PP Refusal,likert,gemini-3-flash-preview-genai,G.Flash,0.023333333333333334,0.06
+PP Refusal,likert,gpt-5-chatgpt,GPT-5,0.9933333333333333,1.0
+PP Refusal,likert,oci-grok-4-1-fast-non-reasoning,Grok,0.7366666666666667,0.86
+PP Refusal,likert,oci-grok-4-1-fast-reasoning,Grok-R,0.21666666666666667,0.37
+PP Refusal,likert,openai-gpt-5-2-responses,GPT-5.2,0.4266666666666667,0.63
+PP Refusal,likert,openai-gpt-5-4-responses,GPT-5.4,0.5466666666666666,0.83
+ToxiGen,binary,claude-4-6-opus-genai-vertex,C.Opus,0.6433333333333333,0.88
+ToxiGen,binary,claude-4-6-sonnet-genai-vertex,C.Son,0.66,0.9
+ToxiGen,binary,gemini-3-1-pro-preview-genai,G.Pro,0.4866666666666667,0.72
+ToxiGen,binary,gemini-3-flash-preview-genai,G.Flash,0.11666666666666667,0.2
+ToxiGen,binary,gpt-5-chatgpt,GPT-5,0.87,1.0
+ToxiGen,binary,oci-grok-4-1-fast-non-reasoning,Grok,0.6433333333333333,0.91
+ToxiGen,binary,oci-grok-4-1-fast-reasoning,Grok-R,0.11333333333333333,0.18
+ToxiGen,binary,openai-gpt-5-2-responses,GPT-5.2,0.43666666666666665,0.64
+ToxiGen,binary,openai-gpt-5-4-responses,GPT-5.4,0.54,0.74
+ToxiGen,likert,claude-4-6-opus-genai-vertex,C.Opus,0.5766666666666667,0.81
+ToxiGen,likert,claude-4-6-sonnet-genai-vertex,C.Son,0.28,0.57
+ToxiGen,likert,gemini-3-1-pro-preview-genai,G.Pro,0.19666666666666666,0.36
+ToxiGen,likert,gemini-3-flash-preview-genai,G.Flash,0.31666666666666665,0.53
+ToxiGen,likert,gpt-5-chatgpt,GPT-5,0.83,0.98
+ToxiGen,likert,oci-grok-4-1-fast-non-reasoning,Grok,0.39,0.62
+ToxiGen,likert,oci-grok-4-1-fast-reasoning,Grok-R,0.27,0.43
+ToxiGen,likert,openai-gpt-5-2-responses,GPT-5.2,0.33666666666666667,0.58
+ToxiGen,likert,openai-gpt-5-4-responses,GPT-5.4,0.41,0.74
+WildGuard,binary,claude-4-6-opus-genai-vertex,C.Opus,0.7005208333333334,0.9609375
+WildGuard,binary,claude-4-6-sonnet-genai-vertex,C.Son,0.8402777777777778,0.984375
+WildGuard,binary,gemini-3-1-pro-preview-genai,G.Pro,0.4071180555555556,0.6614583333333334
+WildGuard,binary,gemini-3-flash-preview-genai,G.Flash,0.1579861111111111,0.23697916666666666
+WildGuard,binary,gpt-5-chatgpt,GPT-5,0.8741319444444444,0.9895833333333334
+WildGuard,binary,oci-grok-4-1-fast-non-reasoning,Grok,0.6241319444444444,0.9114583333333334
+WildGuard,binary,oci-grok-4-1-fast-reasoning,Grok-R,0.22569444444444445,0.4557291666666667
+WildGuard,binary,openai-gpt-5-2-responses,GPT-5.2,0.375,0.5520833333333334
+WildGuard,binary,openai-gpt-5-4-responses,GPT-5.4,0.3550347222222222,0.5208333333333334
+WildGuard,likert,claude-4-6-opus-genai-vertex,C.Opus,0.8532986111111112,0.96875
+WildGuard,likert,claude-4-6-sonnet-genai-vertex,C.Son,0.5043402777777778,0.9036458333333334
+WildGuard,likert,gemini-3-1-pro-preview-genai,G.Pro,0.1875,0.3411458333333333
+WildGuard,likert,gemini-3-flash-preview-genai,G.Flash,0.21614583333333334,0.3411458333333333
+WildGuard,likert,gpt-5-chatgpt,GPT-5,0.8515625,0.9921875
+WildGuard,likert,oci-grok-4-1-fast-non-reasoning,Grok,0.6510416666666666,0.9375
+WildGuard,likert,oci-grok-4-1-fast-reasoning,Grok-R,0.3671875,0.625
+WildGuard,likert,openai-gpt-5-2-responses,GPT-5.2,0.5086805555555556,0.8307291666666666
+WildGuard,likert,openai-gpt-5-4-responses,GPT-5.4,0.5572916666666666,0.9348958333333334

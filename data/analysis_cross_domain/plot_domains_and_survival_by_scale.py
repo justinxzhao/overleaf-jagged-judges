@@ -47,6 +47,16 @@ LEVEL_COLORS = {
     "L6": "#8e44ad",
 }
 
+MODEL_ALIASES = {
+    # The archived WildGuard runs predate the final manuscript model label.
+    "claude-4-5-opus-genai-vertex": "claude-4-6-opus-genai-vertex",
+    "claude-4-5-sonnet-genai-vertex": "claude-4-6-sonnet-genai-vertex",
+}
+
+
+def normalize_model(model: str) -> str:
+    return MODEL_ALIASES.get(model, model)
+
 STANDARD_ROOTS = {
     ("WildGuard", "binary"): [
         DATA_CACHE / "multiturn_wildguard" / "run_id-n_500_t10_l1-0",
@@ -130,6 +140,8 @@ def load_standard_records(domain: str, scale: str) -> pd.DataFrame:
                 frame["changed"] = (
                     frame["flipped"].astype(str).str.lower().eq("true")
                 )
+                frame["l0"] = frame["l0_verdict"].astype(str)
+                frame["observed"] = frame["observed_verdict"].astype(str)
             else:
                 if not {"l0_score", "observed_score"}.issubset(frame.columns):
                     raise ValueError(f"{path} has no Likert score columns")
@@ -143,12 +155,20 @@ def load_standard_records(domain: str, scale: str) -> pd.DataFrame:
                 # The cached `shifted` flag includes one-point movements. Such
                 # movements are not wiggles under the paper's Likert criterion.
                 frame.loc[~frame["changed"], "stop_turn"] = np.nan
+                frame["l0"] = pd.to_numeric(frame["l0_score"], errors="coerce")
+                frame["observed"] = pd.to_numeric(
+                    frame["observed_score"], errors="coerce"
+                )
             frame["domain"] = source_domain
             frame["task"] = task
             frame["scale"] = scale
             frame["level"] = level
-            frame["judge"] = path.parent.name
-            frame["persuader"] = path.parent.parent.name if level == "L6" else "scripted"
+            frame["judge"] = normalize_model(path.parent.name)
+            frame["persuader"] = (
+                normalize_model(path.parent.parent.name)
+                if level == "L6"
+                else "scripted"
+            )
             records.append(
                 frame[
                     [
@@ -161,6 +181,8 @@ def load_standard_records(domain: str, scale: str) -> pd.DataFrame:
                         "example_id",
                         "changed",
                         "stop_turn",
+                        "l0",
+                        "observed",
                     ]
                 ]
             )
@@ -183,11 +205,15 @@ def load_wildguard_binary_l6() -> pd.DataFrame:
                     "task": "WildGuard",
                     "scale": "binary",
                     "level": "L6",
-                    "judge": judge,
-                    "persuader": persuader,
+                    "judge": normalize_model(judge),
+                    "persuader": normalize_model(persuader),
                     "example_id": example_id,
                     "changed": stop_turn is not None,
                     "stop_turn": np.nan if stop_turn is None else float(stop_turn),
+                    # The compact WildGuard L6 archive retained flip timing but
+                    # not the trajectory-specific L0/final labels.
+                    "l0": pd.NA,
+                    "observed": pd.NA,
                 }
             )
     return pd.DataFrame.from_records(records)
@@ -216,15 +242,13 @@ def final_wiggle_rates(records: pd.DataFrame, scale: str) -> pd.DataFrame:
         .rename(columns={"changed": "wiggle_rate"})
     )
 
-    # Figure-level L6 wiggle is whether any of the three adaptive persuaders
-    # flipped a given (judge, item) trajectory.
+    # Primary L6 wiggle is the expected rate for one randomly selected
+    # persuader. Union coverage across all three persuaders is reported
+    # separately in the manuscript and is not directly comparable to a
+    # single 10-turn rollout.
     l6 = subset[subset["level"] == "L6"]
     l6 = (
-        l6.groupby(["task", "level", "judge", "example_id"], as_index=False)[
-            "changed"
-        ]
-        .max()
-        .groupby(["task", "level", "judge"], as_index=False)["changed"]
+        l6.groupby(["task", "level", "judge"], as_index=False)["changed"]
         .mean()
         .rename(columns={"changed": "wiggle_rate"})
     )
@@ -304,7 +328,7 @@ def draw_wiggle_panel(
             x, lows, highs, color=DOMAIN_COLORS[task], alpha=0.15, linewidth=0
         )
 
-    axis.set_title(f"Cross-Domain Wiggle Rate — {scale.title()}")
+    axis.set_title(f"Cross-Domain Wiggle Rate - {scale.title()}")
     axis.set_xlabel("Pressure Level")
     axis.set_ylabel("Mean Wiggle Rate")
     axis.set_xticks(x, LEVELS)
@@ -341,7 +365,7 @@ def draw_survival_panel(
             turns, lows, highs, color=LEVEL_COLORS[level], alpha=0.13, linewidth=0
         )
 
-    axis.set_title(f"Survival Curves by Pressure Level — {scale.title()}")
+    axis.set_title(f"Survival Curves by Pressure Level - {scale.title()}")
     axis.set_xlabel("Challenge Turn")
     axis.set_ylabel("Retention Rate")
     axis.set_xticks(turns)

@@ -13,14 +13,12 @@
 \affiliation[2]{FAIR at Meta}
 
 \abstract{%
-LLM judges have become central infrastructure for model evaluations, online grading, and reward modeling. Judges are typically validated by accuracy on golden data, 
+LLM judges have become central infrastructure for model evaluations, online grading, and reward modeling. Judges are typically validated by accuracy on golden data,
 but accuracy says little about whether they are stable under re-prompting, challenge, or sustained pushback. We introduce the \emph{Wiggle Framework}, a unified stress test for
 epistemic stability in LLM judges. The framework decomposes judge robustness along three dimensions: Mechanical Consistency (stability under re-prompting and reframing),
-Single-turn Conviction (stability under a single challenge), and Multi-turn Persistence (stability under sustained or adaptive pressure). 
-We use the framework to study 9 frontier models across 14 judging tasks spanning safety, toxicity, 
-AI writing detection, and political-response evaluation. Every model exhibits substantial wiggle as a judge --- flipping verdicts 25--71\% of the time under static pushback, 
-and 62--91\% with an adversarial LLM persuader. Critically, we find that pressure that succeeds in changing a judge's verdict is almost always net-corrupting 
-with respect to ground truth. Beyond the framework itself, we identify baseline jury majority strength as the most effective single-shot signal for anticipating which items wiggle. 
+Single-turn Conviction (stability under a single challenge), and Multi-turn Persistence (stability under sustained or adaptive pressure).
+We use the framework to study 9 frontier-model configurations across 14 judging tasks spanning safety, toxicity,
+AI writing detection, and political-response evaluation, emphasizing difficult or class-balanced subsets. At turn 10, task-average wiggle rates range from 19--71\% under repeated static consensus pressure and 40--73\% for a single adaptive LLM persuader; coverage under at least one of three persuaders is 62--91\%. Successful flips are more often corrupting than corrective in aggregate, but a base-rate-controlled analysis shows that initially incorrect binary verdicts are conditionally more likely to flip than initially correct ones. Beyond the framework itself, we find that baseline jury majority strength is associated with item instability, although its predictive strength falls under held-out-judge evaluation.
 Taken together, this is the first apples-to-apples cross-dataset comparison of mechanical, conformity, and persuadability tests in a judging context.
 }
 

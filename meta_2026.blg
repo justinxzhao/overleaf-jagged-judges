@@ -6,34 +6,34 @@ Database file #1: references.bib
 Warning--empty journal in wei2024simpleqa
 You've used 47 entries,
             2773 wiz_defined-function locations,
-            800 strings with 18718 characters,
-and the built_in function-call counts, 33873 in all, are:
-= -- 2490
-> -- 3791
-< -- 5
-+ -- 1267
-- -- 1218
-* -- 3262
-:= -- 5613
-add.period$ -- 149
+            801 strings with 18863 characters,
+and the built_in function-call counts, 34152 in all, are:
+= -- 2510
+> -- 3838
+< -- 4
++ -- 1282
+- -- 1233
+* -- 3301
+:= -- 5661
+add.period$ -- 150
 call.type$ -- 47
-change.case$ -- 545
+change.case$ -- 550
 chr.to.int$ -- 45
 cite$ -- 95
-duplicate$ -- 1021
-empty$ -- 1674
-format.name$ -- 1267
-if$ -- 6670
+duplicate$ -- 1022
+empty$ -- 1675
+format.name$ -- 1282
+if$ -- 6722
 int.to.chr$ -- 3
 int.to.str$ -- 1
 missing$ -- 45
-newline$ -- 251
+newline$ -- 252
 num.names$ -- 188
-pop$ -- 1148
+pop$ -- 1156
 preamble$ -- 1
-purify$ -- 498
+purify$ -- 503
 quote$ -- 0
-skip$ -- 1003
+skip$ -- 1008
 stack$ -- 0
 substring$ -- 222
 swap$ -- 92
@@ -44,5 +44,5 @@ type$ -- 517
 warning$ -- 1
 while$ -- 150
 width$ -- 0
-write$ -- 591
+write$ -- 593
 (There was 1 warning)
