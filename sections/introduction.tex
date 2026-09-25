@@ -42,15 +42,16 @@ examined what these phenomena imply for understanding or quantifying the confide
 We introduce the \textbf{Wiggle Framework}, a unified stress test for epistemic stability in LLM judges.
 It decomposes judge confidence into three behaviorally grounded dimensions: \emph{Mechanical Consistency} (stability under re-prompting and semantically invariant
 prompt variation), \emph{Single-turn Conviction} (stability under a single substantive challenge), and \emph{Multi-turn Persistence} (stability under sustained or adaptive
-pressure). We apply the framework to 9 frontier-model configurations across 14 judging tasks drawn from six datasets
+pressure). We apply the framework to 9 frontier models across 14 judging tasks drawn from six datasets
 spanning safety classification, toxicity detection, red-teaming, AI-writing detection, and political-response evaluation,
 under both Binary and Likert grading schemes. The benchmark emphasizes difficult or class-balanced subsets in order to
 stress decision boundaries; its absolute rates should therefore not be read as prevalence estimates for the source distributions.
 
-All tested configurations wiggle under at least some forms of pressure (Figure~\ref{fig:hero}). The
+All models tested as judges wiggle under at least some forms of pressure (Figure~\ref{fig:hero}). The
 fact that LLMs change their minds under pressure is not new, but what is more surprising is the
 \emph{structure} of the flips: Binary and Likert scales produce opposite directional tendencies on the same items,
-and successful flips are more often corruptive than corrective in aggregate. That raw imbalance is partly induced by
-baseline accuracy, so we separately report conditional flip rates for initially correct and incorrect verdicts.
-Section~\ref{sec:discussion} discusses correlations in susceptibility across pressure levels, the limited transferability
-of wiggle-rate profiles, and baseline agreement within a model jury as a diagnostic of item-level instability.
+and when a judge does flip, the flip is more often corruptive than corrective in aggregate. That raw imbalance is partly
+induced by baseline accuracy, so we separately report conditional flip rates for initially correct and incorrect verdicts.
+Section~\ref{sec:discussion} discusses several findings, including correlations in susceptibility across pressure levels,
+the limited transferability of wiggle-rate profiles across datasets and models, and baseline agreement within a model jury
+as a diagnostic of item-level epistemic instability.

@@ -8,10 +8,10 @@ in what direction (\S\ref{fo:structure}), and what variation reveals about the j
 \subsection{All judges wiggle depending on the type of pressure.}
 \label{fo:pressure}
 
-Every tested configuration exhibits pressure-dependent wiggle. At turn 10, task-average rates range from
-19--71\% under repeated static consensus pressure (L4), and from 40--73\% for one adaptive-persuader trajectory
-(L6 mean). Trying all three adaptive persuaders raises union coverage to 62--91\%; this is a three-trajectory
-coverage statistic, not a like-for-like comparison with one static rollout.
+Every model exhibits wiggle as a judge, but the headline ranges describe tasks rather than individual judges. At turn 10,
+task-average verdicts change 19--71\% of the time under repeated static consensus pressure (L4), and 40--73\% of the time
+for one adaptive-persuader trajectory (L6 mean). Trying all three adaptive persuaders raises union coverage to 62--91\%;
+this is a three-trajectory coverage statistic, not a like-for-like comparison with one static rollout.
 
 \textbf{Mechanical wiggle rates are nearly identical across judges.} Averaged across the three mechanical tests,
 all 9 models cluster between 2--9\% (Figure~\ref{fig:hero}). Table~\ref{tab:mech-variation} has the
@@ -88,18 +88,18 @@ MAGE            & Likert & 44.7\% & 66.3\% & 73.0\% & G.Pro (0.753)    & GPT-5 (
 
 \textbf{Mechanically unstable judges aren't necessarily epistemically unstable.} Averaged across L1--L4, GPT-5 (32\%) and
 Claude 4.6 Sonnet (26\%) flip on the first challenge turn at 5--8$\times$ their mechanical rate, while Gemini 3.1 Pro (7\%)
-and Grok-4.1 (9\%) are slightly higher than their mechanical rate. Claude 4.6 Opus is the starkest case: it is the most mechanically
-stable configuration in the panel (2\%) yet the second most persuadable under sustained pressure (46\% mean wiggle).
+and Grok-4.1 (9\%) are slightly higher than their mechanical rate. Claude 4.6 Opus is the starkest case, the most mechanically
+stable model in the panel of 9 judges (2\%) yet the second most persuadable under sustained pressure (46\% mean wiggle).
 
 \textbf{L4 produces the strongest opening wiggle, but L6 surpasses it over time.} Averaged over all models and datasets,
-most L2--L4 movement occurs early, although repetition still matters: L1 rises from 14.0\% to 26.7\% on Binary and from
-0.5\% to 12.3\% on Likert by turn 10 (Table~\ref{tab:binary-vs-likert-timing}). L4 has the strongest opening wiggle rate:
+L2 and L3 cluster near 80\% retention and barely move after turn 2. L1 is an exception, rising from 14.0\% to 26.7\%
+on Binary and from 0.5\% to 12.3\% on Likert by turn 10 (Table~\ref{tab:binary-vs-likert-timing}). L4 has the strongest opening wiggle rate:
 at turn 1, consensus pressure (``three independent reviewers all disagree'') drops retention to $\sim$73\%, lower than any
 other pressure type, but plateaus around turn 4. L6's first-turn retention is
 $\sim$80\%, comparable to L1--L3, but retention continues to fall through every subsequent turn, ending around 50\%
 retention by turn 10 for a single-persuader trajectory.
 
-\textbf{More tactics usually aren't more effective.} L5, which cycles through all tactics including L4, has lower WR than L4 alone
+\textbf{More tactics aren't more effective.} L5, which cycles through all tactics including L4, has lower WR than L4 alone
 in 13 of 14 task configurations; AEGIS Binary is the exception (Figure~\ref{fig:datasets-and-survival}, left panels).
 Opening with a strong claim about expert consensus (and repeating it verbatim) is more
 persuasive than diluting the claim by cycling through weaker tactics first.
@@ -126,10 +126,10 @@ depends in part on the type of challenge applied.
 \end{figure}
 
 % =============================================================
-\subsection{Aggregate accuracy falls even though incorrect verdicts are more flippable.}
+\subsection{When judges move, they usually move away from the right answer.}
 \label{fo:structure}
 
-\textbf{Successful flips are net-corrupting in aggregate, but not conditionally.} Five of our six datasets have ground-truth labels,
+\textbf{Pressure is net-corrupting in aggregate, but not conditionally.} Five of our six datasets have ground-truth labels,
 letting us classify each qualifying wiggle as \emph{corrective} (toward the label) or \emph{corrupting} (away). After applying
 the same boundary-crossing rule to the Likert outcomes as to the headline wiggle rates, 58--63\% of successful flips at L1--L5
 are corrupting, rising to 69\% at L6 (Figure~\ref{fig:direction-and-outcomes}, right). These counts imply lower post-pressure

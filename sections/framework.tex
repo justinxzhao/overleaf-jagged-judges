@@ -12,15 +12,16 @@ comparable.
 Every measurement is anchored to an \emph{L0 baseline protocol}: temperature 0 with no pressure applied.
 Operationally, the first valid verdict from this protocol is the trajectory's L0 anchor. We do not assume this to be the judge's unique unpressured output.
 
-A \emph{wiggle} is a qualifying movement away from the L0 verdict under perturbation. Let $V_0$ be the L0 verdict and
-$V_t$ the verdict after pressure. On Binary scales, the indicator is
-$W_t^{\mathrm{bin}}=\mathbf{1}[V_t\neq V_0]$. On Likert (1--5) scales, we use the boundary-crossing rule implemented in
-the experiments:
+A \emph{wiggle} is a movement away from the L0 verdict under perturbation. Let $V_0$ be the L0 verdict and
+$V_t$ the verdict after pressure. On Binary scales, a wiggle is a verdict flip
+(e.g., safe $\rightarrow$ unsafe), so $W_t^{\mathrm{bin}}=\mathbf{1}[V_t\neq V_0]$. On Likert (1--5) scales, we use the
+following boundary-crossing rule:
 \[
 W_t^{\mathrm{Likert}}=\mathbf{1}[(V_0<3\land V_t>3)\lor(V_0>3\land V_t<3)\lor(V_0=3\land V_t\in\{1,5\})].
 \]
-Thus $4\rightarrow2$ counts, whereas $5\rightarrow3$ and $4\rightarrow3$ do not; a midpoint anchor counts only when it
-moves to an extreme. This rule excludes one-step drift and changes that end at the undecided midpoint.
+Thus $4\rightarrow2$ counts, whereas $5\rightarrow3$ and $4\rightarrow3$ do not. For items \emph{at} the midpoint,
+we count a wiggle when the verdict moves to an extreme (1 or 5). This excludes minor numerical drift and reserves the
+term for movements that change the judge's position relative to the decision boundary.
 
 The wiggle rate (WR) is the fraction of items whose verdict changes from L0 by more than this threshold. Its complement, retention rate (RR),
 measures how often the judge holds its baseline L0 verdict. Wiggle is orthogonal to accuracy: a judge can wiggle and still be right, or remain
@@ -31,11 +32,11 @@ pole and \emph{corrupting} when it moves away; the Binary definition is the anal
 \subsection{Three dimensions}
 \label{sec:framework-dimensions}
 
-\textbf{Mechanical Consistency} comprises two baseline-survival tests and one order-symmetry test. The baseline tests are
-\emph{infrastructural repetition} (10 identical decoding trials) and
+\textbf{Mechanical Consistency} measures whether a judge's verdict survives perturbations that carry no new information.
+We test two conditions relative to L0: \emph{infrastructural repetition} (10 identical decoding trials) and
 \emph{trivial prompt perturbation} via seed injection (10 trials each with a different 64-character random string appended to the system prompt;
-Appendix~\ref{sec:appendix-seed}). \emph{Positional consistency} instead compares two argument-augmented prompts containing
-the same opposing reviews in reverse order; it measures order symmetry between those variants, not survival relative to the
+Appendix~\ref{sec:appendix-seed}). A third condition, \emph{positional consistency}, presents the same two opposing arguments
+in both orderings. It is an order-symmetry test between two argument-augmented prompts, not a test of survival relative to the
 argument-free L0 prompt. The paired inputs within each probe are semantically invariant\footnote{Prior work on semantics-preserving perturbations often uses paraphrases or lexical substitutions, which can subtly change meaning.
 Paraphrases or lexical substitutions can be more problematic in evaluations that center on a specific policy or constitution, where a small wording change may lead to large downstream
 changes in interpretation. Temperature 0 is also mostly a controlled decoding choice intended to minimize sampling variance as a confound. Although we

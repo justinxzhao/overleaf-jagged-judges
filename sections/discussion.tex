@@ -1,7 +1,7 @@
 \section{Discussion}
 \label{sec:discussion}
 
-\subsection{Raw Cross-Task Dispersion Depends on the Rate Scale}
+\subsection{Mean Wiggle Rate is Itself Jagged Across Pressure Levels}
 \label{sec:discussion-jagged}
 
 If we define a judge's \textbf{jaggedness} as the standard deviation of its mean wiggle rates across all datasets,
@@ -26,10 +26,10 @@ L2--L5 remain positive ($r=0.65$--$0.84$), and L1 is near zero ($r=-0.10$). We t
 Figure~\ref{fig:wiggliness-jaggedness} as a descriptive view of raw-scale
 heterogeneity, not evidence that adaptive pressure creates a distinct ``jaggedness inversion.''
 
-\subsection{Baseline Jury Majority Strength is a Useful but Costly Diagnostic}
+\subsection{Baseline Jury Majority Strength is a Simple Reliability Screen}
 \label{sec:discussion-jury}
 
-Can a single-pass diagnostic predict which items are likely to be epistemically unstable? We compare three candidate predictors
+Can a simple test predict which items are likely to be epistemically unstable? We compare three candidate predictors
 of per-item wiggle: \emph{jury majority strength} (size of the L0
 majority across the 9 judges, no pressure applied~\citep{zhao2024council}),
 \emph{repeat consistency} (temperature-zero per-item agreement),
@@ -102,7 +102,7 @@ MAGE           & Likert & $-0.620$ & $-0.588$ & $-0.587$ & $-0.508$ & $-0.480$ &
 \end{tabular}
 \end{table}
 
-Items where frontier models cannot agree at L0 may sit in genuinely contested or ambiguous regions of the decision boundary, and may be more likely regularized
+Perhaps items where 9 frontier models cannot agree at L0 sit in genuinely contested or ambiguous regions of the decision boundary, and are more likely regularized
 over any individual model's idiosyncrasies. A low-majority item is a signal that the underlying question is hard to label
 --- making it both a modest wiggle predictor and a flag for content that may be challenging to assign a confident, epistemically robust gold label in the first place.
 The jury is inexpensive only relative to multi-turn stress testing: an eight- or nine-model panel is substantially more costly than a single judge call.
