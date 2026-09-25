@@ -8,7 +8,8 @@ If we define a judge's \textbf{jaggedness} as the standard deviation of its mean
 we can plot each judge's mean wiggle against its jaggedness, separately at each pressure level
 (Figure~\ref{fig:wiggliness-jaggedness}).
 
-\begin{figure}[t]
+\iclrdefer{
+\iclrdeferredfigure
   \centering
   \includegraphics[width=\linewidth]{per_level_scatter_combined.pdf}
   \caption{Each panel plots all 9 judges at one pressure level: x-axis is the judge's mean wiggle rate at that
@@ -16,6 +17,7 @@ we can plot each judge's mean wiggle against its jaggedness, separately at each 
   Dashed line is the OLS fit, $R^2$ and Pearson $r$ annotated.}
   \label{fig:wiggliness-jaggedness}
 \end{figure}
+}
 
 On the raw proportion scale, L1--L5 show positive relationships between mean wiggle and cross-task standard deviation
 ($r = 0.83$, $0.97$, $0.93$, $0.76$, $0.87$). With mean-per-persuader L6, the raw relationship is negative
@@ -38,7 +40,8 @@ In the original in-sample analysis, the strongest signal at every level is \emph
 mean $|\rho| = 0.59$ vs.\ 0.42 for repeat and 0.37 for invariance). All 84 (dataset, rubric, scale, level)
 correlations are negative, with median $|\rho| = 0.58$ (Table~\ref{tab:jury-rho}).
 
-\begin{table}[t]
+\iclrdefer{
+\iclrdeferredtable
 \centering
 \small
 \caption{In-sample mean $|\rho|$ between each predictor and per-item wiggle rate, by level. Jury averaged over 84
@@ -55,13 +58,15 @@ Invariance (position)  & 0.35 & 0.36 & 0.38 & 0.35 & 0.37 & 0.38 & 0.37 \\
 \bottomrule
 \end{tabular}
 \end{table}
+}
 
 Because the same nine judges define both majority strength and mean panel wiggle in that analysis, we also predict each
 held-out judge using only the other models' L0 verdicts. Averaging over target judges, tasks, and levels, mean $|\rho|$ is
 0.22 for three-model panels, 0.26 for five-model panels, and 0.29 for the full eight-model leave-one-out panel. Thus the
 association transfers out of panel, but at substantially lower strength than the in-sample estimate.
 
-\begin{table}[t]
+\iclrdefer{
+\iclrdeferredtable
 \centering
 \small
 \caption{Held-out-judge prediction from L0 jury panels. For panel sizes 3 and 5, results average all subsets of the eight non-target judges.}
@@ -74,8 +79,10 @@ Mean $|\rho|$ & 0.22 & 0.26 & 0.29 \\
 \bottomrule
 \end{tabular}
 \end{table}
+}
 
-\begin{table}[t]
+\iclrdefer{
+\iclrdeferredtable
 \centering
 \small
 \caption{Original in-sample Spearman $\rho$ between baseline jury majority strength and mean panel wiggle, for each (dataset, rubric, scale, level) cell. All 84 cells are negative; L6 uses union coverage.}
@@ -101,6 +108,7 @@ MAGE           & Likert & $-0.620$ & $-0.588$ & $-0.587$ & $-0.508$ & $-0.480$ &
 \bottomrule
 \end{tabular}
 \end{table}
+}
 
 Perhaps items where 9 frontier models cannot agree at L0 sit in genuinely contested or ambiguous regions of the decision boundary, and are more likely regularized
 over any individual model's idiosyncrasies. A low-majority item is a signal that the underlying question is hard to label

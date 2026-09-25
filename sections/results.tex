@@ -32,7 +32,8 @@ per-test breakdown. The most mechanically stable judge (Claude Opus, 2\%) and th
 Tables~\ref{tab:wiggle-rates} and~\ref{tab:task-summary} provide the underlying per-task rates and a
 compact summary of task-level robustness.
 
-\begin{table}[t]
+\iclrdefer{
+\iclrdeferredtable
 \centering
 \caption{Turn-10 mean wiggle rate (\%) by (dataset, rubric, scale, level), averaged across all 9 judges. L6 Mean is the expected rate for one of the three persuaders; L6 Union is coverage under at least one persuader. Bold marks the largest single-trajectory rate in each row.}
 \label{tab:wiggle-rates}
@@ -59,7 +60,7 @@ MAGE           & Likert & 44.7 & 34.6 & 46.6 & 66.3 & 58.3 & \textbf{73.0} & 91.
 \end{tabular}
 \end{table}
 
-\begin{table}[t]
+\iclrdeferredtable
 \centering
 \caption{Summary across all 14 judging tasks. Most robust / most fragile are the judges with the highest / lowest mean retention across L1--L6, using the mean-per-persuader L6 metric (parenthesized values). L1, L4, and L6 rates are averaged across all 9 judges.}
 \label{tab:task-summary}
@@ -85,6 +86,7 @@ MAGE            & Likert & 44.7\% & 66.3\% & 73.0\% & G.Pro (0.753)    & GPT-5 (
 \bottomrule
 \end{tabular}
 \end{table}
+}
 
 \textbf{Mechanically unstable judges aren't necessarily epistemically unstable.} Averaged across L1--L4, GPT-5 (32\%) and
 Claude 4.6 Sonnet (26\%) flip on the first challenge turn at 5--8$\times$ their mechanical rate, while Gemini 3.1 Pro (7\%)
@@ -116,7 +118,8 @@ how epistemically underdetermined a judging task is even if the rate itself isn'
 Moreover, the ordering of the domains changes across pressure levels, indicating that the observable domain epistemic stability
 depends in part on the type of challenge applied.
 
-\begin{figure}[t]
+\iclrdefer{
+\iclrdeferredfigure
   \centering
   \includegraphics[width=\linewidth]{correlations_first_vs_last.pdf}
   \caption{Spearman rank correlation between per-item wiggle vectors at each pressure level, aggregated across six
@@ -124,6 +127,7 @@ depends in part on the type of challenge applied.
   A lower correlation means the levels are activating different items. (Left) First-turn wiggle. (Right) Last-turn (turn 10) wiggle.}
   \label{fig:corr-first-vs-last}
 \end{figure}
+}
 
 % =============================================================
 \subsection{When judges move, they usually move away from the right answer.}
@@ -142,7 +146,8 @@ L0 verdicts (mean baseline accuracy $\approx76\%$) produces more corrupting flip
 falls by 5--13 percentage points under L1--L5 and by 23 points under a single L6 persuader. The result is a real net accuracy
 loss under this asymmetric challenge protocol, but it is not evidence that correct verdicts are intrinsically more susceptible.
 
-\begin{table}[t]
+\iclrdefer{
+\iclrdeferredtable
 \centering
 \small
 \caption{Base-rate-controlled Binary analysis. Conditional wiggle rates and mean change from L0 accuracy are macro-averaged across the five ground-truth tasks. L6 covers four tasks because the compact WildGuard L6 archive did not retain trajectory-specific L0 labels.}
@@ -160,6 +165,7 @@ L6 & 4 & 52.3\% & 72.2\% & $-22.8$pp \\
 \bottomrule
 \end{tabular}
 \end{table}
+}
 
 \textbf{Wiggles are directionally asymmetric in aggregate, and the direction depends on the grading scale.} Using the
 restrictive-permissive framing from \S\ref{sec:dataset}, pooled Binary flips lean \emph{restrictive} at every pressure level
@@ -175,7 +181,8 @@ verdicts flip 3--4$\times$ more often than Likert across L2--L6. By turn 10 the 
 and on L4 and L6 the two scales nearly converge. Binary flips tend to fire on turn 1 or never. Likert flips are
 gradual drifts that accumulate over multiple turns (Table~\ref{tab:binary-vs-likert-timing}).
 
-\begin{table}[t]
+\iclrdefer{
+\iclrdeferredtable
 \centering
 \small
 \caption{Binary vs Likert wiggle rate at turn 1 and turn 10, by pressure level. \emph{Gap} is the binary/Likert ratio computed from unrounded rates. On turn 1, binary is 1.5--3.5$\times$ more flippable than Likert across L2--L6, with L1 a 31$\times$ outlier. After 10 turns the gap collapses to 1.1--2.4$\times$.}
@@ -193,8 +200,10 @@ L6 & 30.5\% & 10.2\% & 3.0$\times$ & 54.5\% & 44.5\% & 1.2$\times$ \\
 \bottomrule
 \end{tabular}
 \end{table}
+}
 
-\begin{figure}[t]
+\iclrdefer{
+\iclrdeferredfigure
   \centering
   \includegraphics[width=\linewidth]{direction_and_outcomes.pdf}
   \caption{Direction and correctness of wiggles by pressure level. (Left) Permissive outcomes are plotted to the
@@ -204,6 +213,7 @@ L6 & 30.5\% & 10.2\% & 3.0$\times$ & 54.5\% & 44.5\% & 1.2$\times$ \\
   signed horizontal placement is visual, and magnitudes are fractions of evaluated trajectories.}
   \label{fig:direction-and-outcomes}
 \end{figure}
+}
 
 % =============================================================
 \subsection{Wiggle rates are a model-specific fingerprint.}
@@ -217,7 +227,8 @@ The level-profile \emph{shape} transfers across datasets within a model,
 absolute rates and ranks do not. A full wiggle test on one dataset somewhat reliably predicts which pressure types a model is vulnerable to on other datasets,
 but absolute rates and relative rankings are dataset-specific (Table~\ref{tab:model-retention}).
 
-\begin{table}[t]
+\iclrdefer{
+\iclrdeferredtable
 \centering
 \small
 \caption{Mean retention rate by (dataset, rubric, scale) condition and judge model (mean across L1--L6 retention rates, with L6 averaged across persuaders). Higher is better. Bold marks each row's best and worst cells. Bottom row is the mean across cells per model.}
@@ -247,6 +258,7 @@ MAGE           & Likert & 0.644 & \textbf{0.753} & 0.523 & 0.556 & 0.644 & 0.332
 \end{tabular}%
 }
 \end{table}
+}
 
 \textbf{Family is a weak proxy for sibling behavior.} Most provider families have high within-family correlations (Grok 4.1 R / Grok 4.1 share $\rho = 0.89$; the GPT-5/5.2/5.4 family pairs share $\rho = 0.84$--$0.89$;
 Claude 4.6 Sonnet / Claude 4.6 Opus share $\rho = 0.80$),
@@ -259,7 +271,8 @@ effective persuader (self (69\%) $>$ family (63\%) $>$ non-family (44\%)), while
 at persuading itself and more effective against its non-reasoning sibling (self (20\%) $<$ family (55\%) $>$ non-family (35\%)) (Table~\ref{tab:self-persuasion}).
 GPT-5.4 has a small family-level advantage that matches its self-persuasion (72\% vs 71\%). See selected persuasion scores in Appendix~\ref{sec:appendix-self}.
 
-\begin{table}[t]
+\iclrdefer{
+\iclrdeferredtable
 \centering
 \small
 \caption{L6 wiggle rate by persuader-judge relationship: self (persuading itself), family (persuading a sibling from the
@@ -276,3 +289,4 @@ Grok-4.1 Reasoning & \textbf{20\%} & 55\% & 35\% & Self $\ll$ Family, Family $>$
 \bottomrule
 \end{tabular}
 \end{table}
+}
