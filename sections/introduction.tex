@@ -26,6 +26,12 @@ Behind every verdict sits a hidden distribution over how much conviction the jud
 To pinpoint how confident a judge is, several strategies have been proposed:
 
 \begin{itemize}
+\ifdefined\ificlrversion
+  \setlength{\itemsep}{0pt}
+  \setlength{\parsep}{0pt}
+  \setlength{\parskip}{0pt}
+  \setlength{\topsep}{2pt}
+\fi
   \item \textbf{Just ask.} Ask the LLM to produce a self-reported confidence score (e.g., ``how confident are you, 0–100\%?'').
   Models have been shown to be badly miscalibrated in the overconfident direction~\citep{wei2024simpleqa}.
   \item \textbf{Observe consistency over many repetitions.} Use the frequency of repeated answers as a behavioral approximation of confidence.
